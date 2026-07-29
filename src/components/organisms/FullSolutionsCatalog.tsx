@@ -294,36 +294,67 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
           {/* ── RIGHT MAIN CONTENT: SEARCH + GRID + PAGINATION ────────── */}
           <main className="lg:col-span-3 space-y-6">
             
-            {/* Predictive Live Search Bar */}
-            <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="relative w-full sm:w-96">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                  placeholder="Predictive search (e.g., Broiler, Solar, Hatchery, Silo)..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-ccdi-navy focus:bg-white transition-all"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 font-bold"
-                  >
-                    ✕
-                  </button>
-                )}
+            {/* ── HIGH VISIBILITY PREDICTIVE LIVE SEARCH BANNER ────────── */}
+            <div className="bg-gradient-to-r from-ccdi-navy via-[#102A43] to-[#0B1E30] rounded-2xl p-5 border border-amber-400/30 shadow-xl space-y-4">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                {/* Search Bar Input Container */}
+                <div className="relative w-full md:flex-1">
+                  <Search className="w-5 h-5 text-amber-500 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    placeholder="Search equipment, models, or keywords (e.g. Broiler, Solar, Silo, Hatchery)..."
+                    className="w-full pl-12 pr-10 py-3.5 rounded-xl border-2 border-amber-400/60 bg-white text-slate-900 placeholder:text-slate-500 text-sm font-semibold focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/25 shadow-lg transition-all"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold flex items-center justify-center text-xs transition-colors"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                {/* Counter Badge */}
+                <div className="flex items-center gap-2 bg-white/10 border border-white/15 px-4 py-2.5 rounded-xl text-xs text-slate-200 shrink-0 whitespace-nowrap">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+                  <span>
+                    Found <strong className="text-amber-400 font-extrabold text-sm">{filteredProducts.length}</strong> matching solutions
+                  </span>
+                </div>
+
               </div>
 
-              <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
-                <span>
-                  Showing <strong className="text-slate-900 font-bold">{paginatedProducts.length}</strong> of{' '}
-                  <strong className="text-slate-900 font-bold">{filteredProducts.length}</strong> solutions
+              {/* Quick Keyword Pills for Predictive Search */}
+              <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-white/10">
+                <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider shrink-0">
+                  Popular Keywords:
                 </span>
+                {['Broiler House', 'Solar Grid', 'Hatchery Setter', 'Silo Storage', 'Tunnel Vent', 'Pellet Mill'].map((keyword) => (
+                  <button
+                    key={keyword}
+                    onClick={() => {
+                      setSearchQuery(keyword);
+                      setCurrentPage(1);
+                    }}
+                    className={[
+                      'px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer border',
+                      searchQuery.toLowerCase() === keyword.toLowerCase()
+                        ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-md'
+                        : 'bg-white/10 hover:bg-white/20 text-slate-200 border-white/15 hover:border-amber-400/40',
+                    ].join(' ')}
+                  >
+                    + {keyword}
+                  </button>
+                ))}
               </div>
+
             </div>
 
             {/* Product Grid */}
