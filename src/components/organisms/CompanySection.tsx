@@ -7,10 +7,10 @@ import { StatCard } from '../molecules';
 
 // ─── Stat sublabels — one per MOCK_STATS entry ────────────────────────────
 const STAT_SUBLABELS = [
-  'Pioneered in the Philippines',
-  'Southeast Asia & Global Expansions',
-  'Certified Batch Quality',
-  'Explore | Research | Sustain',
+  'Established in 2019',
+  'Turnkey Projects Across the Philippines',
+  'ISO & Engineering Certified Standards',
+  'Sustainable Agro-Industrial Impact',
 ];
 
 export const CompanySection: React.FC = () => (
@@ -19,8 +19,8 @@ export const CompanySection: React.FC = () => (
     className="relative py-24 bg-white border-b border-slate-200/60 overflow-hidden bg-grid-pattern"
   >
     {/* ── Ambient orbs ────────────────────────────────────────── */}
-    <div className="absolute top-10 left-10 w-96 h-96 bg-brand-teal-500/10 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse-glow" />
-    <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-forest-500/10 rounded-full blur-3xl -z-10 pointer-events-none animate-float-slow" />
+    <div className="absolute top-10 left-10 w-96 h-96 bg-industrial_blue-500/10 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse-glow" />
+    <div className="absolute bottom-20 right-10 w-96 h-96 bg-agro_green-500/10 rounded-full blur-3xl -z-10 pointer-events-none animate-float-slow" />
 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div className="grid lg:grid-cols-12 gap-12 items-center">
@@ -30,8 +30,8 @@ export const CompanySection: React.FC = () => (
           <SectionHeader
             align="left"
             tag="Our Company"
-            title="Tai Chi Newtech Inc."
-            description="A Life Science Company committed to the Balance of Nature through precision feed additives."
+            title="Clarkbase Construction Dev't Inc. (CCDI)"
+            description="An integrated agro-industrial solutions provider bringing modern engineering designs to Philippine agribusiness."
           />
 
           <motion.div
@@ -42,31 +42,24 @@ export const CompanySection: React.FC = () => (
             className="space-y-4 text-slate-600 text-base leading-relaxed"
           >
             <p>
-              Our operation started in <strong>2016</strong> pioneering the distribution of novel,
-              innovative, and cutting-edge feed additive products in the Philippines. Recognizing the
-              need for safe, cost-effective, and pro-environmental farming solutions, we gradually
-              expanded our footprint to Thailand, Vietnam, and Bangladesh.
+              Founded in <strong>2019</strong>, Clarkbase Construction Dev’t Inc. (CCDI) was established to empower the Philippine agribusiness sector with modern, high-performance engineering designs and integrated construction services.
             </p>
             <p>
-              Today, Tai Chi Newtech Inc. is actively working on expansions in neighboring Southeast
-              Asian nations like Indonesia and Malaysia, as well as global agribusiness markets
-              including Turkey, Brazil, and South Africa.
+              We deliver end-to-end solutions spanning commercial poultry facilities (broiler, breeder, layer), hatcheries, automated feedmill systems, and clean solar energy integration.
             </p>
             <p>
-              We collaborate with world-class, research-driven institutions and producers to partake
-              in the sustainable growth of the animal industry, ensuring feed efficiency, gut health,
-              and farm productivity are achieved in harmony.
+              By combining international material standards, direct global supplier relationships, and experienced technical teams, CCDI builds durable infrastructure designed for high yield, biosecurity, and cost efficiency.
             </p>
 
             {/* Key highlights */}
             <ul className="pt-2 space-y-2">
               {[
-                'Safe, cost-effective, and pro-environmental products',
-                'Research-backed formulations with field-validated efficacy',
-                'Technical service extensions and customized premix solutions',
+                'Turnkey facility design, civil construction, and equipment installation',
+                'Integrated solar PV systems for operational cost reduction',
+                'Uncompromising reliability through direct tier-one supplier partnerships',
               ].map((point, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-brand-teal-600 mt-0.5 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-agro_green-500 mt-0.5 shrink-0" />
                   <span>{point}</span>
                 </li>
               ))}

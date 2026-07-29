@@ -23,9 +23,9 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   // Base: always include WCAG 2.1 AA focus-visible rings
   const baseStyles = [
-    'inline-flex items-center justify-center font-semibold rounded-xl',
+    'inline-flex items-center justify-center font-semibold rounded-xl whitespace-nowrap',
     'transition-all duration-300 active:scale-95',
-    'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-teal-500',
+    'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-500',
   ].join(' ');
 
   const sizeStyles: Record<NonNullable<ButtonProps['size']>, string> = {
@@ -35,16 +35,16 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const variantStyles: Record<NonNullable<ButtonProps['variant']>, string> = {
-    // Primary — brand teal (main CTA)
-    primary:   'bg-brand-teal-700 hover:bg-brand-teal-800 text-white shadow-md shadow-brand-teal-700/20 hover:shadow-lg hover:-translate-y-0.5',
-    // Secondary — subtle teal fill (card actions)
-    secondary: 'bg-slate-50 hover:bg-brand-teal-700 text-slate-700 hover:text-white border border-slate-200 hover:border-brand-teal-700 shadow-sm',
+    // Primary — industrial navy (main CTA)
+    primary:   'bg-industrial_blue-700 hover:bg-industrial_blue-800 text-white shadow-md shadow-industrial_blue-700/20 hover:shadow-lg hover:-translate-y-0.5',
+    // Secondary — subtle navy fill (card actions)
+    secondary: 'bg-slate-50 hover:bg-industrial_blue-700 text-slate-700 hover:text-white border border-slate-200 hover:border-industrial_blue-700 shadow-sm',
     // Outline — transparent bordered (hero secondary)
     outline:   'bg-white hover:bg-slate-100/80 border border-slate-300/80 text-slate-700 hover:text-slate-900 shadow-sm hover:-translate-y-0.5',
     // Ghost — icon-only / minimal
-    ghost:     'bg-transparent text-slate-600 hover:text-brand-teal-700 hover:bg-slate-100/60',
+    ghost:     'bg-transparent text-slate-600 hover:text-industrial_blue-700 hover:bg-slate-100/60',
     // Accent — amber/gold for high-conversion placement
-    accent:    'bg-brand-amber-500 hover:bg-brand-amber-600 text-white shadow-md shadow-brand-amber-500/25 hover:shadow-lg hover:-translate-y-0.5 focus-visible:ring-brand-amber-500',
+    accent:    'bg-amber-600 hover:bg-amber-700 text-white shadow-md shadow-amber-600/25 hover:shadow-lg hover:-translate-y-0.5 focus-visible:ring-amber-500',
   };
 
   const combinedClasses = [
@@ -56,11 +56,11 @@ export const Button: React.FC<ButtonProps> = ({
   ].filter(Boolean).join(' ');
 
   const content = (
-    <>
+    <span className="inline-flex items-center justify-center gap-2 whitespace-nowrap shrink-0">
       {icon && iconPosition === 'left' && icon}
-      <span>{children}</span>
+      {children}
       {icon && iconPosition === 'right' && icon}
-    </>
+    </span>
   );
 
   if (href) {

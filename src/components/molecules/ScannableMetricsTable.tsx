@@ -21,11 +21,11 @@ const MetricCell: React.FC<{ data: ComparisonRow['fcrImprovement'] | ComparisonR
 // ── Column header definitions ─────────────────────────────────────────────
 
 const COLUMNS = [
-  { key: 'fcrImprovement', label: 'FCR Improvement', sublabel: 'vs. control', icon: <TrendingUp className="w-3.5 h-3.5" /> },
-  { key: 'avgDailyGain',   label: 'Avg. Daily Gain',  sublabel: 'vs. control', icon: <TrendingUp className="w-3.5 h-3.5" /> },
-  { key: 'gutHealthScore', label: 'Gut Health Score',  sublabel: 'out of 10',  icon: <Heart className="w-3.5 h-3.5" /> },
-  { key: 'doseRate',       label: 'Dose Rate',         sublabel: 'inclusion',  icon: <Scale className="w-3.5 h-3.5" /> },
-  { key: 'certifications', label: 'Certifications',    sublabel: 'standards',  icon: <Award className="w-3.5 h-3.5" /> },
+  { key: 'fcrImprovement', label: 'Capacity / Output',  sublabel: 'design spec', icon: <TrendingUp className="w-3.5 h-3.5" /> },
+  { key: 'avgDailyGain',   label: 'Performance Benchmark', sublabel: 'efficiency', icon: <TrendingUp className="w-3.5 h-3.5" /> },
+  { key: 'gutHealthScore', label: 'Operational Uptime', sublabel: 'reliability', icon: <Heart className="w-3.5 h-3.5" /> },
+  { key: 'doseRate',       label: 'Build Duration',     sublabel: 'turnkey spec', icon: <Scale className="w-3.5 h-3.5" /> },
+  { key: 'certifications', label: 'Standards',          sublabel: 'certifications', icon: <Award className="w-3.5 h-3.5" /> },
 ] as const;
 
 // ── Row animation variants ────────────────────────────────────────────────
@@ -56,27 +56,27 @@ export const ScannableMetricsTable: React.FC = () => {
       {/* Section intro */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-500/20 border border-teal-400/40 text-teal-200 text-xs font-bold uppercase tracking-widest">
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-industrial_blue-500/30 border border-industrial_blue-400/50 text-blue-200 text-xs font-bold uppercase tracking-widest">
             <FlaskConical className="w-3.5 h-3.5" />
-            <span>Scannable Science</span>
+            <span>Facility Benchmarks</span>
           </div>
           <p className="text-sm text-slate-400 italic">
-            Field-trial benchmarks · ISO-verified data · Per-species efficacy
+            Project Specs · ISO-verified standards · Sector Performance
           </p>
         </div>
-        <div className="sm:hidden text-xs text-teal-300/80 font-medium flex items-center gap-1">
+        <div className="sm:hidden text-xs text-blue-200/80 font-medium flex items-center gap-1">
           <span>← Swipe table →</span>
         </div>
       </div>
 
       {/* Scrollable table wrapper */}
       <div className="metrics-table-wrapper">
-        <table className="metrics-table" role="table" aria-label="Species efficacy comparison table">
+        <table className="metrics-table" role="table" aria-label="Facility performance benchmarks table">
           <thead>
             <tr>
               {/* Sticky species column header */}
               <th className="col-sticky" scope="col" style={{ textAlign: 'left' }}>
-                Species
+                Sector / Facility
               </th>
               {COLUMNS.map((col) => (
                 <th key={col.key} scope="col">
@@ -110,25 +110,16 @@ export const ScannableMetricsTable: React.FC = () => {
                       {row.icon}
                     </span>
                     <div>
-                      {/* text-slate-100: bright white-ish — readable on dark teal row */}
                       <div className="font-bold text-slate-100 text-sm">{row.species}</div>
                     </div>
                   </div>
                 </td>
 
-                {/* FCR */}
                 <MetricCell data={row.fcrImprovement} />
-
-                {/* ADG */}
                 <MetricCell data={row.avgDailyGain} />
-
-                {/* Gut Health */}
                 <MetricCell data={row.gutHealthScore} />
-
-                {/* Dose Rate */}
                 <MetricCell data={row.doseRate} />
 
-                {/* Certifications — plain text, light on dark bg */}
                 <td>
                   <span className="text-xs text-slate-300 font-medium leading-snug">
                     {row.certifications}
@@ -140,9 +131,8 @@ export const ScannableMetricsTable: React.FC = () => {
         </table>
       </div>
 
-      {/* Footer disclaimer — light text on dark bg */}
       <p className="mt-3 text-xs text-slate-400 italic leading-relaxed">
-        * Data sourced from controlled field trials (n &ge; 500 animals per group, &ge; 90 days duration). FCR &amp; ADG improvements are relative to unsupplemented control groups under equivalent husbandry conditions. Individual results may vary.
+        * Performance benchmarks and build durations are based on standard CCDI engineering specifications and site conditions. Individual project parameters may vary depending on client location and custom facility design.
       </p>
     </motion.div>
   );

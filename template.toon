@@ -1,0 +1,101 @@
+# TOON: Token-Oriented Object Notation
+# Schema & Component Architecture: Clarkbase Construction Dev't Inc. (CCDI) Web Application
+
+meta
+  name: Clarkbase Construction Dev't Inc. Corporate Website
+  version: 1.0.0
+  framework: React 18 + Vite + Tailwind CSS + Framer Motion
+  routing: React Router DOM (v6)
+
+design_tokens
+  typography
+    font_family
+      sans: Inter, system-ui, sans-serif
+      heading: Plus Jakarta Sans, Inter, sans-serif
+      mono: JetBrains Mono, monospace
+  colors
+    industrial_blue # Adapted from CCDI primary branding
+      50: "#F0F4F8"
+      100: "#D9E2EC"
+      500: "#334E68"
+      700: "#243B53"
+      900: "#102A43"
+    agro_green # Representing agribusiness and sustainable solar systems
+      50: "#F0FDFA"
+      200: "#A7F3C0"
+      500: "#2D6A4F"
+      700: "#1A4A35"
+      900: "#0D2B1D"
+    construction_gold # Adapted from CCDI logo accents
+      50: "#FFFBEB"
+      300: "#FCD34D"
+      500: "#F59E0B"
+      700: "#B45309"
+      900: "#78350F"
+  shadows
+    blue_glow: "0 0 24px -4px rgba(16, 42, 67, 0.35)"
+    green_glow: "0 0 24px -4px rgba(45, 106, 79, 0.35)"
+    gold_glow: "0 0 24px -4px rgba(245, 158, 11, 0.30)"
+  responsive_breakpoints
+    sm: 640px
+    md: 768px
+    lg: 1024px
+    xl: 1280px
+
+routes
+  - path: "/"
+    page: HomePage
+    sections: [Navbar, HeroCarousel, AboutSection, StrengthsOverview, SolutionsPreview, CoreValues, ContactSection, Footer]
+  - path: "/solutions"
+    page: SolutionsPage
+    sections: [Navbar, SolutionsCatalog, FacilitiesMetricsTable, Footer]
+  - path: "/projects"
+    page: ProjectsPage (Index View)
+    sections: [Navbar, ProjectsHeroSearch, FeaturedProject, CategoryTabs, ProjectsGrid, Footer]
+  - path: "/projects/:projectId"
+    page: ProjectsPage (Case Study View)
+    sections: [Navbar, ProjectHeader, BannerImage, KeyOutcomesCard, ProjectBody, ConsultationCTA, RelatedProjects, Footer]
+
+structural_components
+  atoms
+    Button
+      props: [variant (primary|outline|ghost), size (sm|md|lg), href, onClick, icon, fullWidth, className]
+    SectionHeader
+      props: [tag, title, description, centered, className]
+    Badge
+      props: [variant (facilityBlue|sectionTag|certification), children, icon, className]
+
+  molecules
+    HeroCarousel
+      features: [Auto-slide timer, Touch swipe, Crossfade transitions, Direct CTA routing, Dot/Tab indicators]
+    SolutionCard
+      props: [solution, dark, isAddedToInquiry, onToggleInquiry]
+      sub_elements: [Category badge, Facility pills (Poultry | Hatchery | Feedmill | Solar), Cost & Efficiency metric chips, Inquiry button]
+    ProjectCard
+      props: [project, delay]
+      sub_elements: [Category badge, Timestamp & BuildTime, Title link, Summary, View case study link]
+    CategoryTab
+      props: [label, isActive, onClick, layoutId, count]
+      sub_elements: [Dynamic facility/function SVG icon, Framer Motion active pill indicator]
+    FacilitiesMetricsTable
+      features: [Sticky column headers, Performance benchmark pills (capacity|output|efficiency), Tabular figures]
+
+  organisms
+    Navbar
+      props: [inquiryCount]
+      features: [Sticky top backdrop blur, Responsive lg (1024px) breakpoint, Mobile drawer overlay]
+    SolutionsCatalog
+      props: [inquiryItems, onToggleInquiry]
+      features: [Multi-dimensional filtering (Facility Type | Energy Source), Parallax SVG architectural models, Reset controls]
+    ProjectsSection
+      features: [Featured construction grid, View All Projects routing button]
+    AboutSection
+      features: [Company history (Founded 2019), Mission & Vision statements, Agro-industrial agenda tabs]
+    StrengthsOverview
+      features: [Pillars for Reliability, Cost Efficiency, Direct Sourcing, and People Competency]
+    CoreValues
+      features: [Interactive cards for Integrity, Strive for Excellence, Power for Innovation, Customer Focus, Sustainability]
+    ContactSection
+      features: [Inquiry drawer, Submission form, Office cards (Clark Freeport Zone & Angeles City), Contact numbers (+63 925 7588 458 / 045 499 8508), Email & Website links]
+    Footer
+      features: [Brand overview, Categorized navigation links, Standards & Certifications pill strip, Copyright]

@@ -1,78 +1,92 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Mail, Phone, MapPin, ExternalLink, ArrowUpRight } from 'lucide-react';
+
+const SOLUTION_LINKS = [
+  'Poultry Facilities',
+  'Hatchery Construction',
+  'Feedmill Systems',
+  'Solar Energy Integration',
+  'General EPC Construction',
+];
+
+const COMPANY_LINKS = [
+  { label: 'About CCDI',      href: '/#about' },
+  { label: 'Our Solutions',   href: '/solutions' },
+  { label: 'News & Updates', href: '/news' },
+  { label: 'Contact Us',      href: '/#contact' },
+];
+
+const CERTIFICATIONS = ['ISO 9001', 'PCAB Licensed', 'Turnkey EPC', 'Biosecure'];
 
 export const Footer: React.FC = () => {
   const navigate = useNavigate();
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
-  const handleFunctionClick = (funcCategory: string) => {
-    navigate(`/products?function=${encodeURIComponent(funcCategory)}`);
+  const handleSolutionClick = (cat: string) => {
+    navigate(`/products?function=${encodeURIComponent(cat)}`);
   };
 
   return (
-    <footer className="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#040D18] text-slate-400 border-t border-white/5">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
-
-          {/* Logo & Description */}
-          <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="inline-block group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal-500 rounded-lg">
-              <img
-                src="/images/logo-dark.png"
-                alt="Tai Chi Newtech Inc. — Explore | Research | Sustain"
-                className="h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
-              />
-            </Link>
-            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
-              Safe, innovative, and pro-environmental feed additive solutions for swine, poultry, aquaculture, pets, and ruminants. Pioneered in the Philippines and expanding globally.
+      {/* ── Top CTA Banner ───────────────────────────────────── */}
+      <div className="bg-gradient-to-r from-[#0B192C] via-[#102A43] to-[#0B192C] border-b border-amber-400/15">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div>
+            <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">
+              Ready to Start Your Project?
+            </p>
+            <p className="text-lg sm:text-xl font-extrabold text-white leading-tight">
+              Partner with CCDI — Philippines' Premier Agro-Industrial EPC
             </p>
           </div>
+          <button
+            onClick={() => {
+              navigate('/solutions');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-slate-950 bg-amber-400 hover:bg-amber-300 shadow-lg shadow-amber-500/20 hover:-translate-y-0.5 transition-all shrink-0 whitespace-nowrap cursor-pointer border-0"
+          >
+            Explore Our Solutions <ArrowUpRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
 
-          {/* Column 1: Products */}
-          <div className="space-y-4">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider font-heading">Products</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <button
-                  onClick={() => handleFunctionClick('Functional Feed Additives')}
-                  className="hover:text-brand-teal-400 transition-colors duration-200 text-left"
-                >
-                  Functional Feed Additives
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleFunctionClick('Nutritional Feed Additives')}
-                  className="hover:text-brand-teal-400 transition-colors duration-200 text-left"
-                >
-                  Nutritional Feed Additives
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleFunctionClick('Specialty Products')}
-                  className="hover:text-brand-teal-400 transition-colors duration-200 text-left"
-                >
-                  Specialty Products
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleFunctionClick('Commodity Products')}
-                  className="hover:text-brand-teal-400 transition-colors duration-200 text-left"
-                >
-                  Commodity Products
-                </button>
-              </li>
-            </ul>
+      {/* ── Main Footer Body ─────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/5">
 
-            {/* Certifications strip moved under products */}
-            <div className="pt-2 space-y-2">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Product Standards</span>
-              <div className="flex flex-wrap gap-1.5">
-                {['ISO 22000', 'FAMI-QS', 'GMP+', 'ISO 9001', 'FDA', 'Halal'].map(cert => (
-                  <span key={cert} className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-brand-amber-500/10 border border-brand-amber-500/20 text-brand-amber-400 whitespace-nowrap">
+          {/* Brand Column */}
+          <div className="lg:col-span-4 space-y-5">
+            <Link to="/" className="inline-block">
+              <div className="bg-white rounded-xl p-2 shadow inline-block">
+                <img
+                  src="/ccdi-logo.png"
+                  alt="Clarkbase Construction Dev't Inc."
+                  className="h-12 w-auto object-contain"
+                  draggable={false}
+                />
+              </div>
+            </Link>
+
+            <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
+              Clarkbase Construction Dev't Inc. (CCDI) — a Philippine-based agro-industrial
+              solutions provider delivering turnkey EPC engineering for poultry, hatchery,
+              feedmill, and solar energy projects.
+            </p>
+
+            {/* Cert badges */}
+            <div>
+              <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-2">
+                Engineering Standards
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {CERTIFICATIONS.map(cert => (
+                  <span
+                    key={cert}
+                    className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-amber-400/8 border border-amber-400/20 text-amber-400"
+                  >
                     {cert}
                   </span>
                 ))}
@@ -80,42 +94,105 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Column 2: Company */}
-          <div className="space-y-3">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider font-heading">Company</h3>
-            <ul className="space-y-2 text-sm">
-              <li><Link to="/#about"   className="hover:text-brand-teal-400 transition-colors duration-200">About Tai Chi</Link></li>
-              <li><Link to="/#about"   className="hover:text-brand-teal-400 transition-colors duration-200">Our Agenda</Link></li>
-              <li><Link to="/#news"    className="hover:text-brand-teal-400 transition-colors duration-200">News & Expansion</Link></li>
-              <li><Link to="/#contact" className="hover:text-brand-teal-400 transition-colors duration-200">Contact Us</Link></li>
+          {/* Our Solutions */}
+          <div className="lg:col-span-3 space-y-4">
+            <h3 className="text-xs font-bold text-white uppercase tracking-widest">Our Solutions</h3>
+            <ul className="space-y-2.5 text-sm">
+              {SOLUTION_LINKS.map(link => (
+                <li key={link}>
+                  <button
+                    onClick={() => handleSolutionClick(link)}
+                    className="text-slate-400 hover:text-amber-400 transition-colors duration-200 text-left leading-snug"
+                  >
+                    {link}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Column 3: Address & Info */}
-          <div className="space-y-3">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider font-heading">Contact</h3>
-            <p className="text-sm leading-relaxed text-slate-400">
-              Office Center 05K Berthaphil Clark Center,<br />
-              Clark Freeport Zone, Pampanga, Philippines<br />
-              <a href="mailto:feedback@taichinewtech.com" className="hover:text-brand-teal-400 transition-colors duration-200">
-                feedback@taichinewtech.com
-              </a>
-            </p>
+          {/* Company Links */}
+          <div className="lg:col-span-2 space-y-4">
+            <h3 className="text-xs font-bold text-white uppercase tracking-widest">Company</h3>
+            <ul className="space-y-2.5 text-sm">
+              {COMPANY_LINKS.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    to={href}
+                    className="text-slate-400 hover:text-amber-400 transition-colors duration-200"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Details */}
+          <div className="lg:col-span-3 space-y-4">
+            <h3 className="text-xs font-bold text-white uppercase tracking-widest">Contact</h3>
+
+            <div className="space-y-3.5 text-sm">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <div className="space-y-1 text-xs text-slate-400 leading-relaxed">
+                  <p className="font-semibold text-slate-300">Clark Freeport Zone, Pampanga</p>
+                  <p>Office Center 05J Berthaphil Clark Center</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-amber-400 shrink-0" />
+                <div className="text-xs space-y-0.5">
+                  <a href="tel:+639257588458" className="text-slate-300 hover:text-amber-400 transition-colors block font-semibold">
+                    +63 925 7588 458
+                  </a>
+                  <span className="text-slate-500">(045) 499 8508</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-amber-400 shrink-0" />
+                <a
+                  href="mailto:inquiries@ccdi-asia.com"
+                  className="text-xs text-slate-300 hover:text-amber-400 transition-colors font-semibold"
+                >
+                  inquiries@ccdi-asia.com
+                </a>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <ExternalLink className="w-4 h-4 text-amber-400 shrink-0" />
+                <a
+                  href="https://www.ccdi-asia.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-amber-400/80 hover:text-amber-400 transition-colors"
+                >
+                  www.ccdi-asia.com
+                </a>
+              </div>
+            </div>
           </div>
 
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© {currentYear} Tai Chi Newtech Inc. All rights reserved.</p>
-          <div className="flex space-x-6">
-            <a href="#" className="hover:text-slate-300 transition-colors duration-200">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-300 transition-colors duration-200">Terms of Use</a>
-            <a href="#" className="hover:text-slate-300 transition-colors duration-200">Cookie Policy</a>
+        {/* ── Bottom Bar ───────────────────────────────────────── */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-600">
+          <p>
+            © {year}{' '}
+            <span className="text-slate-500 font-semibold">
+              Clarkbase Construction Dev't Inc. (CCDI)
+            </span>
+            . All rights reserved. · Pampanga, Philippines
+          </p>
+          <div className="flex items-center gap-5">
+            <a href="#" className="hover:text-slate-300 transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-slate-300 transition-colors">Terms of Use</a>
           </div>
         </div>
-
       </div>
+
     </footer>
   );
 };

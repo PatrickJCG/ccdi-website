@@ -21,55 +21,55 @@ export interface FullHeroSlide {
 export const FULL_HERO_SLIDES: FullHeroSlide[] = [
   {
     id: 'slide-1',
-    tag: 'Balance of Nature',
-    title: 'Precision Feed Additives',
-    highlightText: 'Explore · Research · Sustain',
-    description: 'Tai Chi Newtech Inc. delivers next-generation, safe, and pro-environmental feed additives designed to maximize livestock productivity and intestinal health.',
-    ctaPrimary: 'Explore Products',
-    ctaPrimaryHref: '/products',
-    ctaSecondary: 'Our Company Agenda',
-    ctaSecondaryHref: '#about',
+    tag: 'Integrated Agribusiness Solutions',
+    title: 'Modern Engineering Designs for',
+    highlightText: 'Turnkey Agribusiness Facilities',
+    description: 'Clarkbase Construction Dev\'t Inc. (CCDI) delivers end-to-end solutions from poultry and hatchery facilities to feedmills and clean solar energy integration.',
+    ctaPrimary: 'Explore Solutions',
+    ctaPrimaryHref: '/solutions',
+    ctaSecondary: 'Request Consultation',
+    ctaSecondaryHref: '#contact',
     imageUrl: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=2000&q=80',
-    badgeText: 'A Life Science Company'
+    badgeText: 'Established 2019 • Philippines'
   },
   {
     id: 'slide-2',
-    tag: 'Research-Driven Innovation',
-    title: 'World-Class Collaboration',
-    highlightText: 'Scientific Solutions',
-    description: 'Collaborating with world-class research institutions to deliver cutting-edge organic acidifiers, enzymes, and bioactive peptides for sustainable growth.',
-    ctaPrimary: 'View Formulas',
-    ctaPrimaryHref: '/products',
-    ctaSecondary: 'Contact Technical Specialists',
+    tag: 'Climate-Controlled Housing',
+    title: 'Turnkey Poultry Facilities for',
+    highlightText: 'Broiler, Breeder & Layer Operations',
+    description: 'High-performance climate-controlled housing engineered for biosecurity, animal welfare, and optimal feed conversion efficiency.',
+    ctaPrimary: 'View Poultry Solutions',
+    ctaPrimaryHref: '/solutions',
+    ctaSecondary: 'Request Proposal',
     ctaSecondaryHref: '#contact',
     imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=2000&q=80',
-    badgeText: 'Proven Feed Efficiency'
+    badgeText: 'Bio-Secure Construction'
   },
   {
     id: 'slide-3',
-    tag: 'Commitment & Partnership',
-    title: 'Beyond Products and Services',
-    highlightText: 'Our Success Mandate',
-    description: 'Forging bonds of trust through extensive technical service extensions, customized premixes, and reliable solutions for feed mills and farms.',
-    ctaPrimary: 'Browse Portfolio',
-    ctaPrimaryHref: '/products',
-    ctaSecondary: 'Our Mission & Vision',
+    tag: 'Industrial Feedmill Systems',
+    title: 'Automated Processing &',
+    highlightText: 'Bulk Handling Infrastructure',
+    description: 'Computerized batching, grinding, mixing, and hygienic bulk handling plants built for maximum operational uptime and longevity.',
+    ctaPrimary: 'View Feedmill Systems',
+    ctaPrimaryHref: '/solutions',
+    ctaSecondary: 'Our Strengths',
     ctaSecondaryHref: '#about',
     imageUrl: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=2000&q=80',
-    badgeText: 'Pioneered in PH since 2016'
+    badgeText: 'Turnkey EPC Engineering'
   },
   {
     id: 'slide-4',
-    tag: 'Global Standards & Trust',
-    title: 'Certified Feed Ingredients',
-    highlightText: 'Uncompromising Quality',
-    description: 'Adhering to strict GMP+, FAMI-QS, ISO 22000, and FDA standards. Halal-certified facilities delivering batch-to-batch consistency worldwide.',
-    ctaPrimary: 'Check Quality Certs',
-    ctaPrimaryHref: '#about',
-    ctaSecondary: 'Contact Technical Team',
+    tag: 'Clean Energy Infrastructure',
+    title: 'Industrial Solar PV Integration for',
+    highlightText: 'Sustainable Cost Efficiency',
+    description: 'Industrial rooftop and ground-mounted solar PV systems designed to slash electricity costs and ensure uninterrupted farm operations.',
+    ctaPrimary: 'Solar PV Solutions',
+    ctaPrimaryHref: '/solutions',
+    ctaSecondary: 'Contact Us',
     ctaSecondaryHref: '#contact',
-    imageUrl: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=2000&q=80',
-    badgeText: 'CQC ISO 9001 Audited'
+    imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=2000&q=80',
+    badgeText: 'Clean Solar Microgrids'
   }
 ];
 
@@ -172,7 +172,7 @@ export const HeroCarousel: React.FC = () => {
       {/* Slide Auto-Progress Bar (Top) */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-slate-800/80 z-30 overflow-hidden">
         <motion.div
-          className="h-full bg-gradient-to-r from-brand-teal-500 via-emerald-400 to-amber-400"
+          className="h-full bg-gradient-to-r from-industrial_blue-500 via-agro_green-500 to-construction_gold-500"
           style={{ width: `${progress}%` }}
           transition={{ ease: "linear", duration: 0.05 }}
         />
@@ -193,14 +193,14 @@ export const HeroCarousel: React.FC = () => {
             alt={slide.title}
             className="w-full h-full object-cover object-center"
           />
-          {/* Deep Navy/Teal Scrim overlay for legibility */}
+          {/* Deep Industrial Navy Scrim overlay for legibility */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 to-slate-950/45" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-transparent to-slate-950/50" />
 
-          {/* Decorative Glowing Teal & Emerald Orbs */}
-          <div className="absolute top-1/4 left-10 w-72 sm:w-96 h-72 sm:h-96 bg-brand-teal-500/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-1/4 left-1/3 w-64 sm:w-80 h-64 sm:h-80 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-1/3 right-1/4 w-56 sm:w-72 h-56 sm:h-72 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Decorative Glowing Orbs */}
+          <div className="absolute top-1/4 left-10 w-72 sm:w-96 h-72 sm:h-96 bg-industrial_blue-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 left-1/3 w-64 sm:w-80 h-64 sm:h-80 bg-agro_green-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/3 right-1/4 w-56 sm:w-72 h-56 sm:h-72 bg-construction_gold-500/15 rounded-full blur-3xl pointer-events-none" />
         </motion.div>
       </AnimatePresence>
 
@@ -221,8 +221,8 @@ export const HeroCarousel: React.FC = () => {
               <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <Badge
                   variant="sectionTag"
-                  icon={<ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-teal-300" />}
-                  className="!bg-slate-900/80 !text-brand-teal-200 !border-brand-teal-500/40 backdrop-blur-md shadow-lg text-xs"
+                  icon={<ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-300" />}
+                  className="!bg-slate-900/80 !text-blue-200 !border-blue-500/40 backdrop-blur-md shadow-lg text-xs"
                 >
                   {slide.tag}
                 </Badge>
@@ -236,7 +236,7 @@ export const HeroCarousel: React.FC = () => {
               {/* Headline Title */}
               <h1 className="text-2xl sm:text-4xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight font-heading drop-shadow-md">
                 {slide.title}{' '}
-                <span className="bg-gradient-to-r from-brand-teal-300 via-emerald-300 to-amber-300 bg-clip-text text-transparent underline decoration-brand-teal-400/60 underline-offset-4 sm:underline-offset-8 decoration-2 sm:decoration-4">
+                <span className="bg-gradient-to-r from-amber-200 via-amber-300 to-yellow-200 bg-clip-text text-transparent underline decoration-amber-400/60 underline-offset-4 sm:underline-offset-8 decoration-2 sm:decoration-4">
                   {slide.highlightText}
                 </span>
               </h1>
@@ -254,7 +254,7 @@ export const HeroCarousel: React.FC = () => {
                   href={slide.ctaPrimaryHref}
                   onClick={(e) => handleCtaClick(e, slide.ctaPrimaryHref)}
                   icon={<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />}
-                  className="group shadow-xl shadow-brand-teal-600/30 !bg-brand-teal-600 hover:!bg-brand-teal-700 sm:!w-auto justify-center"
+                  className="group shadow-xl shadow-amber-600/30 !bg-amber-600 hover:!bg-amber-700 sm:!w-auto justify-center font-bold"
                 >
                   {slide.ctaPrimary}
                 </Button>
@@ -264,7 +264,7 @@ export const HeroCarousel: React.FC = () => {
                   size="md"
                   href={slide.ctaSecondaryHref}
                   onClick={(e) => handleCtaClick(e, slide.ctaSecondaryHref)}
-                  className="!bg-slate-900/70 hover:!bg-slate-900/90 !text-white !border-slate-700/80 backdrop-blur-md shadow-lg hover:!border-brand-teal-400/60 sm:!w-auto justify-center"
+                  className="!bg-slate-900/70 hover:!bg-slate-900/90 !text-white !border-slate-700/80 backdrop-blur-md shadow-lg hover:!border-amber-400/60 sm:!w-auto justify-center"
                 >
                   {slide.ctaSecondary}
                 </Button>
@@ -273,16 +273,16 @@ export const HeroCarousel: React.FC = () => {
               {/* Feature Highlights Bar */}
               <div className="pt-2 sm:pt-4 flex flex-wrap items-center gap-3 sm:gap-6 text-xs text-slate-300 font-medium">
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-brand-teal-400" />
-                  <span>Bio-Active Absorption</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Turnkey EPC Delivery</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Non-Antibiotic Formulas</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-300" />
+                  <span>Biosecure Engineering</span>
                 </span>
                 <span className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
-                  <span>ISO 22000 Certified</span>
+                  <span>ISO 9001 Certified</span>
                 </span>
               </div>
 
@@ -295,7 +295,7 @@ export const HeroCarousel: React.FC = () => {
       {/* Floating Left & Right Navigation Chevrons (Desktop & Tablet) */}
       <button
         onClick={handlePrev}
-        className="hidden sm:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-slate-900/70 hover:bg-brand-teal-600 text-white backdrop-blur-md border border-slate-700/80 hover:border-brand-teal-400 shadow-xl items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 z-20"
+        className="hidden sm:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-slate-900/70 hover:bg-amber-600 text-white backdrop-blur-md border border-slate-700/80 hover:border-amber-400 shadow-xl items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 z-20"
         aria-label="Previous Slide"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -303,7 +303,7 @@ export const HeroCarousel: React.FC = () => {
 
       <button
         onClick={handleNext}
-        className="hidden sm:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-slate-900/70 hover:bg-brand-teal-600 text-white backdrop-blur-md border border-slate-700/80 hover:border-brand-teal-400 shadow-xl items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 z-20"
+        className="hidden sm:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-slate-900/70 hover:bg-amber-600 text-white backdrop-blur-md border border-slate-700/80 hover:border-amber-400 shadow-xl items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 z-20"
         aria-label="Next Slide"
       >
         <ChevronRight className="w-6 h-6" />
@@ -326,7 +326,7 @@ export const HeroCarousel: React.FC = () => {
                   }}
                   className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 flex items-center gap-2 ${
                     isActive
-                      ? 'bg-brand-teal-600 text-white shadow-md shadow-brand-teal-600/30'
+                      ? 'bg-industrial_blue-700 text-white shadow-md shadow-industrial_blue-700/30'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
@@ -355,7 +355,7 @@ export const HeroCarousel: React.FC = () => {
                   setCurrentIndex(idx);
                 }}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  currentIndex === idx ? 'w-6 bg-brand-teal-400' : 'w-2 bg-slate-600'
+                  currentIndex === idx ? 'w-6 bg-amber-400' : 'w-2 bg-slate-600'
                 }`}
                 aria-label={`Slide ${idx + 1}`}
               />

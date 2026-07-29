@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { PageLayout } from './components/organisms/PageLayout';
 import { HomePage } from './pages/HomePage';
+import { SolutionsPage } from './pages/SolutionsPage';
 import { ProductsPage } from './pages/ProductsPage';
+import { ProjectsPage } from './pages/ProjectsPage';
 import { NewsPage } from './pages/NewsPage';
 import type { Product } from './data/mockProducts';
 
@@ -40,7 +42,19 @@ export function App() {
           }
         />
 
-        {/* ── Products page (/products): full filterable catalog ── */}
+        {/* ── Solutions page (/solutions & /products per ccdi.toon): full catalog ── */}
+        <Route
+          path="/solutions"
+          element={
+            <PageLayout inquiryCount={inquiryItems.length}>
+              <SolutionsPage
+                inquiryItems={inquiryItems}
+                onToggleInquiry={handleToggleInquiry}
+                onRemoveInquiryItem={handleRemoveInquiryItem}
+              />
+            </PageLayout>
+          }
+        />
         <Route
           path="/products"
           element={
@@ -54,7 +68,31 @@ export function App() {
           }
         />
 
-        {/* ── News & Updates page (/news & /news/:articleId) ── */}
+        {/* ── Projects page (/projects & /projects/:projectId per ccdi.toon) ── */}
+        <Route
+          path="/projects"
+          element={
+            <PageLayout inquiryCount={inquiryItems.length}>
+              <ProjectsPage
+                inquiryItems={inquiryItems}
+                onToggleInquiry={handleToggleInquiry}
+                onRemoveInquiryItem={handleRemoveInquiryItem}
+              />
+            </PageLayout>
+          }
+        />
+        <Route
+          path="/projects/:projectId"
+          element={
+            <PageLayout inquiryCount={inquiryItems.length}>
+              <ProjectsPage
+                inquiryItems={inquiryItems}
+                onToggleInquiry={handleToggleInquiry}
+                onRemoveInquiryItem={handleRemoveInquiryItem}
+              />
+            </PageLayout>
+          }
+        />
         <Route
           path="/news"
           element={

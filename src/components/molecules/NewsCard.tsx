@@ -18,7 +18,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, delay = 0 }) => {
       whileHover={{ y: -6, scale: 1.015 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.45, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-brand-teal-200/80 transition-shadow duration-300 flex flex-col h-full group"
+      className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-industrial_blue-300 transition-shadow duration-300 flex flex-col h-full group"
     >
       {/* Image & Category Tag */}
       <Link to={`/news/${article.id}`} className="relative h-48 overflow-hidden bg-slate-100 block">
@@ -38,7 +38,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, delay = 0 }) => {
       <div className="p-6 flex flex-col flex-grow">
         <div className="flex items-center gap-3 text-xs font-semibold text-slate-500 mb-2">
           <span className="flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5 text-brand-teal-600 shrink-0" />
+            <Calendar className="w-3.5 h-3.5 text-industrial_blue-500 shrink-0" />
             {article.date}
           </span>
           {article.readTime && (
@@ -52,7 +52,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, delay = 0 }) => {
           )}
         </div>
 
-        <Link to={`/news/${article.id}`} className="block group-hover:text-brand-teal-700 transition-colors">
+        <Link to={`/news/${article.id}`} className="block group-hover:text-industrial_blue-500 transition-colors">
           <h3 className="text-xl font-extrabold text-slate-900 font-heading mb-3 line-clamp-2">
             {article.title}
           </h3>
@@ -64,7 +64,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, delay = 0 }) => {
 
         <Link
           to={`/news/${article.id}`}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-brand-teal-700 group-hover:text-brand-teal-800 transition-colors mt-auto"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-industrial_blue-500 group-hover:text-industrial_blue-700 transition-colors mt-auto"
         >
           <span>Read Full Article</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200 shrink-0" />

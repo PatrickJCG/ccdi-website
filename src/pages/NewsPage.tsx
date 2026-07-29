@@ -229,10 +229,10 @@ export const NewsPage: React.FC<NewsPageProps> = () => {
               <div className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-slate-900 via-brand-forest-900 to-slate-900 text-white border border-teal-400/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div className="space-y-2 text-center sm:text-left">
                   <h3 className="text-xl sm:text-2xl font-bold font-heading text-white tracking-wide">
-                    Interested in Trial Data or Custom Formulations?
+                    Interested in Facility Design or Solar PV Integration?
                   </h3>
                   <p className="text-teal-100 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
-                    Our technical animal nutrition team provides localized trial protocols, mycotoxin profiling, and premix integration advice for feed producers worldwide.
+                    Our expert engineering team provides project consultations, site assessments, and facility design advice for agribusinesses across the Philippines.
                   </p>
                 </div>
                 <Button
@@ -313,18 +313,18 @@ export const NewsPage: React.FC<NewsPageProps> = () => {
                 <div className="max-w-3xl mx-auto text-center space-y-4">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-300 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
                     <BookOpen className="w-3.5 h-3.5" />
-                    <span>Scientific Insights & Company News</span>
+                    <span>Project Handshakes & Infrastructure News</span>
                   </div>
 
                   <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white font-heading">
-                    Tai Chi Newtech{' '}
-                    <span className="bg-gradient-to-r from-brand-teal-300 via-emerald-300 to-amber-300 bg-clip-text text-transparent">
-                      News & Updates
+                    Clarkbase Construction Dev't Inc.{' '}
+                    <span className="bg-gradient-to-r from-blue-200 via-amber-300 to-amber-400 bg-clip-text text-transparent">
+                      Projects & News
                     </span>
                   </h1>
 
                   <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-                    Explore our latest clinical research trials, regional sales expansions, regulatory compliance milestones, and global livestock trade updates.
+                    Explore our latest project handovers, facility developments, engineering innovations, and renewable energy milestones.
                   </p>
 
                   {/* Interactive Search Bar */}
@@ -336,7 +336,7 @@ export const NewsPage: React.FC<NewsPageProps> = () => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search news by topic, author, or keyword..."
-                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-teal-400 text-sm transition-all shadow-xl"
+                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 text-sm transition-all shadow-xl"
                       />
                       {searchQuery && (
                         <button

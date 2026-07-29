@@ -38,7 +38,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       <HeadingTag className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-heading leading-tight">
         {title}
         {/* Animated underline accent */}
-        <span className="block mt-2 h-1 w-12 rounded-full bg-gradient-to-r from-brand-teal-600 to-brand-forest-500 opacity-70" style={{ display: align === 'center' ? 'block' : 'block', margin: align === 'center' ? '0.5rem auto 0' : '0.5rem 0 0' }} />
+        <span className="block mt-2 h-1 w-12 rounded-full bg-gradient-to-r from-industrial_blue-700 via-industrial_blue-500 to-construction_gold-500 opacity-80" style={{ display: align === 'center' ? 'block' : 'block', margin: align === 'center' ? '0.5rem auto 0' : '0.5rem 0 0' }} />
       </HeadingTag>
       {description && (
         <p className="text-slate-600 text-base leading-relaxed">

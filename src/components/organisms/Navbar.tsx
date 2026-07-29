@@ -1,63 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone, ShoppingBag, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '../atoms';
 
 export interface NavbarProps {
   inquiryCount: number;
 }
 
+const NAV_LINKS = [
+  { name: 'Home',           href: '/' },
+  { name: 'About Us',       href: '#about' },
+  { name: 'Our Solutions',  href: '/solutions', to: '/solutions' },
+  { name: 'News & Updates', href: '/news',      to: '/news' },
+  { name: 'Contact',        href: '#contact' },
+];
+
 export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen]               = useState(false);
+  const [scrolled, setScrolled]           = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate  = useNavigate();
+  const location  = useLocation();
 
-  const navLinks: { name: string; href: string; to?: string }[] = [
-    { name: "Home",            href: "/"         },
-    { name: "About Us",        href: "#about"    },
-    { name: "Product Catalog", href: "/products", to: "/products" },
-    { name: "News & Updates",  href: "/news",     to: "/news" },
-    { name: "Contact",         href: "#contact"  },
-  ];
-
-  // Track active section via IntersectionObserver for aria-current
+  // Scroll detection
   useEffect(() => {
-    if (location.pathname === '/products') {
-      setActiveSection('products');
-      return;
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Active section tracking — scroll-position based (more reliable than IntersectionObserver)
+  useEffect(() => {
+    if (location.pathname === '/solutions' || location.pathname === '/products') {
+      setActiveSection('solutions'); return;
     }
-    if (location.pathname.startsWith('/news')) {
-      setActiveSection('news');
-      return;
+    if (location.pathname === '/news' || location.pathname.startsWith('/news')) {
+      setActiveSection('news'); return;
     }
-    const hashLinks = navLinks.filter(l => l.href.startsWith('#'));
-    const sections = hashLinks.map(l => document.querySelector(l.href));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-    sections.forEach(s => s && observer.observe(s));
-    return () => observer.disconnect();
+    if (location.pathname !== '/') { setActiveSection(''); return; }
+
+    // Section IDs that correspond to hash nav links
+    const SECTION_IDS = ['home', 'about', 'contact'];
+
+    const getActiveSection = () => {
+      // Use a trigger line at 40% from the top of the viewport
+      const triggerY = window.scrollY + window.innerHeight * 0.4;
+
+      let current = 'home';
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        if (top <= triggerY) {
+          current = id;
+        }
+      }
+      setActiveSection(current);
+    };
+
+    // Run immediately and on every scroll
+    getActiveSection();
+    window.addEventListener('scroll', getActiveSection, { passive: true });
+    return () => window.removeEventListener('scroll', getActiveSection);
   }, [location.pathname]);
 
-  // Lock body scroll when mobile menu is open
+
+  // Body scroll lock
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
   const handleHomeClick = (e: React.MouseEvent) => {
@@ -73,200 +85,216 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
 
   const handleAnchorClick = (e: React.MouseEvent, href: string) => {
     setIsOpen(false);
-    if (href === '/') {
-      handleHomeClick(e);
-      return;
-    }
+    if (href === '/') { handleHomeClick(e); return; }
     if (href.startsWith('#')) {
       e.preventDefault();
-      const targetId = href.replace('#', '');
-      const element = document.getElementById(targetId);
-
-      if (location.pathname === '/' && element) {
-        const offset = window.innerWidth < 640 ? 70 : 80;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const offsetPosition = elementRect - bodyRect - offset;
-        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      const el = document.getElementById(href.replace('#', ''));
+      if (location.pathname === '/' && el) {
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
       } else {
         navigate('/' + href);
       }
     }
   };
 
+  const isLinkActive = (link: (typeof NAV_LINKS)[0]) => {
+    // /solutions page
+    if (link.to === '/solutions') return activeSection === 'solutions';
+    // /news page
+    if (link.to === '/news') return activeSection === 'news';
+    // Home
+    if (link.href === '/') return activeSection === 'home';
+    // Hash sections (#about, #contact)
+    if (link.href.startsWith('#')) return activeSection === link.href.slice(1);
+    return false;
+  };
+
+
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/70 shadow-sm transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
+      {/* ── STICKY MAIN HEADER ──────────────────────────────────── */}
+      <header
+        className="sticky top-0 z-50 bg-[#07162a] border-b border-amber-400/20 shadow-[0_4px_32px_-4px_rgba(0,0,0,0.6)] transition-all duration-300 ease-in-out"
+      >
+        {/* Gold top accent */}
+        <div className="h-[3px] bg-gradient-to-r from-[#07162a] via-amber-400 to-[#07162a]" />
 
-            {/* Logo */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-[64px]">
+
+            {/* ── Logo ──────────────────────────────────────────── */}
             <Link
               to="/"
               onClick={handleHomeClick}
-              className="flex items-center gap-2 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal-500 rounded-lg"
-              aria-label="Tai Chi Newtech Inc. — Return to home"
+              className="flex items-center gap-3 shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
+              aria-label="CCDI Home"
             >
-              <img
-                src="/images/logo.png"
-                alt="Tai Chi Newtech Inc. — Explore | Research | Sustain"
-                className="h-9 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
-              />
+              <div className="bg-white rounded-lg p-1.5 shadow-md transition-transform duration-300 group-hover:scale-105">
+                <img
+                  src="/ccdi-logo.png"
+                  alt="Clarkbase Construction Dev't Inc."
+                  draggable={false}
+                  className="h-9 w-auto object-contain"
+                />
+              </div>
+              <div className="hidden xl:block">
+                <p className="text-[11px] font-black tracking-widest text-white uppercase leading-none">
+                  Clarkbase Construction
+                </p>
+                <p className="text-[9px] font-semibold text-amber-400 tracking-widest uppercase mt-0.5">
+                  Dev't Inc. · Agro-Industrial EPC
+                </p>
+              </div>
             </Link>
 
-            {/* Desktop Nav Links */}
-            <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8" aria-label="Main navigation">
-              {navLinks.map((link) => {
-                const sectionId = link.href.startsWith('#') ? link.href.replace('#', '') : link.href.replace('/', '') || 'home';
-                const isActive = activeSection === sectionId;
-                const linkClass = [
-                  'font-semibold text-sm transition-colors duration-300 relative py-1 group',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal-500 focus-visible:ring-offset-2 rounded-sm',
-                  isActive ? 'text-brand-teal-700' : 'text-slate-600 hover:text-brand-teal-700',
-                ].join(' ');
-                const underlineClass = [
-                  'absolute bottom-0 left-0 h-0.5 bg-brand-teal-600 transition-all duration-300 ease-out rounded-full',
-                  isActive ? 'w-full' : 'w-0 group-hover:w-full',
+            {/* ── Desktop Nav ─────────────────────────────────── */}
+            <nav className="hidden lg:flex items-center bg-white/5 rounded-full px-1.5 py-1.5 border border-white/10 gap-0.5" aria-label="Main navigation">
+              {NAV_LINKS.map(link => {
+                const active = isLinkActive(link);
+
+                const cls = [
+                  'relative px-4 py-2 rounded-full text-[13px] font-semibold transition-all duration-300 whitespace-nowrap outline-none',
+                  active
+                    ? 'text-slate-950 bg-amber-400'
+                    : 'text-white/80 hover:text-white hover:bg-white/10',
                 ].join(' ');
 
-                if (link.to) {
-                  return (
-                    <Link key={link.name} to={link.to} aria-current={isActive ? 'page' : undefined} className={linkClass}>
-                      <span>{link.name}</span>
-                      <span className={underlineClass} />
-                    </Link>
-                  );
-                }
-                if (link.href === '/') {
-                  return (
-                    <Link key={link.name} to="/" onClick={handleHomeClick} aria-current={isActive ? 'page' : undefined} className={linkClass}>
-                      <span>{link.name}</span>
-                      <span className={underlineClass} />
-                    </Link>
-                  );
-                }
+                if (link.to) return (
+                  <Link key={link.name} to={link.to} className={cls}>{link.name}</Link>
+                );
+                if (link.href === '/') return (
+                  <Link key={link.name} to="/" onClick={handleHomeClick} className={cls}>{link.name}</Link>
+                );
                 return (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={(e) => handleAnchorClick(e, link.href)}
-                    aria-current={isActive ? 'page' : undefined}
-                    className={linkClass}
-                  >
-                    <span>{link.name}</span>
-                    <span className={underlineClass} />
-                  </a>
+                  <a key={link.name} href={link.href} onClick={e => handleAnchorClick(e, link.href)} className={cls}>{link.name}</a>
                 );
               })}
             </nav>
 
-            {/* CTA Button */}
-            <div className="hidden lg:flex items-center">
-              <Button
-                variant="primary"
-                size="md"
+            {/* ── Desktop Right CTAs ───────────────────────────── */}
+            <div className="hidden lg:flex items-center gap-3">
+              {inquiryCount > 0 && (
+                <motion.button
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  onClick={e => handleAnchorClick(e, '#contact')}
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold hover:bg-white/15 transition-all"
+                >
+                  <ShoppingBag className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span className="text-white/90">{inquiryCount} Inquiry Item{inquiryCount > 1 ? 's' : ''}</span>
+                </motion.button>
+              )}
+
+              <a
                 href="#contact"
-                onClick={(e) => handleAnchorClick(e, '#contact')}
+                onClick={e => handleAnchorClick(e, '#contact')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-[13px] text-slate-950 bg-amber-400 hover:bg-amber-300 shadow-md shadow-amber-500/20 hover:shadow-amber-400/30 hover:-translate-y-0.5 active:scale-[0.97] transition-all duration-200"
               >
-                Inquire Now {inquiryCount > 0 && `(${inquiryCount})`}
-              </Button>
+                <Phone className="w-3.5 h-3.5 shrink-0" />
+                <span>Request Consultation</span>
+              </a>
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden flex items-center">
+            {/* ── Mobile Burger + Badge ────────────────────────── */}
+            <div className="lg:hidden flex items-center gap-2.5">
+              {inquiryCount > 0 && (
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black shadow">
+                  {inquiryCount}
+                </span>
+              )}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-slate-700 hover:text-slate-900 p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal-500 rounded-lg hover:bg-slate-100 transition-colors"
-                aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                className="p-2.5 rounded-lg bg-white/8 border border-white/15 text-white hover:bg-white/15 transition-all"
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isOpen}
-                aria-controls="mobile-nav"
               >
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={isOpen ? 'close' : 'open'}
+                    initial={{ rotate: -90, opacity: 0, scale: 0.7 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: 90, opacity: 0, scale: 0.7 }}
+                    transition={{ duration: 0.15 }}
+                    className="block"
+                  >
+                    {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                  </motion.span>
+                </AnimatePresence>
               </button>
             </div>
+
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer & Semi-Transparent Backdrop */}
+      {/* ── Mobile Drawer ─────────────────────────────────────────── */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop overlay */}
             <motion.div
+              key="backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-40 lg:hidden"
-              aria-hidden="true"
+              className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-40 lg:hidden"
+              aria-hidden
             />
 
-            {/* Floating Dropdown Drawer */}
             <motion.div
-              id="mobile-nav"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed top-[64px] sm:top-[80px] inset-x-0 bg-white/98 backdrop-blur-xl border-b border-slate-200/90 shadow-2xl z-40 px-5 pt-3 pb-6 space-y-2 lg:hidden max-h-[calc(100vh-64px)] sm:max-h-[calc(100vh-80px)] overflow-y-auto"
-              role="navigation"
-              aria-label="Mobile navigation"
+              key="drawer"
+              initial={{ opacity: 0, y: -10, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.97 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed top-[70px] inset-x-3 bg-[#07162a] border border-amber-400/20 rounded-2xl shadow-2xl z-50 lg:hidden overflow-hidden"
             >
-              {navLinks.map((link) => {
-                const sectionId = link.href.startsWith('#') ? link.href.replace('#', '') : link.href.replace('/', '') || 'home';
-                const isActive = activeSection === sectionId;
-                const mobileLinkClass = [
-                  'flex items-center font-semibold text-base py-3 transition-all rounded-xl px-3 min-h-[44px]',
-                  'focus-visible:ring-2 focus-visible:ring-brand-teal-500 focus-visible:ring-offset-1 outline-none',
-                  isActive ? 'text-brand-teal-700 bg-brand-teal-50/90 pl-4' : 'text-slate-700 hover:text-brand-teal-700 hover:bg-slate-50 hover:pl-4',
-                ].join(' ');
-                const dot = isActive && <span className="w-2 h-2 rounded-full bg-brand-teal-600 mr-2.5 shrink-0" aria-hidden />;
+              {/* Accent */}
+              <div className="h-[2px] bg-gradient-to-r from-[#07162a] via-amber-400 to-[#07162a]" />
 
-                if (link.to) {
-                  return (
-                    <Link key={link.name} to={link.to} onClick={() => setIsOpen(false)} aria-current={isActive ? 'page' : undefined} className={mobileLinkClass}>
-                      {dot}{link.name}
+              <div className="p-4 space-y-1.5">
+                {NAV_LINKS.map(link => {
+                  const active = isLinkActive(link);
+                  const cls = [
+                    'flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-sm font-semibold transition-all duration-200',
+                    active
+                      ? 'bg-amber-400 text-slate-950 font-bold'
+                      : 'text-white/80 hover:bg-white/8 hover:text-white',
+                  ].join(' ');
+
+                  const arrow = <ChevronRight className={['w-4 h-4', active ? 'text-slate-950/70' : 'text-white/30'].join(' ')} />;
+
+                  if (link.to) return (
+                    <Link key={link.name} to={link.to} onClick={() => setIsOpen(false)} className={cls}>
+                      <span>{link.name}</span>{arrow}
                     </Link>
                   );
-                }
-                if (link.href === '/') {
-                  return (
-                    <Link
-                      key={link.name}
-                      to="/"
-                      onClick={(e) => handleHomeClick(e)}
-                      aria-current={isActive ? 'page' : undefined}
-                      className={mobileLinkClass}
-                    >
-                      {dot}{link.name}
+                  if (link.href === '/') return (
+                    <Link key={link.name} to="/" onClick={handleHomeClick} className={cls}>
+                      <span>{link.name}</span>{arrow}
                     </Link>
                   );
-                }
-                return (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={(e) => handleAnchorClick(e, link.href)}
-                    aria-current={isActive ? 'page' : undefined}
-                    className={mobileLinkClass}
-                  >
-                    {dot}{link.name}
-                  </a>
-                );
-              })}
+                  return (
+                    <a key={link.name} href={link.href} onClick={e => handleAnchorClick(e, link.href)} className={cls}>
+                      <span>{link.name}</span>{arrow}
+                    </a>
+                  );
+                })}
+              </div>
 
-              <div className="pt-3 border-t border-slate-100">
-                <Button
+              <div className="px-4 pb-5 pt-2 border-t border-white/8 space-y-3">
+                <a
                   href="#contact"
-                  variant="primary"
-                  fullWidth
-                  size="lg"
-                  onClick={(e) => handleAnchorClick(e, '#contact')}
+                  onClick={e => handleAnchorClick(e, '#contact')}
+                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-sm text-slate-950 bg-amber-400 hover:bg-amber-300 shadow-md transition-all"
                 >
-                  Inquire Now {inquiryCount > 0 && `(${inquiryCount})`}
-                </Button>
+                  <Phone className="w-4 h-4 shrink-0" />
+                  <span>Request Consultation</span>
+                </a>
+                <p className="text-center text-[10px] text-white/30 font-medium tracking-widest uppercase">
+                  Clarkbase Construction Dev't Inc. · Est. 2019
+                </p>
               </div>
             </motion.div>
           </>
