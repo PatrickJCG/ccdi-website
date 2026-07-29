@@ -1,61 +1,9 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, TrendingUp, Building2, Cpu, ChevronDown, Award, HeartHandshake, Zap, Users, Leaf } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ShieldCheck, TrendingUp, Building2, Cpu } from 'lucide-react';
 import { SectionHeader } from '../atoms';
 
-export interface CoreValueItem {
-  id: string;
-  title: string;
-  icon: React.ReactNode;
-  summary: string;
-  details: string;
-}
-
-const CORE_VALUES: CoreValueItem[] = [
-  {
-    id: 'integrity',
-    title: 'Integrity',
-    icon: <HeartHandshake className="w-5 h-5 text-amber-500" />,
-    summary: 'Unwavering transparency, honesty, and accountability.',
-    details: 'We conduct every project with uncompromised ethics, transparent pricing, and dependable commitments. For CCDI, trust is the cornerstone of every client partnership and vendor relationship.',
-  },
-  {
-    id: 'excellence',
-    title: 'Strive for Excellence',
-    icon: <Award className="w-5 h-5 text-amber-500" />,
-    summary: 'Rigorous quality benchmarks across all builds.',
-    details: 'We hold our design standards, construction craftsmanship, and equipment installations to strict international benchmarks. Settling for "good enough" is never an option.',
-  },
-  {
-    id: 'innovation',
-    title: 'Power for Innovation',
-    icon: <Zap className="w-5 h-5 text-amber-500" />,
-    summary: 'Smart automation and clean energy integration.',
-    details: 'We actively introduce state-of-the-art agricultural technology, automation systems, and renewable energy models to elevate traditional farming into high-tech industrial assets.',
-  },
-  {
-    id: 'customer',
-    title: 'Customer Focus',
-    icon: <Users className="w-5 h-5 text-amber-500" />,
-    summary: 'Tailoring solutions to unique operational goals.',
-    details: 'Every agricultural facility presents unique environmental and operational challenges. We listen closely, tailor our engineering plans to client goals, and provide ongoing technical support.',
-  },
-  {
-    id: 'sustainability',
-    title: 'Sustainability',
-    icon: <Leaf className="w-5 h-5 text-amber-500" />,
-    summary: 'Eco-efficient infrastructure protecting natural resources.',
-    details: 'We are deeply committed to protecting natural resources. Through energy-efficient building envelopes, low-emissions feedmill designs, and solar energy integration, we help build a greener future.',
-  },
-];
-
 export const WhyChooseUs: React.FC = () => {
-  const [openAccordion, setOpenAccordion] = useState<string>('integrity');
-
-  const toggleAccordion = (id: string) => {
-    setOpenAccordion((prev) => (prev === id ? '' : id));
-  };
-
   return (
     <section id="values" className="relative py-16 sm:py-20 bg-gray-50 border-b border-slate-200/60 overflow-hidden">
       {/* Subtle Background Glows */}

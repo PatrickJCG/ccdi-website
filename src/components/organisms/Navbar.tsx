@@ -114,7 +114,10 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
     <>
       {/* ── STICKY MAIN HEADER ──────────────────────────────────── */}
       <header
-        className="sticky top-0 z-50 bg-[#07162a] border-b border-amber-400/20 shadow-[0_4px_32px_-4px_rgba(0,0,0,0.6)] transition-all duration-300 ease-in-out"
+        className={[
+          'sticky top-0 z-50 transition-all duration-300 ease-in-out border-b border-amber-400/20 shadow-[0_4px_32px_-4px_rgba(0,0,0,0.6)]',
+          scrolled ? 'bg-[#07162a]/95 backdrop-blur-md' : 'bg-[#07162a]',
+        ].join(' ')}
       >
         {/* Gold top accent */}
         <div className="h-[3px] bg-gradient-to-r from-[#07162a] via-amber-400 to-[#07162a]" />

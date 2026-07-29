@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Eye, Target, HeartHandshake, Award, Zap, Users, Leaf, ChevronDown } from 'lucide-react';
-import { SectionHeader } from '../atoms';
 
 const STATS = [
   { value: '2019', label: 'Year Established', sublabel: 'Pioneering Industry Growth' },

@@ -1,8 +1,7 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Layers } from 'lucide-react';
-import { SectionHeader, Button } from '../atoms';
 import { ProductCard } from '../molecules';
 import { MOCK_PRODUCTS } from '../../data/mockProducts';
 import type { Product } from '../../data/mockProducts';
@@ -11,8 +10,6 @@ export interface SolutionsPreviewProps {
   inquiryItems?: Product[];
   onToggleInquiry?: (product: Product) => void;
 }
-
-const PARALLAX_BG_IMAGE = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=2000&q=80';
 
 export const SolutionsPreview: React.FC<SolutionsPreviewProps> = ({
   inquiryItems = [],
