@@ -10,7 +10,7 @@ export interface HeroSectionProps {
 
 // Local CCDI Video in public directory
 const VIDEO_SRC = '/ccdi vid.mp4';
-const POSTER = 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=2000&q=80';
+const POSTER = 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1200&q=75';
 
 const HIGHLIGHTS = [
   { icon: ShieldCheck, label: 'Poultry', sub: 'Bio-Secure Housing' },

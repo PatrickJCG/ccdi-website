@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Layers } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { ProductCard } from '../molecules';
+import { SectionHeader } from '../atoms';
 import { MOCK_PRODUCTS } from '../../data/mockProducts';
 import type { Product } from '../../data/mockProducts';
+import { EndToEndHeader } from './EndToEndHeader';
 
 export interface SolutionsPreviewProps {
   inquiryItems?: Product[];
@@ -17,44 +20,50 @@ export const SolutionsPreview: React.FC<SolutionsPreviewProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  // Exactly 6 featured solutions sliced from the main data array
-  const featuredSolutions = MOCK_PRODUCTS.slice(0, 6);
+  // Memoized: slice does not change; avoids recalculation when inquiry state updates
+  const featuredSolutions = useMemo(() => MOCK_PRODUCTS.slice(0, 6), []);
 
   return (
     <section
       id="solutions-preview"
-      className="relative py-16 sm:py-20 overflow-hidden bg-slate-50 text-slate-900 border-b border-slate-200/80 bg-grid-pattern"
+      className="relative py-16 sm:py-24 overflow-hidden bg-slate-50 text-slate-900 border-b border-slate-200/80 bg-grid-pattern"
     >
       {/* ── Ambient Orbs for Visual Depth ────────────────────── */}
       <div className="absolute top-10 right-10 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl -z-10 pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-ccdi-navy/5 rounded-full blur-3xl -z-10 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12 sm:space-y-16">
         
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto space-y-4"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ccdi-navy/10 border border-ccdi-navy/20 text-ccdi-navy text-xs font-bold uppercase tracking-wider">
-            <Layers className="w-4 h-4 text-amber-500" />
-            <span>Integrated Capabilities</span>
-          </div>
+        {/* ── 1. SECTION TITLE FOR PRODUCTS (BEFORE END-TO-END EXECUTION) ── */}
+        <SectionHeader
+          tag="Our Products & Integrated Solutions"
+          title="Turnkey Agro-Industrial Products & Facility Engineering"
+          description="From pre-fabricated broiler housing and cleanroom hatcheries to automated feedmills and solar microgrids — explore CCDI's complete portfolio of engineering systems."
+          align="center"
+        />
 
-          <h2 className="text-3xl sm:text-5xl font-black font-heading tracking-tight text-slate-900 leading-tight">
-            Featured Agro-Industrial{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-amber-500">
-              Solutions
+        {/* ── 2. END-TO-END EXECUTION HEADER & STEP WIDGET ── */}
+        <EndToEndHeader
+          tag="End-To-End Execution"
+          title="End-To-End Solution Capabilities"
+          subtitle="Click on any execution step below to expand full phase details and explore our featured agro-industrial solutions."
+          lightMode={true}
+        />
+
+        {/* ── 3. FEATURED PRODUCTS CATALOG GRID HEADER ── */}
+        <div className="pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span className="text-xs font-extrabold text-amber-600 uppercase tracking-widest block mb-1">
+              Catalog Showcase
             </span>
-          </h2>
-
-          <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-            Explore CCDI's core solutions engineered across climate-controlled poultry facilities, hatcheries, industrial feedmills, and solar power integration.
-          </p>
-        </motion.div>
+            <h3 className="text-xl sm:text-2xl font-black font-heading text-slate-900">
+              Featured Flagship Systems & Pre-Fab Models
+            </h3>
+          </div>
+          <span className="text-xs font-bold text-slate-600 bg-slate-200/80 px-3.5 py-1.5 rounded-full w-fit border border-slate-300/50">
+            6 Featured Flagship Solutions
+          </span>
+        </div>
 
         {/* 6-Item Responsive Grid */}
         <motion.div

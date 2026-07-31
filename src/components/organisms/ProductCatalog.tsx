@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import {
   MOCK_PRODUCTS,
@@ -12,8 +12,10 @@ import {
   RotateCcw,
   SearchX,
   ChevronRight,
-  LayoutGrid,
+  Info,
 } from 'lucide-react';
+import { EndToEndHeader } from './EndToEndHeader';
+import { useExternalFilter } from '../../hooks/useExternalFilter';
 
 // ─── Main Component ────────────────────────────────────────────────────────
 export interface ProductCatalogProps {
@@ -30,50 +32,39 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Reset sub-category when BU changes
-  const handleBUChange = (bu: BusinessUnit) => {
+  const handleBUChange = useCallback((bu: BusinessUnit) => {
     setActiveBU(bu);
     setActiveSubCat('All');
-  };
+  }, []);
 
   // Listen for external filter events (from home page quick links)
-  useEffect(() => {
-    const handleFilter = (e: Event) => {
-      const spec = (e as CustomEvent).detail as string;
-      // Map legacy category names to BU
-      const legacyMap: Record<string, BusinessUnit> = {
-        'Poultry Facilities': 'Poultry Farm Equipment',
-        'Hatchery Construction': 'Hatchery',
-        'Feedmill Systems': 'Feedmill',
-        'Solar Energy Integration': 'Solar Systems',
-      };
-      const bu = legacyMap[spec] ?? 'Poultry Farm Equipment';
-      handleBUChange(bu);
-      const target = document.getElementById('products');
-      if (target) {
-        const offset = 80;
-        const y = target.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    };
-    window.addEventListener('filter-species', handleFilter);
-    window.addEventListener('filter-function', handleFilter);
-    return () => {
-      window.removeEventListener('filter-species', handleFilter);
-      window.removeEventListener('filter-function', handleFilter);
-    };
-  }, []);
+  useExternalFilter((bu) => {
+    handleBUChange(bu);
+    const target = document.getElementById('products');
+    if (target) {
+      const offset = 80;
+      const y = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  });
 
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
   const orb1Y = useTransform(scrollYProgress, [0, 1], [-80, 80]);
   const orb2Y = useTransform(scrollYProgress, [0, 1], [80, -80]);
-  const headerY = useTransform(scrollYProgress, [0, 1], [-15, 15]);
 
-  const buProducts = MOCK_PRODUCTS.filter(p => p.businessUnit === activeBU);
+
+  const buProducts = useMemo(
+    () => MOCK_PRODUCTS.filter(p => p.businessUnit === activeBU),
+    [activeBU],
+  );
   const subCats = BU_META[activeBU].subCategories;
-  const filtered =
-    activeSubCat === 'All'
-      ? buProducts
-      : buProducts.filter(p => p.subCategory === activeSubCat);
+  const filtered = useMemo(
+    () =>
+      activeSubCat === 'All'
+        ? buProducts
+        : buProducts.filter(p => p.subCategory === activeSubCat),
+    [buProducts, activeSubCat],
+  );
 
   return (
     <section
@@ -125,22 +116,35 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       {/* ── Content ─────────────────────────────────────────────── */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
 
-        {/* ── Section Header ──────────────────────────────────────── */}
-        <motion.div style={{ y: headerY }} className="text-center mb-14">
-          <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 mb-5">
-            <LayoutGrid className="w-3.5 h-3.5" />
-            Solutions Catalog
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-heading mb-4 leading-tight">
-            Agro-Industrial Engineering &{' '}
-            <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
-              Renewable Energy
+        {/* ── End-To-End Execution Header Design for Product Catalog ──────────────────────── */}
+        <div className="mb-14">
+          <EndToEndHeader
+            tag="Solutions Catalog & Execution"
+            title="End-To-End Turnkey Agro-Industrial Catalog"
+            subtitle="Click on any execution step below (1–8) to expand full technical phase specifications and explore our specialized catalog solutions."
+            lightMode={false}
+          />
+        </div>
+
+        {/* ── Data Source Legend Notice ────────────────────────── */}
+        <div className="mb-8 bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-4 sm:px-6 sm:py-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs shadow-xl">
+          <div className="flex items-center gap-3 text-slate-300">
+            <div className="p-2 rounded-xl bg-blue-500/15 border border-blue-400/30 text-blue-400 shrink-0">
+              <Info className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="font-extrabold text-white text-sm">Sample Catalog Data Notice</p>
+              <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">
+                Items tagged <span className="text-blue-300 font-bold">Sample Data</span> are illustrative sample entries for Hatchery, Feedmill, and Solar demonstration.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0 self-end md:self-auto">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 uppercase tracking-wider">
+              <Info className="w-3.5 h-3.5 text-blue-400" /> Sample Data (15 Entries)
             </span>
-          </h2>
-          <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
-            Integrated infrastructure solutions across four specialized business units — engineered for performance, biosecurity, and sustainability.
-          </p>
-        </motion.div>
+          </div>
+        </div>
 
         {/* ── Business Unit Tab Navigation ────────────────────────── */}
         <div className="mb-8">
@@ -166,8 +170,10 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 >
                   {/* Photo background */}
                   <img
-                    src={meta.coverImage}
+                    src={`${meta.coverImage.replace(/w=800/, 'w=400')}&q=70`}
                     alt={bu}
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     draggable={false}
                     style={{ transform: isActive ? 'scale(1.04)' : undefined }}

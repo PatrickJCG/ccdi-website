@@ -1,5 +1,3 @@
-// ─── Product / Solution Data Model ────────────────────────────────────────────
-
 export interface ProductMetrics {
   spec1Label: string;
   spec1Value: string;
@@ -10,6 +8,24 @@ export interface ProductMetrics {
 }
 
 export type BusinessUnit = 'Poultry Farm Equipment' | 'Hatchery' | 'Feedmill' | 'Solar Systems';
+
+export interface StructuralMaterials {
+  mainStructure?: string[];
+  secondaryStructure?: string[];
+  roofPurlin?: string[];
+  wallPurlin?: string[];
+  roofSheet?: string[];
+  ceilingSheet?: string[];
+  ceilingInsulation?: string[];
+  wallPanel?: string[];
+}
+
+export interface BuildingSpecs {
+  buildingType?: string;
+  dimensions?: string;
+  birdCapacity?: string;
+  features?: string[];
+}
 
 export interface Product {
   id: string;
@@ -23,6 +39,10 @@ export interface Product {
   description: string;
   imageUrl: string;
   metrics: ProductMetrics;
+  buildingSpecs?: BuildingSpecs;
+  materials?: StructuralMaterials;
+  isBrochureSpec?: boolean;
+  isSample?: boolean;
 }
 
 export const BUSINESS_UNITS: BusinessUnit[] = [
@@ -80,87 +100,226 @@ export const MOCK_FUNCTION_CATEGORIES = [
 
 export const MOCK_PRODUCTS: Product[] = [
 
-  // ─── POULTRY FARM EQUIPMENT ──────────────────────────────────────────────
+  // ─── POULTRY FARM EQUIPMENT (EXACT DATA FROM BROCHURES) ───────────────────
   {
     id: 'pf-01',
-    title: 'Climate-Controlled Broiler Housing Complex',
-    badge: 'Flagship Build',
+    title: 'Multi-Tier Cage System',
+    badge: 'Multi-Tier Cage',
     businessUnit: 'Poultry Farm Equipment',
     subCategory: 'Housing & Structure',
     category: 'Poultry Facilities',
     functionCategory: 'Civil & Structural Construction',
-    speciesTags: ['Broiler', 'Biosecure', 'Insulated Panels'],
-    description: 'Fully automated bio-secure broiler housing engineered with high-grade insulated sandwich panels, evaporative cooling pads, and precision tunnel ventilation for optimal FCR performance.',
+    speciesTags: ['Multi-Tier Cage', 'Automated Harvest', 'Manure Removal'],
+    description: 'An intensive poultry housing solution that maximizes vertical space through multi-tier cages, featuring integrated feeding, drinking, ventilation, manure removal, and manual or automatic harvesting systems.',
     imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80',
-    metrics: { spec1Label: 'Capacity', spec1Value: '50,000 birds/house', spec2Label: 'Build Time', spec2Value: '90 Days', spec3Label: 'FCR Target', spec3Value: '1.45 FCR' },
+    metrics: { spec1Label: 'Building Type', spec1Value: 'Pre-fabricated House', spec2Label: 'Dimensions', spec2Value: '16m x 110m x 4m-4.2m', spec3Label: 'Bird Capacity', spec3Value: '80,000 @1.8kg' },
+    buildingSpecs: {
+      buildingType: 'Pre-fabricated House',
+      dimensions: '16m x 110m x 4m-4.2m',
+      birdCapacity: '80,000 @1.8kg',
+      features: ['Fully Automated Harvest', 'Manual Harvest', 'Manure Removal System'],
+    },
+    materials: {
+      mainStructure: ['Q355B Welding and hot rolling H steel', 'Shot blasting (SA2.5)', 'Antirusting paint (Grey)'],
+      secondaryStructure: ['Wind Stand: 200-280kph', 'Q235B round steel/circular tube/angle iron (including ceiling joist)'],
+      roofPurlin: ['Galvanized cold-rolled steel', 'C-purlins'],
+      wallPurlin: ['Galvanized cold-rolled steel', 'C-purlins'],
+      roofSheet: ['V840 color single steel sheet', 'T= 0.4mm, 0.5mm, 0.6mm'],
+      ceilingSheet: ['V900 color single steel sheet', 'T= 0.37mm'],
+      ceilingInsulation: ['Fiberglass roll (W=1.15m, T= 100mm, D=16kg/m³)', 'Polyethylene Sheet'],
+      wallPanel: ['PPGI V1000 PU sandwich panel', 'T=0.4mm+50mm+0.4mm, D=40 ±2kg/m³'],
+    },
+    isBrochureSpec: true,
+    isSample: false,
   },
   {
     id: 'pf-02',
-    title: 'Broiler Breeder & Automatic Nesting Facility',
-    badge: 'High Hatchability',
+    title: 'Elevated-Floor Broiler House',
+    badge: 'Elevated Floor',
     businessUnit: 'Poultry Farm Equipment',
     subCategory: 'Housing & Structure',
     category: 'Poultry Facilities',
-    functionCategory: 'Facility Design & Engineering',
-    speciesTags: ['Broiler Breeder', 'Auto Nesting', 'Egg Collection'],
-    description: 'State-of-the-art breeder housing with automated slatted floors, mechanical roll-away nest boxes, micro-climate controllers, and multi-zone feed distribution systems.',
+    functionCategory: 'Civil & Structural Construction',
+    speciesTags: ['Elevated Floor', 'Airflow', 'Hygiene'],
+    description: 'A broiler housing system with a raised floor design that improves bird manure management, environmental airflow, and internal hygiene.',
     imageUrl: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=800&q=80',
-    metrics: { spec1Label: 'Capacity', spec1Value: '25,000 breeders', spec2Label: 'Hatchability', spec2Value: '≥88%', spec3Label: 'Build Time', spec3Value: '110 Days' },
+    metrics: { spec1Label: 'Building Type', spec1Value: 'Pre-fabricated House', spec2Label: 'Dimensions', spec2Value: '18m x 156m x 2.4m', spec3Label: 'Bird Capacity', spec3Value: '55,000 @1.8kg' },
+    buildingSpecs: {
+      buildingType: 'Pre-fabricated House',
+      dimensions: '18m x 156m x 2.4m',
+      birdCapacity: '55,000 @1.8kg',
+      features: ['Raised Floor Design', 'Manure Management', 'Environmental Airflow & Hygiene'],
+    },
+    materials: {
+      mainStructure: ['Q355B Welding and hot rolling H steel', 'Shot blasting (SA2.5)', 'Antirusting paint (Grey)'],
+      secondaryStructure: ['Wind Stand: 200-280kph', 'Q235B round steel/circular tube/angle iron (including ceiling joist)'],
+      roofPurlin: ['Galvanized cold-rolled steel', 'C-purlins'],
+      wallPurlin: ['Galvanized cold-rolled steel', 'C-purlins'],
+      roofSheet: ['V840 color single steel sheet', 'T= 0.4mm, 0.5mm, 0.6mm'],
+      ceilingSheet: ['V900 color single steel sheet', 'T= 0.37mm'],
+      ceilingInsulation: ['Fiberglass roll (W=1.15m, T= 100mm, D=16kg/m³)', 'Polyethylene Sheet'],
+      wallPanel: ['PPGI V1000 PU sandwich panel', 'T=0.4mm+50mm+0.4mm, D=40 ±2kg/m³'],
+    },
+    isBrochureSpec: true,
+    isSample: false,
   },
   {
     id: 'pf-03',
-    title: 'Commercial Layer Battery Cage & Manure Belt Complex',
-    badge: 'Peak Production',
+    title: 'Floor-Type Broiler House',
+    badge: 'Floor Type',
     businessUnit: 'Poultry Farm Equipment',
-    subCategory: 'Automation',
+    subCategory: 'Housing & Structure',
     category: 'Poultry Facilities',
-    functionCategory: 'Equipment & Automation',
-    speciesTags: ['Layer', 'Battery Cage', 'Manure Belt'],
-    description: 'Multi-tier A-frame or H-frame layer cage systems featuring automated chain feeding, nipple drinking, mechanical egg collection belts, and daily manure belt extraction.',
+    functionCategory: 'Civil & Structural Construction',
+    speciesTags: ['Floor-Type', 'Controlled Environment', 'Ground-Level'],
+    description: 'A ground-level broiler housing system where birds are raised on solid or slatted floors within a controlled environment, utilizing horizontal space structure.',
     imageUrl: 'https://images.unsplash.com/photo-1607619275068-24722480f87b?auto=format&fit=crop&w=800&q=80',
-    metrics: { spec1Label: 'Capacity', spec1Value: '100,000 layers', spec2Label: 'Egg Peak Rate', spec2Value: '94%', spec3Label: 'Build Time', spec3Value: '120 Days' },
+    metrics: { spec1Label: 'Building Type', spec1Value: 'Pre-fabricated House', spec2Label: 'Dimensions', spec2Value: '16m x 138m x 2.4m', spec3Label: 'Bird Capacity', spec3Value: '36,000 @1.8kg' },
+    buildingSpecs: {
+      buildingType: 'Pre-fabricated House',
+      dimensions: '16m x 138m x 2.4m',
+      birdCapacity: '36,000 @1.8kg',
+      features: ['Solid or Slatted Floors', 'Controlled Environment', 'Horizontal Space Structure'],
+    },
+    materials: {
+      mainStructure: ['Q355B Welding and hot rolling H steel', 'Shot blasting (SA2.5)', 'Antirusting paint (Grey)'],
+      secondaryStructure: ['Wind Stand: 200-280kph', 'Q235B round steel/circular tube/angle iron (including ceiling joist)'],
+      roofPurlin: ['Galvanized cold-rolled steel', 'C-purlins'],
+      wallPurlin: ['Galvanized cold-rolled steel', 'C-purlins'],
+      roofSheet: ['V840 color single steel sheet', 'T= 0.4mm, 0.5mm, 0.6mm'],
+      ceilingSheet: ['V900 color single steel sheet', 'T= 0.37mm'],
+      ceilingInsulation: ['Fiberglass roll (W=1.15m, T= 100mm, D=16kg/m³)', 'Polyethylene Sheet'],
+      wallPanel: ['PPGI V1000 PU sandwich panel', 'T=0.4mm+50mm+0.4mm, D=40 ±2kg/m³'],
+    },
+    isBrochureSpec: true,
+    isSample: false,
   },
   {
     id: 'pf-04',
-    title: 'High-Capacity Tunnel Ventilation & Evaporative Cooling System',
-    badge: 'Thermal Control',
+    title: 'Pre-Fabricated House Materials and Specifications',
+    badge: 'Structural Kit',
+    businessUnit: 'Poultry Farm Equipment',
+    subCategory: 'Housing & Structure',
+    category: 'Poultry Facilities',
+    functionCategory: 'Civil & Structural Construction',
+    speciesTags: ['Q355B H Steel', 'PU Sandwich Panel', '200-280kph Wind'],
+    description: 'Pre-fabricated house materials and engineering specifications for poultry facilities. Features Q355B H steel main structure, SA2.5 shot blasting, Q235B secondary structure rated for 200-280kph wind stand, PPGI V1000 PU sandwich wall panel, V840 roof sheet, V900 ceiling sheet, and 100mm fiberglass ceiling insulation.',
+    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80',
+    metrics: { spec1Label: 'Main Structure', spec1Value: 'Q355B H Steel', spec2Label: 'Wind Stand', spec2Value: '200-280kph', spec3Label: 'Wall Panel', spec3Value: 'PPGI V1000 50mm' },
+    materials: {
+      mainStructure: ['Q355B Welding and hot rolling H steel', 'Shot blasting (SA2.5)', 'Antirusting paint (Grey)'],
+      secondaryStructure: ['Wind Stand: 200-280kph', 'Q235B round steel/circular tube/angle iron (including ceiling joist)'],
+      roofPurlin: ['Galvanized cold-rolled steel', 'C-purlins'],
+      wallPurlin: ['Galvanized cold-rolled steel', 'C-purlins'],
+      roofSheet: ['V840 color single steel sheet', 'T= 0.4mm, 0.5mm, 0.6mm'],
+      ceilingSheet: ['V900 color single steel sheet', 'T= 0.37mm'],
+      ceilingInsulation: ['Fiberglass roll (W=1.15m, T= 100mm, D=16kg/m³)', 'Polyethylene Sheet'],
+      wallPanel: ['PPGI V1000 PU sandwich panel', 'T=0.4mm+50mm+0.4mm, D=40 ±2kg/m³'],
+    },
+    isBrochureSpec: true,
+    isSample: false,
+  },
+  {
+    id: 'pf-05',
+    title: 'Controlled Climate System',
+    badge: 'Climate Control',
     businessUnit: 'Poultry Farm Equipment',
     subCategory: 'Ventilation & Cooling',
     category: 'Poultry Facilities',
     functionCategory: 'Equipment & Automation',
-    speciesTags: ['Tunnel Fans', 'Cooling Pads', 'Variable Speed'],
-    description: 'Industrial-grade tunnel ventilation system with variable-speed axial fans, multi-stage evaporative cooling pads, and automated controller maintaining internal temperature at 24–26°C.',
+    speciesTags: ['Environmental Controller', 'Cone Fans', 'EC Fans'],
+    description: 'An integrated climate regulation system that ensures stable internal housing conditions.',
     imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
-    metrics: { spec1Label: 'Fan Capacity', spec1Value: '45,000 m³/hr each', spec2Label: 'Temp Reduction', spec2Value: '8–12°C', spec3Label: 'Install Time', spec3Value: '30 Days' },
-  },
-  {
-    id: 'pf-05',
-    title: 'Automated Pan Feeding & Nipple Drinking System',
-    badge: 'Ad Libitum Feed',
-    businessUnit: 'Poultry Farm Equipment',
-    subCategory: 'Feeding & Watering',
-    category: 'Poultry Facilities',
-    functionCategory: 'Equipment & Automation',
-    speciesTags: ['Pan Feeder', 'Nipple Drinker', 'PLC Control'],
-    description: 'Automated chain-drive or flex-auger pan feeding lines with adjustable pan height and integrated nipple drinking system with pressure regulators ensuring uniform water distribution.',
-    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
-    metrics: { spec1Label: 'Line Length', spec1Value: 'Up to 150m/house', spec2Label: 'Bird-to-Nipple', spec2Value: '1:10 Ratio', spec3Label: 'Install Time', spec3Value: '21 Days' },
+    metrics: { spec1Label: 'Controllers', spec1Value: 'EI-6000PLUS / EI-1000C', spec2Label: 'Cone Fans', spec2Value: 'F50 / EI-50 Louvered', spec3Label: 'Drive Fans', spec3Value: '50/55 EC & Inverter' },
+    buildingSpecs: {
+      features: [
+        'EI-6000PLUS Environmental Controller',
+        'EI-1000C Environmental Controller',
+        'F50 Butterfly Cone Fan',
+        'EI-50 Louvered Cone Fan',
+        '50 Inverter Fan',
+        '50 Shutter Direct-drive EC Fan',
+        'FRP Fans',
+        '55 Direct-drive EC fans',
+      ],
+    },
+    isBrochureSpec: true,
+    isSample: false,
   },
   {
     id: 'pf-06',
-    title: 'Smart Poultry Farm Controller & Environmental Monitor',
-    badge: 'IoT Integration',
+    title: 'Heating System',
+    badge: 'Temperature Control',
     businessUnit: 'Poultry Farm Equipment',
     subCategory: 'Automation',
     category: 'Poultry Facilities',
     functionCategory: 'Equipment & Automation',
-    speciesTags: ['Smart Controller', 'IoT', 'Remote Monitoring'],
-    description: 'Centralized farm management controller integrating ventilation, heating, feeding schedules, and environmental sensors with remote mobile dashboard and real-time alert notifications.',
+    speciesTags: ['Damly Heaters', 'Heat Distribution', 'Controlled Temp'],
+    description: 'A controlled heat distribution system to maintain optimal temperatures for bird comfort, growth, and survival.',
     imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
-    metrics: { spec1Label: 'Sensor Points', spec1Value: '12 per house', spec2Label: 'Uptime', spec2Value: '99.8%', spec3Label: 'Setup', spec3Value: '14 Days' },
+    metrics: { spec1Label: 'Equipment', spec1Value: 'Damly Heaters', spec2Label: 'Function', spec2Value: 'Heat Distribution', spec3Label: 'Purpose', spec3Value: 'Comfort & Survival' },
+    buildingSpecs: {
+      features: ['Damly Heaters', 'Controlled Heat Distribution System', 'Optimal Temperature Regulation'],
+    },
+    isBrochureSpec: true,
+    isSample: false,
+  },
+  {
+    id: 'pf-07',
+    title: 'Feeding System',
+    badge: 'Automated Feeding',
+    businessUnit: 'Poultry Farm Equipment',
+    subCategory: 'Feeding & Watering',
+    category: 'Poultry Facilities',
+    functionCategory: 'Equipment & Automation',
+    speciesTags: ['Automated Feed', 'Metering', 'Feed Distribution'],
+    description: 'Automated or semi-automated system that stores, meters, and uniformly distributes feed using controlled and integrated systems.',
+    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+    metrics: { spec1Label: 'Operation', spec1Value: 'Auto / Semi-Auto', spec2Label: 'Process', spec2Value: 'Store, Meter & Distribute', spec3Label: 'Distribution', spec3Value: 'Uniform Feed' },
+    buildingSpecs: {
+      features: ['Feed Storage & Metering', 'Uniform Feed Distribution', 'Controlled & Integrated Network'],
+    },
+    isBrochureSpec: true,
+    isSample: false,
+  },
+  {
+    id: 'pf-08',
+    title: 'Drinking System',
+    badge: 'Automated Water',
+    businessUnit: 'Poultry Farm Equipment',
+    subCategory: 'Feeding & Watering',
+    category: 'Poultry Facilities',
+    functionCategory: 'Equipment & Automation',
+    speciesTags: ['Water Delivery', 'Uniform Access', 'Regulated Flow'],
+    description: 'Automated water delivery system ensuring clean supply, uniform access, and regulated flow via integrated networks and controls.',
+    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+    metrics: { spec1Label: 'Supply', spec1Value: 'Clean Supply', spec2Label: 'Access', spec2Value: 'Uniform Access', spec3Label: 'Control', spec3Value: 'Regulated Flow' },
+    buildingSpecs: {
+      features: ['Automated Water Delivery', 'Uniform Access & Clean Supply', 'Integrated Network & Flow Controls'],
+    },
+    isBrochureSpec: true,
+    isSample: false,
+  },
+  {
+    id: 'pf-09',
+    title: 'Medication System',
+    badge: 'Flock Dosing',
+    businessUnit: 'Poultry Farm Equipment',
+    subCategory: 'Automation',
+    category: 'Poultry Facilities',
+    functionCategory: 'Equipment & Automation',
+    speciesTags: ['Dosatron System', 'Accurate Dosing', 'Vaccines & Supplements'],
+    description: 'A system for delivering medications, vaccines, and supplements through water for accurate dosing and uniform flock treatment.',
+    imageUrl: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80',
+    metrics: { spec1Label: 'Equipment', spec1Value: 'Dosatron System', spec2Label: 'Delivery', spec2Value: 'Water Delivery', spec3Label: 'Dosing', spec3Value: 'Accurate Dosing' },
+    buildingSpecs: {
+      features: ['Dosatron Dosing System', 'Water Delivery Dosing', 'Medications, Vaccines & Supplements', 'Uniform Flock Treatment'],
+    },
+    isBrochureSpec: true,
+    isSample: false,
   },
 
-  // ─── HATCHERY ─────────────────────────────────────────────────────────────
+  // ─── HATCHERY (SAMPLE DEMONSTRATION DATA) ─────────────────────────────────
   {
     id: 'ht-01',
     title: 'Bio-Secure Hatchery Facility Construction',
@@ -173,6 +332,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Full-scale hatchery complex construction with cleanroom-standard unidirectional airflow corridors, vapor-sealed wall panels, epoxy flooring, and centralized HVAC microclimate control for maximum biosecurity.',
     imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Weekly Capacity', spec1Value: '1.2M eggs/week', spec2Label: 'Bio-Pass Rate', spec2Value: '99.2%', spec3Label: 'Build Time', spec3Value: '150 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'ht-02',
@@ -186,6 +347,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Turnkey installation of continuous single-stage incubation setters and hatchers with automated egg turning, precision humidity/temperature control, and CO₂ monitoring for superior hatch rates.',
     imageUrl: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Hatch Rate Gain', spec1Value: '+5% vs. Multi-Stage', spec2Label: 'Temp Accuracy', spec2Value: '±0.1°C', spec3Label: 'Install Time', spec3Value: '60 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'ht-03',
@@ -199,6 +362,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Automated egg receiving, candling conveyor, setter tray loading, and transfer trolley system designed for continuous high-throughput hatchery operations with minimal manual handling.',
     imageUrl: 'https://images.unsplash.com/photo-1565071783230-fe28b5d3c0d6?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Throughput', spec1Value: '60,000 eggs/hr', spec2Label: 'Breakage Rate', spec2Value: '<0.1%', spec3Label: 'Install Time', spec3Value: '45 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'ht-04',
@@ -212,6 +377,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Automated chick pull, sexing conveyor, electronic chick counter, spray vaccination cabinet, and box-filling station designed for high-speed, low-stress day-old chick processing.',
     imageUrl: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Processing Speed', spec1Value: '60,000 chicks/hr', spec2Label: 'Accuracy', spec2Value: '±2 chicks/box', spec3Label: 'Install Time', spec3Value: '30 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'ht-05',
@@ -225,9 +392,11 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Purpose-designed HVAC system for hatchery environments with cascade negative pressure zoning, HEPA filtration, independent room climate control, and automated damper management.',
     imageUrl: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'RH Control', spec1Value: '±2% accuracy', spec2Label: 'Air Changes', spec2Value: '60 ACH', spec3Label: 'Install Time', spec3Value: '60 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
 
-  // ─── FEEDMILL ─────────────────────────────────────────────────────────────
+  // ─── FEEDMILL (SAMPLE DEMONSTRATION DATA) ─────────────────────────────────
   {
     id: 'fm-01',
     title: 'Turnkey Industrial Feedmill Processing Plant',
@@ -240,6 +409,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Complete turnkey feedmill construction from site preparation through commissioning — including heavy reinforced concrete foundations, structural steel framing, silo pedestals, and process building fit-out.',
     imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Capacity', spec1Value: '30 Tons/Hour', spec2Label: 'Uptime', spec2Value: '99.8%', spec3Label: 'Build Time', spec3Value: '180 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'fm-02',
@@ -253,6 +424,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Engineered flat-bottom or hopper-bottom steel grain silos with sweep auger, aeration fans, level sensors, external stairways, and truck receiving pits with capacity to store multiple grain varieties.',
     imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Silo Capacity', spec1Value: '500 – 5,000 MT', spec2Label: 'Material', spec2Value: 'Galvanized Steel', spec3Label: 'Build Time', spec3Value: '90 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'fm-03',
@@ -266,6 +439,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Industrial pellet mill with heavy-duty die and roll assembly, conditioner with steam injection for starch gelatinization, and counterflow cooler for optimal pellet durability and moisture reduction.',
     imageUrl: 'https://images.unsplash.com/photo-1567789884554-0b844b597180?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Output', spec1Value: '10–30 TPH', spec2Label: 'PDI', spec2Value: '≥92%', spec3Label: 'Install Time', spec3Value: '60 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'fm-04',
@@ -279,6 +454,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Computerized PLC-controlled batching system with multi-hopper weigh stations, liquid addition (oils/vitamins), micro-ingredient pre-mixer, and touchscreen HMI for formula management.',
     imageUrl: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Weighing Accuracy', spec1Value: '±0.05%', spec2Label: 'Batch Cycle', spec2Value: '<90 seconds', spec3Label: 'Install Time', spec3Value: '45 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'fm-05',
@@ -292,9 +469,11 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'High-capacity pneumatic conveying lines for grain and meal transfer, integrated with pulse-jet bag filter dust collectors and rotary valves meeting NFPA dust explosion safety standards.',
     imageUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Conveying Rate', spec1Value: '20–50 TPH', spec2Label: 'Filter Efficiency', spec2Value: '99.9%', spec3Label: 'Install Time', spec3Value: '30 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
 
-  // ─── SOLAR SYSTEMS ────────────────────────────────────────────────────────
+  // ─── SOLAR SYSTEMS (SAMPLE DEMONSTRATION DATA) ────────────────────────────
   {
     id: 'sl-01',
     title: 'Rooftop Solar PV System for Poultry & Agri Facilities',
@@ -307,6 +486,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Industrial rooftop solar PV arrays engineered for poultry house and feedmill roofs using Tier-1 monocrystalline panels, stainless mounting systems, and string inverters optimized for daytime operational loads.',
     imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'System Size', spec1Value: '50–500 kWp', spec2Label: 'OPEX Reduction', spec2Value: '35%', spec3Label: 'Install Time', spec3Value: '30 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'sl-02',
@@ -320,6 +501,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Engineered ground-mounted solar arrays on galvanized steel structures with optional single-axis tracker integration for maximum energy yield, designed for agrivoltaic integration alongside farming operations.',
     imageUrl: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'System Size', spec1Value: '200 kWp – 5 MWp', spec2Label: 'Yield Gain (Tracker)', spec2Value: '+25%', spec3Label: 'Install Time', spec3Value: '60 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'sl-03',
@@ -333,6 +516,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Hybrid solar microgrid combining large-scale PV arrays with lithium battery energy storage (BESS) and automatic generator synchronization, providing uninterrupted power for critical feedmill and hatchery operations.',
     imageUrl: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Array Size', spec1Value: '500 kWp – 1.2 MWp', spec2Label: 'Battery Storage', spec2Value: '500 kWh BESS', spec3Label: 'Install Time', spec3Value: '60 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'sl-04',
@@ -346,6 +531,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'End-to-end grid-tied solar PV installation fully compliant with Philippine ERC net metering regulations — including meralco/electric coop interconnection applications, bidirectional meter, and system commissioning.',
     imageUrl: 'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Export Savings', spec1Value: 'Up to ₱7.50/kWh', spec2Label: 'Payback Period', spec2Value: '3–4 Years', spec3Label: 'Install Time', spec3Value: '45 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
   {
     id: 'sl-05',
@@ -359,6 +546,8 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Cloud-based solar PV monitoring platform with real-time yield tracking, inverter fault detection, string-level analytics, and CCDI O&M service packages ensuring maximum system uptime and performance.',
     imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
     metrics: { spec1Label: 'Data Resolution', spec1Value: '5-minute intervals', spec2Label: 'System Availability', spec2Value: '99.5%', spec3Label: 'Setup Time', spec3Value: '7 Days' },
+    isBrochureSpec: false,
+    isSample: true,
   },
 ];
 

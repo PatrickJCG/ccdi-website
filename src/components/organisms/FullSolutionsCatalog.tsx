@@ -1,10 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, RotateCcw, ChevronLeft, ChevronRight, CheckSquare, Square, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { Search, RotateCcw, ChevronLeft, ChevronRight, CheckSquare, Square, SlidersHorizontal } from 'lucide-react';
+
 import { MOCK_PRODUCTS, BUSINESS_UNITS } from '../../data/mockProducts';
 import type { Product, BusinessUnit } from '../../data/mockProducts';
 import { ProductCard } from '../molecules';
 import { Button } from '../atoms';
+import { EndToEndHeader } from './EndToEndHeader';
+
 
 export interface FullSolutionsCatalogProps {
   inquiryItems?: Product[];
@@ -137,20 +140,31 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
             <span className="text-amber-400 font-semibold">Solutions</span>
           </nav>
 
-          <div className="max-w-3xl space-y-3">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/12 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Turnkey Agro-Industrial Catalog</span>
-            </span>
-
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight text-white drop-shadow-md">
-              Our Full <span className="text-amber-400">Solutions Catalog</span>
-            </h1>
-
-            <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed">
-              Explore our complete suite of agro-industrial solutions across Poultry Facilities, Hatcheries, Feedmills, and Solar Energy Integration.
-            </p>
-          </div>
+          {/* Interactive End-To-End Header */}
+          <EndToEndHeader
+            tag="Turnkey Agro-Industrial Catalog"
+            title="Our Full Solutions Catalog"
+            subtitle="Explore our complete suite of agro-industrial solutions across Poultry Facilities, Hatcheries, Feedmills, and Solar Energy Integration. Click on any step below (1–8) to expand full execution specs."
+            lightMode={false}
+            onStepSelect={(stepNum) => {
+              // Map steps to business units
+              const stepBUMap: Record<number, BusinessUnit> = {
+                1: 'Poultry Farm Equipment',
+                2: 'Poultry Farm Equipment',
+                3: 'Hatchery',
+                4: 'Poultry Farm Equipment',
+                5: 'Feedmill',
+                6: 'Poultry Farm Equipment',
+                7: 'Hatchery',
+                8: 'Solar Systems',
+              };
+              const targetBU = stepBUMap[stepNum];
+              if (targetBU) {
+                setSelectedBUs([targetBU]);
+                setCurrentPage(1);
+              }
+            }}
+          />
         </div>
 
         {/* Bottom Gold Accent Stripe */}

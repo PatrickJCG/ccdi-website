@@ -1,5 +1,4 @@
 export * from './Navbar';
-export * from './Hero';
 export * from './HeroSection';
 export * from './CompanySection';
 export * from './ProductPreview';
@@ -13,3 +12,7 @@ export * from './NewsSection';
 export * from './ContactSection';
 export * from './Footer';
 export * from './PageLayout';
+export * from './TurnkeyApproach';
+export * from './EndToEndHeader';
+
+

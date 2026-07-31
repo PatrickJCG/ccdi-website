@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, ShoppingBag, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -8,11 +8,11 @@ export interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { name: 'Home',           href: '/' },
-  { name: 'About Us',       href: '#about' },
-  { name: 'Our Solutions',  href: '/solutions', to: '/solutions' },
-  { name: 'News & Updates', href: '/news',      to: '/news' },
-  { name: 'Contact',        href: '#contact' },
+  { name: 'Home',           path: '/',          hash: '' },
+  { name: 'About Us',       path: '/',          hash: '#about' },
+  { name: 'Our Solutions',  path: '/solutions', hash: '' },
+  { name: 'News & Updates', path: '/news',      hash: '' },
+  { name: 'Contact',        path: '',           hash: '#contact' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
@@ -30,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Active section tracking — scroll-position based (more reliable than IntersectionObserver)
+  // Active section tracking — scroll-position based
   useEffect(() => {
     if (location.pathname === '/solutions' || location.pathname === '/products') {
       setActiveSection('solutions'); return;
@@ -44,9 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
     const SECTION_IDS = ['home', 'about', 'contact'];
 
     const getActiveSection = () => {
-      // Use a trigger line at 40% from the top of the viewport
       const triggerY = window.scrollY + window.innerHeight * 0.4;
-
       let current = 'home';
       for (const id of SECTION_IDS) {
         const el = document.getElementById(id);
@@ -59,12 +57,10 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
       setActiveSection(current);
     };
 
-    // Run immediately and on every scroll
     getActiveSection();
     window.addEventListener('scroll', getActiveSection, { passive: true });
     return () => window.removeEventListener('scroll', getActiveSection);
   }, [location.pathname]);
-
 
   // Body scroll lock
   useEffect(() => {
@@ -72,43 +68,47 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  const handleHomeClick = (e: React.MouseEvent) => {
+  const handleNavClick = (e: React.MouseEvent, path: string, hash: string = '') => {
+    e.preventDefault();
     setIsOpen(false);
-    if (location.pathname === '/') {
-      e.preventDefault();
+
+    // 1. If targeting a hash section (#about, #contact)
+    if (hash) {
+      const targetId = hash.replace('#', '');
+      const element = document.getElementById(targetId);
+
+      if (element) {
+        const offset = 72;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const offsetPosition = elementRect - bodyRect - offset;
+        window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
+      } else {
+        const destPath = path || '/';
+        navigate(destPath + hash);
+      }
+      return;
+    }
+
+    // 2. If targeting a page route (/, /solutions, /news)
+    if (location.pathname === path) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      navigate('/');
-      window.scrollTo({ top: 0 });
-    }
-  };
-
-  const handleAnchorClick = (e: React.MouseEvent, href: string) => {
-    setIsOpen(false);
-    if (href === '/') { handleHomeClick(e); return; }
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      const el = document.getElementById(href.replace('#', ''));
-      if (location.pathname === '/' && el) {
-        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
-      } else {
-        navigate('/' + href);
-      }
+      navigate(path);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 50);
     }
   };
 
   const isLinkActive = (link: (typeof NAV_LINKS)[0]) => {
-    // /solutions page
-    if (link.to === '/solutions') return activeSection === 'solutions';
-    // /news page
-    if (link.to === '/news') return activeSection === 'news';
-    // Home
-    if (link.href === '/') return activeSection === 'home';
-    // Hash sections (#about, #contact)
-    if (link.href.startsWith('#')) return activeSection === link.href.slice(1);
+    if (link.path === '/solutions') return activeSection === 'solutions';
+    if (link.path === '/news') return activeSection === 'news';
+    if (link.path === '/' && !link.hash) return activeSection === 'home';
+    if (link.hash) return activeSection === link.hash.replace('#', '');
     return false;
   };
-
 
   return (
     <>
@@ -126,9 +126,9 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
           <div className="flex items-center justify-between h-[64px]">
 
             {/* ── Logo ──────────────────────────────────────────── */}
-            <Link
-              to="/"
-              onClick={handleHomeClick}
+            <a
+              href="/"
+              onClick={(e) => handleNavClick(e, '/')}
               className="flex items-center gap-3 shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
               aria-label="CCDI Home"
             >
@@ -148,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
                   Dev't Inc. · Agro-Industrial EPC
                 </p>
               </div>
-            </Link>
+            </a>
 
             {/* ── Desktop Nav ─────────────────────────────────── */}
             <nav className="hidden lg:flex items-center bg-white/5 rounded-full px-1.5 py-1.5 border border-white/10 gap-0.5" aria-label="Main navigation">
@@ -156,20 +156,21 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
                 const active = isLinkActive(link);
 
                 const cls = [
-                  'relative px-4 py-2 rounded-full text-[13px] font-semibold transition-all duration-300 whitespace-nowrap outline-none',
+                  'relative px-4 py-2 rounded-full text-[13px] font-semibold transition-all duration-300 whitespace-nowrap outline-none cursor-pointer',
                   active
-                    ? 'text-slate-950 bg-amber-400'
+                    ? 'text-slate-950 bg-amber-400 font-bold'
                     : 'text-white/80 hover:text-white hover:bg-white/10',
                 ].join(' ');
 
-                if (link.to) return (
-                  <Link key={link.name} to={link.to} className={cls}>{link.name}</Link>
-                );
-                if (link.href === '/') return (
-                  <Link key={link.name} to="/" onClick={handleHomeClick} className={cls}>{link.name}</Link>
-                );
                 return (
-                  <a key={link.name} href={link.href} onClick={e => handleAnchorClick(e, link.href)} className={cls}>{link.name}</a>
+                  <a
+                    key={link.name}
+                    href={link.path + link.hash}
+                    onClick={(e) => handleNavClick(e, link.path, link.hash)}
+                    className={cls}
+                  >
+                    {link.name}
+                  </a>
                 );
               })}
             </nav>
@@ -180,7 +181,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
                 <motion.button
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  onClick={e => handleAnchorClick(e, '#contact')}
+                  onClick={(e) => handleNavClick(e, '', '#contact')}
                   className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold hover:bg-white/15 transition-all"
                 >
                   <ShoppingBag className="w-3.5 h-3.5 text-amber-400 shrink-0" />
@@ -190,7 +191,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
 
               <a
                 href="#contact"
-                onClick={e => handleAnchorClick(e, '#contact')}
+                onClick={(e) => handleNavClick(e, '', '#contact')}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-[13px] text-slate-950 bg-amber-400 hover:bg-amber-300 shadow-md shadow-amber-500/20 hover:shadow-amber-400/30 hover:-translate-y-0.5 active:scale-[0.97] transition-all duration-200"
               >
                 <Phone className="w-3.5 h-3.5 shrink-0" />
@@ -260,7 +261,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
                 {NAV_LINKS.map(link => {
                   const active = isLinkActive(link);
                   const cls = [
-                    'flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-sm font-semibold transition-all duration-200',
+                    'flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer',
                     active
                       ? 'bg-amber-400 text-slate-950 font-bold'
                       : 'text-white/80 hover:bg-white/8 hover:text-white',
@@ -268,18 +269,13 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
 
                   const arrow = <ChevronRight className={['w-4 h-4', active ? 'text-slate-950/70' : 'text-white/30'].join(' ')} />;
 
-                  if (link.to) return (
-                    <Link key={link.name} to={link.to} onClick={() => setIsOpen(false)} className={cls}>
-                      <span>{link.name}</span>{arrow}
-                    </Link>
-                  );
-                  if (link.href === '/') return (
-                    <Link key={link.name} to="/" onClick={handleHomeClick} className={cls}>
-                      <span>{link.name}</span>{arrow}
-                    </Link>
-                  );
                   return (
-                    <a key={link.name} href={link.href} onClick={e => handleAnchorClick(e, link.href)} className={cls}>
+                    <a
+                      key={link.name}
+                      href={link.path + link.hash}
+                      onClick={(e) => handleNavClick(e, link.path, link.hash)}
+                      className={cls}
+                    >
                       <span>{link.name}</span>{arrow}
                     </a>
                   );
@@ -289,7 +285,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
               <div className="px-4 pb-5 pt-2 border-t border-white/8 space-y-3">
                 <a
                   href="#contact"
-                  onClick={e => handleAnchorClick(e, '#contact')}
+                  onClick={(e) => handleNavClick(e, '', '#contact')}
                   className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-sm text-slate-950 bg-amber-400 hover:bg-amber-300 shadow-md transition-all"
                 >
                   <Phone className="w-4 h-4 shrink-0" />

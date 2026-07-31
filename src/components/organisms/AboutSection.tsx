@@ -18,6 +18,8 @@ import {
 import { SectionHeader } from '../atoms';
 import { QualityCard } from '../molecules';
 
+
+
 export const AboutSection: React.FC = () => {
   const qualityIcons = [
     <Award        className="w-5 h-5 text-construction_gold-600" key="1" />,
