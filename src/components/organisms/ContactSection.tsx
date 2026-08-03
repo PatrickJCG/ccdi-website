@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Mail, MapPin, Phone, Clock, ShieldCheck, X, Building2,
@@ -18,7 +18,7 @@ const SERVICE_CATEGORIES = [
   { id: "Hatchery", title: "Hatchery Construction",   icon: Egg     },
   { id: "Feedmill", title: "Feedmill Systems",         icon: Factory },
   { id: "Solar",    title: "Solar PV Integration",    icon: Sun     },
-  { id: "General",  title: "General EPC Construction", icon: HardHat },
+  { id: "General",  title: "General Construction",    icon: HardHat },
 ];
 
 const OFFICES = [
@@ -159,7 +159,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, on
           viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto space-y-4">
           <span className="inline-block px-4 py-1.5 rounded-full bg-amber-400/12 border border-amber-400/30 text-amber-400 text-[11px] font-bold uppercase tracking-widest">
-            Turnkey EPC Engineering Consultations
+            Turnkey Facility Consultations
           </span>
           <h2 className="text-3xl sm:text-5xl font-black font-heading leading-tight text-white drop-shadow-md">
             Partner With CCDI For Your <span className="text-amber-400">Agro-Industrial Build</span>
@@ -201,7 +201,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, on
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-2 pt-2 border-t border-white/8 text-center">
-                {[{ icon: ShieldCheck, label: "Biosecure" }, { icon: Zap, label: "Turnkey EPC" }, { icon: CheckCircle2, label: "Tier-1 Source" }].map(({ icon: Icon, label }) => (
+                {[{ icon: ShieldCheck, label: "Biosecure" }, { icon: Zap, label: "Turnkey Design" }, { icon: CheckCircle2, label: "Tier-1 Source" }].map(({ icon: Icon, label }) => (
                   <div key={label} className="space-y-1">
                     <Icon className="w-4 h-4 text-amber-400 mx-auto" />
                     <p className="text-[10px] font-semibold text-slate-400">{label}</p>

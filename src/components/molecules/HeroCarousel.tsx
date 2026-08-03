@@ -56,7 +56,7 @@ export const FULL_HERO_SLIDES: FullHeroSlide[] = [
     ctaSecondary: 'Our Strengths',
     ctaSecondaryHref: '#about',
     imageUrl: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=2000&q=80',
-    badgeText: 'Turnkey EPC Engineering'
+    badgeText: 'Turnkey Facility Engineering'
   },
   {
     id: 'slide-4',
@@ -274,7 +274,7 @@ export const HeroCarousel: React.FC = () => {
               <div className="pt-2 sm:pt-4 flex flex-wrap items-center gap-3 sm:gap-6 text-xs text-slate-300 font-medium">
                 <span className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Turnkey EPC Delivery</span>
+                  <span>Turnkey Facility Delivery</span>
                 </span>
                 <span className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-amber-300" />

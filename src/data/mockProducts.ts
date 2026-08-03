@@ -589,8 +589,8 @@ export const MOCK_QUALITY_ITEMS = [
   },
   {
     id: 'q5',
-    title: 'Turnkey EPC Capability',
-    certCode: 'Full Scope EPC',
+    title: 'Turnkey Design & Build Capability',
+    certCode: 'Full Scope Integration',
     description: 'Single-source accountability from initial architectural design and civil engineering to equipment commissioning.',
   },
   {

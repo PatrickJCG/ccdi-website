@@ -132,20 +132,20 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount }) => {
               className="flex items-center gap-3 shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
               aria-label="CCDI Home"
             >
-              <div className="bg-white rounded-lg p-1.5 shadow-md transition-transform duration-300 group-hover:scale-105">
+              <div className="bg-white rounded-lg p-1.5 shadow-md transition-transform duration-300 group-hover:scale-105 flex items-center justify-center">
                 <img
                   src="/ccdi-logo.png"
                   alt="Clarkbase Construction Dev't Inc."
                   draggable={false}
-                  className="h-9 w-auto object-contain"
+                  className="h-9 sm:h-10 w-auto object-contain"
                 />
               </div>
-              <div className="hidden xl:block">
-                <p className="text-[11px] font-black tracking-widest text-white uppercase leading-none">
-                  Clarkbase Construction
+              <div className="hidden sm:flex flex-col justify-center select-none">
+                <p className="text-[17px] sm:text-[19px] font-black tracking-[0.22em] text-white uppercase leading-none group-hover:text-amber-300 transition-colors">
+                  Clarkbase
                 </p>
-                <p className="text-[9px] font-semibold text-amber-400 tracking-widest uppercase mt-0.5">
-                  Dev't Inc. · Agro-Industrial EPC
+                <p className="text-[9.5px] sm:text-[10px] font-bold text-amber-400 tracking-wider uppercase leading-none mt-1 whitespace-nowrap">
+                  Construction Dev't Inc.
                 </p>
               </div>
             </a>

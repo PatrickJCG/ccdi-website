@@ -147,7 +147,7 @@ Modern agribusiness requires more than basic shelter—it demands intelligent, b
   * **Rooftop & Ground-Mounted PV Arrays:** Custom structural mounting designed to withstand high wind loads on farm roofs and open lands.
   * **Hybrid & On-Grid Inverter Systems:** Seamless power sync with utility grids and back-up diesel generators for uninterrupted operations.
   * **Substantial Opex Reduction:** Drastically lower daytime electricity bills for cooling fans, incubators, and feedmill motors.
-  * **Turnkey EPC Services:** Complete Engineering, Procurement, and Construction—including net-metering assistance and system monitoring.
+  * **Turnkey Engineering Services:** Complete Engineering, Procurement, and Construction—including net-metering assistance and system monitoring.
 
 ---
 ---

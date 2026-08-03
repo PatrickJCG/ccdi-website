@@ -7,7 +7,7 @@ const SOLUTION_LINKS = [
   'Hatchery Construction',
   'Feedmill Systems',
   'Solar Energy Integration',
-  'General EPC Construction',
+  'General Construction',
 ];
 
 const COMPANY_LINKS = [
@@ -16,8 +16,6 @@ const COMPANY_LINKS = [
   { label: 'News & Updates', href: '/news' },
   { label: 'Contact Us',      href: '/#contact' },
 ];
-
-const CERTIFICATIONS = ['ISO 9001', 'PCAB Licensed', 'Turnkey EPC', 'Biosecure'];
 
 export const Footer: React.FC = () => {
   const navigate = useNavigate();
@@ -38,7 +36,7 @@ export const Footer: React.FC = () => {
               Ready to Start Your Project?
             </p>
             <p className="text-lg sm:text-xl font-extrabold text-white leading-tight">
-              Partner with CCDI — Philippines' Premier Agro-Industrial EPC
+              Partner with CCDI — Philippines' Premier Agro-Industrial Partner
             </p>
           </div>
           <button
@@ -59,39 +57,29 @@ export const Footer: React.FC = () => {
 
           {/* Brand Column */}
           <div className="lg:col-span-4 space-y-5">
-            <Link to="/" className="inline-block">
-              <div className="bg-white rounded-xl p-2 shadow inline-block">
+            <Link to="/" className="inline-flex items-center gap-3.5 group">
+              <div className="bg-white rounded-xl p-2 shadow flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
                 <img
                   src="/ccdi-logo.png"
                   alt="Clarkbase Construction Dev't Inc."
-                  className="h-12 w-auto object-contain"
+                  className="h-11 w-auto object-contain"
                   draggable={false}
                 />
+              </div>
+              <div className="flex flex-col justify-center select-none">
+                <p className="text-[17px] font-black tracking-[0.22em] text-white uppercase leading-none group-hover:text-amber-300 transition-colors">
+                  Clarkbase
+                </p>
+                <p className="text-[10px] font-bold text-amber-400 tracking-wider uppercase leading-none mt-1 whitespace-nowrap">
+                  Construction Dev't Inc.
+                </p>
               </div>
             </Link>
 
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-              Clarkbase Construction Dev't Inc. (CCDI) — a Philippine-based agro-industrial
-              solutions provider delivering turnkey EPC engineering for poultry, hatchery,
-              feedmill, and solar energy projects.
+              A premier Philippine-based agro-industrial solutions provider delivering turnkey
+              engineering for poultry, hatchery, feedmill, and solar energy projects.
             </p>
-
-            {/* Cert badges */}
-            <div>
-              <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-2">
-                Engineering Standards
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {CERTIFICATIONS.map(cert => (
-                  <span
-                    key={cert}
-                    className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-amber-400/8 border border-amber-400/20 text-amber-400"
-                  >
-                    {cert}
-                  </span>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Our Solutions */}

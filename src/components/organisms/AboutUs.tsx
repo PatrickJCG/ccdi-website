@@ -7,7 +7,7 @@ import { Eye, Target, HeartHandshake, Award, Zap, Users, Leaf, ChevronDown } fro
 const STATS = [
   { value: '2019', label: 'Year Established', sublabel: 'Pioneering Industry Growth' },
   { value: '100%', label: 'Bio-Security Standard', sublabel: 'Strict Pathogen Defense' },
-  { value: 'Turnkey', label: 'EPC Engineering', sublabel: 'End-to-End Design & Build' },
+  { value: 'Turnkey', label: 'Facility Engineering', sublabel: 'End-to-End Design & Build' },
   { value: 'Direct', label: 'Global Sourcing', sublabel: 'Tier-One Factory Warranties' },
 ];
 
