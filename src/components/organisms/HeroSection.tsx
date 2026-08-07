@@ -12,11 +12,13 @@ export interface HeroSectionProps {
 const VIDEO_SRC = '/ccdi vid.mp4';
 const POSTER = 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1200&q=75';
 
-const HIGHLIGHTS = [
-  { icon: ShieldCheck, label: 'Poultry', sub: 'Bio-Secure Housing' },
-  { icon: Layers,      label: 'Hatcheries', sub: 'Incubation Systems' },
-  { icon: Factory,     label: 'Feedmills', sub: 'Automated Batching' },
-  { icon: Sun,         label: 'Solar Energy', sub: 'Clean PV Integration' },
+import type { BusinessUnit } from '../../data/mockProducts';
+
+const HIGHLIGHTS: Array<{ icon: any; label: string; sub: string; bu: BusinessUnit }> = [
+  { icon: ShieldCheck, label: 'Poultry',      sub: 'Bio-Secure Housing',   bu: 'Poultry Farm Equipment' },
+  { icon: Layers,      label: 'Hatcheries',   sub: 'Incubation Systems',   bu: 'Hatchery' },
+  { icon: Factory,     label: 'Feedmills',    sub: 'Automated Batching',   bu: 'Feedmill' },
+  { icon: Sun,         label: 'Solar Energy', sub: 'Clean PV Integration', bu: 'Solar Systems' },
 ];
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -149,10 +151,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             transition={{ duration: 0.65, delay: 0.45 }}
             className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/15"
           >
-            {HIGHLIGHTS.map(({ icon: Icon, label, sub }) => (
+            {HIGHLIGHTS.map(({ icon: Icon, label, sub, bu }) => (
               <div
                 key={label}
-                onClick={() => navigate('/solutions')}
+                onClick={() => navigate(`/solutions?bu=${encodeURIComponent(bu)}`)}
                 className="flex items-center gap-3 p-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 shadow-md hover:bg-white/12 hover:border-amber-400/50 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 cursor-pointer group"
               >
                 <div className="w-9 h-9 rounded-lg bg-amber-400/20 group-hover:bg-amber-400/30 flex items-center justify-center shrink-0 border border-amber-400/30 transition-colors">

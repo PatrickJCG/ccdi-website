@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FullSolutionsCatalog } from '../components/organisms/FullSolutionsCatalog';
+import { ProductCatalog } from '../components/organisms/ProductCatalog';
 import { ContactSection } from '../components/organisms/ContactSection';
 import type { Product } from '../data/mockProducts';
 
@@ -22,12 +22,10 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
 
   return (
     <>
-      {/* PAGE 2: FULL SOLUTIONS CATALOG (<FullSolutionsCatalog />) */}
-      <FullSolutionsCatalog
+      <ProductCatalog
         inquiryItems={inquiryItems}
         onToggleInquiry={onToggleInquiry}
       />
-      {/* SHARED CONTACT & INQUIRY FORM */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}
