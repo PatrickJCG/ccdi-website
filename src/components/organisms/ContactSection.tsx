@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Mail, MapPin, Phone, Clock, ShieldCheck, X, Building2,
   CheckCircle2, Zap, Copy, Check, ExternalLink, User, FileText,
-  Layers, Home, Egg, Factory, Sun, HardHat, Trash2,
+  Layers, Home, Egg, Factory, Sun, HardHat, Trash2, Sparkles,
 } from "lucide-react";
 import type { Product } from "../../data/mockProducts";
 
@@ -112,7 +112,12 @@ const InquiryAttachments: React.FC<{ inquiryItems: Product[]; onRemoveInquiryIte
       </div>
       <div className="flex flex-wrap gap-2">
         {inquiryItems.map(item => (
-          <span key={item.id} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/40 border border-amber-400/20 text-xs font-semibold text-white">
+          <span key={item.id} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white border ${item.isSoftLaunch ? 'bg-gradient-to-r from-purple-950/80 to-slate-900 border-purple-400/40' : 'bg-black/40 border-amber-400/20'}`}>
+            {item.isSoftLaunch && (
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-purple-600 text-[9px] font-extrabold uppercase text-white">
+                <Sparkles className="w-2.5 h-2.5 text-amber-300" /> Listing Soon
+              </span>
+            )}
             {item.title}
             <button type="button" onClick={() => onRemoveInquiryItem(item.id)}
               className="ml-0.5 text-slate-400 hover:text-amber-400 transition-colors">

@@ -43,6 +43,10 @@ export interface Product {
   materials?: StructuralMaterials;
   isBrochureSpec?: boolean;
   isSample?: boolean;
+  isSoftLaunch?: boolean;
+  softLaunchBadge?: string;
+  softLaunchNotice?: string;
+  estimatedAvailability?: string;
 }
 
 export const BUSINESS_UNITS: BusinessUnit[] = [
@@ -99,6 +103,100 @@ export const MOCK_FUNCTION_CATEGORIES = [
 ];
 
 export const MOCK_PRODUCTS: Product[] = [
+
+  // ─── SOFT LAUNCH / LISTING SOON FEATURED PRODUCTS ──────────────────────
+  {
+    id: 'pf-soft-01',
+    title: 'AI-Driven Microclimate Controller Pro',
+    badge: 'Listing Soon',
+    businessUnit: 'Poultry Farm Equipment',
+    subCategory: 'Automation',
+    category: 'Poultry Facilities',
+    functionCategory: 'Equipment & Automation',
+    speciesTags: ['Broiler', 'Breeder', 'Layer', 'AI Controller', 'IoT Telemetry'],
+    description: 'Next-generation climate management unit with multi-zone humidity control, automated static pressure balance, and real-time remote cloud telemetry. Commercial sales and installation reservations are open while detailed specs are on hold.',
+    imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
+    metrics: { spec1Label: 'Status', spec1Value: 'Listing Soon', spec2Label: 'Telemetry', spec2Value: 'Cloud IoT 5G', spec3Label: 'Availability', spec3Value: 'Q3 2026 Pre-Order' },
+    buildingSpecs: {
+      buildingType: 'Climate Control Unit',
+      dimensions: 'Custom Modular Panel',
+      birdCapacity: '50,000 - 200,000 birds',
+      features: ['Predictive AI Ventilation', 'Multi-Zone Sensor Array', 'Mobile App Remote Control', 'Backup Power Auto-Failover'],
+    },
+    isSoftLaunch: true,
+    softLaunchBadge: 'Listing Soon',
+    softLaunchNotice: 'This high-performance climate controller is ready for commercial order and project design inquiries. Detailed engineering datasheets, pinout diagrams, and software integration manuals are currently on hold pending final release.',
+    estimatedAvailability: 'Q3 2026 / Pre-Orders Open',
+  },
+  {
+    id: 'ha-soft-01',
+    title: 'Robotic High-Speed Egg Transfer System',
+    badge: 'Listing Soon',
+    businessUnit: 'Hatchery',
+    subCategory: 'Egg Handling',
+    category: 'Hatchery Construction',
+    functionCategory: 'Equipment & Automation',
+    speciesTags: ['Hatchery', 'Egg Handling', 'Robotics', 'Candling'],
+    description: 'Automated egg transfer and candling system with optical machine vision for rapid traying and zero-microfracture handling. Taking early project inquiries ahead of official spec release.',
+    imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+    metrics: { spec1Label: 'Throughput', spec1Value: '90,000 eggs/hr (Est.)', spec2Label: 'Vision System', spec2Value: 'AI Candling 4K', spec3Label: 'Availability', spec3Value: 'Listing Soon' },
+    buildingSpecs: {
+      buildingType: 'Automation System',
+      dimensions: '4.5m x 2.2m x 2.1m',
+      birdCapacity: 'N/A (Hatchery Module)',
+      features: ['Optical AI Micro-crack Detection', 'Gentle Vacuum Grip', 'Automated Tray Washing Sync', 'High-Speed Servo Actuation'],
+    },
+    isSoftLaunch: true,
+    softLaunchBadge: 'Listing Soon',
+    softLaunchNotice: 'The Robotic Egg Transfer System is open for commercial project planning and purchase reservations. Technical manuals and electrical schematics are on hold pending final factory certification.',
+    estimatedAvailability: 'Early Access Reservations Open',
+  },
+  {
+    id: 'fm-soft-01',
+    title: 'Hyper-Scale Silo & Pneumatic Tower Complex 10K',
+    badge: 'Listing Soon',
+    businessUnit: 'Feedmill',
+    subCategory: 'Storage & Silos',
+    category: 'Feedmill Systems',
+    functionCategory: 'Civil & Structural Construction',
+    speciesTags: ['Feedmill', 'Storage Silo', 'Bulk Grain', 'Pneumatic Conveying'],
+    description: 'Ultra-high-capacity corrugated steel grain silo array equipped with automated aeration, digital grain temperature monitoring, and high-volume pneumatic conveying.',
+    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+    metrics: { spec1Label: 'Capacity', spec1Value: '10,000 MT Bulk', spec2Label: 'Structure', spec2Value: 'Galvanized Z600', spec3Label: 'Status', spec3Value: 'Listing Soon' },
+    buildingSpecs: {
+      buildingType: 'Industrial Silo Complex',
+      dimensions: '32m Diameter x 28m Height',
+      birdCapacity: 'Feed Storage for 2M+ Birds',
+      features: ['3D Grain Radar Leveling', 'Automated Aeration Recirculation', 'Explosion-Proof Dust Extraction', 'Z600 Heavy Galvanized Coating'],
+    },
+    isSoftLaunch: true,
+    softLaunchBadge: 'Listing Soon',
+    softLaunchNotice: 'Available for turnkey project proposal requests and site layout design. Structural engineering calculation packages are undergoing final PCAB/ISO audit.',
+    estimatedAvailability: 'Q4 2026 Commercial Delivery',
+  },
+  {
+    id: 'sol-soft-01',
+    title: 'Agrivoltaic Dual-Axis Solar Tracker Array',
+    badge: 'Listing Soon',
+    businessUnit: 'Solar Systems',
+    subCategory: 'Ground-Mounted',
+    category: 'Solar Energy Integration',
+    functionCategory: 'Renewable Energy Integration',
+    speciesTags: ['Solar PV', 'Agrivoltaic', 'Dual-Axis Tracker', 'Farm Microgrid'],
+    description: 'High-yield ground-mounted solar tracker optimized for agricultural land integration. Enables simultaneous livestock/crop shade management and high-efficiency power generation.',
+    imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+    metrics: { spec1Label: 'Yield Gain', spec1Value: '+28% vs Fixed', spec2Label: 'Tracking', spec2Value: 'Dual-Axis GPS', spec3Label: 'Availability', spec3Value: 'Listing Soon' },
+    buildingSpecs: {
+      buildingType: 'Solar Microgrid System',
+      dimensions: 'Modular 250 kWp Block',
+      birdCapacity: 'Integrated Farm Shade',
+      features: ['Active Astronomical Tracking', 'High-Clearance Agrivoltaic Structure', 'Storm Auto-Stow Mode', 'Bifacial Solar Module Support'],
+    },
+    isSoftLaunch: true,
+    softLaunchBadge: 'Listing Soon',
+    softLaunchNotice: 'Currently in commercial soft launch. Clients can request project site feasibility and preliminary ROI calculations while final wind-load certification datasheets are on hold.',
+    estimatedAvailability: 'Commercial Orders Open',
+  },
 
   // ─── POULTRY FARM EQUIPMENT (EXACT DATA FROM BROCHURES) ───────────────────
   {

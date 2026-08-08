@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, ShieldCheck, Wrench, Layers, Building2, Wind, Plus, Check, Info } from "lucide-react";
+import { X, CheckCircle2, ShieldCheck, Wrench, Layers, Building2, Wind, Plus, Check, Info, Sparkles } from "lucide-react";
 import type { Product } from "../../data/mockProducts";
 
 export interface ProductSpecsModalProps {
@@ -43,7 +43,7 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
           className="relative w-full max-w-4xl bg-[#091A2C] border border-amber-400/30 rounded-3xl shadow-2xl overflow-hidden z-10 my-auto text-white"
         >
           {/* Header Bar Accent */}
-          <div className="h-1.5 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400" />
+          <div className={`h-1.5 ${product.isSoftLaunch ? 'bg-gradient-to-r from-purple-500 via-indigo-500 to-amber-400' : 'bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400'}`} />
 
           {/* Close Button */}
           <button
@@ -65,7 +65,12 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                   {product.subCategory}
                 </span>
                 
-                {product.isSample ? (
+                {product.isSoftLaunch ? (
+                  <span className="px-3.5 py-1 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-black uppercase tracking-wider ml-auto shadow flex items-center gap-1.5 border border-purple-400/30">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                    {product.softLaunchBadge || 'Listing Soon'}
+                  </span>
+                ) : product.isSample ? (
                   <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-600 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 ml-auto">
                     <Info className="w-4 h-4 text-blue-400" />
                     Sample Demonstration Data
@@ -81,13 +86,69 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                 {product.title}
               </h2>
 
-              <p className="text-sm text-slate-300 leading-relaxed">
-                {product.description}
-              </p>
+              {!product.isSoftLaunch && (
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  {product.description}
+                </p>
+              )}
             </div>
 
-            {/* Building Specs Box (If Available) */}
-            {buildingSpecs && (
+            {/* Soft Launch Alert Box & CCDI Brand Card */}
+            {product.isSoftLaunch && (
+              <div className="space-y-4">
+                {/* CCDI Uniform Brand Layout Graphic */}
+                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#07162A] via-[#0D2644] to-[#122D4F] border border-amber-400/30 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xl">
+                  <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none" />
+
+                  {/* Subtle Silhouette Watermark of CCDI Logo */}
+                  <div className="absolute inset-0 flex items-center justify-end pr-6 pointer-events-none overflow-hidden">
+                    <img
+                      src="/ccdi-logo.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="w-72 max-w-none opacity-10 brightness-200 contrast-125 scale-125"
+                    />
+                  </div>
+                  <div className="flex items-center gap-3.5 relative z-10">
+                    <div className="bg-white/95 backdrop-blur-md rounded-xl p-2.5 shadow-md border border-white/20 shrink-0">
+                      <img src="/ccdi-logo.png" alt="CCDI Logo" className="h-10 w-auto object-contain" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-black tracking-[0.2em] text-white uppercase">Clarkbase Construction Dev't Inc.</p>
+                      <p className="text-[11px] font-extrabold text-amber-400 uppercase tracking-widest mt-0.5">Turnkey Agro-Industrial Portfolio</p>
+                    </div>
+                  </div>
+                  <span className="px-3.5 py-1.5 rounded-full bg-purple-600/30 border border-purple-400/40 text-purple-200 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shrink-0 shadow relative z-10">
+                    <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+                    Listing Soon
+                  </span>
+                </div>
+
+                {/* Soft Launch Notice */}
+                <div className="bg-gradient-to-r from-purple-950/80 via-indigo-950/80 to-slate-900 border border-purple-500/40 rounded-2xl p-5 shadow-xl space-y-3">
+                  <div className="flex items-center justify-between gap-3 border-b border-purple-500/20 pb-3">
+                    <div className="flex items-center gap-2 text-purple-300 font-extrabold text-xs uppercase tracking-widest">
+                      <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+                      <span>Listing Soon — Commercial Inquiry Status</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-amber-300 bg-amber-400/20 border border-amber-400/30 px-3 py-0.5 rounded-full">
+                      {product.estimatedAvailability || 'Taking Pre-Orders'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-200 leading-relaxed font-medium">
+                    {product.softLaunchNotice ||
+                      'This product is ready for commercial order and project design inquiries. Official datasheets and detailed engineering blueprints are currently on hold pending final release.'}
+                  </p>
+                  <div className="flex items-center gap-2 pt-1 text-[11px] text-purple-300 font-semibold">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span>Commercial quotes & early access reservations are currently ACTIVE for this item.</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Building Specs Box (If Available and Not Soft Launched) */}
+            {!product.isSoftLaunch && buildingSpecs && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
                 <div className="flex items-center gap-2 text-amber-400 font-extrabold text-sm uppercase tracking-wider">
                   <Building2 className="w-4 h-4" />
@@ -128,8 +189,8 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
               </div>
             )}
 
-            {/* Materials Breakdown (If Available) */}
-            {materials && (
+            {/* Materials Breakdown (If Available and Not Soft Launched) */}
+            {!product.isSoftLaunch && materials && (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-amber-400 font-extrabold text-sm uppercase tracking-wider">
@@ -223,21 +284,23 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
               </div>
             )}
 
-            {/* Metrics summary */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
-                <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec1Label}</p>
-                <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec1Value}</p>
+            {/* Metrics summary (Hidden for Soft Launched Products) */}
+            {!product.isSoftLaunch && (
+              <div className="grid grid-cols-3 gap-3">
+                <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
+                  <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec1Label}</p>
+                  <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec1Value}</p>
+                </div>
+                <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
+                  <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec2Label}</p>
+                  <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec2Value}</p>
+                </div>
+                <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
+                  <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec3Label}</p>
+                  <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec3Value}</p>
+                </div>
               </div>
-              <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
-                <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec2Label}</p>
-                <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec2Value}</p>
-              </div>
-              <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
-                <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec3Label}</p>
-                <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec3Value}</p>
-              </div>
-            </div>
+            )}
 
             {/* Footer Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
@@ -253,11 +316,15 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                     "flex-1 sm:flex-initial flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-200 shadow-lg",
                     isAddedToInquiry
                       ? "bg-amber-400 text-slate-950 hover:bg-amber-300 shadow-amber-400/20"
-                      : "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30",
+                      : product.isSoftLaunch
+                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-purple-600/30"
+                        : "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30",
                   ].join(" ")}
                 >
                   {isAddedToInquiry ? (
                     <><Check className="w-4 h-4" /> Added to Inquiry</>
+                  ) : product.isSoftLaunch ? (
+                    <><Plus className="w-4 h-4" /> Inquire for Details</>
                   ) : (
                     <><Plus className="w-4 h-4" /> Add to Proposal Request</>
                   )}

@@ -12,11 +12,11 @@ import { ScannableMetricsTable } from '../molecules';
 import {
   Search,
   X,
-  Check,
   RotateCcw,
   SearchX,
   ChevronRight,
-  Info,
+  Sparkles,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { EndToEndHeader } from './EndToEndHeader';
 import { useExternalFilter, BU_MAP } from '../../hooks/useExternalFilter';
@@ -33,21 +33,27 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 }) => {
   const [searchParams] = useSearchParams();
 
-  // Multi-category selection state & search query
-  const [selectedBUs, setSelectedBUs] = useState<BusinessUnit[]>(['Poultry Farm Equipment']);
+  // Multi-category selection state & search query & status filter
+  const [selectedBUs, setSelectedBUs] = useState<BusinessUnit[]>([...BUSINESS_UNITS]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeSubCat, setActiveSubCat] = useState<string>('All');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'softlaunch'>('all');
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Toggle single BU selection in multi-select state
   const handleBUToggle = useCallback((bu: BusinessUnit) => {
     setSelectedBUs(prev => {
+      // If all BUs are currently selected, clicking one isolates that specific BU
+      if (prev.length === BUSINESS_UNITS.length) {
+        return [bu];
+      }
       if (prev.includes(bu)) {
-        // Keep at least one selected if toggled off
-        if (prev.length === 1) return prev;
+        if (prev.length === 1) return [...BUSINESS_UNITS]; // Restores ALL BUs if toggled off
         return prev.filter(b => b !== bu);
       } else {
-        return [...prev, bu];
+        const updated = [...prev, bu];
+        if (updated.length === BUSINESS_UNITS.length) return [...BUSINESS_UNITS];
+        return updated;
       }
     });
     setActiveSubCat('All');
@@ -108,12 +114,19 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     return Array.from(set);
   }, [matchingBUProducts]);
 
-  // Filtered products considering search query + sub-category selection
+  // Filtered products considering search query + sub-category selection + status filter
   const filtered = useMemo(() => {
     return matchingBUProducts.filter(p => {
       const matchesSubCat = activeSubCat === 'All' || p.subCategory === activeSubCat;
+      const matchesStatus =
+        statusFilter === 'all'
+          ? true
+          : statusFilter === 'softlaunch'
+            ? !!p.isSoftLaunch
+            : !p.isSoftLaunch;
+
       const q = searchQuery.trim().toLowerCase();
-      if (!q) return matchesSubCat;
+      if (!q) return matchesSubCat && matchesStatus;
 
       const matchesSearch =
         p.title.toLowerCase().includes(q) ||
@@ -121,18 +134,24 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         p.subCategory.toLowerCase().includes(q) ||
         p.businessUnit.toLowerCase().includes(q) ||
         p.badge.toLowerCase().includes(q) ||
+        (p.softLaunchBadge && p.softLaunchBadge.toLowerCase().includes(q)) ||
         (p.speciesTags && p.speciesTags.some(t => t.toLowerCase().includes(q))) ||
         (p.buildingSpecs?.buildingType && p.buildingSpecs.buildingType.toLowerCase().includes(q));
 
-      return matchesSubCat && matchesSearch;
+      return matchesSubCat && matchesStatus && matchesSearch;
     });
-  }, [matchingBUProducts, activeSubCat, searchQuery]);
+  }, [matchingBUProducts, activeSubCat, statusFilter, searchQuery]);
+
+  // Count soft launched items in current matching BUs
+  const softLaunchCount = useMemo(() => {
+    return matchingBUProducts.filter(p => p.isSoftLaunch).length;
+  }, [matchingBUProducts]);
 
   return (
     <section
       ref={sectionRef}
       id="products"
-      className="relative overflow-hidden bg-slate-50 text-slate-900 border-b border-slate-200/80 bg-grid-pattern"
+      className="relative bg-slate-50 text-slate-900 border-b border-slate-200/80 bg-grid-pattern"
     >
       {/* ── Ambient Background Depth ────────────────────── */}
       <motion.div
@@ -163,289 +182,384 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           />
         </div>
 
-        {/* ── Data Source Legend Notice ────────────────────────── */}
+        {/* ── Data Source Legend Notice & Soft Launch Ribbon ────────────────────────── */}
         <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:px-6 sm:py-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs shadow-sm">
           <div className="flex items-center gap-3 text-slate-700">
-            <div className="p-2 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 shrink-0">
-              <Info className="w-5 h-5" />
+            <div className="p-2 rounded-xl bg-purple-50 border border-purple-200 text-purple-600 shrink-0">
+              <Sparkles className="w-5 h-5 text-purple-600" />
             </div>
             <div>
-              <p className="font-extrabold text-slate-900 text-sm">Sample Catalog Data Notice</p>
+              <p className="font-extrabold text-slate-900 text-sm">Listing Soon & Commercial Availability Notice</p>
               <p className="text-slate-600 text-xs mt-0.5 leading-relaxed">
-                Items tagged <span className="text-blue-700 font-bold">Sample Data</span> are illustrative sample entries for Hatchery, Feedmill, and Solar demonstration.
+                Products marked <span className="text-purple-700 font-bold">⚡ Listing Soon</span> are available for commercial consultation, project planning, and early inquiry reservations while official engineering datasheets are on hold.
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0 self-end md:self-auto">
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-extrabold px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-wider">
-              <Info className="w-3.5 h-3.5 text-blue-600" /> Sample Data (15 Entries)
-            </span>
-          </div>
-        </div>
-
-        {/* ── Interactive Search & Filter Action Bar ──────────────────────── */}
-        <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3.5">
-          {/* Search Input */}
-          <div className="relative flex-1">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setActiveSubCat('All');
-              }}
-              placeholder="Search solutions by keyword, model, or technical parameters..."
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white transition-all font-medium"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 transition-colors"
-                title="Clear search"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-
-          {/* Multi-Select Quick Controls */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-2 shrink-0 self-end md:self-auto">
             <button
-              onClick={() => {
-                setSelectedBUs([...BUSINESS_UNITS]);
-                setActiveSubCat('All');
-              }}
-              className="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-colors"
+              onClick={() => setStatusFilter(statusFilter === 'softlaunch' ? 'all' : 'softlaunch')}
+              className={`inline-flex items-center gap-1.5 text-[11px] font-extrabold px-3 py-1.5 rounded-full transition-all duration-200 uppercase tracking-wider ${
+                statusFilter === 'softlaunch'
+                  ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30 ring-2 ring-purple-400'
+                  : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'
+              }`}
             >
-              Select All Categories
+              <Sparkles className="w-3.5 h-3.5" />
+              Listing Soon ({softLaunchCount} Items)
             </button>
-            {(selectedBUs.length < BUSINESS_UNITS.length || searchQuery || activeSubCat !== 'All') && (
-              <button
-                onClick={() => {
-                  setSelectedBUs(['Poultry Farm Equipment']);
-                  setSearchQuery('');
-                  setActiveSubCat('All');
-                }}
-                className="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-300 transition-colors flex items-center gap-1.5"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                Reset Filters
-              </button>
-            )}
           </div>
         </div>
 
-        {/* ── Business Unit Photo Cards (Multi-Selectable) ────────────────────────── */}
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {BUSINESS_UNITS.map(bu => {
-              const meta = BU_META[bu];
-              const count = MOCK_PRODUCTS.filter(p => p.businessUnit === bu).length;
-              const isSelected = selectedBUs.includes(bu);
-              return (
-                <motion.button
-                  key={bu}
-                  onClick={() => handleBUToggle(bu)}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={[
-                    'relative overflow-hidden rounded-2xl text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2',
-                    isSelected
-                      ? 'ring-2 ring-amber-400 border-amber-400 shadow-xl shadow-amber-500/20'
-                      : 'ring-1 ring-slate-200 hover:ring-slate-300 shadow-sm opacity-90 hover:opacity-100',
-                  ].join(' ')}
-                  style={{ minHeight: '140px' }}
-                >
-                  {/* Photo background */}
-                  <img
-                    src={`${meta.coverImage.replace(/w=800/, 'w=400')}&q=70`}
-                    alt={bu}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    draggable={false}
-                    style={{ transform: isSelected ? 'scale(1.04)' : undefined }}
-                  />
+        {/* ── 2-COLUMN SIDEBAR & CATALOG GRID LAYOUT ─────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start relative">
 
-                  {/* Dark Overlay */}
-                  <div
-                    className="absolute inset-0 transition-opacity duration-300"
-                    style={{
-                      background: isSelected
-                        ? 'linear-gradient(160deg, rgba(15,23,42,0.40) 0%, rgba(15,23,42,0.78) 100%)'
-                        : 'linear-gradient(160deg, rgba(15,23,42,0.60) 0%, rgba(15,23,42,0.88) 100%)',
-                    }}
-                  />
-
-                  {/* Active Gold Tint */}
-                  {isSelected && (
-                    <div className="absolute inset-0 bg-amber-500/10 pointer-events-none" />
-                  )}
-
-                  {/* Card Content */}
-                  <div className="relative z-10 p-4 flex flex-col justify-between h-full" style={{ minHeight: '140px' }}>
-                    {/* Top Row: Selected Badge & Indicator */}
-                    <div className="flex items-start justify-between">
-                      {isSelected ? (
-                        <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-amber-400 text-slate-950 shadow-md">
-                          SELECTED
-                        </span>
-                      ) : (
-                        <span className="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-black/40 text-white/80 border border-white/20">
-                          {count} ITEMS
-                        </span>
-                      )}
-
-                      {/* Top Right Checkmark / Chevron */}
-                      {isSelected ? (
-                        <div className="w-5 h-5 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center shadow-md">
-                          <Check className="w-3 h-3 stroke-[3]" />
-                        </div>
-                      ) : (
-                        <span className="text-white/40 text-sm">›</span>
-                      )}
-                    </div>
-
-                    {/* Bottom Row: Category Name & Count */}
-                    <div className="mt-auto">
-                      <p className="text-white font-extrabold text-sm sm:text-base leading-tight font-heading mb-0.5 drop-shadow-md">
-                        {bu}
-                      </p>
-                      <p className={`text-[11px] font-semibold ${isSelected ? 'text-amber-300' : 'text-slate-200'}`}>
-                        {count} solutions
-                      </p>
-                    </div>
+          {/* ── LEFT SIDEBAR FILTERS (Floating Sticky Desktop Controls) ─────────────── */}
+          <aside className="lg:col-span-1 lg:sticky lg:top-24 self-start z-30 transition-all duration-300">
+            <div className="bg-white rounded-2xl border-2 border-slate-200/90 shadow-2xl shadow-slate-300/60 overflow-hidden max-h-[calc(100vh-120px)] flex flex-col">
+              
+              {/* Floating Sidebar Header */}
+              <div className="bg-gradient-to-r from-ccdi-navy via-[#102A43] to-[#1E3E66] p-4 flex items-center justify-between border-b border-white/10 shadow-md text-white shrink-0">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-amber-400/20 text-amber-400 border border-amber-400/30">
+                    <SlidersHorizontal className="w-4 h-4" />
                   </div>
+                  <div>
+                    <h2 className="text-white font-extrabold text-sm font-heading leading-snug">
+                      Floating Filters
+                    </h2>
+                    <p className="text-[10px] text-slate-300 font-medium">Refine by scope</p>
+                  </div>
+                </div>
 
-                  {/* Active bottom border accent */}
-                  {isSelected && (
-                    <motion.div
-                      layoutId="buPhotoAccent"
-                      className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400"
-                    />
-                  )}
-                </motion.button>
-              );
-            })}
-          </div>
-
-          {/* Active Category Description Bar (with Gold Accent Bar) */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedBUs.join('-')}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm relative overflow-hidden"
-            >
-              <div className="flex items-start sm:items-center gap-3">
-                <div className="w-1.5 h-8 rounded-full bg-amber-500 shrink-0" />
-                {selectedBUs.length === 1 ? (
-                  <p className="text-sm text-slate-700 leading-relaxed">
-                    <span className="text-slate-900 font-extrabold">{selectedBUs[0]} — </span>
-                    {BU_META[selectedBUs[0]].description}
-                  </p>
-                ) : (
-                  <p className="text-sm text-slate-700 leading-relaxed">
-                    <span className="text-slate-900 font-extrabold">Multi-Category Selection — </span>
-                    Displaying agro-industrial solutions across <span className="font-extrabold text-amber-700">{selectedBUs.join(', ')}</span>.
-                  </p>
+                {(selectedBUs.length < BUSINESS_UNITS.length || searchQuery || activeSubCat !== 'All' || statusFilter !== 'all') && (
+                  <button
+                    onClick={() => {
+                      setSelectedBUs([...BUSINESS_UNITS]);
+                      setSearchQuery('');
+                      setActiveSubCat('All');
+                      setStatusFilter('all');
+                    }}
+                    className="text-[11px] text-slate-950 hover:text-black font-extrabold flex items-center gap-1 bg-amber-400 hover:bg-amber-300 px-2.5 py-1 rounded-lg transition-all shadow-sm cursor-pointer"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    <span>Reset</span>
+                  </button>
                 )}
               </div>
-              <span className="shrink-0 text-xs font-bold text-amber-900 bg-amber-100 border border-amber-300 px-3.5 py-1.5 rounded-full whitespace-nowrap self-end sm:self-auto">
-                {matchingBUProducts.length} solutions
+
+              <div className="p-4 space-y-5 overflow-y-auto">
+                
+                {/* 1. Search Box */}
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-700 font-heading block">
+                    Search Keyword
+                  </label>
+                  <div className="relative">
+                    <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setActiveSubCat('All');
+                      }}
+                      placeholder="Search equipment..."
+                      className="w-full pl-8 pr-7 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white transition-all font-semibold"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 transition-colors"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* 2. Core Category Filters (Business Units) */}
+                <div className="space-y-2.5 pt-3 border-t border-slate-200">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-[11px] font-black uppercase tracking-wider text-slate-800 font-heading flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
+                      Core Category
+                    </h3>
+                    <button
+                      onClick={() => {
+                        if (selectedBUs.length === BUSINESS_UNITS.length) {
+                          setSelectedBUs([BUSINESS_UNITS[0]]);
+                        } else {
+                          setSelectedBUs([...BUSINESS_UNITS]);
+                        }
+                        setActiveSubCat('All');
+                      }}
+                      className="text-[10px] font-bold text-amber-700 hover:text-amber-900 underline cursor-pointer"
+                    >
+                      {selectedBUs.length === BUSINESS_UNITS.length ? 'Clear' : 'Select All'}
+                    </button>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    {BUSINESS_UNITS.map((bu) => {
+                      const isChecked = selectedBUs.includes(bu);
+                      const count = MOCK_PRODUCTS.filter((p) => p.businessUnit === bu).length;
+                      return (
+                        <button
+                          key={bu}
+                          onClick={() => handleBUToggle(bu)}
+                          className={[
+                            'w-full flex items-center justify-between p-2.5 rounded-xl text-left text-xs transition-all duration-200 border cursor-pointer',
+                            isChecked
+                              ? 'bg-ccdi-navy text-white font-bold border-ccdi-navy shadow-md shadow-ccdi-navy/20'
+                              : 'bg-slate-50 border-slate-200 text-slate-800 hover:bg-slate-100 hover:border-slate-300 font-semibold',
+                          ].join(' ')}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm shrink-0">{BU_META[bu].icon}</span>
+                            <span className="truncate max-w-[130px]">{bu}</span>
+                          </div>
+                          <span
+                            className={[
+                              'text-[10px] px-2 py-0.5 rounded-full font-bold shrink-0',
+                              isChecked ? 'bg-amber-400 text-slate-950 font-black' : 'bg-white text-slate-600 border border-slate-200',
+                            ].join(' ')}
+                          >
+                            {count}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 3. Availability Status Filter */}
+                <div className="space-y-2.5 pt-3 border-t border-slate-200">
+                  <h3 className="text-[11px] font-black uppercase tracking-wider text-slate-800 font-heading flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                    Availability Status
+                  </h3>
+
+                  <div className="flex flex-col gap-1.5">
+                    {[
+                      { id: 'all', label: 'All Solutions', count: MOCK_PRODUCTS.length },
+                      { id: 'active', label: 'Ready & In-Stock', count: MOCK_PRODUCTS.filter(p => !p.isSoftLaunch).length },
+                      { id: 'softlaunch', label: '⚡ Listing Soon', count: softLaunchCount },
+                    ].map(tab => (
+                      <button
+                        key={tab.id}
+                        onClick={() => setStatusFilter(tab.id as 'all' | 'active' | 'softlaunch')}
+                        className={[
+                          'w-full flex items-center justify-between p-2 rounded-xl text-xs font-bold transition-all border text-left cursor-pointer',
+                          statusFilter === tab.id
+                            ? tab.id === 'softlaunch'
+                              ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
+                              : 'bg-amber-400 text-slate-950 border-amber-400 font-black shadow-sm'
+                            : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100',
+                        ].join(' ')}
+                      >
+                        <span>{tab.label}</span>
+                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
+                          statusFilter === tab.id ? 'bg-black/20 text-white' : 'bg-white text-slate-600 border border-slate-200'
+                        }`}>
+                          {tab.count}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 4. Sub-Category Filter */}
+                {subCats.length > 0 && (
+                  <div className="space-y-2.5 pt-3 border-t border-slate-200">
+                    <h3 className="text-[11px] font-black uppercase tracking-wider text-slate-800 font-heading">
+                      Sub-Category
+                    </h3>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      <button
+                        onClick={() => setActiveSubCat('All')}
+                        className={[
+                          'px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border',
+                          activeSubCat === 'All'
+                            ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                            : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100',
+                        ].join(' ')}
+                      >
+                        All
+                      </button>
+                      {subCats.map(sc => (
+                        <button
+                          key={sc}
+                          onClick={() => setActiveSubCat(sc)}
+                          className={[
+                            'px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border',
+                            activeSubCat === sc
+                              ? 'bg-amber-400 text-slate-950 border-amber-400 font-black shadow-sm'
+                              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100',
+                          ].join(' ')}
+                        >
+                          {sc}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+            </div>
+          </aside>
+
+          {/* ── RIGHT MAIN COLUMN: CATEGORY SECTIONS & CARDS ─────────────── */}
+          <main className="lg:col-span-3 space-y-8">
+            
+            {/* Active Category Overview Notice Bar */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedBUs.join('-')}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm relative overflow-hidden"
+              >
+                <div className="flex items-start sm:items-center gap-3">
+                  <div className="w-1.5 h-8 rounded-full bg-amber-500 shrink-0" />
+                  {selectedBUs.length === 1 ? (
+                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                      <span className="text-slate-900 font-extrabold">{selectedBUs[0]} — </span>
+                      {BU_META[selectedBUs[0]].description}
+                    </p>
+                  ) : (
+                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                      <span className="text-slate-900 font-extrabold">Turnkey Engineering Catalog — </span>
+                      Displaying agro-industrial solutions across <span className="font-extrabold text-amber-700">{selectedBUs.length} categories</span>.
+                    </p>
+                  )}
+                </div>
+                <span className="shrink-0 text-xs font-bold text-amber-900 bg-amber-100 border border-amber-300 px-3 py-1 rounded-full whitespace-nowrap self-end sm:self-auto">
+                  {matchingBUProducts.length} solutions
+                </span>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Results Status Bar */}
+            <div className="flex items-center justify-between text-xs text-slate-600 border-b border-slate-200/80 pb-3">
+              <span>
+                Showing <span className="text-amber-600 font-extrabold">{filtered.length}</span> of{' '}
+                <span className="text-slate-800 font-bold">{matchingBUProducts.length}</span> solutions
+                {searchQuery && <> matching "<span className="font-bold text-slate-900">{searchQuery}</span>"</>}
               </span>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Sub-Category Filter Pills */}
-          <div className="flex flex-wrap gap-2.5 items-center">
-            <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider mr-1">
-              FILTER SUB-CATEGORY:
-            </span>
-            <button
-              onClick={() => setActiveSubCat('All')}
-              className={[
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer',
-                activeSubCat === 'All'
-                  ? 'bg-amber-400 text-slate-950 font-black shadow-md shadow-amber-400/20 scale-[1.03]'
-                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100',
-              ].join(' ')}
-            >
-              All
-              <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
-                activeSubCat === 'All' ? 'bg-slate-950 text-amber-400' : 'bg-slate-100 text-slate-600 border border-slate-200'
-              }`}>
-                {matchingBUProducts.length}
+              <span className="hidden sm:flex items-center gap-1 text-slate-500">
+                <ChevronRight className="w-3.5 h-3.5" />
+                Category Grouped View
               </span>
-            </button>
-            {subCats.map(sc => {
-              const scCount = matchingBUProducts.filter(p => p.subCategory === sc).length;
-              const isActiveSC = activeSubCat === sc;
-              return (
-                <button
-                  key={sc}
-                  onClick={() => setActiveSubCat(sc)}
-                  className={[
-                    'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer',
-                    isActiveSC
-                      ? 'bg-amber-400 text-slate-950 font-black shadow-md shadow-amber-400/20 scale-[1.03]'
-                      : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100',
-                  ].join(' ')}
-                >
-                  {sc}
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
-                    isActiveSC ? 'bg-slate-950 text-amber-400' : 'bg-slate-100 text-slate-600 border border-slate-200'
-                  }`}>
-                    {scCount}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+            </div>
 
-        {/* ── Results Status Bar ──────────────────────────────────────────── */}
-        <div className="flex items-center justify-between pt-2 text-xs text-slate-600 border-t border-slate-200/80">
-          <span>
-            Showing <span className="text-amber-600 font-extrabold">{filtered.length}</span> of{' '}
-            <span className="text-slate-800 font-bold">{matchingBUProducts.length}</span> solutions
-            {searchQuery && <> matching "<span className="font-bold text-slate-900">{searchQuery}</span>"</>}
-          </span>
-          <span className="hidden sm:flex items-center gap-1 text-slate-500">
-            <ChevronRight className="w-3.5 h-3.5" />
-            Scroll to explore catalog
-          </span>
-        </div>
-
-        {/* ── Product Catalog Grid ─────────────────────────────────────────── */}
+        {/* ── Product Catalog Grid Grouped by Category (Prioritized Standard Products First) ────────────────── */}
         <AnimatePresence mode="wait">
           {filtered.length > 0 ? (
             <motion.div
-              key={`${selectedBUs.join('-')}-${activeSubCat}-${searchQuery}`}
+              key={`${selectedBUs.join('-')}-${activeSubCat}-${statusFilter}-${searchQuery}`}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="space-y-14"
             >
-              {filtered.map((product, idx) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <ProductCard
-                    product={product}
-                    dark={false}
-                    isAddedToInquiry={inquiryItems.some(item => item.id === product.id)}
-                    onToggleInquiry={onToggleInquiry}
-                  />
-                </motion.div>
-              ))}
+              {BUSINESS_UNITS.filter(bu => selectedBUs.includes(bu)).map(bu => {
+                const buProducts = filtered.filter(p => p.businessUnit === bu);
+                if (buProducts.length === 0) return null;
+
+                const standardProducts = buProducts.filter(p => !p.isSoftLaunch);
+                const softLaunchProducts = buProducts.filter(p => p.isSoftLaunch);
+                const meta = BU_META[bu];
+
+                return (
+                  <section key={bu} className="space-y-6 bg-white/60 p-6 rounded-3xl border border-slate-200/80 shadow-sm">
+                    {/* Category Group Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200/90">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl p-2 rounded-2xl bg-amber-100 border border-amber-200 shadow-sm shrink-0">
+                          {meta.icon}
+                        </span>
+                        <div>
+                          <h3 className="text-xl font-black font-heading text-slate-900 flex items-center gap-2">
+                            {bu}
+                          </h3>
+                          <p className="text-xs text-slate-600 font-medium line-clamp-1 max-w-xl">
+                            {meta.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full">
+                          {standardProducts.length} Ready & In-Stock
+                        </span>
+                        {softLaunchProducts.length > 0 && (
+                          <span className="text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 px-3 py-1 rounded-full flex items-center gap-1">
+                            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                            {softLaunchProducts.length} Listing Soon
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* 1. PRIORITY STANDARD PRODUCTS GRID */}
+                    {standardProducts.length > 0 && (
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {standardProducts.map((product, idx) => (
+                          <motion.div
+                            key={product.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35, delay: idx * 0.04 }}
+                          >
+                            <ProductCard
+                              product={product}
+                              dark={false}
+                              isAddedToInquiry={inquiryItems.some(item => item.id === product.id)}
+                              onToggleInquiry={onToggleInquiry}
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* 2. SOFT LAUNCH / LISTING SOON SUB-SECTION DIVIDER & GRID */}
+                    {softLaunchProducts.length > 0 && (
+                      <div className="pt-4 space-y-4">
+                        <div className="flex items-center gap-3">
+                          <div className="h-px flex-1 bg-purple-200" />
+                          <span className="px-3.5 py-1 rounded-full bg-purple-100 border border-purple-200 text-purple-900 text-xs font-extrabold flex items-center gap-1.5 uppercase tracking-wider">
+                            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                            Listing Soon — Upcoming Additions in {bu} ({softLaunchProducts.length})
+                          </span>
+                          <div className="h-px flex-1 bg-purple-200" />
+                        </div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {softLaunchProducts.map((product, idx) => (
+                            <motion.div
+                              key={product.id}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.35, delay: idx * 0.04 }}
+                            >
+                              <ProductCard
+                                product={product}
+                                dark={false}
+                                isAddedToInquiry={inquiryItems.some(item => item.id === product.id)}
+                                onToggleInquiry={onToggleInquiry}
+                              />
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
             </motion.div>
           ) : (
             <motion.div
@@ -463,6 +577,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 onClick={() => {
                   setSearchQuery('');
                   setActiveSubCat('All');
+                  setStatusFilter('all');
                 }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-sm transition-colors shadow-md shadow-amber-500/20"
               >
@@ -472,6 +587,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
             </motion.div>
           )}
         </AnimatePresence>
+      </main>
+    </div>
 
         {/* ── Performance Metrics Table ───────────────────────────────── */}
         <div className="mt-20 pt-12 border-t border-slate-200/80">

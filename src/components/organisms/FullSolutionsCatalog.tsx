@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, RotateCcw, ChevronLeft, ChevronRight, CheckSquare, Square, SlidersHorizontal } from 'lucide-react';
+import { Search, RotateCcw, ChevronLeft, ChevronRight, CheckSquare, Square, SlidersHorizontal, Sparkles } from 'lucide-react';
 
 import { MOCK_PRODUCTS, BUSINESS_UNITS } from '../../data/mockProducts';
 import type { Product, BusinessUnit } from '../../data/mockProducts';
@@ -18,10 +18,11 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
   inquiryItems = [],
   onToggleInquiry,
 }) => {
-  // State for search, active categories, active subcategories, and pagination
+  // State for search, active categories, active subcategories, softlaunch, and pagination
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBUs, setSelectedBUs] = useState<BusinessUnit[]>([]);
   const [selectedSubCats, setSelectedSubCats] = useState<string[]>([]);
+  const [onlySoftLaunch, setOnlySoftLaunch] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
@@ -54,13 +55,14 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
   const handleResetFilters = () => {
     setSelectedBUs([]);
     setSelectedSubCats([]);
+    setOnlySoftLaunch(false);
     setSearchQuery('');
     setCurrentPage(1);
   };
 
-  // Filtered Products Logic
+  // Filtered Products Logic (Standard Products prioritized first)
   const filteredProducts = useMemo(() => {
-    return MOCK_PRODUCTS.filter((product) => {
+    const list = MOCK_PRODUCTS.filter((product) => {
       // 1. Business Unit Filter
       if (selectedBUs.length > 0 && !selectedBUs.includes(product.businessUnit)) {
         return false;
@@ -69,7 +71,11 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
       if (selectedSubCats.length > 0 && !selectedSubCats.includes(product.subCategory)) {
         return false;
       }
-      // 3. Predictive Live Search
+      // 3. Soft Launch Filter
+      if (onlySoftLaunch && !product.isSoftLaunch) {
+        return false;
+      }
+      // 4. Predictive Live Search
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchTitle = product.title.toLowerCase().includes(q);
@@ -77,13 +83,21 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
         const matchSub = product.subCategory.toLowerCase().includes(q);
         const matchBU = product.businessUnit.toLowerCase().includes(q);
         const matchSpecies = product.speciesTags.some((tag) => tag.toLowerCase().includes(q));
-        if (!matchTitle && !matchDesc && !matchSub && !matchBU && !matchSpecies) {
+        const matchSoftLaunch = product.softLaunchBadge?.toLowerCase().includes(q);
+        if (!matchTitle && !matchDesc && !matchSub && !matchBU && !matchSpecies && !matchSoftLaunch) {
           return false;
         }
       }
       return true;
     });
-  }, [selectedBUs, selectedSubCats, searchQuery]);
+
+    // Prioritize active in-stock products first, placing Listing Soon items at the end
+    return [...list].sort((a, b) => {
+      if (!a.isSoftLaunch && b.isSoftLaunch) return -1;
+      if (a.isSoftLaunch && !b.isSoftLaunch) return 1;
+      return 0;
+    });
+  }, [selectedBUs, selectedSubCats, onlySoftLaunch, searchQuery]);
 
   // Pagination Logic
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage) || 1;
@@ -193,7 +207,7 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
                   </div>
                 </div>
 
-                {(selectedBUs.length > 0 || selectedSubCats.length > 0 || searchQuery) && (
+                {(selectedBUs.length > 0 || selectedSubCats.length > 0 || onlySoftLaunch || searchQuery) && (
                   <button
                     onClick={handleResetFilters}
                     className="text-xs text-slate-950 hover:text-black font-extrabold flex items-center gap-1 bg-amber-400 hover:bg-amber-300 px-3 py-1.5 rounded-lg transition-all shadow-sm cursor-pointer"
@@ -206,11 +220,11 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
 
               <div className="p-5 space-y-6">
                 {/* Active Filter Indicator Badge */}
-                {(selectedBUs.length > 0 || selectedSubCats.length > 0) && (
+                {(selectedBUs.length > 0 || selectedSubCats.length > 0 || onlySoftLaunch) && (
                   <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-900 text-xs font-bold">
                     <span>Active Filters:</span>
                     <span className="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full">
-                      {selectedBUs.length + selectedSubCats.length} Selected
+                      {selectedBUs.length + selectedSubCats.length + (onlySoftLaunch ? 1 : 0)} Selected
                     </span>
                   </div>
                 )}
@@ -290,6 +304,39 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
                       );
                     })}
                   </div>
+                </div>
+
+                {/* Filter Section 3: Product Availability Status */}
+                <div className="space-y-3 pt-3 border-t border-slate-200">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 font-heading flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-purple-600 inline-block" />
+                    Availability
+                  </h3>
+
+                  <button
+                    onClick={() => {
+                      setOnlySoftLaunch(prev => !prev);
+                      setCurrentPage(1);
+                    }}
+                    className={[
+                      'w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-bold transition-all duration-200 border cursor-pointer',
+                      onlySoftLaunch
+                        ? 'bg-purple-50 border-purple-300 text-purple-950 ring-1 ring-purple-400 shadow-sm'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold',
+                    ].join(' ')}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className={onlySoftLaunch ? 'text-purple-600' : 'text-slate-400'}>
+                        {onlySoftLaunch ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
+                      </div>
+                      <span className="flex items-center gap-1">
+                        Show Listing Soon Only
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">
+                      4
+                    </span>
+                  </button>
                 </div>
 
                 {/* Filter Info Footer */}
