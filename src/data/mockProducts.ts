@@ -44,6 +44,7 @@ export interface Product {
   isBrochureSpec?: boolean;
   isSample?: boolean;
   isSoftLaunch?: boolean;
+  isFeatured?: boolean;
   softLaunchBadge?: string;
   softLaunchNotice?: string;
   estimatedAvailability?: string;
@@ -58,28 +59,28 @@ export const BUSINESS_UNITS: BusinessUnit[] = [
 
 export const BU_META: Record<BusinessUnit, { icon: string; color: string; coverImage: string; description: string; subCategories: string[] }> = {
   'Poultry Farm Equipment': {
-    icon: '🐔',
+    icon: 'Bird',
     color: 'amber',
     coverImage: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80',
     description: 'Biosecure housing, climate control, automated feeding, and complete ventilation systems for broiler, breeder, and layer operations.',
     subCategories: ['All', 'Housing & Structure', 'Ventilation & Cooling', 'Feeding & Watering', 'Automation'],
   },
   'Hatchery': {
-    icon: '🥚',
+    icon: 'Egg',
     color: 'blue',
     coverImage: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
     description: 'Turnkey hatchery facility construction with cleanroom airflow, automated incubation, egg handling, and chick processing systems.',
     subCategories: ['All', 'Facility Construction', 'Incubation Equipment', 'Egg Handling', 'Chick Processing'],
   },
   'Feedmill': {
-    icon: '🏭',
+    icon: 'Factory',
     color: 'gold',
     coverImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
     description: 'Industrial-grade feedmill plants with grain storage silos, pelleting towers, precision batching automation, and pneumatic conveying.',
     subCategories: ['All', 'Plant Construction', 'Storage & Silos', 'Processing Equipment', 'Automation & Control'],
   },
   'Solar Systems': {
-    icon: '☀️',
+    icon: 'Sun',
     color: 'amber',
     coverImage: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80',
     description: 'Rooftop and ground-mounted solar PV arrays, hybrid microgrids with battery storage, and grid-tied net metering installations.',
@@ -229,6 +230,7 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     isBrochureSpec: true,
     isSample: false,
+    isFeatured: true,
   },
   {
     id: 'pf-02',
@@ -260,6 +262,7 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     isBrochureSpec: true,
     isSample: false,
+    isFeatured: true,
   },
   {
     id: 'pf-03',
@@ -343,6 +346,7 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     isBrochureSpec: true,
     isSample: false,
+    isFeatured: true,
   },
   {
     id: 'pf-06',
@@ -432,6 +436,7 @@ export const MOCK_PRODUCTS: Product[] = [
     metrics: { spec1Label: 'Weekly Capacity', spec1Value: '1.2M eggs/week', spec2Label: 'Bio-Pass Rate', spec2Value: '99.2%', spec3Label: 'Build Time', spec3Value: '150 Days' },
     isBrochureSpec: false,
     isSample: true,
+    isFeatured: true,
   },
   {
     id: 'ht-02',
@@ -509,6 +514,7 @@ export const MOCK_PRODUCTS: Product[] = [
     metrics: { spec1Label: 'Capacity', spec1Value: '30 Tons/Hour', spec2Label: 'Uptime', spec2Value: '99.8%', spec3Label: 'Build Time', spec3Value: '180 Days' },
     isBrochureSpec: false,
     isSample: true,
+    isFeatured: true,
   },
   {
     id: 'fm-02',
@@ -586,6 +592,7 @@ export const MOCK_PRODUCTS: Product[] = [
     metrics: { spec1Label: 'System Size', spec1Value: '50–500 kWp', spec2Label: 'OPEX Reduction', spec2Value: '35%', spec3Label: 'Install Time', spec3Value: '30 Days' },
     isBrochureSpec: false,
     isSample: true,
+    isFeatured: true,
   },
   {
     id: 'sl-02',
@@ -714,7 +721,7 @@ export interface ComparisonRow {
 export const MOCK_COMPARISON_DATA: ComparisonRow[] = [
   {
     species: 'Poultry Farm Equipment',
-    icon: '🐔',
+    icon: 'Bird',
     fcrImprovement: { value: '50k / house',  tier: 'best' },
     avgDailyGain:   { value: '1.45 FCR',     tier: 'best' },
     gutHealthScore: { value: '98.5% Uptime', tier: 'best' },
@@ -723,7 +730,7 @@ export const MOCK_COMPARISON_DATA: ComparisonRow[] = [
   },
   {
     species: 'Hatchery Construction',
-    icon: '🥚',
+    icon: 'Egg',
     fcrImprovement: { value: '1.2M eggs/wk', tier: 'std' },
     avgDailyGain:   { value: '88%+ Hatch',   tier: 'std' },
     gutHealthScore: { value: '99.2% Bio-Pass', tier: 'std' },
@@ -732,7 +739,7 @@ export const MOCK_COMPARISON_DATA: ComparisonRow[] = [
   },
   {
     species: 'Feedmill Systems',
-    icon: '🏭',
+    icon: 'Factory',
     fcrImprovement: { value: '30 TPH Output', tier: 'best' },
     avgDailyGain:   { value: '99.8% Uptime', tier: 'best' },
     gutHealthScore: { value: '±0.05% Accuracy', tier: 'best' },
@@ -741,7 +748,7 @@ export const MOCK_COMPARISON_DATA: ComparisonRow[] = [
   },
   {
     species: 'Solar PV Integration',
-    icon: '☀️',
+    icon: 'Sun',
     fcrImprovement: { value: '500 kWp – 5 MWp', tier: 'info' },
     avgDailyGain:   { value: '35% OPEX Cut', tier: 'info' },
     gutHealthScore: { value: '25-Yr Panel Warranty', tier: 'std' },

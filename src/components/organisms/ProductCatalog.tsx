@@ -14,12 +14,30 @@ import {
   X,
   RotateCcw,
   SearchX,
-  ChevronRight,
   Sparkles,
   SlidersHorizontal,
+  Bird,
+  Egg,
+  Factory,
+  Sun,
 } from 'lucide-react';
 import { EndToEndHeader } from './EndToEndHeader';
 import { useExternalFilter, BU_MAP } from '../../hooks/useExternalFilter';
+
+const renderCategoryIcon = (iconName: string, className = "w-4 h-4") => {
+  switch (iconName) {
+    case 'Bird':
+      return <Bird className={className} />;
+    case 'Egg':
+      return <Egg className={className} />;
+    case 'Factory':
+      return <Factory className={className} />;
+    case 'Sun':
+      return <Sun className={className} />;
+    default:
+      return <Bird className={className} />;
+  }
+};
 
 // ─── Main Component ────────────────────────────────────────────────────────
 export interface ProductCatalogProps {
@@ -170,44 +188,16 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       </motion.div>
 
       {/* ── Main Content Container ───────────────────────── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 space-y-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-6">
 
         {/* ── End-To-End Execution Header Design ──────────────────────── */}
-        <div className="mb-6">
+        <div className="mb-2">
           <EndToEndHeader
             tag="Solutions Catalog & Execution"
             title="End-To-End Turnkey Agro-Industrial Catalog"
             subtitle="Click on any execution step below (1–8) to expand full technical phase specifications and explore our specialized catalog solutions."
             lightMode={true}
           />
-        </div>
-
-        {/* ── Data Source Legend Notice & Soft Launch Ribbon ────────────────────────── */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:px-6 sm:py-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs shadow-sm">
-          <div className="flex items-center gap-3 text-slate-700">
-            <div className="p-2 rounded-xl bg-purple-50 border border-purple-200 text-purple-600 shrink-0">
-              <Sparkles className="w-5 h-5 text-purple-600" />
-            </div>
-            <div>
-              <p className="font-extrabold text-slate-900 text-sm">Listing Soon & Commercial Availability Notice</p>
-              <p className="text-slate-600 text-xs mt-0.5 leading-relaxed">
-                Products marked <span className="text-purple-700 font-bold">⚡ Listing Soon</span> are available for commercial consultation, project planning, and early inquiry reservations while official engineering datasheets are on hold.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 shrink-0 self-end md:self-auto">
-            <button
-              onClick={() => setStatusFilter(statusFilter === 'softlaunch' ? 'all' : 'softlaunch')}
-              className={`inline-flex items-center gap-1.5 text-[11px] font-extrabold px-3 py-1.5 rounded-full transition-all duration-200 uppercase tracking-wider ${
-                statusFilter === 'softlaunch'
-                  ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30 ring-2 ring-purple-400'
-                  : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              Listing Soon ({softLaunchCount} Items)
-            </button>
-          </div>
         </div>
 
         {/* ── 2-COLUMN SIDEBAR & CATALOG GRID LAYOUT ─────────────────── */}
@@ -314,8 +304,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                               : 'bg-slate-50 border-slate-200 text-slate-800 hover:bg-slate-100 hover:border-slate-300 font-semibold',
                           ].join(' ')}
                         >
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm shrink-0">{BU_META[bu].icon}</span>
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="shrink-0 p-1 rounded-md bg-amber-400/10 text-amber-500">{renderCategoryIcon(BU_META[bu].icon, "w-4 h-4")}</span>
                             <span className="truncate max-w-[130px]">{bu}</span>
                           </div>
                           <span
@@ -412,48 +402,49 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           {/* ── RIGHT MAIN COLUMN: CATEGORY SECTIONS & CARDS ─────────────── */}
           <main className="lg:col-span-3 space-y-8">
             
-            {/* Active Category Overview Notice Bar */}
+            {/* Compact Unified Category & Filter Status Bar */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={selectedBUs.join('-')}
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
+                exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.2 }}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm relative overflow-hidden"
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:px-4 rounded-xl bg-white border border-slate-200/90 shadow-xs"
               >
-                <div className="flex items-start sm:items-center gap-3">
-                  <div className="w-1.5 h-8 rounded-full bg-amber-500 shrink-0" />
-                  {selectedBUs.length === 1 ? (
-                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                      <span className="text-slate-900 font-extrabold">{selectedBUs[0]} — </span>
-                      {BU_META[selectedBUs[0]].description}
-                    </p>
-                  ) : (
-                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                      <span className="text-slate-900 font-extrabold">Turnkey Engineering Catalog — </span>
-                      Displaying agro-industrial solutions across <span className="font-extrabold text-amber-700">{selectedBUs.length} categories</span>.
-                    </p>
-                  )}
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-1.5 h-6 rounded-full bg-amber-500 shrink-0" />
+                  <p className="text-xs text-slate-700 leading-snug truncate">
+                    {selectedBUs.length === 1 ? (
+                      <>
+                        <span className="text-slate-900 font-extrabold">{selectedBUs[0]}</span> — {BU_META[selectedBUs[0]].description}
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-slate-900 font-extrabold">Turnkey Engineering Catalog</span> — Showing <span className="font-extrabold text-amber-600">{filtered.length}</span> of {matchingBUProducts.length} solutions across {selectedBUs.length} categories
+                      </>
+                    )}
+                  </p>
                 </div>
-                <span className="shrink-0 text-xs font-bold text-amber-900 bg-amber-100 border border-amber-300 px-3 py-1 rounded-full whitespace-nowrap self-end sm:self-auto">
-                  {matchingBUProducts.length} solutions
-                </span>
+
+                <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                  <button
+                    onClick={() => setStatusFilter(statusFilter === 'softlaunch' ? 'all' : 'softlaunch')}
+                    className={`inline-flex items-center gap-1.5 text-[10px] font-extrabold px-2.5 py-1 rounded-full transition-all duration-200 uppercase tracking-wider cursor-pointer ${
+                      statusFilter === 'softlaunch'
+                        ? 'bg-purple-600 text-white shadow-sm ring-2 ring-purple-400'
+                        : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'
+                    }`}
+                  >
+                    <Sparkles className="w-3 h-3 text-amber-400" />
+                    Listing Soon ({softLaunchCount})
+                  </button>
+                  <span className="text-xs font-bold text-amber-900 bg-amber-100 border border-amber-300 px-2.5 py-0.5 rounded-full whitespace-nowrap">
+                    {matchingBUProducts.length} Total
+                  </span>
+                </div>
               </motion.div>
             </AnimatePresence>
-
-            {/* Results Status Bar */}
-            <div className="flex items-center justify-between text-xs text-slate-600 border-b border-slate-200/80 pb-3">
-              <span>
-                Showing <span className="text-amber-600 font-extrabold">{filtered.length}</span> of{' '}
-                <span className="text-slate-800 font-bold">{matchingBUProducts.length}</span> solutions
-                {searchQuery && <> matching "<span className="font-bold text-slate-900">{searchQuery}</span>"</>}
-              </span>
-              <span className="hidden sm:flex items-center gap-1 text-slate-500">
-                <ChevronRight className="w-3.5 h-3.5" />
-                Category Grouped View
-              </span>
-            </div>
 
         {/* ── Product Catalog Grid Grouped by Category (Prioritized Standard Products First) ────────────────── */}
         <AnimatePresence mode="wait">
@@ -475,18 +466,18 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 const meta = BU_META[bu];
 
                 return (
-                  <section key={bu} className="space-y-6 bg-white/60 p-6 rounded-3xl border border-slate-200/80 shadow-sm">
-                    {/* Category Group Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200/90">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl p-2 rounded-2xl bg-amber-100 border border-amber-200 shadow-sm shrink-0">
-                          {meta.icon}
-                        </span>
+                  <section key={bu} className="space-y-4 sm:space-y-6 bg-white/60 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-sm">
+                    {/* Category Group Header — Concise on small devices */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 sm:pb-4 border-b border-slate-200/90">
+                      <div className="flex items-center gap-2.5 sm:gap-3">
+                        <div className="p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-amber-100 border border-amber-200 shadow-xs text-amber-600 shrink-0">
+                          {renderCategoryIcon(meta.icon, "w-5 h-5 sm:w-6 sm:h-6")}
+                        </div>
                         <div>
-                          <h3 className="text-xl font-black font-heading text-slate-900 flex items-center gap-2">
+                          <h3 className="text-base sm:text-xl font-black font-heading text-slate-900 flex items-center gap-2">
                             {bu}
                           </h3>
-                          <p className="text-xs text-slate-600 font-medium line-clamp-1 max-w-xl">
+                          <p className="hidden sm:block text-xs text-slate-600 font-medium line-clamp-1 max-w-xl">
                             {meta.description}
                           </p>
                         </div>

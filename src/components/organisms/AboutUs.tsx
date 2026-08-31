@@ -139,47 +139,47 @@ export const AboutUs: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white/80 backdrop-blur-xl rounded-3xl p-6 sm:p-10 border border-slate-200/70 shadow-xl shadow-slate-200/60 max-w-4xl mx-auto space-y-8"
+          className="bg-white/5 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-white/10 shadow-2xl shadow-black/40 max-w-4xl mx-auto space-y-5 sm:space-y-6"
         >
-          <div className="flex flex-col items-center space-y-4">
-            <h3 className="text-2xl font-bold text-slate-900 font-heading text-center">
+          <div className="flex flex-col items-center space-y-2.5 sm:space-y-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-white font-heading text-center">
               Our Strategic Purpose
             </h3>
-            <p className="text-slate-600 text-sm sm:text-base text-center max-w-lg leading-relaxed">
+            <p className="text-slate-300 text-xs sm:text-sm text-center max-w-lg leading-relaxed">
               Explore our core mission and vision guiding CCDI's sustainable agro-industrial development across the Philippines.
             </p>
 
             {/* Toggle */}
-            <div className="flex items-center p-1.5 bg-slate-100 rounded-2xl border border-slate-200 w-full sm:w-auto gap-1">
+            <div className="flex items-center p-1 sm:p-1.5 bg-black/40 rounded-2xl border border-white/10 w-full sm:w-auto gap-1">
               <button
                 onClick={() => setActiveTab('mission')}
                 className={[
-                  'flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300',
+                  'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 cursor-pointer',
                   activeTab === 'mission'
-                    ? 'bg-ccdi-navy text-white shadow-md'
-                    : 'text-slate-500 hover:text-ccdi-navy hover:bg-slate-200/60',
+                    ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/25'
+                    : 'text-slate-300 hover:text-white hover:bg-white/5',
                 ].join(' ')}
               >
-                <Target className="w-4 h-4 text-ccdi-gold" />
+                <Target className={activeTab === 'mission' ? 'w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-950' : 'w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400'} />
                 <span>Our Mission</span>
               </button>
               <button
                 onClick={() => setActiveTab('vision')}
                 className={[
-                  'flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300',
+                  'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 cursor-pointer',
                   activeTab === 'vision'
-                    ? 'bg-ccdi-navy text-white shadow-md'
-                    : 'text-slate-500 hover:text-ccdi-navy hover:bg-slate-200/60',
+                    ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/25'
+                    : 'text-slate-300 hover:text-white hover:bg-white/5',
                 ].join(' ')}
               >
-                <Eye className="w-4 h-4 text-ccdi-gold" />
+                <Eye className={activeTab === 'vision' ? 'w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-950' : 'w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400'} />
                 <span>Our Vision</span>
               </button>
             </div>
           </div>
 
           {/* Content panel */}
-          <div className="min-h-[160px] flex items-center justify-center">
+          <div className="min-h-[130px] flex items-center justify-center">
             <AnimatePresence mode="wait">
               {activeTab === 'mission' ? (
                 <motion.div
@@ -188,17 +188,23 @@ export const AboutUs: React.FC = () => {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.98, y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-slate-50/80 border-l-4 border-ccdi-navy p-6 sm:p-8 rounded-r-2xl w-full shadow-sm"
+                  className="bg-gradient-to-r from-slate-900/90 to-[#0B1E30] border-l-4 border-amber-400 border border-y border-r border-white/10 p-4 sm:p-7 rounded-xl sm:rounded-r-2xl w-full shadow-lg"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-ccdi-navy text-ccdi-gold flex items-center justify-center shrink-0 shadow-sm">
-                      <Target className="w-6 h-6" />
-                    </div>
-                    <div className="space-y-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-ccdi-navy bg-ccdi-navy/10 border border-ccdi-navy/20 px-3 py-1 rounded-md inline-block">
+                  <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                    <div className="flex items-center gap-2.5 sm:block shrink-0">
+                      <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-amber-400/15 border border-amber-400/30 text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
+                        <Target className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </div>
+                      <span className="sm:hidden text-[10px] font-extrabold uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-md inline-block">
                         Mission Statement
                       </span>
-                      <p className="text-base sm:text-lg text-slate-800 font-medium leading-relaxed">
+                    </div>
+
+                    <div className="space-y-2 min-w-0 flex-1">
+                      <span className="hidden sm:inline-block text-[11px] font-extrabold uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-md">
+                        Mission Statement
+                      </span>
+                      <p className="text-xs sm:text-base text-slate-100 font-medium leading-relaxed italic">
                         "To strengthen the agribusiness sector while supporting progress in infrastructure and solar energy through integrated, innovative solutions that enable sustainable, cost-efficient, and high-performing farming operations."
                       </p>
                     </div>
@@ -211,17 +217,23 @@ export const AboutUs: React.FC = () => {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.98, y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-slate-50/80 border-l-4 border-ccdi-navy p-6 sm:p-8 rounded-r-2xl w-full shadow-sm"
+                  className="bg-gradient-to-r from-slate-900/90 to-[#0B1E30] border-l-4 border-amber-400 border border-y border-r border-white/10 p-4 sm:p-7 rounded-xl sm:rounded-r-2xl w-full shadow-lg"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-ccdi-navy text-ccdi-gold flex items-center justify-center shrink-0 shadow-sm">
-                      <Eye className="w-6 h-6" />
-                    </div>
-                    <div className="space-y-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-ccdi-navy bg-ccdi-navy/10 border border-ccdi-navy/20 px-3 py-1 rounded-md inline-block">
+                  <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                    <div className="flex items-center gap-2.5 sm:block shrink-0">
+                      <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-amber-400/15 border border-amber-400/30 text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
+                        <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </div>
+                      <span className="sm:hidden text-[10px] font-extrabold uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-md inline-block">
                         Vision Statement
                       </span>
-                      <p className="text-base sm:text-lg text-slate-800 font-medium leading-relaxed">
+                    </div>
+
+                    <div className="space-y-2 min-w-0 flex-1">
+                      <span className="hidden sm:inline-block text-[11px] font-extrabold uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-md">
+                        Vision Statement
+                      </span>
+                      <p className="text-xs sm:text-base text-slate-100 font-medium leading-relaxed italic">
                         "To be a competitive global leader in agro-industrial development through bold innovation, sustainable impact, and enduring excellence."
                       </p>
                     </div>
@@ -243,11 +255,11 @@ export const AboutUs: React.FC = () => {
           {STATS.map(({ value, label, sublabel }) => (
             <div
               key={label}
-              className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-200 text-center space-y-2 shadow-sm hover:shadow-md hover:border-ccdi-navy/30 hover:-translate-y-1 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-md p-5 sm:p-6 rounded-2xl border border-white/10 text-center space-y-1.5 shadow-lg hover:border-amber-400/40 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
             >
-              <p className="text-3xl sm:text-4xl font-extrabold font-heading text-ccdi-navy">{value}</p>
-              <p className="text-sm font-bold text-slate-900 font-heading">{label}</p>
-              <p className="text-xs text-slate-500 font-medium">{sublabel}</p>
+              <p className="text-2xl sm:text-4xl font-extrabold font-heading text-amber-400">{value}</p>
+              <p className="text-xs sm:text-sm font-bold text-white font-heading">{label}</p>
+              <p className="text-[11px] text-slate-400 font-medium">{sublabel}</p>
             </div>
           ))}
         </motion.div>
@@ -258,50 +270,50 @@ export const AboutUs: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-white/80 backdrop-blur-xl rounded-3xl p-6 sm:p-10 border border-slate-200/70 shadow-xl shadow-slate-200/60 max-w-4xl mx-auto space-y-8"
+          className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl shadow-black/40 max-w-4xl mx-auto space-y-6"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/60 pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-5">
             <div>
-              <h3 className="text-2xl font-bold text-slate-900 font-heading">
+              <h3 className="text-2xl font-bold text-white font-heading">
                 Our Guiding Core Values
               </h3>
-              <p className="text-slate-600 text-sm mt-1">
+              <p className="text-slate-300 text-xs sm:text-sm mt-1">
                 The foundational principles driving every project, partnership, and engineering standard at CCDI.
               </p>
             </div>
-            <span className="text-xs font-bold bg-ccdi-navy text-ccdi-gold px-3.5 py-1.5 rounded-full self-start sm:self-auto shrink-0 shadow-sm">
+            <span className="text-xs font-extrabold bg-amber-400 text-slate-950 px-3.5 py-1.5 rounded-full self-start sm:self-auto shrink-0 shadow-sm">
               5 Core Principles
             </span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {CORE_VALUES.map((val) => {
               const isOpen = openAccordion === val.id;
               return (
                 <div
                   key={val.id}
-                  className="bg-slate-50/80 rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden transition-all duration-300"
+                  className="bg-black/30 rounded-2xl border border-white/8 shadow-xs overflow-hidden transition-all duration-300 hover:border-amber-400/30"
                 >
                   <button
                     onClick={() => setOpenAccordion((prev) => (prev === val.id ? '' : val.id))}
-                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left hover:bg-slate-100/60 transition-colors gap-4 cursor-pointer"
+                    className="w-full flex items-center justify-between p-4 sm:p-4.5 text-left hover:bg-white/5 transition-colors gap-4 cursor-pointer"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="p-2.5 rounded-xl bg-ccdi-navy text-ccdi-gold shrink-0 shadow-sm">
+                    <div className="flex items-center gap-3.5">
+                      <div className="p-2 rounded-xl bg-amber-400/15 border border-amber-400/30 text-amber-400 shrink-0 shadow-xs">
                         {val.icon}
                       </div>
                       <div>
-                        <h4 className="text-base sm:text-lg font-bold text-slate-900 font-heading">
+                        <h4 className="text-sm sm:text-base font-bold text-white font-heading">
                           {val.title}
                         </h4>
-                        <p className="text-xs sm:text-sm text-slate-600 font-medium">
+                        <p className="text-xs text-slate-300 font-medium">
                           {val.summary}
                         </p>
                       </div>
                     </div>
 
-                    <div className={['p-2 rounded-full transition-transform duration-300', isOpen ? 'rotate-180 bg-ccdi-navy text-ccdi-gold' : 'bg-slate-200 text-slate-700'].join(' ')}>
-                      <ChevronDown className="w-5 h-5" />
+                    <div className={['p-1.5 rounded-full transition-transform duration-300', isOpen ? 'rotate-180 bg-amber-400 text-slate-950' : 'bg-white/10 text-slate-300'].join(' ')}>
+                      <ChevronDown className="w-4 h-4" />
                     </div>
                   </button>
 
@@ -314,8 +326,8 @@ export const AboutUs: React.FC = () => {
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className="overflow-hidden"
                       >
-                        <div className="p-5 pt-0 border-t border-slate-200/60 bg-white/60">
-                          <p className="text-sm text-slate-700 leading-relaxed font-normal pt-3 sm:pl-14">
+                        <div className="p-4 pt-0 border-t border-white/8 bg-black/20">
+                          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium pt-3 sm:pl-12">
                             {val.details}
                           </p>
                         </div>

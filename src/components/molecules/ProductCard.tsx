@@ -52,7 +52,7 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
 
         {/* Image / Uniform Soft Launch Brand Card */}
         {product.isSoftLaunch ? (
-          <div className="relative h-44 overflow-hidden bg-gradient-to-br from-[#07162A] via-[#0B2038] to-[#122E4D] border-b border-amber-400/20 flex flex-col items-center justify-center p-4 group-hover:scale-105 transition-transform duration-500 ease-out select-none">
+          <div className="relative h-24 sm:h-28 overflow-hidden bg-gradient-to-br from-[#07162A] via-[#0B2038] to-[#122E4D] border-b border-amber-400/20 flex flex-col items-center justify-center p-2 group-hover:scale-105 transition-transform duration-500 ease-out select-none">
             {/* Subtle grid pattern background */}
             <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none" />
 
@@ -62,51 +62,51 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
                 src="/ccdi-logo.png"
                 alt=""
                 aria-hidden="true"
-                className="w-64 max-w-none opacity-10 brightness-200 contrast-125 scale-125 transition-transform duration-700 group-hover:scale-150 group-hover:opacity-15"
+                className="w-40 max-w-none opacity-10 brightness-200 contrast-125 scale-110 transition-transform duration-700 group-hover:scale-125 group-hover:opacity-15"
               />
             </div>
 
             {/* Ambient glow Orbs */}
-            <div className="absolute w-32 h-32 bg-amber-400/10 rounded-full blur-xl pointer-events-none" />
-            <div className="absolute w-32 h-32 bg-purple-500/15 rounded-full blur-xl pointer-events-none" />
+            <div className="absolute w-20 h-20 bg-amber-400/10 rounded-full blur-xl pointer-events-none" />
+            <div className="absolute w-20 h-20 bg-purple-500/15 rounded-full blur-xl pointer-events-none" />
 
             {/* CCDI Brand Logo Container */}
-            <div className="relative z-10 bg-white/95 backdrop-blur-md rounded-xl p-2.5 shadow-xl border border-white/30 flex items-center justify-center mb-2.5 group-hover:border-amber-400/60 transition-colors">
+            <div className="relative z-10 bg-white/95 backdrop-blur-md rounded-lg p-1.5 shadow-md border border-white/30 flex items-center justify-center mb-1 group-hover:border-amber-400/60 transition-colors">
               <img
                 src="/ccdi-logo.png"
                 alt="CCDI Logo"
                 draggable={false}
-                className="h-9 w-auto object-contain"
+                className="h-6 sm:h-7 w-auto object-contain"
               />
             </div>
 
             {/* CCDI Text Label */}
-            <div className="relative z-10 text-center space-y-0.5">
-              <p className="text-[10px] font-black tracking-[0.22em] text-white uppercase leading-none">
+            <div className="relative z-10 text-center space-y-0">
+              <p className="text-[9px] font-black tracking-[0.2em] text-white uppercase leading-none">
                 Clarkbase
               </p>
-              <p className="text-[8.5px] font-extrabold text-amber-400 tracking-wider uppercase leading-none">
+              <p className="text-[7.5px] font-extrabold text-amber-400 tracking-wider uppercase leading-none">
                 Construction Dev't Inc.
               </p>
             </div>
 
             {/* BU pill — bottom left */}
-            <div className="absolute bottom-2.5 left-3 flex flex-wrap gap-1 items-center z-20">
-              <span className="inline-flex items-center gap-1 text-[9.5px] font-bold px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-sm border border-white/15 text-white">
+            <div className="absolute bottom-1.5 left-2 flex flex-wrap gap-1 items-center z-20">
+              <span className="inline-flex items-center gap-1 text-[8.5px] font-bold px-2 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-white/15 text-white">
                 {product.businessUnit}
               </span>
             </div>
 
             {/* Badge pill — top right */}
-            <div className="absolute top-2.5 right-3 flex flex-wrap items-center gap-1 justify-end z-20">
-              <span className="text-[9.5px] font-extrabold px-2.5 py-0.5 rounded-full bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-500 text-white uppercase tracking-wide shadow-lg flex items-center gap-1 border border-white/25">
-                <Sparkles className="w-3 h-3 text-amber-300 animate-pulse" />
+            <div className="absolute top-1.5 right-2 flex flex-wrap items-center gap-1 justify-end z-20">
+              <span className="text-[8.5px] font-extrabold px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-500 text-white uppercase tracking-wide shadow flex items-center gap-1 border border-white/25">
+                <Sparkles className="w-2.5 h-2.5 text-amber-300 animate-pulse" />
                 {product.softLaunchBadge || 'Listing Soon'}
               </span>
             </div>
           </div>
         ) : (
-          <div className={`relative h-44 overflow-hidden ${dark ? 'bg-slate-800' : 'bg-slate-100'}`}>
+          <div className={`relative h-32 sm:h-36 overflow-hidden ${dark ? 'bg-slate-800' : 'bg-slate-100'}`}>
             <img
               src={product.imageUrl}
               alt={product.title}
@@ -117,21 +117,21 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
 
             {/* BU pill — bottom left */}
-            <div className="absolute bottom-3 left-3 flex flex-wrap gap-1 items-center">
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-sm border border-white/15 text-white">
+            <div className="absolute bottom-2 left-2.5 flex flex-wrap gap-1 items-center">
+              <span className="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-full bg-black/75 backdrop-blur-sm border border-white/15 text-white">
                 {product.businessUnit}
               </span>
             </div>
 
             {/* Badge pill — top right */}
-            <div className="absolute top-3 right-3 flex flex-wrap items-center gap-1 justify-end">
+            <div className="absolute top-2 right-2.5 flex flex-wrap items-center gap-1 justify-end">
               {product.isSample && (
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800/90 text-slate-300 uppercase tracking-wide shadow flex items-center gap-1 border border-slate-600">
-                  <Info className="w-3 h-3 text-blue-400" />
+                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-slate-800/90 text-slate-300 uppercase tracking-wide shadow flex items-center gap-1 border border-slate-600">
+                  <Info className="w-2.5 h-2.5 text-blue-400" />
                   Sample Data
                 </span>
               )}
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-400/90 text-slate-950 uppercase tracking-wide shadow">
+              <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-400/90 text-slate-950 uppercase tracking-wide shadow">
                 {product.badge}
               </span>
             </div>
@@ -139,43 +139,54 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
         )}
 
         {/* Content */}
-        <div className="p-5 flex flex-col flex-grow">
+        <div className="p-3 sm:p-3.5 flex flex-col flex-grow">
 
-          {/* Sub-category tag + Sample / Soft Launch Label */}
-          <div className="flex items-center justify-between gap-2 mb-1.5">
-            <p className={`text-[10px] font-bold uppercase tracking-wider ${dark ? 'text-amber-400/80' : 'text-amber-600'}`}>
+          {/* Sub-category tag + Sample Label */}
+          <div className="flex items-center justify-between gap-2 mb-1 min-w-0">
+            <p className={`text-[10px] font-bold uppercase tracking-wider truncate ${dark ? 'text-amber-400/80' : 'text-amber-600'}`}>
               {product.subCategory}
             </p>
-            {product.isSoftLaunch ? (
-              <span className="text-[9px] font-extrabold text-purple-600 dark:text-purple-300 uppercase tracking-wider bg-purple-100 dark:bg-purple-950/80 border border-purple-300 dark:border-purple-800 px-2 py-0.5 rounded-full flex items-center gap-1">
-                <Sparkles className="w-2.5 h-2.5 text-amber-500" />
-                Listing Soon
-              </span>
-            ) : product.isSample ? (
-              <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-wider bg-slate-200/80 dark:bg-slate-800 px-2 py-0.5 rounded">
+            {!product.isSoftLaunch && product.isSample && (
+              <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-wider bg-slate-200/80 dark:bg-slate-800 px-2 py-0.5 rounded shrink-0">
                 Sample Data
               </span>
-            ) : null}
+            )}
           </div>
 
           {/* Title */}
           <h3 className={[
-            'text-[15px] font-bold tracking-tight font-heading mb-2 leading-snug',
+            'text-[13.5px] sm:text-[14px] font-bold tracking-tight font-heading mb-1.5 leading-snug',
             dark ? 'text-white' : 'text-slate-900',
           ].join(' ')}>
             {product.title}
           </h3>
 
-          {/* Description — hidden for soft launched products */}
-          {!product.isSoftLaunch && (
+          {/* Soft Launch Compact Callout Box (Maximized space, no text cut-off) */}
+          {product.isSoftLaunch ? (
+            <div className={`my-2 p-2 sm:p-2.5 rounded-xl border flex items-center gap-2 ${
+              dark
+                ? 'bg-purple-950/40 border-purple-500/30 text-purple-200'
+                : 'bg-purple-50/90 border-purple-200 text-purple-950'
+            }`}>
+              <Sparkles className="w-3.5 h-3.5 text-purple-500 shrink-0 animate-pulse" />
+              <div className="min-w-0 flex-1">
+                <p className="text-[10.5px] font-extrabold leading-tight">
+                  Technical Specs & Details on Hold
+                </p>
+                <p className="text-[9.5px] font-medium opacity-80 leading-tight mt-0.5">
+                  Available for early project inquiries
+                </p>
+              </div>
+            </div>
+          ) : (
             <p className={`text-xs leading-relaxed mb-4 flex-grow line-clamp-3 ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
               {product.description}
             </p>
           )}
 
-          {/* Specs / Metrics — hidden for soft launched products */}
+          {/* Specs / Metrics Grid — Hidden on small viewing devices (< sm) to keep mobile cards concise (hides Building Type, Dimensions) */}
           {!product.isSoftLaunch ? (
-            <div className={`grid grid-cols-3 gap-px mb-4 rounded-xl overflow-hidden border ${dark ? 'border-white/8' : 'border-slate-100'}`}>
+            <div className={`hidden sm:grid grid-cols-3 gap-px mb-4 rounded-xl overflow-hidden border ${dark ? 'border-white/8' : 'border-slate-100'}`}>
               {[
                 { label: product.metrics.spec1Label, value: product.metrics.spec1Value },
                 { label: product.metrics.spec2Label, value: product.metrics.spec2Value },
@@ -198,20 +209,14 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="my-auto py-6 px-3 my-4 rounded-xl bg-purple-950/20 dark:bg-purple-950/40 border border-purple-500/20 text-center flex flex-col items-center justify-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-              <span className="text-xs font-bold text-purple-700 dark:text-purple-300">Technical Specs & Details on Hold</span>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400">Available for early project inquiries</span>
-            </div>
-          )}
+          ) : null}
 
           {/* CTA Buttons — Specs Modal Trigger + Add to Inquiry */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 mt-auto pt-2 border-t border-slate-100 dark:border-white/10">
             <button
               onClick={() => setIsSpecsModalOpen(true)}
               className={[
-                'w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 whitespace-nowrap active:scale-[0.98]',
+                'w-full min-w-0 flex items-center justify-center gap-1 py-2 px-2 rounded-xl text-xs font-bold transition-all duration-200 active:scale-[0.98]',
                 product.isSoftLaunch
                   ? dark
                     ? 'bg-purple-950/60 hover:bg-purple-900/60 text-purple-200 border border-purple-500/30'
@@ -222,13 +227,13 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
               ].join(' ')}
             >
               <FileText className={`w-3.5 h-3.5 shrink-0 ${product.isSoftLaunch ? 'text-purple-500' : 'text-amber-500'}`} />
-              <span>{product.isSoftLaunch ? 'Listing Soon' : 'View Specs'}</span>
+              <span className="truncate">{product.isSoftLaunch ? 'Listing Soon' : 'View Specs'}</span>
             </button>
 
             <button
               onClick={() => onToggleInquiry(product)}
               className={[
-                'w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 whitespace-nowrap active:scale-[0.98]',
+                'w-full min-w-0 flex items-center justify-center gap-1 py-2 px-2 rounded-xl text-xs font-bold transition-all duration-200 active:scale-[0.98]',
                 isAddedToInquiry
                   ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/25 hover:bg-amber-300'
                   : product.isSoftLaunch
@@ -241,12 +246,12 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
               {isAddedToInquiry ? (
                 <>
                   <Check className="w-3.5 h-3.5 shrink-0" />
-                  <span>Added</span>
+                  <span className="truncate">Added</span>
                 </>
               ) : (
                 <>
                   <Plus className="w-3.5 h-3.5 shrink-0" />
-                  <span>{product.isSoftLaunch ? 'Inquire for Details' : 'Inquire'}</span>
+                  <span className="truncate">Inquire</span>
                 </>
               )}
             </button>

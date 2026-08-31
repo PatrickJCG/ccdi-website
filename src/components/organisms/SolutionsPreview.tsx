@@ -20,8 +20,14 @@ export const SolutionsPreview: React.FC<SolutionsPreviewProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  // Memoized: slice does not change; avoids recalculation when inquiry state updates
-  const featuredSolutions = useMemo(() => MOCK_PRODUCTS.slice(0, 6), []);
+  // Dynamically select products marked as isFeatured (launched flagship products), falling back to non-soft-launch items
+  const featuredSolutions = useMemo(() => {
+    const featured = MOCK_PRODUCTS.filter((p) => p.isFeatured);
+    if (featured.length >= 6) return featured.slice(0, 6);
+    const activeProducts = MOCK_PRODUCTS.filter((p) => !p.isSoftLaunch);
+    const combined = [...featured, ...activeProducts.filter((p) => !featured.some((f) => f.id === p.id))];
+    return combined.slice(0, 6);
+  }, []);
 
   return (
     <section

@@ -131,7 +131,7 @@ const InquiryAttachments: React.FC<{ inquiryItems: Product[]; onRemoveInquiryIte
 InquiryAttachments.displayName = "InquiryAttachments";
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, onRemoveInquiryItem, onClearInquiry }) => {
-  const [selectedService, setSelectedService] = useState<string>("Poultry");
+  const [selectedService, setSelectedService] = useState<string>("");
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", company: "", location: "", message: "" });
@@ -236,7 +236,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, on
                       </div>
                       <div className="bg-black/30 p-4 rounded-xl border border-white/8 text-xs text-slate-400 max-w-sm mx-auto text-left space-y-1">
                         <p className="font-bold text-amber-300 mb-2">Inquiry Summary</p>
-                        <p>Service: {selectedService}</p>
+                        <p>Service: {selectedService ? (SERVICE_CATEGORIES.find(c => c.id === selectedService)?.title || selectedService) : "Not specified"}</p>
                         <p>Location: {formData.location || "Not specified"}</p>
                         {inquiryItems.length > 0 && <p>Catalog Items: {inquiryItems.length}</p>}
                       </div>
@@ -311,7 +311,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, on
                             const selected = selectedService === cat.id;
                             const IconComponent = cat.icon;
                             return (
-                              <button key={cat.id} type="button" onClick={() => setSelectedService(cat.id)}
+                              <button key={cat.id} type="button" onClick={() => setSelectedService(prev => prev === cat.id ? "" : cat.id)}
                                 className={["inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all border",
                                   selected ? "bg-amber-400 text-slate-950 border-amber-400 shadow-md shadow-amber-400/20"
                                            : "bg-black/25 border-white/8 text-slate-300 hover:border-white/20 hover:text-white"].join(" ")}>

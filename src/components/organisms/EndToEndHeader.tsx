@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown,
   ChevronUp,
+  ChevronRight,
   CheckCircle2,
 } from 'lucide-react';
 
@@ -28,7 +29,8 @@ export const EndToEndHeader: React.FC<EndToEndHeaderProps> = ({
   const [activeStepIdx, setActiveStepIdx] = useState<number>(
     selectedStepNumber ? selectedStepNumber - 1 : 0
   );
-  const [isExpanded, setIsExpanded] = useState<boolean>(true);
+  // Initially hide details panel by default as requested by user
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const currentStep = TURNKEY_STEPS[activeStepIdx] || TURNKEY_STEPS[0];
 
@@ -44,10 +46,10 @@ export const EndToEndHeader: React.FC<EndToEndHeaderProps> = ({
   };
 
   return (
-    <div className="w-full space-y-6 sm:space-y-8">
-      {/* Header Titles */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md ${
+    <div className="w-full space-y-4 sm:space-y-5">
+      {/* Header Titles — Compact sizing when in light/embedded mode */}
+      <div className="text-center max-w-3xl mx-auto space-y-2">
+        <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider backdrop-blur-md ${
           lightMode 
             ? 'bg-ccdi-navy/10 border border-ccdi-navy/20 text-ccdi-navy' 
             : 'bg-amber-400/15 border border-amber-400/30 text-amber-300'
@@ -55,16 +57,16 @@ export const EndToEndHeader: React.FC<EndToEndHeaderProps> = ({
           <span>{tag}</span>
         </div>
 
-        <h2 className={`text-2xl sm:text-4xl font-extrabold font-heading tracking-tight ${
-          lightMode ? 'text-slate-900' : 'text-white'
+        <h2 className={`font-extrabold font-heading tracking-tight ${
+          lightMode ? 'text-xl sm:text-2xl text-slate-800' : 'text-2xl sm:text-4xl text-white'
         }`}>
           {title}
         </h2>
 
-        <div className="w-28 h-1.5 mx-auto bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 rounded-full shadow-sm" />
+        <div className="w-20 h-1 mx-auto bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 rounded-full shadow-sm" />
 
         {subtitle && (
-          <p className={`text-xs sm:text-sm leading-relaxed max-w-xl mx-auto pt-1 ${
+          <p className={`text-xs sm:text-sm leading-relaxed max-w-xl mx-auto pt-0.5 ${
             lightMode ? 'text-slate-600' : 'text-slate-300'
           }`}>
             {subtitle}
@@ -72,75 +74,92 @@ export const EndToEndHeader: React.FC<EndToEndHeaderProps> = ({
         )}
       </div>
 
-      {/* Horizontal Stepper Progress Track */}
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-4">
+      {/* Horizontal Stepper Progress Track — Centered horizontally */}
+      <div className="relative max-w-5xl mx-auto px-2 sm:px-4 py-2">
         <div className="relative">
-          {/* Background Track Line - Layered behind badges, aligned vertically through middle of number badges */}
-          <div className="absolute top-[20px] left-6 right-6 h-[3px] bg-slate-700/60 -translate-y-1/2 z-0 rounded-full" />
+          {/* Background Track Line - Layered behind badges, centered vertically through number badges */}
+          <div className="absolute top-[16px] sm:top-[18px] left-6 right-6 h-[3px] bg-slate-700/60 -translate-y-1/2 z-0 rounded-full" />
 
           {/* Active Progress Fill Line */}
           <div
-            className="absolute top-[20px] left-6 h-[3px] bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 -translate-y-1/2 z-0 transition-all duration-500 rounded-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+            className="absolute top-[16px] sm:top-[18px] left-6 h-[3px] bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 -translate-y-1/2 z-0 transition-all duration-500 rounded-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"
             style={{
               width: `${(activeStepIdx / (TURNKEY_STEPS.length - 1)) * 96}%`,
             }}
           />
 
-          {/* 8 Stepper Buttons */}
-          <div className="relative z-10 flex items-start justify-between gap-1 overflow-x-auto pb-2 scrollbar-none">
+          {/* 8 Stepper Buttons with Horizontally & Vertically Centered Chevron Arrows */}
+          <div className="relative z-10 flex items-start justify-between gap-1 overflow-x-auto pb-1 scrollbar-none">
             {TURNKEY_STEPS.map((step, idx) => {
               const isActive = activeStepIdx === idx;
               const isCompleted = idx < activeStepIdx;
 
               return (
-                <button
-                  key={step.stepNumber}
-                  onClick={() => handleStepClick(idx)}
-                  className="group flex flex-col items-center gap-2 cursor-pointer focus:outline-none flex-1 min-w-[70px] max-w-[110px]"
-                >
-                  {/* Number Badge Container - Non-arrow rounded-xl box layered over line */}
-                  <div
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-black text-xs sm:text-sm font-heading transition-all duration-300 relative z-10 ${
-                      isActive
-                        ? 'bg-amber-400 text-slate-950 scale-110 shadow-lg shadow-amber-400/40 ring-4 ring-amber-400/20'
-                        : isCompleted
-                        ? 'bg-amber-500 text-slate-950 font-bold'
-                        : lightMode
-                        ? 'bg-slate-200 border border-slate-300 text-slate-700 group-hover:border-amber-500 group-hover:text-amber-600'
-                        : 'bg-slate-900 border border-slate-700 text-slate-400 group-hover:border-amber-400/60 group-hover:text-amber-300'
-                    }`}
+                <React.Fragment key={step.stepNumber}>
+                  <button
+                    onClick={() => handleStepClick(idx)}
+                    className="group flex flex-col items-center gap-1.5 cursor-pointer focus:outline-none flex-1 min-w-[60px] max-w-[100px]"
                   >
-                    {step.stepNumber}
-                  </div>
+                    {/* Number Badge Container - Non-arrow rounded-xl box layered over line */}
+                    <div
+                      className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center font-black text-xs font-heading transition-all duration-300 relative z-10 ${
+                        isActive
+                          ? 'bg-amber-400 text-slate-950 scale-110 shadow-lg shadow-amber-400/40 ring-4 ring-amber-400/20'
+                          : isCompleted
+                          ? 'bg-amber-500 text-slate-950 font-bold'
+                          : lightMode
+                          ? 'bg-slate-200 border border-slate-300 text-slate-700 group-hover:border-amber-500 group-hover:text-amber-600'
+                          : 'bg-slate-900 border border-slate-700 text-slate-400 group-hover:border-amber-400/60 group-hover:text-amber-300'
+                      }`}
+                    >
+                      {step.stepNumber}
+                    </div>
 
-                  {/* Title Label */}
-                  <span
-                    className={`text-[10px] sm:text-[11px] font-bold tracking-tight text-center leading-tight line-clamp-2 min-h-[26px] flex items-center justify-center transition-colors px-0.5 ${
-                      isActive
-                        ? lightMode ? 'text-amber-700 font-extrabold' : 'text-amber-300 font-extrabold'
-                        : lightMode ? 'text-slate-600 group-hover:text-slate-900' : 'text-slate-400 group-hover:text-slate-200'
-                    }`}
-                  >
-                    {step.title}
-                  </span>
-                </button>
+                    {/* Title Label */}
+                    <span
+                      className={`text-[10px] sm:text-[11px] font-bold tracking-tight text-center leading-tight line-clamp-2 min-h-[24px] flex items-center justify-center transition-colors px-0.5 ${
+                        isActive
+                          ? lightMode ? 'text-amber-700 font-extrabold' : 'text-amber-300 font-extrabold'
+                          : lightMode ? 'text-slate-600 group-hover:text-slate-900' : 'text-slate-400 group-hover:text-slate-200'
+                      }`}
+                    >
+                      {step.title}
+                    </span>
+                  </button>
+
+                  {/* Directional Process Arrow — Centered vertically right on number badge center & track line */}
+                  {idx < TURNKEY_STEPS.length - 1 && (
+                    <div className="h-8 sm:h-9 flex items-center justify-center z-10 shrink-0 px-0.5 sm:px-1">
+                      <ChevronRight
+                        strokeWidth={3}
+                        className={`w-5 h-5 sm:w-6 sm:h-6 transition-colors duration-300 ${
+                          idx < activeStepIdx
+                            ? 'text-amber-500 font-black drop-shadow-[0_0_6px_rgba(245,158,11,0.6)] scale-110'
+                            : lightMode
+                            ? 'text-slate-400'
+                            : 'text-slate-500'
+                        }`}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
               );
             })}
           </div>
         </div>
 
         {/* Expand / Collapse Indicator Bar */}
-        <div className="flex justify-center mt-3">
+        <div className="flex justify-center mt-1.5">
           <button
             onClick={() => setIsExpanded((prev) => !prev)}
-            className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold border transition-all cursor-pointer ${
+            className={`inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold border transition-all cursor-pointer ${
               lightMode
                 ? 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
                 : 'bg-slate-900/90 border-slate-700 text-amber-300 hover:bg-slate-800'
             }`}
           >
             <span>{isExpanded ? 'Hide Details' : `View Step ${currentStep.stepNumber} Details`}</span>
-            {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
           </button>
         </div>
       </div>

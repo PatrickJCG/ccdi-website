@@ -1,7 +1,22 @@
 import React from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { MOCK_COMPARISON_DATA, type ComparisonRow } from '../../data/mockProducts';
-import { FlaskConical, TrendingUp, Heart, Scale, Award } from 'lucide-react';
+import { FlaskConical, TrendingUp, Heart, Scale, Award, Bird, Egg, Factory, Sun } from 'lucide-react';
+
+const renderRowIcon = (iconName: string) => {
+  switch (iconName) {
+    case 'Bird':
+      return <Bird className="w-4 h-4 text-amber-400" />;
+    case 'Egg':
+      return <Egg className="w-4 h-4 text-blue-300" />;
+    case 'Factory':
+      return <Factory className="w-4 h-4 text-amber-300" />;
+    case 'Sun':
+      return <Sun className="w-4 h-4 text-amber-400" />;
+    default:
+      return <Bird className="w-4 h-4 text-amber-400" />;
+  }
+};
 
 // ── Helper: render a metric cell with the right pill class ────────────────
 
@@ -106,8 +121,8 @@ export const ScannableMetricsTable: React.FC = () => {
                 {/* Sticky species name cell */}
                 <td className="col-sticky" style={{ textAlign: 'left' }}>
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xl leading-none" role="img" aria-hidden="true">
-                      {row.icon}
+                    <span className="p-1.5 rounded-lg bg-white/10 shrink-0 flex items-center justify-center">
+                      {renderRowIcon(row.icon)}
                     </span>
                     <div>
                       <div className="font-bold text-slate-100 text-sm">{row.species}</div>

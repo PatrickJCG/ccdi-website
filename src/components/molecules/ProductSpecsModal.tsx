@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, ShieldCheck, Wrench, Layers, Building2, Wind, Plus, Check, Info, Sparkles } from "lucide-react";
 import type { Product } from "../../data/mockProducts";
@@ -18,20 +19,20 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
   isAddedToInquiry,
   onToggleInquiry,
 }) => {
-  if (!isOpen || !product) return null;
+  if (!isOpen || !product || typeof document === "undefined") return null;
 
   const { buildingSpecs, materials } = product;
 
-  return (
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-slate-950/80 backdrop-blur-md"
+          className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-0"
         />
 
         {/* Modal Window */}
@@ -335,6 +336,7 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
