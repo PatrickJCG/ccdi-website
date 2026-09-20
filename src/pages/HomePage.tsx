@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 import { HeroSection } from '../components/organisms/HeroSection';
 import { AboutUs } from '../components/organisms/AboutUs';
 import { SolutionsPreview } from '../components/organisms/SolutionsPreview';
@@ -19,26 +18,6 @@ export const HomePage: React.FC<HomePageProps> = ({
   onToggleInquiry,
   onRemoveInquiryItem,
 }) => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash) {
-      const targetId = location.hash.replace('#', '');
-      const element = document.getElementById(targetId);
-      if (element) {
-        setTimeout(() => {
-          const offset = 80;
-          const bodyRect = document.body.getBoundingClientRect().top;
-          const elementRect = element.getBoundingClientRect().top;
-          const offsetPosition = elementRect - bodyRect - offset;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-        }, 120);
-      }
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [location.hash, location.pathname]);
-
   return (
     <>
       {/* 1. HERO SECTION (<HeroSection />) */}

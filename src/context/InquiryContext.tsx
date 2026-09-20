@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useMemo } from "react";
 import type { Product } from "../data/mockProducts";
 
 interface InquiryContextValue {
@@ -35,10 +35,21 @@ export const InquiryProvider: React.FC<{ children: React.ReactNode }> = ({ child
     [inquiryItems],
   );
 
+  // Memoize the context value so consumers only re-render when data actually changes
+  const value = useMemo<InquiryContextValue>(
+    () => ({
+      inquiryItems,
+      inquiryCount: inquiryItems.length,
+      toggleInquiry,
+      removeInquiryItem,
+      clearInquiry,
+      isInInquiry,
+    }),
+    [inquiryItems, toggleInquiry, removeInquiryItem, clearInquiry, isInInquiry],
+  );
+
   return (
-    <InquiryContext.Provider
-      value={{ inquiryItems, inquiryCount: inquiryItems.length, toggleInquiry, removeInquiryItem, clearInquiry, isInInquiry }}
-    >
+    <InquiryContext.Provider value={value}>
       {children}
     </InquiryContext.Provider>
   );

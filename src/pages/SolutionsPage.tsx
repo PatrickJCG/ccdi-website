@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ProductCatalog } from '../components/organisms/ProductCatalog';
 import { ContactSection } from '../components/organisms/ContactSection';
 import type { Product } from '../data/mockProducts';
@@ -14,12 +14,6 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
   onToggleInquiry,
   onRemoveInquiryItem,
 }) => {
-  useEffect(() => {
-    if (!window.location.hash) {
-      window.scrollTo({ top: 0 });
-    }
-  }, []);
-
   return (
     <>
       <ProductCatalog

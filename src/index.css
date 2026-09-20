@@ -6,16 +6,16 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: #243B53;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #0B192C;
     background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-    color: #102A43;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #0B192C;
     letter-spacing: -0.025em;
   }
 
@@ -93,7 +93,7 @@
 
 /* ── Data Typography ─────────────────────────────────────────── */
 .font-mono-data {
-  font-family: 'JetBrains Mono', 'ui-monospace', 'SFMono-Regular', monospace;
+  font-family: 'Arial', 'Helvetica', sans-serif;
   font-feature-settings: 'tnum' on, 'lnum' on;
   letter-spacing: -0.01em;
 }
@@ -190,7 +190,7 @@
   border: 1px solid rgba(159, 179, 200, 0.8);
   border-radius: 9999px;
   padding: 0.2rem 0.65rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Arial', 'Helvetica', sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -205,7 +205,7 @@
   border: 1px solid rgba(252, 211, 77, 0.6);
   border-radius: 9999px;
   padding: 0.2rem 0.65rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Arial', 'Helvetica', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -220,7 +220,7 @@
   border: 1px solid rgba(203, 213, 225, 0.6);
   border-radius: 9999px;
   padding: 0.2rem 0.65rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Arial', 'Helvetica', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: -0.01em;

@@ -1,8 +1,5 @@
 export * from './Navbar';
 export * from './HeroSection';
-export * from './CompanySection';
-export * from './ProductPreview';
-export * from './AboutSection';
 export * from './AboutUs';
 export * from './SolutionsPreview';
 export * from './WhyChooseUs';
@@ -14,5 +11,6 @@ export * from './Footer';
 export * from './PageLayout';
 export * from './TurnkeyApproach';
 export * from './EndToEndHeader';
-
-
+export * from './CoreProductionSystemsShowcase';
+export * from './CategoryEndToEndApproach';
+export * from './CategoryAccessoriesCatalog';

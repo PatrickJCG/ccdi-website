@@ -49,13 +49,11 @@ export const EndToEndHeader: React.FC<EndToEndHeaderProps> = ({
     <div className="w-full space-y-4 sm:space-y-5">
       {/* Header Titles — Compact sizing when in light/embedded mode */}
       <div className="text-center max-w-3xl mx-auto space-y-2">
-        <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider backdrop-blur-md ${
-          lightMode 
-            ? 'bg-ccdi-navy/10 border border-ccdi-navy/20 text-ccdi-navy' 
-            : 'bg-amber-400/15 border border-amber-400/30 text-amber-300'
+        <p className={`font-mono text-xs uppercase tracking-widest font-bold ${
+          lightMode ? 'text-amber-600' : 'text-amber-400'
         }`}>
-          <span>{tag}</span>
-        </div>
+          {tag}
+        </p>
 
         <h2 className={`font-extrabold font-heading tracking-tight ${
           lightMode ? 'text-xl sm:text-2xl text-slate-800' : 'text-2xl sm:text-4xl text-white'

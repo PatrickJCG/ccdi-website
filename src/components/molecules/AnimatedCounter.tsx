@@ -66,7 +66,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
 
   return (
     <span ref={ref} className={className}>
-      {isInView ? displayValue : "0"}
+      {displayValue}
     </span>
   );
 };

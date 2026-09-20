@@ -16,7 +16,7 @@
 /* ── Cert Code Badge (mono font) ─────────────────────────────────────────── */
 /* Used by: QualityCard.tsx */
 .cert-code {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Arial', 'Helvetica', sans-serif;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.05em;

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, ShieldCheck, Wrench, Layers, Building2, Wind, Plus, Check, Info, Sparkles } from "lucide-react";
+import { CheckCircle2, ShieldCheck, Wrench, Layers, Building2, Wind, Plus, Check, X, Play, Images } from "lucide-react";
 import type { Product } from "../../data/mockProducts";
 
 export interface ProductSpecsModalProps {
@@ -19,169 +19,246 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
   isAddedToInquiry,
   onToggleInquiry,
 }) => {
+  // Hook must be called unconditionally — before any early returns
+  const [modalMediaTab, setModalMediaTab] = useState<'image' | 'video'>('image');
+
+  // Sync media tab when the product or open state changes
+  useEffect(() => {
+    if (isOpen && product) {
+      setModalMediaTab(product.videoUrl ? 'video' : 'image');
+    }
+  }, [isOpen, product]);
+
   if (!isOpen || !product || typeof document === "undefined") return null;
 
   const { buildingSpecs, materials } = product;
 
   return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-0"
+          className="fixed inset-0 bg-black/80 z-0"
         />
 
-        {/* Modal Window */}
+        {/* Modal Window: Sharp 2px Corners, Navy Primary & Gold Accent */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.98, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-4xl bg-[#091A2C] border border-amber-400/30 rounded-3xl shadow-2xl overflow-hidden z-10 my-auto text-white"
+          exit={{ opacity: 0, scale: 0.98, y: 10 }}
+          transition={{ duration: 0.2 }}
+          className="relative w-full max-w-4xl bg-[#07162A] border border-[#102A43] rounded-[2px] overflow-hidden z-10 my-auto text-white text-left"
         >
           {/* Header Bar Accent */}
-          <div className={`h-1.5 ${product.isSoftLaunch ? 'bg-gradient-to-r from-purple-500 via-indigo-500 to-amber-400' : 'bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400'}`} />
+          <div className="h-1 bg-amber-400" />
 
           {/* Close Button */}
           <button
+            type="button"
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors z-20"
+            aria-label="Close specifications modal"
+            className="absolute top-4 right-4 w-8 h-8 rounded-[2px] bg-[#102A43] hover:bg-[#1E3E66] border border-[#1E3E66] hover:border-amber-400/70 text-slate-300 hover:text-white transition-all flex items-center justify-center z-20 cursor-pointer shadow-sm group"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 transition-transform group-hover:scale-110" />
           </button>
 
           <div className="p-6 sm:p-8 max-h-[85vh] overflow-y-auto space-y-6">
 
             {/* Title & Header */}
-            <div className="space-y-3 border-b border-white/10 pb-6">
+            <div className="space-y-3 border-b border-[#102A43] pb-6">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-extrabold uppercase tracking-wider">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-[2px] bg-amber-400/15 border border-amber-400/40 text-amber-300">
                   {product.businessUnit}
                 </span>
-                <span className="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold uppercase tracking-wider">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-[2px] bg-[#102A43] text-slate-300 border border-[#1E3E66]">
                   {product.subCategory}
                 </span>
-                
-                {product.isSoftLaunch ? (
-                  <span className="px-3.5 py-1 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-black uppercase tracking-wider ml-auto shadow flex items-center gap-1.5 border border-purple-400/30">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                    {product.softLaunchBadge || 'Listing Soon'}
-                  </span>
-                ) : product.isSample ? (
-                  <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-600 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 ml-auto">
-                    <Info className="w-4 h-4 text-blue-400" />
-                    Sample Demonstration Data
-                  </span>
-                ) : (
-                  <span className="px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-black uppercase tracking-wider ml-auto shadow">
-                    {product.badge}
-                  </span>
-                )}
               </div>
 
-              <h2 className="text-2xl sm:text-3xl font-black font-heading leading-tight text-white">
+              <h2 className="text-2xl sm:text-3xl font-extrabold leading-tight text-white">
                 {product.title}
               </h2>
 
               {!product.isSoftLaunch && (
-                <p className="text-sm text-slate-300 leading-relaxed">
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
                   {product.description}
                 </p>
               )}
             </div>
 
-            {/* Soft Launch Alert Box & CCDI Brand Card */}
-            {product.isSoftLaunch && (
-              <div className="space-y-4">
-                {/* CCDI Uniform Brand Layout Graphic */}
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#07162A] via-[#0D2644] to-[#122D4F] border border-amber-400/30 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xl">
-                  <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none" />
+            {/* Architectural & Equipment Multimedia Preview (Image / Video) */}
+            {(product.imageUrl || product.videoUrl) && (
+              <div className="space-y-2">
+                {product.videoUrl && (
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1 bg-[#040D18] p-1 rounded-[2px] border border-[#102A43]">
+                      <button
+                        type="button"
+                        onClick={() => setModalMediaTab('image')}
+                        className={`px-3 py-1 text-xs font-mono font-bold uppercase rounded-[2px] transition-colors cursor-pointer flex items-center gap-1.5 ${
+                          modalMediaTab === 'image'
+                            ? 'bg-amber-400 text-slate-950 shadow-sm'
+                            : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        <Images className="w-3.5 h-3.5" />
+                        <span>3D Model Schematic</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setModalMediaTab('video')}
+                        className={`px-3 py-1 text-xs font-mono font-bold uppercase rounded-[2px] transition-colors cursor-pointer flex items-center gap-1.5 ${
+                          modalMediaTab === 'video'
+                            ? 'bg-amber-400 text-slate-950 shadow-sm'
+                            : 'text-amber-400 hover:text-white'
+                        }`}
+                      >
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Facility Video Tour</span>
+                      </button>
+                    </div>
 
-                  {/* Subtle Silhouette Watermark of CCDI Logo */}
-                  <div className="absolute inset-0 flex items-center justify-end pr-6 pointer-events-none overflow-hidden">
-                    <img
-                      src="/ccdi-logo.png"
-                      alt=""
-                      aria-hidden="true"
-                      className="w-72 max-w-none opacity-10 brightness-200 contrast-125 scale-125"
-                    />
-                  </div>
-                  <div className="flex items-center gap-3.5 relative z-10">
-                    <div className="bg-white/95 backdrop-blur-md rounded-xl p-2.5 shadow-md border border-white/20 shrink-0">
-                      <img src="/ccdi-logo.png" alt="CCDI Logo" className="h-10 w-auto object-contain" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-black tracking-[0.2em] text-white uppercase">Clarkbase Construction Dev't Inc.</p>
-                      <p className="text-[11px] font-extrabold text-amber-400 uppercase tracking-widest mt-0.5">Turnkey Agro-Industrial Portfolio</p>
-                    </div>
-                  </div>
-                  <span className="px-3.5 py-1.5 rounded-full bg-purple-600/30 border border-purple-400/40 text-purple-200 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shrink-0 shadow relative z-10">
-                    <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-                    Listing Soon
-                  </span>
-                </div>
-
-                {/* Soft Launch Notice */}
-                <div className="bg-gradient-to-r from-purple-950/80 via-indigo-950/80 to-slate-900 border border-purple-500/40 rounded-2xl p-5 shadow-xl space-y-3">
-                  <div className="flex items-center justify-between gap-3 border-b border-purple-500/20 pb-3">
-                    <div className="flex items-center gap-2 text-purple-300 font-extrabold text-xs uppercase tracking-widest">
-                      <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-                      <span>Listing Soon — Commercial Inquiry Status</span>
-                    </div>
-                    <span className="text-[10px] font-bold text-amber-300 bg-amber-400/20 border border-amber-400/30 px-3 py-0.5 rounded-full">
-                      {product.estimatedAvailability || 'Taking Pre-Orders'}
+                    <span className="hidden sm:inline font-mono text-[10px] text-slate-400 uppercase tracking-widest">
+                      {modalMediaTab === 'video' ? 'ACTIVE MULTIMEDIA SPEC' : '3D CAD RENDER'}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-200 leading-relaxed font-medium">
-                    {product.softLaunchNotice ||
-                      'This product is ready for commercial order and project design inquiries. Official datasheets and detailed engineering blueprints are currently on hold pending final release.'}
-                  </p>
-                  <div className="flex items-center gap-2 pt-1 text-[11px] text-purple-300 font-semibold">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                    <span>Commercial quotes & early access reservations are currently ACTIVE for this item.</span>
+                )}
+
+                <div className="relative w-full h-64 sm:h-80 rounded-[2px] overflow-hidden bg-[#040D18] border border-[#102A43]">
+                  {product.videoUrl && modalMediaTab === 'video' ? (
+                    <video
+                      src={product.videoUrl}
+                      controls
+                      autoPlay
+                      loop
+                      playsInline
+                      className="w-full h-full object-contain bg-black"
+                    />
+                  ) : product.imageUrl ? (
+                    <img
+                      src={product.imageUrl}
+                      alt={product.title}
+                      className={`w-full h-full ${
+                        product.imageUrl.includes('3d') || product.imageUrl.includes('logo')
+                          ? 'object-contain p-8 bg-gradient-to-b from-[#0B1E36] to-[#040D18]'
+                          : 'object-cover brightness-[0.95]'
+                      }`}
+                    />
+                  ) : null}
+
+                  {/* Bottom Bar Info */}
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5 bg-gradient-to-t from-[#040D18] via-[#040D18]/80 to-transparent flex items-center justify-between text-[11px] font-mono pointer-events-none">
+                    <span className="text-amber-400 font-bold uppercase tracking-wider">
+                      {product.subCategory} • {modalMediaTab === 'video' ? 'FACILITY VIDEO TOUR' : 'TECHNICAL SPECIFICATION'}
+                    </span>
+                    <span className="text-slate-400">
+                      CCDI CERTIFIED ARCHITECTURE
+                    </span>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Building Specs Box (If Available and Not Soft Launched) */}
+            {/* Soft Launch Alert Box & CCDI Brand Card */}
+            {product.isSoftLaunch && (
+              <div className="space-y-4">
+                <div className="relative rounded-[2px] overflow-hidden bg-[#0B192C] border border-amber-400/30 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="relative z-10 flex items-center gap-4">
+                    <div className="bg-white rounded-[2px] px-3 py-1.5 flex items-center justify-center shrink-0">
+                      <img
+                        src="/images/branding/ccdi-logo.png"
+                        alt="CCDI Logo"
+                        className="h-8 w-auto object-contain"
+                      />
+                    </div>
+                    <div>
+                      <p className="font-mono text-xs font-bold text-amber-400 uppercase tracking-widest">
+                        CLARKBASE AGRO-INDUSTRIAL PIPELINE
+                      </p>
+                      <h4 className="text-lg font-bold text-white leading-tight mt-0.5">
+                        {product.title}
+                      </h4>
+                      <p className="text-xs text-slate-400 mt-1 font-normal">
+                        Engineering documentation in active review. Inquire for early project specs.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="relative z-10 shrink-0">
+                    <button
+                      onClick={() => onToggleInquiry(product)}
+                      className={`px-5 py-2 rounded-[2px] font-sans text-xs font-bold uppercase tracking-wider transition-colors ${
+                        isAddedToInquiry
+                          ? "bg-amber-400 text-slate-950 hover:bg-amber-300"
+                          : "bg-amber-400 text-slate-950 hover:bg-amber-300"
+                      }`}
+                    >
+                      {isAddedToInquiry ? "Included in Inquiry" : "Inquire for Details"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Key Engineering Metrics */}
+            <div className="space-y-3">
+              <h3 className="font-mono text-xs font-bold text-amber-400 uppercase tracking-widest">
+                Primary Operational Specifications
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="bg-[#0B192C] p-3.5 rounded-[2px] border border-[#102A43] text-left">
+                  <span className="font-mono text-[10px] text-slate-400 uppercase">{product.metrics.spec1Label}</span>
+                  <p className="text-xl font-extrabold font-mono text-amber-400 tabular-nums mt-1">{product.metrics.spec1Value}</p>
+                </div>
+                <div className="bg-[#0B192C] p-3.5 rounded-[2px] border border-[#102A43] text-left">
+                  <span className="font-mono text-[10px] text-slate-400 uppercase">{product.metrics.spec2Label}</span>
+                  <p className="text-xl font-extrabold font-mono text-white tabular-nums mt-1">{product.metrics.spec2Value}</p>
+                </div>
+                <div className="bg-[#0B192C] p-3.5 rounded-[2px] border border-[#102A43] text-left">
+                  <span className="font-mono text-[10px] text-slate-400 uppercase">{product.metrics.spec3Label}</span>
+                  <p className="text-xl font-extrabold font-mono text-white tabular-nums mt-1">{product.metrics.spec3Value}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Building Specs Box */}
             {!product.isSoftLaunch && buildingSpecs && (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
-                <div className="flex items-center gap-2 text-amber-400 font-extrabold text-sm uppercase tracking-wider">
+              <div className="bg-[#0B192C] border border-[#102A43] rounded-[2px] p-5 space-y-4 text-left">
+                <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider font-mono">
                   <Building2 className="w-4 h-4" />
                   <span>Building Parameters & Capacity Specifications</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {buildingSpecs.buildingType && (
-                    <div className="bg-black/30 p-3.5 rounded-xl border border-white/5 space-y-1">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Building Type</p>
-                      <p className="text-sm font-extrabold text-white">{buildingSpecs.buildingType}</p>
+                    <div className="bg-[#07162A] p-3 rounded-[2px] border border-[#102A43] space-y-1">
+                      <p className="font-mono text-[9px] font-bold text-slate-400 uppercase tracking-widest">Building Type</p>
+                      <p className="text-xs font-bold text-white">{buildingSpecs.buildingType}</p>
                     </div>
                   )}
                   {buildingSpecs.dimensions && (
-                    <div className="bg-black/30 p-3.5 rounded-xl border border-white/5 space-y-1">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Dimensions (L x W x H)</p>
-                      <p className="text-sm font-extrabold text-amber-300">{buildingSpecs.dimensions}</p>
+                    <div className="bg-[#07162A] p-3 rounded-[2px] border border-[#102A43] space-y-1">
+                      <p className="font-mono text-[9px] font-bold text-slate-400 uppercase tracking-widest">Dimensions</p>
+                      <p className="text-xs font-mono font-bold text-amber-400">{buildingSpecs.dimensions}</p>
                     </div>
                   )}
                   {buildingSpecs.birdCapacity && (
-                    <div className="bg-black/30 p-3.5 rounded-xl border border-white/5 space-y-1">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Bird Capacity Target</p>
-                      <p className="text-sm font-extrabold text-amber-400">{buildingSpecs.birdCapacity}</p>
+                    <div className="bg-[#07162A] p-3 rounded-[2px] border border-[#102A43] space-y-1">
+                      <p className="font-mono text-[9px] font-bold text-slate-400 uppercase tracking-widest">Target Capacity</p>
+                      <p className="text-xs font-mono font-bold text-amber-400">{buildingSpecs.birdCapacity}</p>
                     </div>
                   )}
                 </div>
 
                 {buildingSpecs.features && buildingSpecs.features.length > 0 && (
-                  <div className="flex flex-wrap gap-2 pt-2 border-t border-white/5">
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-[#102A43]">
                     {buildingSpecs.features.map((feat, idx) => (
-                      <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-semibold">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
+                      <span key={idx} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#07162A] border border-[#102A43] text-slate-300 text-xs font-medium">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                         {feat}
                       </span>
                     ))}
@@ -190,23 +267,23 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
               </div>
             )}
 
-            {/* Materials Breakdown (If Available and Not Soft Launched) */}
+            {/* Materials Breakdown */}
             {!product.isSoftLaunch && materials && (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+              <div className="bg-[#0B192C] border border-[#102A43] rounded-[2px] p-5 space-y-4 text-left">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-amber-400 font-extrabold text-sm uppercase tracking-wider">
+                  <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider font-mono">
                     <Wrench className="w-4 h-4" />
-                    <span>Pre-Fabricated House Materials & Specifications</span>
+                    <span>Structural Material Specifications</span>
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 bg-white/10 px-2.5 py-1 rounded-full uppercase">
+                  <span className="font-mono text-[10px] font-bold text-slate-400 bg-[#07162A] px-2 py-0.5 rounded-[2px] uppercase border border-[#102A43]">
                     ISO & PCAB Grade
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                   {materials.mainStructure && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-2">
-                      <div className="flex items-center gap-1.5 text-amber-300 font-extrabold uppercase text-[11px]">
+                    <div className="bg-[#07162A] p-4 rounded-[2px] border border-[#102A43] space-y-2">
+                      <div className="flex items-center gap-1.5 text-amber-400 font-bold uppercase font-mono text-[11px]">
                         <Layers className="w-3.5 h-3.5 text-amber-400" />
                         <span>Main Structure</span>
                       </div>
@@ -217,8 +294,8 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                   )}
 
                   {materials.secondaryStructure && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-2">
-                      <div className="flex items-center gap-1.5 text-amber-300 font-extrabold uppercase text-[11px]">
+                    <div className="bg-[#07162A] p-4 rounded-[2px] border border-[#102A43] space-y-2">
+                      <div className="flex items-center gap-1.5 text-amber-400 font-bold uppercase font-mono text-[11px]">
                         <Wind className="w-3.5 h-3.5 text-amber-400" />
                         <span>Secondary Structure</span>
                       </div>
@@ -227,84 +304,12 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                       </ul>
                     </div>
                   )}
-
-                  {materials.roofPurlin && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-2">
-                      <p className="text-amber-300 font-extrabold uppercase text-[11px]">Roof Purlin</p>
-                      <ul className="space-y-1 text-slate-300 list-disc list-inside">
-                        {materials.roofPurlin.map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {materials.wallPurlin && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-2">
-                      <p className="text-amber-300 font-extrabold uppercase text-[11px]">Wall Purlin</p>
-                      <ul className="space-y-1 text-slate-300 list-disc list-inside">
-                        {materials.wallPurlin.map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {materials.roofSheet && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-2">
-                      <p className="text-amber-300 font-extrabold uppercase text-[11px]">Roof Sheet</p>
-                      <ul className="space-y-1 text-slate-300 list-disc list-inside">
-                        {materials.roofSheet.map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {materials.ceilingSheet && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-2">
-                      <p className="text-amber-300 font-extrabold uppercase text-[11px]">Ceiling Sheet</p>
-                      <ul className="space-y-1 text-slate-300 list-disc list-inside">
-                        {materials.ceilingSheet.map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {materials.ceilingInsulation && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-2">
-                      <p className="text-amber-300 font-extrabold uppercase text-[11px]">Ceiling Insulation</p>
-                      <ul className="space-y-1 text-slate-300 list-disc list-inside">
-                        {materials.ceilingInsulation.map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {materials.wallPanel && (
-                    <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-2">
-                      <p className="text-amber-300 font-extrabold uppercase text-[11px]">Wall Panel</p>
-                      <ul className="space-y-1 text-slate-300 list-disc list-inside">
-                        {materials.wallPanel.map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Metrics summary (Hidden for Soft Launched Products) */}
-            {!product.isSoftLaunch && (
-              <div className="grid grid-cols-3 gap-3">
-                <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
-                  <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec1Label}</p>
-                  <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec1Value}</p>
-                </div>
-                <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
-                  <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec2Label}</p>
-                  <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec2Value}</p>
-                </div>
-                <div className="bg-black/30 p-3 text-center rounded-xl border border-white/5">
-                  <p className="text-[10px] text-slate-400 uppercase font-semibold">{product.metrics.spec3Label}</p>
-                  <p className="text-sm font-extrabold text-amber-300 mt-0.5">{product.metrics.spec3Value}</p>
                 </div>
               </div>
             )}
 
             {/* Footer Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#102A43]">
               <p className="text-xs text-slate-400 flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-amber-400" />
                 CCDI Turnkey Engineering Standard · ISO 9001 & PCAB Compliant
@@ -313,19 +318,14 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 <button
                   onClick={() => onToggleInquiry(product)}
-                  className={[
-                    "flex-1 sm:flex-initial flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-200 shadow-lg",
+                  className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-6 py-2.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-bold transition-colors ${
                     isAddedToInquiry
-                      ? "bg-amber-400 text-slate-950 hover:bg-amber-300 shadow-amber-400/20"
-                      : product.isSoftLaunch
-                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-purple-600/30"
-                        : "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30",
-                  ].join(" ")}
+                      ? "bg-amber-400 text-slate-950 hover:bg-amber-300"
+                      : "bg-amber-400 hover:bg-amber-300 text-slate-950"
+                  }`}
                 >
                   {isAddedToInquiry ? (
                     <><Check className="w-4 h-4" /> Added to Inquiry</>
-                  ) : product.isSoftLaunch ? (
-                    <><Plus className="w-4 h-4" /> Inquire for Details</>
                   ) : (
                     <><Plus className="w-4 h-4" /> Add to Proposal Request</>
                   )}

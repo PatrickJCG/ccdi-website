@@ -1,121 +1,103 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { ShieldCheck, TrendingUp, Building2, Cpu } from 'lucide-react';
-import { SectionHeader } from '../atoms';
+
+interface Pillar {
+  number: string;
+  title: string;
+  category: string;
+  description: string;
+}
+
+const PILLARS: Pillar[] = [
+  {
+    number: '01',
+    title: 'Uncompromising Reliability',
+    category: 'CERTIFIED GLOBAL PARTNERS',
+    description: 'We source strictly from certified international manufacturers to ensure structural integrity, biosecurity compliance, and long-term climate durability.',
+  },
+  {
+    number: '02',
+    title: 'Strategic Cost Efficiency',
+    category: 'VALUE ENGINEERING',
+    description: 'Through value engineering and modular planning, we minimize upfront capital expenditure while maximizing lifetime thermal, energy, and operational efficiency.',
+  },
+  {
+    number: '03',
+    title: 'Direct Global Sourcing',
+    category: 'TIER-1 OEM WARRANTIES',
+    description: 'By bypassing middle-layer distribution channels, CCDI secures direct factory warranties and transparent pricing on heavy agricultural equipment.',
+  },
+  {
+    number: '04',
+    title: 'Technical Engineering Competency',
+    category: 'CROSS-DISCIPLINARY TEAMS',
+    description: 'Our in-house team unites civil engineers, electrical designers, agricultural specialists, and solar PV technicians to deliver unified project execution.',
+  },
+];
 
 export const WhyChooseUs: React.FC = () => {
   return (
-    <section id="values" className="relative py-16 sm:py-20 bg-gray-50 border-b border-slate-200/60 overflow-hidden">
-      {/* Subtle Background Glows */}
-      <div className="absolute top-1/3 left-0 w-80 h-80 bg-ccdi-navy/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-ccdi-gold/10 rounded-full blur-3xl pointer-events-none" />
+    <section id="values" className="relative py-24 sm:py-32 bg-white border-b border-slate-200 text-left font-sans text-slate-900 overflow-hidden">
+      {/* Architectural Top-Right Corner Accent */}
+      <img
+        src="/images/accents/card-corner-accent.png"
+        alt=""
+        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+        aria-hidden="true"
+      />
 
-      {/* Geometric Angled Branding Accent Line */}
-      <div className="absolute top-16 right-0 w-96 h-3 bg-gradient-to-l from-ccdi-navy via-ccdi-gold to-transparent transform -rotate-6 opacity-30 pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10 sm:space-y-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6 }}
-        >
-          <SectionHeader
-            tag="Why Choose CCDI?"
-            title="Built on Engineering Integrity & Proven Performance"
-            description="We combine international material standards, direct supply chains, and specialized engineering knowledge to deliver agro-industrial infrastructure projects on time, within budget, and built to last."
-          />
-        </motion.div>
+        {/* Section Header: Plus Jakarta Sans, Navy + Gold */}
+        <div className="space-y-4 max-w-3xl">
+          <p className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold">
+            CCDI / OPERATIONAL ADVANTAGES
+          </p>
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0B192C] leading-tight">
+            Built on engineering integrity & proven execution.
+          </h2>
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+            We combine international material standards, direct supply chains, and specialized engineering knowledge to deliver agro-industrial infrastructure projects on time, within budget, and built to endure.
+          </p>
+        </div>
 
-        {/* ── 4 PILLARS OF STRENGTH (Responsive Grid) ─────────────────── */}
-        <div className="space-y-6">
-          <h3 className="text-xl font-extrabold text-slate-900 font-heading flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-ccdi-gold inline-block" />
-            <span>Our 4 Core Operational Strengths</span>
-          </h3>
+        {/* ── 4 PILLARS: 1PX GRID / WHITE CARDS / GOLD ACCENTS / SHARP 2PX ── */}
+        <div className="border-t border-slate-200 pt-10">
+          <div className="mb-4">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500 font-bold">
+              FOUR OPERATIONAL PILLARS
+            </span>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Pillar 1: Reliability */}
-            <motion.div
-              whileHover={{ y: -6, scale: 1.01 }}
-              transition={{ duration: 0.2 }}
-              className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm hover:shadow-xl hover:border-ccdi-navy transition-all duration-300 group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-ccdi-navy text-ccdi-gold flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <ShieldCheck className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200 border border-slate-200">
+            {PILLARS.map(({ number, title, category, description }) => (
+              <div
+                key={number}
+                className="bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:bg-slate-50 transition-colors"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-baseline justify-between border-b border-slate-100 pb-3">
+                    <span className="font-mono text-xl font-extrabold text-amber-600 tabular-nums">
+                      {number}
+                    </span>
+                    <span className="font-mono text-[9px] uppercase tracking-wider text-slate-400">
+                      PILLAR
+                    </span>
+                  </div>
+
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-amber-600 font-bold">
+                    {category}
+                  </p>
+
+                  <h3 className="text-base font-bold text-[#0B192C] tracking-tight leading-snug">
+                    {title}
+                  </h3>
+                </div>
+
+                <p className="text-xs text-slate-600 leading-relaxed pt-2 font-normal">
+                  {description}
+                </p>
               </div>
-              <h4 className="text-lg font-bold text-slate-900 font-heading group-hover:text-ccdi-navy transition-colors">
-                1. Uncompromising Reliability
-              </h4>
-              <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">
-                Trusted Global Suppliers & Certified Materials
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                We source strictly from certified, world-class manufacturing partners to ensure structural integrity, biosecurity compliance, and long-term durability in all climate conditions.
-              </p>
-            </motion.div>
-
-            {/* Pillar 2: Cost Efficiency */}
-            <motion.div
-              whileHover={{ y: -6, scale: 1.01 }}
-              transition={{ duration: 0.2 }}
-              className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm hover:shadow-xl hover:border-amber-500 transition-all duration-300 group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <TrendingUp className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg font-bold text-slate-900 font-heading group-hover:text-amber-600 transition-colors">
-                2. Strategic Cost Efficiency
-              </h4>
-              <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">
-                Optimized CapEx & OpEx Engineering
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Through value engineering and modular planning, we minimize upfront capital costs while maximizing lifetime thermal, energy, and operational efficiency.
-              </p>
-            </motion.div>
-
-            {/* Pillar 3: Direct Sourcing */}
-            <motion.div
-              whileHover={{ y: -6, scale: 1.01 }}
-              transition={{ duration: 0.2 }}
-              className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm hover:shadow-xl hover:border-ccdi-navy transition-all duration-300 group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-ccdi-navy text-ccdi-gold flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <Building2 className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg font-bold text-slate-900 font-heading group-hover:text-ccdi-navy transition-colors">
-                3. Direct Global Sourcing
-              </h4>
-              <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">
-                Tier-One Manufacturer Relationships
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                By bypassing middle-layer distribution channels, CCDI secures direct tier-one pricing and factory warranties on heavy equipment, environmental controls, and components.
-              </p>
-            </motion.div>
-
-            {/* Pillar 4: People Competency */}
-            <motion.div
-              whileHover={{ y: -6, scale: 1.01 }}
-              transition={{ duration: 0.2 }}
-              className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm hover:shadow-xl hover:border-amber-500 transition-all duration-300 group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <Cpu className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg font-bold text-slate-900 font-heading group-hover:text-amber-600 transition-colors">
-                4. People & Technical Competency
-              </h4>
-              <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">
-                Multi-Disciplinary Engineering Experts
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Our multi-disciplinary team brings deep field expertise across civil engineering, mechanical systems, agricultural technology, and renewable solar energy integration.
-              </p>
-            </motion.div>
+            ))}
           </div>
         </div>
 

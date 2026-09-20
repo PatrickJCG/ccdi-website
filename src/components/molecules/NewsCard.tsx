@@ -1,76 +1,75 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { NewsArticle } from '../../data/mockProducts';
-import { Calendar, Clock, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { Badge } from '../atoms';
 
 export interface NewsCardProps {
   article: NewsArticle;
   delay?: number;
+  dark?: boolean;
 }
 
-export const NewsCard: React.FC<NewsCardProps> = ({ article, delay = 0 }) => {
+export const NewsCard: React.FC<NewsCardProps> = ({ article, dark = false }) => {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 25, scale: 0.96 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      whileHover={{ y: -6, scale: 1.015 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.45, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-industrial_blue-300 transition-shadow duration-300 flex flex-col h-full group"
+    <article
+      className={[
+        'rounded-[2px] border overflow-hidden transition-colors flex flex-col h-full group text-left font-sans',
+        dark
+          ? 'bg-[#0B192C] border-[#102A43] hover:border-amber-400/50 text-white'
+          : 'bg-white border-slate-200 hover:border-[#0B192C] text-slate-900',
+      ].join(' ')}
     >
       {/* Image & Category Tag */}
-      <Link to={`/news/${article.id}`} className="relative h-48 overflow-hidden bg-slate-100 block">
+      <Link
+        to={`/news/${article.id}`}
+        className={`relative h-48 overflow-hidden block border-b ${dark ? 'bg-[#07162A] border-[#102A43]' : 'bg-slate-100 border-slate-200'}`}
+      >
         <img
           src={article.imageUrl}
           alt={article.title}
-          className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out grayscale-[15%] contrast-[1.05]"
         />
-        <div className="absolute top-3 left-3">
-          <Badge variant="speciesBlue">
+        <div className="absolute top-2 left-2">
+          <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] bg-[#07162A]/90 text-amber-400 border border-amber-400/40">
             {article.category}
-          </Badge>
+          </span>
         </div>
       </Link>
 
       {/* Card Content */}
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex items-center gap-3 text-xs font-semibold text-slate-500 mb-2">
-          <span className="flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5 text-industrial_blue-500 shrink-0" />
-            {article.date}
-          </span>
+      <div className="p-6 flex flex-col flex-grow space-y-3">
+        <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-wider text-slate-500">
+          <span>{article.date}</span>
           {article.readTime && (
             <>
               <span>•</span>
-              <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                {article.readTime}
-              </span>
+              <span className="text-amber-600 dark:text-amber-400 font-bold">{article.readTime}</span>
             </>
           )}
         </div>
 
-        <Link to={`/news/${article.id}`} className="block group-hover:text-industrial_blue-500 transition-colors">
-          <h3 className="text-xl font-extrabold text-slate-900 font-heading mb-3 line-clamp-2">
+        <Link
+          to={`/news/${article.id}`}
+          className={`block transition-colors ${dark ? 'group-hover:text-amber-400 text-white' : 'group-hover:text-amber-600 text-[#0B192C]'}`}
+        >
+          <h3 className="text-lg font-bold tracking-tight leading-snug line-clamp-2">
             {article.title}
           </h3>
         </Link>
 
-        <p className="text-sm text-slate-600 leading-relaxed flex-grow mb-6 line-clamp-3">
+        <p className={`text-xs leading-relaxed flex-grow line-clamp-3 font-normal ${dark ? 'text-slate-300' : 'text-slate-600'}`}>
           {article.summary}
         </p>
 
-        <Link
-          to={`/news/${article.id}`}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-industrial_blue-500 group-hover:text-industrial_blue-700 transition-colors mt-auto"
-        >
-          <span>Read Full Article</span>
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200 shrink-0" />
-        </Link>
+        <div className={`pt-3 border-t mt-auto ${dark ? 'border-[#102A43]' : 'border-slate-100'}`}>
+          <Link
+            to={`/news/${article.id}`}
+            className="font-mono text-xs uppercase tracking-wider font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 inline-flex items-center gap-1.5 transition-colors"
+          >
+            <span>Read Article</span>
+            <span>→</span>
+          </Link>
+        </div>
       </div>
-    </motion.article>
+    </article>
   );
 };
-

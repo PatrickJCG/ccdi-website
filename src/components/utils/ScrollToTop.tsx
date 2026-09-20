@@ -26,10 +26,6 @@ export const ScrollToTop = () => {
     } else {
       // Direct user to the top of the page on route transition
       window.scrollTo({ top: 0, behavior: 'instant' });
-      const timer = setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 50);
-      return () => clearTimeout(timer);
     }
   }, [pathname, hash]);
 

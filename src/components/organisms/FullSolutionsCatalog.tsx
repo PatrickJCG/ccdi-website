@@ -1,13 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, RotateCcw, ChevronLeft, ChevronRight, CheckSquare, Square, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 import { MOCK_PRODUCTS, BUSINESS_UNITS } from '../../data/mockProducts';
 import type { Product, BusinessUnit } from '../../data/mockProducts';
 import { ProductCard } from '../molecules';
-import { Button } from '../atoms';
 import { EndToEndHeader } from './EndToEndHeader';
-
 
 export interface FullSolutionsCatalogProps {
   inquiryItems?: Product[];
@@ -18,7 +16,6 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
   inquiryItems = [],
   onToggleInquiry,
 }) => {
-  // State for search, active categories, active subcategories, softlaunch, and pagination
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBUs, setSelectedBUs] = useState<BusinessUnit[]>([]);
   const [selectedSubCats, setSelectedSubCats] = useState<string[]>([]);
@@ -26,7 +23,6 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  // Available sub-categories derived from MOCK_PRODUCTS
   const allSubCategories = useMemo(() => {
     const set = new Set<string>();
     MOCK_PRODUCTS.forEach((p) => {
@@ -37,7 +33,6 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
     return Array.from(set);
   }, []);
 
-  // Filter handlers
   const handleBUCheckbox = (bu: BusinessUnit) => {
     setCurrentPage(1);
     setSelectedBUs((prev) =>
@@ -60,22 +55,17 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
     setCurrentPage(1);
   };
 
-  // Filtered Products Logic (Standard Products prioritized first)
   const filteredProducts = useMemo(() => {
     const list = MOCK_PRODUCTS.filter((product) => {
-      // 1. Business Unit Filter
       if (selectedBUs.length > 0 && !selectedBUs.includes(product.businessUnit)) {
         return false;
       }
-      // 2. Sub-Category Filter
       if (selectedSubCats.length > 0 && !selectedSubCats.includes(product.subCategory)) {
         return false;
       }
-      // 3. Soft Launch Filter
       if (onlySoftLaunch && !product.isSoftLaunch) {
         return false;
       }
-      // 4. Predictive Live Search
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchTitle = product.title.toLowerCase().includes(q);
@@ -91,7 +81,6 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
       return true;
     });
 
-    // Prioritize active in-stock products first, placing Listing Soon items at the end
     return [...list].sort((a, b) => {
       if (!a.isSoftLaunch && b.isSoftLaunch) return -1;
       if (a.isSoftLaunch && !b.isSoftLaunch) return 1;
@@ -99,7 +88,6 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
     });
   }, [selectedBUs, selectedSubCats, onlySoftLaunch, searchQuery]);
 
-  // Pagination Logic
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage) || 1;
   const paginatedProducts = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
@@ -121,312 +109,211 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-20">
+    <div className="bg-[#07162A] text-slate-100 min-h-screen pb-20 text-left font-sans">
       
-      {/* ── 1. CATALOG HEADER HERO BANNER ──────────────────────────── */}
-      <section
-        className="relative text-white py-16 sm:py-24 overflow-hidden"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 0%, #102A43 0%, #07162A 60%, #040D18 100%)',
-        }}
-      >
-        {/* Glows & Mesh Accent */}
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
-        <div className="absolute top-1/2 -right-32 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 -left-32 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Subtle branded grid */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-[0.04]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(245,158,11,1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,1) 1px, transparent 1px)',
-            backgroundSize: '48px 48px',
-          }}
-        />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-4">
+      {/* ── 1. CATALOG HEADER (NAVY PRIMARY, GOLD ACCENT, 2PX CORNERS) ── */}
+      <section className="bg-[#07162A] text-white pt-28 pb-16 border-b border-[#102A43]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           
           {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-xs sm:text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
-            <Link to="/" className="hover:text-amber-400 transition-colors">Home</Link>
-            <span className="text-amber-400/80 font-bold">&gt;</span>
-            <span className="text-amber-400 font-semibold">Solutions</span>
+          <nav className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-slate-400" aria-label="Breadcrumb">
+            <Link to="/" className="hover:text-amber-400 transition-colors">HOME</Link>
+            <span className="text-[#1E3E66]">/</span>
+            <span className="text-amber-400 font-bold">SOLUTIONS CATALOG</span>
           </nav>
 
-          {/* Interactive End-To-End Header */}
-          <EndToEndHeader
-            tag="Turnkey Agro-Industrial Catalog"
-            title="Our Full Solutions Catalog"
-            subtitle="Explore our complete suite of agro-industrial solutions across Poultry Facilities, Hatcheries, Feedmills, and Solar Energy Integration. Click on any step below (1–8) to expand full execution specs."
-            lightMode={false}
-            onStepSelect={(stepNum) => {
-              // Map steps to business units
-              const stepBUMap: Record<number, BusinessUnit> = {
-                1: 'Poultry Farm Equipment',
-                2: 'Poultry Farm Equipment',
-                3: 'Hatchery',
-                4: 'Poultry Farm Equipment',
-                5: 'Feedmill',
-                6: 'Poultry Farm Equipment',
-                7: 'Hatchery',
-                8: 'Solar Systems',
-              };
-              const targetBU = stepBUMap[stepNum];
-              if (targetBU) {
-                setSelectedBUs([targetBU]);
-                setCurrentPage(1);
-              }
-            }}
-          />
-        </div>
+          <div className="space-y-3 max-w-3xl">
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+              Full Agro-Industrial Solutions Catalog
+            </h1>
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+              Explore our complete suite of agro-industrial solutions across Poultry Facilities, Hatcheries, Feedmills, and Solar Energy Integration.
+            </p>
+          </div>
 
-        {/* Bottom Gold Accent Stripe */}
-        <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500" />
+          {/* Interactive End-To-End Header */}
+          <div className="pt-6 border-t border-[#102A43]">
+            <EndToEndHeader
+              tag="EXECUTION FRAMEWORK"
+              title="Turnkey Engineering Delivery"
+              subtitle="Select any execution phase below to filter solutions by engineering scope."
+              lightMode={false}
+              onStepSelect={(stepNum) => {
+                const stepBUMap: Record<number, BusinessUnit> = {
+                  1: 'Poultry Farm Equipment',
+                  2: 'Poultry Farm Equipment',
+                  3: 'Hatchery',
+                  4: 'Poultry Farm Equipment',
+                  5: 'Feedmill',
+                  6: 'Poultry Farm Equipment',
+                  7: 'Hatchery',
+                  8: 'Solar Systems',
+                };
+                const targetBU = stepBUMap[stepNum];
+                if (targetBU) {
+                  setSelectedBUs([targetBU]);
+                  setCurrentPage(1);
+                }
+              }}
+            />
+          </div>
+        </div>
       </section>
 
-      {/* ── 2. DYNAMIC 2-COLUMN CATALOG INTERFACE ─────────────────────── */}
+      {/* ── 2. CATALOG INTERFACE ── */}
       <div id="catalog-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           
-          {/* ── LEFT SIDEBAR: FILTERS ────────────────────────────────── */}
+          {/* ── LEFT SIDEBAR: NAVY & GOLD FLAT FILTERS ── */}
           <aside className="lg:col-span-1 space-y-6">
-            <div className="bg-white rounded-2xl border-2 border-slate-200/90 shadow-xl shadow-slate-200/80 sticky top-24 overflow-hidden space-y-0">
+            <div className="bg-[#0B192C] rounded-[2px] p-4 border border-[#102A43] space-y-6 sticky top-24">
               
-              {/* Filter Header Banner */}
-              <div className="bg-gradient-to-r from-ccdi-navy via-[#102A43] to-[#1E3E66] p-4 sm:p-5 flex items-center justify-between border-b border-white/10 shadow-md">
-                <div className="flex items-center gap-2.5">
-                  <div className="p-1.5 rounded-lg bg-amber-400/20 text-amber-400 border border-amber-400/30">
-                    <SlidersHorizontal className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-white font-extrabold text-base font-heading leading-snug">
-                      Filter Solutions
-                    </h2>
-                    <p className="text-[11px] text-slate-300 font-medium">Refine by capability</p>
-                  </div>
+              {/* Filter Header */}
+              <div className="flex items-baseline justify-between border-b border-[#102A43] pb-3">
+                <div>
+                  <h2 className="font-mono text-xs uppercase tracking-widest text-amber-400 font-bold">
+                    FILTER CRITERIA
+                  </h2>
+                  <p className="font-mono text-[10px] text-slate-400 mt-0.5">
+                    {filteredProducts.length} SYSTEMS MATCHED
+                  </p>
                 </div>
 
                 {(selectedBUs.length > 0 || selectedSubCats.length > 0 || onlySoftLaunch || searchQuery) && (
                   <button
+                    type="button"
                     onClick={handleResetFilters}
-                    className="text-xs text-slate-950 hover:text-black font-extrabold flex items-center gap-1 bg-amber-400 hover:bg-amber-300 px-3 py-1.5 rounded-lg transition-all shadow-sm cursor-pointer"
+                    className="font-mono text-[11px] uppercase tracking-wider text-amber-400 hover:text-amber-300 underline underline-offset-4"
                   >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    <span>Reset</span>
+                    [RESET]
                   </button>
                 )}
               </div>
 
-              <div className="p-5 space-y-6">
-                {/* Active Filter Indicator Badge */}
-                {(selectedBUs.length > 0 || selectedSubCats.length > 0 || onlySoftLaunch) && (
-                  <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-900 text-xs font-bold">
-                    <span>Active Filters:</span>
-                    <span className="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full">
-                      {selectedBUs.length + selectedSubCats.length + (onlySoftLaunch ? 1 : 0)} Selected
-                    </span>
-                  </div>
-                )}
+              {/* Core Category (Business Unit) */}
+              <div className="space-y-2">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-slate-400 block mb-2">
+                  PRIMARY SECTOR
+                </span>
 
-                {/* Filter Section 1: Main Category (Business Unit) */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 font-heading flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 inline-block" />
-                      Core Category
-                    </h3>
-                    <span className="text-[10px] text-slate-400 font-medium">Select multiple</span>
-                  </div>
-
-                  <div className="space-y-2">
-                    {BUSINESS_UNITS.map((bu) => {
-                      const isChecked = selectedBUs.includes(bu);
-                      const count = MOCK_PRODUCTS.filter((p) => p.businessUnit === bu).length;
-                      return (
-                        <button
-                          key={bu}
-                          onClick={() => handleBUCheckbox(bu)}
-                          className={[
-                            'w-full flex items-center justify-between p-3 rounded-xl text-left text-sm transition-all duration-200 border cursor-pointer',
-                            isChecked
-                              ? 'bg-ccdi-navy text-white font-bold border-ccdi-navy shadow-md shadow-ccdi-navy/20 scale-[1.01]'
-                              : 'bg-slate-50 border-slate-200 text-slate-800 hover:bg-slate-100 hover:border-slate-300 font-semibold',
-                          ].join(' ')}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className={isChecked ? 'text-amber-400' : 'text-slate-400'}>
-                              {isChecked ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
-                            </div>
-                            <span className="text-xs sm:text-sm">{bu}</span>
-                          </div>
-                          <span className={[
-                            'text-xs px-2.5 py-0.5 rounded-full font-bold transition-colors',
-                            isChecked
-                              ? 'bg-amber-400 text-slate-950 font-black'
-                              : 'bg-white text-slate-600 border border-slate-200',
-                          ].join(' ')}>
-                            {count}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
+                <div className="space-y-1.5">
+                  {BUSINESS_UNITS.map((bu) => {
+                    const isChecked = selectedBUs.includes(bu);
+                    const count = MOCK_PRODUCTS.filter((p) => p.businessUnit === bu).length;
+                    return (
+                      <button
+                        key={bu}
+                        type="button"
+                        onClick={() => handleBUCheckbox(bu)}
+                        className={`w-full flex items-center justify-between p-2 rounded-[2px] font-sans text-xs transition-colors text-left border ${
+                          isChecked
+                            ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold'
+                            : 'bg-[#07162A] text-slate-300 border-[#102A43] hover:border-amber-400/40 hover:text-white'
+                        }`}
+                      >
+                        <span className="truncate pr-2">{bu}</span>
+                        <span className="tabular-nums font-mono text-[10px] shrink-0 font-bold">
+                          [{count}]
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
+              </div>
 
-                {/* Filter Section 2: Sub-Categories */}
-                <div className="space-y-3 border-t border-slate-100 pt-5">
-                  <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 font-heading flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-ccdi-navy inline-block" />
-                    Specialized Sub-Category
-                  </h3>
-                  <div className="space-y-2 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
-                    {allSubCategories.map((subCat) => {
-                      const isChecked = selectedSubCats.includes(subCat);
-                      return (
-                        <button
-                          key={subCat}
-                          onClick={() => handleSubCatCheckbox(subCat)}
-                          className={[
-                            'w-full flex items-center justify-between p-2.5 rounded-xl text-left text-xs transition-all duration-200 border cursor-pointer',
-                            isChecked
-                              ? 'bg-amber-400/20 text-slate-950 font-extrabold border-amber-400 shadow-sm'
-                              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 font-medium',
-                          ].join(' ')}
-                        >
-                          <div className="flex items-center gap-2">
-                            <div className={isChecked ? 'text-amber-600' : 'text-slate-400'}>
-                              {isChecked ? <CheckSquare className="w-3.5 h-3.5" /> : <Square className="w-3.5 h-3.5" />}
-                            </div>
-                            <span className="truncate">{subCat}</span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+              {/* Sub-Categories */}
+              <div className="space-y-2 border-t border-[#102A43] pt-4">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-slate-400 block mb-2">
+                  SYSTEM SUB-CATEGORY
+                </span>
+
+                <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
+                  {allSubCategories.map((subCat) => {
+                    const isChecked = selectedSubCats.includes(subCat);
+                    return (
+                      <button
+                        key={subCat}
+                        type="button"
+                        onClick={() => handleSubCatCheckbox(subCat)}
+                        className={`w-full flex items-center justify-between p-2 rounded-[2px] font-sans text-[11px] transition-colors text-left border ${
+                          isChecked
+                            ? 'bg-amber-400/15 border-amber-400 text-amber-300 font-bold'
+                            : 'bg-[#07162A] text-slate-300 border-[#102A43] hover:border-slate-600'
+                        }`}
+                      >
+                        <span className="truncate">{subCat}</span>
+                        <span className="font-mono text-[10px] text-amber-400">{isChecked ? '[x]' : '[ ]'}</span>
+                      </button>
+                    );
+                  })}
                 </div>
+              </div>
 
-                {/* Filter Section 3: Product Availability Status */}
-                <div className="space-y-3 pt-3 border-t border-slate-200">
-                  <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 font-heading flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-600 inline-block" />
-                    Availability
-                  </h3>
-
-                  <button
-                    onClick={() => {
-                      setOnlySoftLaunch(prev => !prev);
-                      setCurrentPage(1);
-                    }}
-                    className={[
-                      'w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-bold transition-all duration-200 border cursor-pointer',
-                      onlySoftLaunch
-                        ? 'bg-purple-50 border-purple-300 text-purple-950 ring-1 ring-purple-400 shadow-sm'
-                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold',
-                    ].join(' ')}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className={onlySoftLaunch ? 'text-purple-600' : 'text-slate-400'}>
-                        {onlySoftLaunch ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
-                      </div>
-                      <span className="flex items-center gap-1">
-                        Show Listing Soon Only
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">
-                      4
-                    </span>
-                  </button>
-                </div>
-
-                {/* Filter Info Footer */}
-                <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 space-y-1">
-                  <p className="font-bold text-ccdi-navy flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    Need Custom Engineering?
-                  </p>
-                  <p className="text-slate-500 text-[11px]">Contact our engineering specialists for custom turnkey specifications.</p>
-                </div>
+              {/* Availability Filter */}
+              <div className="border-t border-[#102A43] pt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOnlySoftLaunch((prev) => !prev);
+                    setCurrentPage(1);
+                  }}
+                  className={`w-full flex items-center justify-between p-2 rounded-[2px] font-sans text-xs transition-colors border ${
+                    onlySoftLaunch
+                      ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold'
+                      : 'bg-[#07162A] text-slate-300 border-[#102A43] hover:border-amber-400/40'
+                  }`}
+                >
+                  <span>PIPELINE ONLY</span>
+                  <span className="tabular-nums font-mono">[4]</span>
+                </button>
               </div>
 
             </div>
           </aside>
 
-          {/* ── RIGHT MAIN CONTENT: SEARCH + GRID + PAGINATION ────────── */}
+          {/* ── RIGHT MAIN CONTENT: SEARCH + GRID + PAGINATION ── */}
           <main className="lg:col-span-3 space-y-6">
             
-            {/* ── HIGH VISIBILITY PREDICTIVE LIVE SEARCH BANNER ────────── */}
-            <div className="bg-gradient-to-r from-ccdi-navy via-[#102A43] to-[#0B1E30] rounded-2xl p-5 border border-amber-400/30 shadow-xl space-y-4">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                
-                {/* Search Bar Input Container */}
-                <div className="relative w-full md:flex-1">
-                  <Search className="w-5 h-5 text-amber-500 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                      setCurrentPage(1);
-                    }}
-                    placeholder="Search equipment, models, or keywords (e.g. Broiler, Solar, Silo, Hatchery)..."
-                    className="w-full pl-12 pr-10 py-3.5 rounded-xl border-2 border-amber-400/60 bg-white text-slate-900 placeholder:text-slate-500 text-sm font-semibold focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/25 shadow-lg transition-all"
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery('')}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold flex items-center justify-center text-xs transition-colors"
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-
-                {/* Counter Badge */}
-                <div className="flex items-center gap-2 bg-white/10 border border-white/15 px-4 py-2.5 rounded-xl text-xs text-slate-200 shrink-0 whitespace-nowrap">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
-                  <span>
-                    Found <strong className="text-amber-400 font-extrabold text-sm">{filteredProducts.length}</strong> matching solutions
-                  </span>
-                </div>
-
-              </div>
-
-              {/* Quick Keyword Pills for Predictive Search */}
-              <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-white/10">
-                <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider shrink-0">
-                  Popular Keywords:
-                </span>
-                {['Broiler House', 'Solar Grid', 'Hatchery Setter', 'Silo Storage', 'Tunnel Vent', 'Pellet Mill'].map((keyword) => (
+            {/* Search Input (Navy Primary, Gold Accent, 2px Corners) */}
+            <div className="bg-[#0B192C] p-4 rounded-[2px] border border-[#102A43] flex flex-col sm:flex-row items-center gap-3">
+              <div className="relative w-full flex-1">
+                <Search className="w-4 h-4 text-amber-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  placeholder="Search solutions by model, spec, or keyword (e.g. Broiler, Silo, Solar)..."
+                  className="w-full pl-9 pr-8 py-2 rounded-[2px] bg-[#07162A] border border-[#102A43] text-white text-xs font-sans placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
+                />
+                {searchQuery && (
                   <button
-                    key={keyword}
-                    onClick={() => {
-                      setSearchQuery(keyword);
-                      setCurrentPage(1);
-                    }}
-                    className={[
-                      'px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer border',
-                      searchQuery.toLowerCase() === keyword.toLowerCase()
-                        ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-md'
-                        : 'bg-white/10 hover:bg-white/20 text-slate-200 border-white/15 hover:border-amber-400/40',
-                    ].join(' ')}
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-xs text-slate-400 hover:text-white"
                   >
-                    + {keyword}
+                    [x]
                   </button>
-                ))}
+                )}
               </div>
 
+              {/* Status Indicator */}
+              <div className="shrink-0 font-mono text-xs text-slate-400">
+                DISPLAYING: <span className="text-amber-400 font-bold tabular-nums">{filteredProducts.length}</span> RESULTS
+              </div>
             </div>
 
-            {/* Product Grid */}
-            {filteredProducts.length > 0 ? (
+            {/* Products Grid: Dark Navy Cards */}
+            {paginatedProducts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {paginatedProducts.map((product) => {
                   const isAdded = inquiryItems.some((item) => item.id === product.id);
                   return (
                     <ProductCard
                       key={product.id}
-                      dark={false}
+                      dark={true}
                       product={product}
                       isAddedToInquiry={isAdded}
                       onToggleInquiry={(p) => onToggleInquiry?.(p)}
@@ -435,71 +322,67 @@ export const FullSolutionsCatalog: React.FC<FullSolutionsCatalogProps> = ({
                 })}
               </div>
             ) : (
-              <div className="bg-white rounded-2xl p-12 border border-slate-200 text-center space-y-4">
-                <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
-                  <Search className="w-6 h-6" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900">No matching solutions found</h3>
-                <p className="text-sm text-slate-500 max-w-md mx-auto">
-                  Try adjusting your category filters or search query to explore CCDI's agro-industrial product offerings.
+              <div className="py-16 text-center border border-dashed border-[#102A43] rounded-[2px] space-y-3 font-sans">
+                <p className="text-sm font-bold text-white">
+                  NO SPECIFICATIONS MATCH QUERY
                 </p>
-                <Button variant="outline" size="sm" onClick={handleResetFilters}>
-                  Reset All Filters
-                </Button>
+                <p className="text-xs text-slate-400">
+                  Try adjusting filters or clearing keywords.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs uppercase tracking-wider font-bold rounded-[2px]"
+                >
+                  Clear All Filters
+                </button>
               </div>
             )}
 
-            {/* ── PAGINATION COMPONENT ───────────────────────────────── */}
+            {/* Pagination: Strict Right-Aligned / Tabular / Gold Focus */}
             {totalPages > 1 && (
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className={[
-                    'flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-semibold transition-all',
-                    currentPage === 1
-                      ? 'text-slate-300 cursor-not-allowed'
-                      : 'text-slate-700 hover:bg-slate-100 hover:text-ccdi-navy',
-                  ].join(' ')}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  <span>Previous</span>
-                </button>
+              <div className="border-t border-[#102A43] pt-6 flex items-center justify-between font-mono text-xs">
+                <span className="text-slate-400">
+                  PAGE <span className="font-bold text-amber-400 tabular-nums">{currentPage}</span> OF <span className="tabular-nums">{totalPages}</span>
+                </span>
 
                 <div className="flex items-center gap-1.5">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    type="button"
+                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1.5 rounded-[2px] border border-[#102A43] text-slate-300 disabled:opacity-30 hover:bg-[#102A43]"
+                  >
+                    PREV
+                  </button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <button
-                      key={pageNum}
-                      onClick={() => handlePageChange(pageNum)}
-                      className={[
-                        'w-9 h-9 rounded-xl text-xs font-bold transition-all',
-                        currentPage === pageNum
-                          ? 'bg-ccdi-navy text-ccdi-gold shadow-md'
-                          : 'text-slate-600 hover:bg-slate-100',
-                      ].join(' ')}
+                      key={page}
+                      type="button"
+                      onClick={() => handlePageChange(page)}
+                      className={`w-8 h-8 rounded-[2px] tabular-nums font-bold transition-colors ${
+                        page === currentPage
+                          ? 'bg-amber-400 text-slate-950'
+                          : 'border border-[#102A43] text-slate-300 hover:bg-[#102A43]'
+                      }`}
                     >
-                      {pageNum}
+                      {page}
                     </button>
                   ))}
+                  <button
+                    type="button"
+                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1.5 rounded-[2px] border border-[#102A43] text-slate-300 disabled:opacity-30 hover:bg-[#102A43]"
+                  >
+                    NEXT
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className={[
-                    'flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-semibold transition-all',
-                    currentPage === totalPages
-                      ? 'text-slate-300 cursor-not-allowed'
-                      : 'text-slate-700 hover:bg-slate-100 hover:text-ccdi-navy',
-                  ].join(' ')}
-                >
-                  <span>Next</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
               </div>
             )}
 
           </main>
+
         </div>
       </div>
     </div>

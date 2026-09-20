@@ -8,36 +8,14 @@ import {
 } from '../../data/mockProducts';
 import type { Product, BusinessUnit } from '../../data/mockProducts';
 import { ProductCard } from '../molecules';
-import { ScannableMetricsTable } from '../molecules';
 import {
   Search,
   X,
   RotateCcw,
   SearchX,
-  Sparkles,
   SlidersHorizontal,
-  Bird,
-  Egg,
-  Factory,
-  Sun,
 } from 'lucide-react';
-import { EndToEndHeader } from './EndToEndHeader';
 import { useExternalFilter, BU_MAP } from '../../hooks/useExternalFilter';
-
-const renderCategoryIcon = (iconName: string, className = "w-4 h-4") => {
-  switch (iconName) {
-    case 'Bird':
-      return <Bird className={className} />;
-    case 'Egg':
-      return <Egg className={className} />;
-    case 'Factory':
-      return <Factory className={className} />;
-    case 'Sun':
-      return <Sun className={className} />;
-    default:
-      return <Bird className={className} />;
-  }
-};
 
 // ─── Main Component ────────────────────────────────────────────────────────
 export interface ProductCatalogProps {
@@ -169,8 +147,15 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     <section
       ref={sectionRef}
       id="products"
-      className="relative bg-slate-50 text-slate-900 border-b border-slate-200/80 bg-grid-pattern"
+      className="relative bg-slate-50 text-slate-900 border-b border-slate-200/80 bg-grid-pattern overflow-hidden"
     >
+      {/* Architectural Top-Right Corner Accent */}
+      <img
+        src="/images/accents/card-corner-accent.png"
+        alt=""
+        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+        aria-hidden="true"
+      />
       {/* ── Ambient Background Depth ────────────────────── */}
       <motion.div
         style={{ y: orb1Y }}
@@ -190,15 +175,6 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       {/* ── Main Content Container ───────────────────────── */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-6">
 
-        {/* ── End-To-End Execution Header Design ──────────────────────── */}
-        <div className="mb-2">
-          <EndToEndHeader
-            tag="Solutions Catalog & Execution"
-            title="End-To-End Turnkey Agro-Industrial Catalog"
-            subtitle="Click on any execution step below (1–8) to expand full technical phase specifications and explore our specialized catalog solutions."
-            lightMode={true}
-          />
-        </div>
 
         {/* ── 2-COLUMN SIDEBAR & CATALOG GRID LAYOUT ─────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start relative">
@@ -270,8 +246,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 {/* 2. Core Category Filters (Business Units) */}
                 <div className="space-y-2.5 pt-3 border-t border-slate-200">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-[11px] font-black uppercase tracking-wider text-slate-800 font-heading flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
+                    <h3 className="text-[11px] font-black uppercase tracking-wider text-slate-800 font-heading">
                       Core Category
                     </h3>
                     <button
@@ -300,18 +275,15 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                           className={[
                             'w-full flex items-center justify-between p-2.5 rounded-xl text-left text-xs transition-all duration-200 border cursor-pointer',
                             isChecked
-                              ? 'bg-ccdi-navy text-white font-bold border-ccdi-navy shadow-md shadow-ccdi-navy/20'
-                              : 'bg-slate-50 border-slate-200 text-slate-800 hover:bg-slate-100 hover:border-slate-300 font-semibold',
+                              ? 'bg-amber-400 text-slate-950 border-amber-400 font-black shadow-sm'
+                              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold',
                           ].join(' ')}
                         >
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="shrink-0 p-1 rounded-md bg-amber-400/10 text-amber-500">{renderCategoryIcon(BU_META[bu].icon, "w-4 h-4")}</span>
-                            <span className="truncate max-w-[130px]">{bu}</span>
-                          </div>
+                          <span className="font-semibold flex-1 pr-2">{bu}</span>
                           <span
                             className={[
                               'text-[10px] px-2 py-0.5 rounded-full font-bold shrink-0',
-                              isChecked ? 'bg-amber-400 text-slate-950 font-black' : 'bg-white text-slate-600 border border-slate-200',
+                              isChecked ? 'bg-black/20 text-white font-black' : 'bg-white text-slate-600 border border-slate-200',
                             ].join(' ')}
                           >
                             {count}
@@ -324,8 +296,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
                 {/* 3. Availability Status Filter */}
                 <div className="space-y-2.5 pt-3 border-t border-slate-200">
-                  <h3 className="text-[11px] font-black uppercase tracking-wider text-slate-800 font-heading flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                  <h3 className="text-[11px] font-black uppercase tracking-wider text-slate-800 font-heading">
                     Availability Status
                   </h3>
 
@@ -333,7 +304,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                     {[
                       { id: 'all', label: 'All Solutions', count: MOCK_PRODUCTS.length },
                       { id: 'active', label: 'Ready & In-Stock', count: MOCK_PRODUCTS.filter(p => !p.isSoftLaunch).length },
-                      { id: 'softlaunch', label: '⚡ Listing Soon', count: softLaunchCount },
+                      { id: 'softlaunch', label: 'Listing Soon', count: softLaunchCount },
                     ].map(tab => (
                       <button
                         key={tab.id}
@@ -341,9 +312,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         className={[
                           'w-full flex items-center justify-between p-2 rounded-xl text-xs font-bold transition-all border text-left cursor-pointer',
                           statusFilter === tab.id
-                            ? tab.id === 'softlaunch'
-                              ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
-                              : 'bg-amber-400 text-slate-950 border-amber-400 font-black shadow-sm'
+                            ? 'bg-amber-400 text-slate-950 border-amber-400 font-black shadow-sm'
                             : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100',
                         ].join(' ')}
                       >
@@ -430,13 +399,12 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
                   <button
                     onClick={() => setStatusFilter(statusFilter === 'softlaunch' ? 'all' : 'softlaunch')}
-                    className={`inline-flex items-center gap-1.5 text-[10px] font-extrabold px-2.5 py-1 rounded-full transition-all duration-200 uppercase tracking-wider cursor-pointer ${
+                    className={`inline-flex items-center text-[10px] font-extrabold px-3 py-1 rounded-full transition-all duration-200 uppercase tracking-wider cursor-pointer ${
                       statusFilter === 'softlaunch'
-                        ? 'bg-purple-600 text-white shadow-sm ring-2 ring-purple-400'
-                        : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'
+                        ? 'bg-amber-400 text-slate-950 font-black shadow-sm'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300'
                     }`}
                   >
-                    <Sparkles className="w-3 h-3 text-amber-400" />
                     Listing Soon ({softLaunchCount})
                   </button>
                   <span className="text-xs font-bold text-amber-900 bg-amber-100 border border-amber-300 px-2.5 py-0.5 rounded-full whitespace-nowrap">
@@ -469,18 +437,13 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   <section key={bu} className="space-y-4 sm:space-y-6 bg-white/60 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-sm">
                     {/* Category Group Header — Concise on small devices */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 sm:pb-4 border-b border-slate-200/90">
-                      <div className="flex items-center gap-2.5 sm:gap-3">
-                        <div className="p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-amber-100 border border-amber-200 shadow-xs text-amber-600 shrink-0">
-                          {renderCategoryIcon(meta.icon, "w-5 h-5 sm:w-6 sm:h-6")}
-                        </div>
-                        <div>
-                          <h3 className="text-base sm:text-xl font-black font-heading text-slate-900 flex items-center gap-2">
-                            {bu}
-                          </h3>
-                          <p className="hidden sm:block text-xs text-slate-600 font-medium line-clamp-1 max-w-xl">
-                            {meta.description}
-                          </p>
-                        </div>
+                      <div>
+                        <h3 className="text-base sm:text-xl font-black font-heading text-slate-900">
+                          {bu}
+                        </h3>
+                        <p className="hidden sm:block text-xs text-slate-600 font-medium line-clamp-1 max-w-xl">
+                          {meta.description}
+                        </p>
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0">
@@ -488,8 +451,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                           {standardProducts.length} Ready & In-Stock
                         </span>
                         {softLaunchProducts.length > 0 && (
-                          <span className="text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 px-3 py-1 rounded-full flex items-center gap-1">
-                            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                          <span className="text-xs font-bold text-amber-900 bg-amber-100 border border-amber-300 px-3 py-1 rounded-full">
                             {softLaunchProducts.length} Listing Soon
                           </span>
                         )}
@@ -521,12 +483,11 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                     {softLaunchProducts.length > 0 && (
                       <div className="pt-4 space-y-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-px flex-1 bg-purple-200" />
-                          <span className="px-3.5 py-1 rounded-full bg-purple-100 border border-purple-200 text-purple-900 text-xs font-extrabold flex items-center gap-1.5 uppercase tracking-wider">
-                            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                          <div className="h-px flex-1 bg-slate-200" />
+                          <span className="px-3.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-extrabold uppercase tracking-wider">
                             Listing Soon — Upcoming Additions in {bu} ({softLaunchProducts.length})
                           </span>
-                          <div className="h-px flex-1 bg-purple-200" />
+                          <div className="h-px flex-1 bg-slate-200" />
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -580,14 +541,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </AnimatePresence>
       </main>
     </div>
-
-        {/* ── Performance Metrics Table ───────────────────────────────── */}
-        <div className="mt-20 pt-12 border-t border-slate-200/80">
-          <h2 className="sr-only">Performance Benchmarks</h2>
-          <ScannableMetricsTable />
-        </div>
-
-      </div>
-    </section>
+  </div>
+</section>
   );
 };

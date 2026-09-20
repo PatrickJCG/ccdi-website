@@ -8,5 +8,5 @@ export * from './NewsCard';
 export * from './HeroCarousel';
 export * from './ScannableMetricsTable';
 export * from './ProductSpecsModal';
-
-
+export * from './FloatingInquiry';
+export * from './PoultrySubNav';

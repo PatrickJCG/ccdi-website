@@ -7,9 +7,25 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        heading: ['Plus Jakarta Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['Arial', 'Helvetica', 'sans-serif'],
+      },
+      borderRadius: {
+        'none': '0px',
+        'sm': '2px',
+        'DEFAULT': '2px',
+        'md': '2px',
+        'lg': '2px',
+        'xl': '3px',
+        '2xl': '3px',
+        '3xl': '4px',
+        'inner': '2px',
+        'card': '2px',
+        'panel': '2px',
+      },
+      boxShadow: {
+        'none': 'none',
+        'flat': 'none',
       },
       colors: {
         ccdi_navy: {
@@ -23,25 +39,6 @@ export default {
           900: '#050C15',
         },
         ccdi_gold: {
-          DEFAULT: '#F59E0B',
-          50: '#FFFBEB',
-          100: '#FEF3C7',
-          400: '#FBBF24',
-          500: '#F59E0B',
-          600: '#D97706',
-          700: '#B45309',
-        },
-        'ccdi-navy': {
-          DEFAULT: '#0B192C',
-          50: '#F0F4F8',
-          100: '#D9E2EC',
-          500: '#102A43',
-          600: '#0F2C59',
-          700: '#0B192C',
-          800: '#081220',
-          900: '#050C15',
-        },
-        'ccdi-gold': {
           DEFAULT: '#F59E0B',
           50: '#FFFBEB',
           100: '#FEF3C7',
@@ -130,18 +127,6 @@ export default {
             700: '#075985',
           },
         },
-      },
-      boxShadow: {
-        'blue_glow':  '0 0 28px -4px rgba(16, 42, 67, 0.45)',
-        'green_glow': '0 0 28px -4px rgba(45, 106, 79, 0.45)',
-        'gold_glow':  '0 0 28px -4px rgba(245, 158, 11, 0.35)',
-        'teal-glow':   '0 0 28px -4px rgba(16, 42, 67, 0.45)',
-        'forest-glow': '0 0 28px -4px rgba(45, 106, 79, 0.45)',
-        'amber-glow':  '0 0 28px -4px rgba(245, 158, 11, 0.35)',
-      },
-      backgroundImage: {
-        'gradient-blue-gold': 'linear-gradient(135deg, #102A43, #243B53, #F59E0B)',
-        'gradient-green-blue': 'linear-gradient(135deg, #1A4A35, #2D6A4F, #102A43)',
       },
     },
   },

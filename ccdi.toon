@@ -12,7 +12,7 @@ design_tokens
     font_family
       sans: Inter, system-ui, sans-serif
       heading: Plus Jakarta Sans, Inter, sans-serif
-      mono: JetBrains Mono, monospace
+      mono: Arial, Helvetica, sans-serif
   colors
     industrial_blue # Adapted from CCDI primary branding
       50: "#F0F4F8"
