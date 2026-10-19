@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -6,20 +6,30 @@ import {
   Calendar,
   Clock,
   ArrowLeft,
+  ArrowRight,
   Share2,
   Check,
   CheckCircle2,
-  Sparkles,
-  ShieldCheck,
-  Tag,
+  ChevronRight,
+  ChevronLeft,
+  ExternalLink,
+  Phone,
+  Mail,
+  Globe,
   User,
-  ArrowRight,
   BookOpen,
   RotateCcw,
-  MessageSquare,
-  ChevronRight,
+  X,
 } from 'lucide-react';
-import { MOCK_NEWS } from '../data/mockProducts';
+import {
+  NEWS_ARTICLES,
+  NEWS_CATEGORIES,
+  CCDI_CONTACT_INFO,
+  NEWS_PAGE_HEADER_IMAGES,
+  NEWS_HEADER_FALLBACK_IMAGE,
+  type HeaderBackgroundImage,
+  type NewsArticle,
+} from '../data/newsData';
 import type { Product } from '../data/mockProducts';
 
 export interface NewsPageProps {
@@ -28,589 +38,865 @@ export interface NewsPageProps {
   onRemoveInquiryItem?: (productId: string) => void;
 }
 
-export const NewsPage: React.FC<NewsPageProps> = () => {
-  const { articleId } = useParams<{ articleId?: string }>();
-  const navigate = useNavigate();
+/* ──────────────────────────────────────────────────────────────────────────
+ * Shared helpers
+ * ────────────────────────────────────────────────────────────────────────── */
 
+/** Swaps a broken image for the fallback so the layout never shows an empty box. */
+const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  const img = e.currentTarget;
+  if (!img.src.endsWith(NEWS_HEADER_FALLBACK_IMAGE)) {
+    img.src = NEWS_HEADER_FALLBACK_IMAGE;
+  }
+};
+
+const CategoryChip: React.FC<{ label: string; dark?: boolean }> = ({ label, dark = false }) => (
+  <span
+    className={`inline-block font-mono text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] border ${
+      dark
+        ? 'bg-[#07162A]/90 text-amber-400 border-amber-400/40 backdrop-blur-sm'
+        : 'bg-amber-50 text-amber-700 border-amber-200'
+    }`}
+  >
+    {label}
+  </span>
+);
+
+/**
+ * Image-backed hero with multi-layer high-contrast protective gradient and
+ * optional rotating background carousel for multiple images.
+ */
+interface ImageHeroProps {
+  images: (string | HeaderBackgroundImage)[] | string;
+  children: React.ReactNode;
+}
+
+const ImageHero: React.FC<ImageHeroProps> = ({ images, children }) => {
+  const imageList = useMemo<HeaderBackgroundImage[]>(() => {
+    if (typeof images === 'string') {
+      return [{ url: images }];
+    }
+    return images.map((item) => (typeof item === 'string' ? { url: item } : item));
+  }, [images]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-advance if there are multiple images
+  useEffect(() => {
+    if (imageList.length <= 1 || isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % imageList.length);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [imageList.length, isPaused]);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? imageList.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % imageList.length);
+  };
+
+  const currentImage = imageList[currentIndex] || imageList[0];
+
+  return (
+    <section
+      className="relative bg-[#07162A] text-white border-b border-[#102A43] overflow-hidden min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex flex-col justify-center"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* ── Background Photo Layer: anchored on the right side for crystal-clear visibility ── */}
+      <div className="absolute top-0 bottom-0 right-0 w-full md:w-[62%] lg:w-[58%] xl:w-[54%] z-0 overflow-hidden pointer-events-none">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentImage.url}
+            src={currentImage.url}
+            onError={handleImgError}
+            alt={currentImage.caption || ''}
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            style={{ objectPosition: currentImage.objectPosition || 'center 25%' }}
+            className="w-full h-full object-cover brightness-100 contrast-[1.02]"
+          />
+        </AnimatePresence>
+
+        {/* Smooth horizontal gradient on the image: dissolves the left boundary of the image into #07162A */}
+        <div className="hidden md:block absolute inset-y-0 left-0 w-36 sm:w-56 md:w-72 lg:w-96 bg-gradient-to-r from-[#07162A] via-[#07162A]/75 to-transparent z-10 pointer-events-none" />
+      </div>
+
+      {/* ── Directional gradient transitions across hero ── */}
+      {/* Mobile: vertical fade from solid top to photo bottom */}
+      <div className="md:hidden absolute inset-0 bg-gradient-to-b from-[#07162A] via-[#07162A]/85 via-55% to-[#07162A]/30 pointer-events-none z-[1]" />
+      
+      {/* Desktop/Tablet: smooth left-to-right fade from solid #07162A background into the right-side picture */}
+      <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-[#07162A] via-[#07162A] via-35% md:via-42% lg:via-46% to-transparent pointer-events-none z-[1]" />
+
+      {/* Subtle top & bottom edge blend */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#07162A]/50 via-transparent to-[#07162A]/70 pointer-events-none z-[2]" />
+
+      {/* ── Architectural Accent 2 - Top Left Corner (visible above background) ── */}
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -top-6 -left-10 sm:-top-4 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-[3]"
+        aria-hidden="true"
+      >
+        <img
+          src="/images/accents/accent2.png"
+          alt=""
+          className="w-full h-auto object-contain opacity-35 drop-shadow-sm"
+        />
+      </motion.div>
+
+      {/* ── Architectural Dynamic Accent Graphic - Bottom Left Anchored ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -bottom-16 -left-16 sm:-left-8 sm:bottom-0 w-72 sm:w-96 lg:w-[440px] pointer-events-none select-none z-[3]"
+        aria-hidden="true"
+      >
+        <img
+          src="/images/accents/dark-accent-graphic.png"
+          alt=""
+          className="w-full h-auto object-contain opacity-25"
+        />
+      </motion.div>
+
+      {/* ── Content Container ── */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-16 sm:pb-20 w-full">
+        {children}
+
+        {/* ── Slide Navigation Controls (shown when there are 2+ background images) ── */}
+        {imageList.length > 1 && (
+          <div className="pt-6 sm:pt-8 flex flex-wrap items-center justify-end gap-4">
+            <div className="flex items-center gap-3 ml-auto">
+              <div className="flex items-center gap-1.5">
+                {imageList.map((img, idx) => (
+                  <button
+                    key={img.url}
+                    type="button"
+                    onClick={() => setCurrentIndex(idx)}
+                    title={img.caption || `Slide ${idx + 1}`}
+                    className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                      idx === currentIndex
+                        ? 'w-6 bg-amber-400'
+                        : 'w-2 bg-white/40 hover:bg-white/70'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <div className="flex items-center gap-1 pl-2">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  aria-label="Previous background image"
+                  className="w-7 h-7 rounded-[2px] bg-[#07162A]/90 hover:bg-amber-400 hover:text-slate-950 text-white border border-[#1E3E66] flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  aria-label="Next background image"
+                  className="w-7 h-7 rounded-[2px] bg-[#07162A]/90 hover:bg-amber-400 hover:text-slate-950 text-white border border-[#1E3E66] flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+const Breadcrumb: React.FC<{ items: { label: string; to?: string }[] }> = ({ items }) => (
+  <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-200 mb-8">
+    {items.map((item, idx) => (
+      <React.Fragment key={item.label}>
+        {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-slate-400" />}
+        {item.to ? (
+          <Link to={item.to} className="text-slate-200 hover:text-amber-400 transition-colors uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+            {item.label}
+          </Link>
+        ) : (
+          <span className="text-amber-400 font-bold uppercase truncate max-w-[220px] sm:max-w-xs drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+            {item.label}
+          </span>
+        )}
+      </React.Fragment>
+    ))}
+  </nav>
+);
+
+/** Uniform article card used in the grid and the related section. */
+const ArticleCard: React.FC<{ article: NewsArticle; index?: number }> = ({ article, index = 0 }) => (
+  <motion.article
+    initial={{ opacity: 0, y: 12 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3, delay: Math.min(index, 8) * 0.04 }}
+    className="group h-full"
+  >
+    <Link
+      to={`/news/${article.id}`}
+      id={`news-card-${article.id}`}
+      className="flex flex-col h-full bg-white rounded-[2px] border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-[#0B192C] transition-all duration-300"
+    >
+      <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+        <img
+          src={article.imageUrl}
+          onError={handleImgError}
+          alt={article.title}
+          loading="lazy"
+          className="w-full h-full object-cover object-[center_top] group-hover:scale-105 transition-transform duration-500 ease-out"
+        />
+        <div className="absolute top-3 left-3">
+          <CategoryChip label={article.category} dark />
+        </div>
+      </div>
+
+      <div className="flex flex-col flex-1 p-6">
+        <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-500 mb-3">
+          <Calendar className="w-3.5 h-3.5 text-amber-600" />
+          {article.date}
+        </span>
+
+        <h3 className="text-lg font-bold text-[#0B192C] leading-snug tracking-tight line-clamp-2 group-hover:text-amber-600 transition-colors mb-2">
+          {article.title}
+        </h3>
+
+        <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-6">{article.summary}</p>
+
+        <span className="mt-auto pt-4 border-t border-slate-100 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-amber-600 group-hover:text-amber-700">
+          Read Article
+          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+        </span>
+      </div>
+    </Link>
+  </motion.article>
+);
+
+/** Dark CTA band reused at the bottom of both views. */
+const ContactBand: React.FC = () => {
+  const navigate = useNavigate();
+  return (
+    <section className="relative bg-[#07162A] text-white border-t border-[#102A43] overflow-hidden">
+      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid lg:grid-cols-12 gap-10 items-center">
+        <div className="lg:col-span-7 space-y-3">
+          <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold block">
+            Project Inquiry & Consultation
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-black !text-white text-white tracking-tight leading-tight">
+            Planning a turnkey farm, hatchery, feedmill, or solar project?
+          </h2>
+          <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+            For project consultations, equipment inquiries, or technical support, reach out to Clarkbase Construction
+            Dev't Inc. (CCDI).
+          </p>
+          <button
+            id="news-contact-cta"
+            type="button"
+            onClick={() => navigate('/#contact')}
+            className="mt-3 inline-flex items-center gap-2 px-6 py-3 rounded-[2px] bg-amber-400 hover:bg-amber-300 text-slate-950 font-sans text-xs uppercase tracking-wider font-extrabold transition-colors shadow-lg shadow-amber-500/20 cursor-pointer"
+          >
+            Contact Our Team
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        <ul className="lg:col-span-5 divide-y divide-[#1E3E66] border border-[#1E3E66] rounded-[2px] bg-[#0B192C]">
+          <li className="flex items-center gap-4 p-5">
+            <Phone className="w-5 h-5 text-amber-400 shrink-0" />
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-400 mb-1">Phone</p>
+              {CCDI_CONTACT_INFO.phones.map((p) => (
+                <a key={p} href={`tel:${p.replace(/\s/g, '')}`} className="block text-sm font-semibold hover:text-amber-400 transition-colors">
+                  {p}
+                </a>
+              ))}
+            </div>
+          </li>
+          <li className="flex items-center gap-4 p-5">
+            <Mail className="w-5 h-5 text-amber-400 shrink-0" />
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-400 mb-1">Email</p>
+              <a href={`mailto:${CCDI_CONTACT_INFO.email}`} className="text-sm font-semibold hover:text-amber-400 transition-colors">
+                {CCDI_CONTACT_INFO.email}
+              </a>
+            </div>
+          </li>
+          <li className="flex items-center gap-4 p-5">
+            <Globe className="w-5 h-5 text-amber-400 shrink-0" />
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-400 mb-1">Facebook</p>
+              <a
+                href={CCDI_CONTACT_INFO.facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold hover:text-amber-400 transition-colors"
+              >
+                {CCDI_CONTACT_INFO.facebook}
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  );
+};
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Article detail view
+ * ────────────────────────────────────────────────────────────────────────── */
+
+const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
+  const [copied, setCopied] = useState(false);
+
+  const related = useMemo(() => {
+    const sameCategory = NEWS_ARTICLES.filter((a) => a.id !== article.id && a.category === article.category);
+    const others = NEWS_ARTICLES.filter((a) => a.id !== article.id && a.category !== article.category);
+    return [...sameCategory, ...others].slice(0, 3);
+  }, [article]);
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  useEffect(() => {
+    document.title = `${article.title} | CCDI News & Updates`;
+  }, [article]);
+
+  return (
+    <motion.div key={article.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+      {/* ── HERO: article image as background with rich contrast scrim ── */}
+      <ImageHero images={article.imageUrl}>
+        <Breadcrumb items={[{ label: 'Home', to: '/' }, { label: 'News & Updates', to: '/news' }, { label: article.category }]} />
+
+        <div className="max-w-3xl space-y-5">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <CategoryChip label={article.category} dark />
+            <span className="flex items-center gap-1.5 text-xs font-mono text-slate-200 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              <Calendar className="w-3.5 h-3.5 text-amber-400" />
+              {article.date}
+            </span>
+            <span className="flex items-center gap-1.5 text-xs font-mono text-slate-200 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              <Clock className="w-3.5 h-3.5 text-amber-400" />
+              {article.readTime}
+            </span>
+          </div>
+
+          {/* Guaranteed pure white, high-contrast headline */}
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black !text-white text-white tracking-tight leading-[1.15] drop-shadow-[0_3px_14px_rgba(0,0,0,0.95)]">
+            {article.title}
+          </h1>
+
+          <div className="flex items-center gap-3 pt-2">
+            <div className="w-10 h-10 rounded-[2px] bg-[#0B192C] border border-[#1E3E66] flex items-center justify-center text-amber-400 font-mono font-bold shadow-md">
+              {article.author.name.charAt(0)}
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">{article.author.name}</p>
+              <p className="text-xs font-mono text-slate-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">{article.author.role}</p>
+            </div>
+          </div>
+        </div>
+      </ImageHero>
+
+      {/* ── BODY ── */}
+      <section className="bg-slate-50 py-14 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10 lg:gap-12">
+          {/* Main column */}
+          <article className="lg:col-span-8 space-y-10">
+            <Link
+              to="/news"
+              id="news-back-link"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-slate-600 hover:text-amber-600 transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Back to all updates
+            </Link>
+
+            {/* Lead */}
+            <p className="text-xl sm:text-2xl text-[#0B192C] font-semibold leading-relaxed tracking-tight">
+              {article.summary}
+            </p>
+
+            {/* Feature image (full, un-darkened) */}
+            <figure className="rounded-[2px] overflow-hidden border border-slate-200 shadow-sm bg-slate-200">
+              <img
+                src={article.imageUrl}
+                onError={handleImgError}
+                alt={article.title}
+                className="w-full aspect-[16/9] object-cover"
+              />
+            </figure>
+
+            {/* Key highlights */}
+            {article.keyHighlights?.length > 0 && (
+              <div className="bg-white border border-slate-200 border-l-4 border-l-amber-500 rounded-[2px] p-6 sm:p-8 shadow-sm">
+                <h2 className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold mb-5">
+                  Key Highlights
+                </h2>
+                <ul className="space-y-4">
+                  {article.keyHighlights.map((h, idx) => (
+                    <li key={idx} className="flex items-start gap-3 text-slate-700 text-base leading-relaxed">
+                      <CheckCircle2 className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Body paragraphs */}
+            <div className="space-y-6">
+              {article.content.map((p, idx) => (
+                <p key={idx} className="text-slate-700 text-base sm:text-lg leading-[1.8]">
+                  {p}
+                </p>
+              ))}
+            </div>
+
+            {/* Project Photo Gallery (if available) */}
+            {article.galleryImages && article.galleryImages.length > 0 && (
+              <div className="space-y-4 pt-2">
+                <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+                  <h3 className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                    Project Installation Gallery ({article.galleryImages.length} Photos)
+                  </h3>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {article.galleryImages.map((img, i) => (
+                    <figure
+                      key={i}
+                      className="rounded-[2px] overflow-hidden border border-slate-200 bg-white shadow-xs group"
+                    >
+                      <div className="overflow-hidden bg-slate-900 aspect-[4/3]">
+                        <img
+                          src={img.url}
+                          alt={img.caption || article.title}
+                          onError={handleImgError}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      {img.caption && (
+                        <figcaption className="p-3 text-xs text-slate-700 bg-slate-50 border-t border-slate-100 font-medium">
+                          {img.caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Tags & actions */}
+            <div className="pt-8 border-t border-slate-200 space-y-6">
+              {article.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {article.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2.5 py-1 rounded-[2px] font-mono text-xs text-slate-600 bg-white border border-slate-200"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  id="news-share-button"
+                  type="button"
+                  onClick={handleShare}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[2px] bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-mono text-xs uppercase tracking-wider font-bold transition-colors cursor-pointer"
+                >
+                  {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
+                  {copied ? 'Link Copied' : 'Share Article'}
+                </button>
+
+                {article.externalLink && (
+                  <a
+                    id="news-source-link"
+                    href={article.externalLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[2px] bg-[#0B192C] hover:bg-[#1E3E66] text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors"
+                  >
+                    View on Facebook
+                    <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-4">
+            <div className="lg:sticky lg:top-24 space-y-6">
+              <div className="bg-white border border-slate-200 rounded-[2px] shadow-sm">
+                <h2 className="px-6 py-4 border-b border-slate-200 font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                  Article Details
+                </h2>
+                <dl className="divide-y divide-slate-100 text-sm">
+                  <div className="flex items-start gap-3 px-6 py-4">
+                    <Calendar className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                    <div>
+                      <dt className="text-xs text-slate-500">Date</dt>
+                      <dd className="font-semibold text-[#0B192C]">{article.date}</dd>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 px-6 py-4">
+                    <BookOpen className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                    <div>
+                      <dt className="text-xs text-slate-500">Category</dt>
+                      <dd className="font-semibold text-[#0B192C]">{article.category}</dd>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 px-6 py-4">
+                    <User className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                    <div>
+                      <dt className="text-xs text-slate-500">Written by</dt>
+                      <dd className="font-semibold text-[#0B192C]">{article.author.name}</dd>
+                      <dd className="text-xs text-slate-500">{article.author.role}</dd>
+                    </div>
+                  </div>
+                </dl>
+              </div>
+
+              <div className="bg-[#07162A] text-white border border-[#102A43] rounded-[2px] p-6 space-y-4">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[#F3A812] font-bold block">
+                  Talk to CCDI
+                </span>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  Have a question about this project or equipment? Our engineers can help.
+                </p>
+                <div className="space-y-2 text-sm">
+                  <a href={`tel:${CCDI_CONTACT_INFO.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-2 hover:text-amber-400 transition-colors">
+                    <Phone className="w-4 h-4 text-amber-400" />
+                    {CCDI_CONTACT_INFO.phones[0]}
+                  </a>
+                  <a href={`mailto:${CCDI_CONTACT_INFO.email}`} className="flex items-center gap-2 hover:text-amber-400 transition-colors">
+                    <Mail className="w-4 h-4 text-amber-400" />
+                    {CCDI_CONTACT_INFO.email}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      {/* ── RELATED ── */}
+      {related.length > 0 && (
+        <section className="bg-white border-t border-slate-200 py-16 sm:py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block mb-2">
+                  Keep Reading
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-black text-[#0B192C] tracking-tight">More News & Updates</h2>
+              </div>
+              <Link
+                to="/news"
+                className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-amber-600 hover:text-amber-700"
+              >
+                View all updates
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {related.map((a, i) => (
+                <ArticleCard key={a.id} article={a} index={i} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <ContactBand />
+    </motion.div>
+  );
+};
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Index (listing) view
+ * ────────────────────────────────────────────────────────────────────────── */
+
+const NewsIndex: React.FC = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [copiedLink, setCopiedLink] = useState(false);
 
-  // Active article state derived from URL parameter
-  const activeArticle = articleId
-    ? MOCK_NEWS.find((a) => a.id === articleId)
-    : null;
+  useEffect(() => {
+    document.title = 'News & Updates | Clarkbase Construction Dev\'t Inc. (CCDI)';
+  }, []);
 
-  // Scroll to top on page or article change
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { All: NEWS_ARTICLES.length };
+    NEWS_ARTICLES.forEach((a) => {
+      counts[a.category] = (counts[a.category] || 0) + 1;
+    });
+    return counts;
+  }, []);
+
+  const isFiltering = searchQuery.trim() !== '' || selectedCategory !== 'All';
+  const featured = NEWS_ARTICLES.find((a) => a.featured) || NEWS_ARTICLES[0];
+
+  const filtered = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    return NEWS_ARTICLES.filter((a) => {
+      const matchCat = selectedCategory === 'All' || a.category === selectedCategory;
+      const matchQ =
+        !q ||
+        a.title.toLowerCase().includes(q) ||
+        a.summary.toLowerCase().includes(q) ||
+        a.category.toLowerCase().includes(q) ||
+        a.tags.some((t) => t.toLowerCase().includes(q));
+      return matchCat && matchQ;
+    });
+  }, [searchQuery, selectedCategory]);
+
+  // When not filtering, the featured story is shown on its own, so exclude it from the grid.
+  const gridArticles = isFiltering ? filtered : filtered.filter((a) => a.id !== featured?.id);
+
+  const resetFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('All');
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+      {/* ── 1. HERO with rotating background carousel and maximum text contrast ── */}
+      <ImageHero images={NEWS_PAGE_HEADER_IMAGES}>
+        <Breadcrumb items={[{ label: 'Home', to: '/' }, { label: 'News & Updates' }]} />
+
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12">
+          <div className="max-w-2xl xl:max-w-3xl space-y-4">
+            <p className="font-mono text-xs uppercase tracking-widest text-amber-400 font-bold">
+              CCDI / PRESS & PROJECT INSIGHTS
+            </p>
+
+            {/* Guaranteed pure white, high-contrast headline */}
+            <h1 className="text-4xl sm:text-6xl font-black !text-white text-white tracking-tight leading-[1.06] drop-shadow-[0_4px_16px_rgba(0,0,0,0.98)]">
+              Company News &{' '}
+              <span className="text-[#F3A812] block mt-1 drop-shadow-[0_4px_16px_rgba(0,0,0,0.98)]">
+                Project Updates.
+              </span>
+            </h1>
+
+            <p className="text-base sm:text-lg text-slate-100 font-medium leading-relaxed max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+              Stay updated on our latest farm developments, turnkey engineering projects, and company milestones across the Philippines.
+            </p>
+          </div>
+
+          {/* Balanced CCDI Crest Logo on Right */}
+          <div className="shrink-0 self-start lg:self-center hidden sm:flex items-center justify-center lg:pr-8 xl:pr-14">
+            <img
+              src="/images/branding/CCDI logo.svg"
+              alt="Clarkbase Construction Development Inc."
+              className="h-28 sm:h-36 md:h-44 lg:h-52 w-auto object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.85)] filter transition-transform duration-300 hover:scale-[1.02]"
+            />
+          </div>
+        </div>
+      </ImageHero>
+
+      {/* ── 2. FILTER TOOLBAR (with hidden desktop scrollbars) ── */}
+      <div className="bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col lg:flex-row lg:items-center gap-4 lg:justify-between">
+          <div
+            className="flex gap-2 overflow-x-auto pb-1 lg:pb-0 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            role="tablist"
+            aria-label="Filter by category"
+          >
+            {NEWS_CATEGORIES.map((cat) => {
+              const active = selectedCategory === cat;
+              const count = categoryCounts[cat] || 0;
+              if (cat !== 'All' && count === 0) return null;
+              return (
+                <button
+                  key={cat}
+                  id={`news-filter-${cat.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-[2px] text-xs font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
+                    active
+                      ? 'bg-[#0B192C] text-white border-[#0B192C]'
+                      : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:text-slate-900'
+                  }`}
+                >
+                  {cat === 'All' ? 'All' : cat}
+                  <span className={`font-mono text-[10px] ${active ? 'text-amber-400' : 'text-slate-400'}`}>{count}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="relative w-full lg:w-72 shrink-0">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              id="news-search-input"
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search updates..."
+              aria-label="Search news"
+              className="w-full pl-9 pr-9 py-2.5 rounded-[2px] bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 cursor-pointer"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-slate-50 py-14 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          {/* ── 3. FEATURED STORY ── */}
+          {!isFiltering && featured && (
+            <section aria-labelledby="featured-heading" className="space-y-6">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block mb-2">
+                  Featured Story
+                </span>
+                <h2 id="featured-heading" className="sr-only">Featured story</h2>
+              </div>
+
+              <Link
+                to={`/news/${featured.id}`}
+                id="news-featured-card"
+                className="group grid lg:grid-cols-12 bg-white border border-slate-200 rounded-[2px] overflow-hidden shadow-sm hover:shadow-xl hover:border-[#0B192C] transition-all duration-300"
+              >
+                <div className="lg:col-span-7 relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px] overflow-hidden bg-slate-200">
+                  <img
+                    src={featured.imageUrl}
+                    onError={handleImgError}
+                    alt={featured.title}
+                    className="absolute inset-0 w-full h-full object-cover object-[center_top] sm:object-[center_12%] group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  />
+                </div>
+                <div className="lg:col-span-5 p-7 sm:p-10 flex flex-col">
+                  <div className="flex flex-wrap items-center gap-3 mb-5">
+                    <CategoryChip label={featured.category} />
+                    <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-500">
+                      <Calendar className="w-3.5 h-3.5 text-amber-600" />
+                      {featured.date}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-black text-[#0B192C] tracking-tight leading-tight group-hover:text-amber-600 transition-colors mb-4">
+                    {featured.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed line-clamp-4 mb-8">{featured.summary}</p>
+                  <span className="mt-auto inline-flex items-center gap-2 self-start px-5 py-3 rounded-[2px] bg-amber-400 group-hover:bg-amber-300 text-slate-950 font-sans text-xs uppercase tracking-wider font-extrabold transition-colors">
+                    Read Full Story
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </div>
+              </Link>
+            </section>
+          )}
+
+          {/* ── 4. ARTICLE GRID ── */}
+          <section aria-labelledby="all-updates-heading" className="space-y-8">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-slate-200 pb-5">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block mb-2">
+                  {isFiltering ? 'Results' : 'All Updates'}
+                </span>
+                <h2 id="all-updates-heading" className="text-2xl sm:text-3xl font-black text-[#0B192C] tracking-tight">
+                  {selectedCategory === 'All' ? 'Recent News' : selectedCategory}
+                </h2>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="font-mono text-xs text-slate-500">
+                  {filtered.length} {filtered.length === 1 ? 'article' : 'articles'}
+                </span>
+                {isFiltering && (
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-amber-600 hover:text-amber-700 cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    Clear filters
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {gridArticles.length > 0 ? (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {gridArticles.map((a, i) => (
+                  <ArticleCard key={a.id} article={a} index={i} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20 px-6 bg-white border border-slate-200 rounded-[2px] max-w-lg mx-auto space-y-4">
+                <BookOpen className="w-10 h-10 text-slate-300 mx-auto" />
+                <h3 className="text-lg font-bold text-[#0B192C]">No updates found</h3>
+                <p className="text-sm text-slate-500">Try a different keyword or category.</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetFilters();
+                    navigate('/news');
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[2px] bg-[#0B192C] hover:bg-[#1E3E66] text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors cursor-pointer"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+                  Reset filters
+                </button>
+              </div>
+            )}
+          </section>
+        </div>
+      </div>
+
+      <ContactBand />
+    </motion.div>
+  );
+};
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Page entry
+ * ────────────────────────────────────────────────────────────────────────── */
+
+export const NewsPage: React.FC<NewsPageProps> = () => {
+  const { articleId } = useParams<{ articleId?: string }>();
+  const activeArticle = articleId ? NEWS_ARTICLES.find((a) => a.id === articleId) : null;
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [articleId]);
 
-  const categories = ['All', 'Research', 'Expansion', 'Compliance', 'Sustainability', 'Events'];
-
-  // Filtered articles
-  const filteredArticles = MOCK_NEWS.filter((article) => {
-    const matchesCategory =
-      selectedCategory === 'All' || article.category.toLowerCase() === selectedCategory.toLowerCase();
-    const query = searchQuery.toLowerCase().trim();
-    const matchesSearch =
-      !query ||
-      article.title.toLowerCase().includes(query) ||
-      article.summary.toLowerCase().includes(query) ||
-      article.tags.some((t) => t.toLowerCase().includes(query)) ||
-      article.author.name.toLowerCase().includes(query);
-
-    return matchesCategory && matchesSearch;
-  });
-
-  const featuredArticle = MOCK_NEWS.find((a) => a.featured) || MOCK_NEWS[0];
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2500);
-  };
-
-  const handleSelectArticle = (id: string) => {
-    navigate(`/news/${id}`);
-  };
-
-  const handleBackToCatalog = () => {
-    navigate('/news');
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans text-left">
-      <AnimatePresence mode="wait">
-        {/* ───────────────────────────────────────────────────────────── */}
-        {/* VIEW 1: FULL EXPANDED ARTICLE READER VIEW                     */}
-        {/* ───────────────────────────────────────────────────────────── */}
-        {activeArticle ? (
-          <motion.article
-            key="article-reader"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="pb-24"
-          >
-            {/* Dark Industrial Hero Banner */}
-            <div className="relative bg-[#07162A] text-white overflow-hidden pt-10 pb-20 sm:pb-24 border-b border-[#102A43]">
-              {/* Background Accents & Tech Matrix */}
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-              <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Architectural Accent 2 - Top Left Anchored */}
-              <motion.div
-                initial={{ opacity: 0, y: -45 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.15 }}
-                transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-                aria-hidden="true"
-              >
-                <img
-                  src="/images/accents/accent2.png"
-                  alt=""
-                  className="w-full h-auto object-contain opacity-30"
-                />
-              </motion.div>
-
-              {/* Architectural Dynamic Graphic - Bottom Right Anchored */}
-              <motion.div
-                initial={{ opacity: 0, y: 45 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.15 }}
-                transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-                aria-hidden="true"
-              >
-                <img
-                  src="/images/accents/dark-accent-graphic.png"
-                  alt=""
-                  className="w-full h-auto object-contain opacity-30"
-                />
-              </motion.div>
-
-              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                {/* Breadcrumbs */}
-                <nav className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400 mb-6">
-                  <Link to="/" className="hover:text-amber-400 transition-colors">HOME</Link>
-                  <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-                  <Link to="/news" className="hover:text-amber-400 transition-colors">NEWS & UPDATES</Link>
-                  <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span className="text-amber-400 font-bold uppercase truncate max-w-xs">{activeArticle.category}</span>
-                </nav>
-
-                {/* Back to news button */}
-                <button
-                  type="button"
-                  onClick={handleBackToCatalog}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[2px] bg-[#0B192C] hover:bg-[#1E3E66] text-amber-400 hover:text-amber-300 text-xs font-mono font-bold uppercase tracking-wider border border-[#1E3E66] hover:border-amber-400/60 transition-all mb-8 shadow-sm cursor-pointer"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5" />
-                  <span>Return to News Directory</span>
-                </button>
-
-                {/* Meta info tags */}
-                <div className="flex flex-wrap items-center gap-3 mb-4">
-                  <span className="font-mono text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-[2px] bg-[#0B192C] text-amber-400 border border-amber-400/40 shadow-sm">
-                    {activeArticle.category}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-xs font-mono text-slate-300">
-                    <Calendar className="w-3.5 h-3.5 text-amber-400" />
-                    <span>{activeArticle.date}</span>
-                  </span>
-                  <span className="text-slate-600">•</span>
-                  <span className="flex items-center gap-1.5 text-xs font-mono text-slate-300">
-                    <Clock className="w-3.5 h-3.5 text-amber-400" />
-                    <span>{activeArticle.readTime}</span>
-                  </span>
-                </div>
-
-                {/* Article Title */}
-                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.2] mb-6">
-                  {activeArticle.title}
-                </h1>
-
-                {/* Author Info */}
-                <div className="flex items-center gap-3 pt-4 border-t border-[#102A43]">
-                  <div className="w-10 h-10 rounded-[2px] bg-[#0B192C] border border-[#1E3E66] flex items-center justify-center text-amber-400 font-mono font-bold text-sm shadow-sm">
-                    {activeArticle.author.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-white flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-amber-400" />
-                      <span>{activeArticle.author.name}</span>
-                    </div>
-                    <div className="text-xs font-mono text-slate-400">{activeArticle.author.role}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Main Article Content Container */}
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20 space-y-10">
-              {/* Featured Banner Image */}
-              <div className="rounded-[2px] overflow-hidden shadow-2xl border border-slate-200 bg-slate-900 aspect-[16/9] sm:aspect-[21/9]">
-                <img
-                  src={activeArticle.imageUrl}
-                  alt={activeArticle.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Key Takeaways Callout Card */}
-              {activeArticle.keyHighlights && activeArticle.keyHighlights.length > 0 && (
-                <div className="p-6 sm:p-8 rounded-[2px] bg-[#07162A] text-white border-2 border-[#1E3E66] shadow-xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
-                  <div className="relative z-10 space-y-4">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[2px] bg-amber-500/10 border border-amber-400/30 text-amber-400 text-xs font-mono font-bold uppercase tracking-wider">
-                      <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span>Key Engineering Highlights</span>
-                    </div>
-                    <ul className="space-y-3">
-                      {activeArticle.keyHighlights.map((highlight, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-slate-200 text-sm sm:text-base leading-relaxed">
-                          <CheckCircle2 className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                          <span className="flex-1">{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
-
-              {/* Multi-Paragraph Article Content */}
-              <div className="bg-white p-6 sm:p-10 rounded-[2px] border border-slate-200 shadow-sm space-y-6">
-                {activeArticle.content.map((paragraph, idx) => (
-                  <p key={idx} className="text-slate-700 leading-relaxed text-base sm:text-lg font-normal">
-                    {paragraph}
-                  </p>
-                ))}
-
-                {/* Tags Strip & Share */}
-                <div className="pt-8 mt-8 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Tag className="w-4 h-4 text-slate-400" />
-                    {activeArticle.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 rounded-[2px] font-mono bg-slate-100 text-slate-700 text-xs font-medium border border-slate-200 hover:border-amber-400 hover:text-amber-600 transition-colors"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Share button */}
-                  <button
-                    type="button"
-                    onClick={handleCopyLink}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[2px] bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-xs font-mono font-bold uppercase tracking-wider transition-colors border border-slate-200 cursor-pointer shadow-sm"
-                  >
-                    {copiedLink ? (
-                      <>
-                        <Check className="w-4 h-4 text-emerald-600" />
-                        <span className="text-emerald-700">Link Copied</span>
-                      </>
-                    ) : (
-                      <>
-                        <Share2 className="w-4 h-4 text-slate-500" />
-                        <span>Share Article</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {/* Technical Specialist Callout CTA */}
-              <div className="p-8 rounded-[2px] bg-[#07162A] text-white border border-[#102A43] shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
-                <div className="space-y-2 text-center sm:text-left">
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold block">
-                    PROJECT INQUIRY & CONSULTATION
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-                    Planning a Turnkey Livestock or Energy Facility?
-                  </h3>
-                  <p className="text-slate-300 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
-                    CCDI's multidisciplinary engineering teams provide site assessments, civil blueprinting, and complete equipment commissioning nationwide.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => navigate('/#contact')}
-                  className="px-6 py-3 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-[#F3A812] hover:bg-amber-300 text-slate-950 transition-colors shrink-0 shadow-md cursor-pointer flex items-center gap-2"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Contact Engineering Team</span>
-                </button>
-              </div>
-
-              {/* Related Articles */}
-              <div className="space-y-6 pt-4">
-                <div className="border-b border-slate-200 pb-3">
-                  <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block mb-1">
-                    RELATED INSIGHTS
-                  </span>
-                  <h3 className="text-2xl font-black text-[#0B192C] tracking-tight">
-                    More Turnkey Updates & Technical Reports
-                  </h3>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  {MOCK_NEWS.filter((a) => a.id !== activeArticle.id)
-                    .slice(0, 2)
-                    .map((related) => (
-                      <div
-                        key={related.id}
-                        onClick={() => handleSelectArticle(related.id)}
-                        className="cursor-pointer bg-white rounded-[2px] border border-slate-200 p-6 hover:shadow-lg hover:border-[#0B192C] transition-all duration-300 group flex flex-col justify-between"
-                      >
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between">
-                            <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] bg-slate-100 text-slate-800 border border-slate-200">
-                              {related.category}
-                            </span>
-                            <span className="font-mono text-xs text-slate-400">{related.date}</span>
-                          </div>
-
-                          <h4 className="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug">
-                            {related.title}
-                          </h4>
-
-                          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                            {related.summary}
-                          </p>
-                        </div>
-
-                        <div className="flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-amber-600 pt-4 border-t border-slate-100 mt-4">
-                          <span>Read Report</span>
-                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>
-          </motion.article>
-        ) : (
-          /* ───────────────────────────────────────────────────────────── */
-          /* VIEW 2: NEWS CATALOG & INDEX VIEW                            */
-          /* ───────────────────────────────────────────────────────────── */
-          <motion.div
-            key="news-index"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="pb-24"
-          >
-            {/* ── 1. HERO BANNER ────────────────────────────────────────── */}
-            <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
-              {/* Background Accents & Tech Matrix */}
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-              <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Architectural Accent 2 - Top Left Anchored */}
-              <motion.div
-                initial={{ opacity: 0, y: -45 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.15 }}
-                transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-                aria-hidden="true"
-              >
-                <img
-                  src="/images/accents/accent2.png"
-                  alt=""
-                  className="w-full h-auto object-contain opacity-30"
-                />
-              </motion.div>
-
-              {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored */}
-              <motion.div
-                initial={{ opacity: 0, y: 45 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.15 }}
-                transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-                aria-hidden="true"
-              >
-                <img
-                  src="/images/accents/dark-accent-graphic.png"
-                  alt=""
-                  className="w-full h-auto object-contain opacity-30"
-                />
-              </motion.div>
-
-              <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-                {/* Breadcrumb Navigation */}
-                <nav className="flex items-center gap-2 text-xs font-mono text-slate-400">
-                  <Link to="/" className="hover:text-amber-400 transition-colors">HOME</Link>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                  <span className="text-amber-400 font-bold">NEWS & UPDATES</span>
-                </nav>
-
-                <div className="max-w-3xl space-y-4">
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold block">
-                    CCDI / PRESS & PROJECT INSIGHTS
-                  </span>
-                  <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                    Agro-Industrial News & Updates
-                  </h1>
-                  <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-normal">
-                    Explore our latest project handshakes, facility handovers, engineering innovations, and renewable energy milestones across the Philippines.
-                  </p>
-                </div>
-
-                {/* Industrial Technical Search Bar */}
-                <div className="pt-2 max-w-xl">
-                  <div className="relative">
-                    <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search news by topic, project, or keyword..."
-                      className="w-full pl-10 pr-16 py-3 rounded-[2px] bg-[#0B192C] border border-[#1E3E66] text-white placeholder-slate-400 focus:outline-none focus:border-[#F3A812] focus:ring-1 focus:ring-[#F3A812] text-xs font-sans transition-all shadow-md"
-                    />
-                    {searchQuery && (
-                      <button
-                        type="button"
-                        onClick={() => setSearchQuery('')}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-mono font-bold text-slate-400 hover:text-amber-400 uppercase tracking-wider cursor-pointer"
-                      >
-                        Clear
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* ── 2. MAIN CATALOG DIRECTORY ─────────────────────────────── */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
-              
-              {/* Category Filter Tabs (CCDI Lite Theme) */}
-              <div className="flex items-center flex-wrap gap-2" role="tablist">
-                {categories.map((cat) => {
-                  const isActive = selectedCategory.toLowerCase() === cat.toLowerCase();
-                  return (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => setSelectedCategory(cat)}
-                      className={`px-4 py-2 rounded-[2px] font-sans text-xs uppercase tracking-wider font-bold transition-all border cursor-pointer ${
-                        isActive
-                          ? 'bg-[#0B192C] text-white border-[#0B192C] shadow-sm'
-                          : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400 hover:text-slate-950'
-                      }`}
-                    >
-                      {cat === 'All' ? 'All Articles' : cat}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Featured Article Spotlight Card (only if no active search query) */}
-              {!searchQuery && selectedCategory === 'All' && featuredArticle && (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-amber-600">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                    <span>Featured Spotlight</span>
-                  </div>
-
-                  <div
-                    onClick={() => handleSelectArticle(featuredArticle.id)}
-                    className="cursor-pointer bg-white rounded-[2px] border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-[#0B192C] transition-all duration-300 grid lg:grid-cols-12 group"
-                  >
-                    <div className="lg:col-span-7 relative min-h-[300px] sm:min-h-[340px] bg-slate-900 overflow-hidden">
-                      <img
-                        src={featuredArticle.imageUrl}
-                        alt={featuredArticle.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                      <div className="absolute top-3 left-3">
-                        <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] bg-[#07162A]/90 text-amber-400 border border-amber-400/40">
-                          {featuredArticle.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-wider text-slate-500">
-                          <span className="flex items-center gap-1.5">
-                            <Calendar className="w-3.5 h-3.5 text-amber-600" />
-                            {featuredArticle.date}
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center gap-1.5 text-amber-600 font-bold">
-                            <Clock className="w-3.5 h-3.5" />
-                            {featuredArticle.readTime}
-                          </span>
-                        </div>
-
-                        <h2 className="text-xl sm:text-2xl font-black text-[#0B192C] group-hover:text-amber-600 transition-colors leading-snug">
-                          {featuredArticle.title}
-                        </h2>
-
-                        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed line-clamp-4">
-                          {featuredArticle.summary}
-                        </p>
-                      </div>
-
-                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                        <div className="flex items-center gap-2 font-mono text-xs text-slate-600">
-                          <User className="w-3.5 h-3.5 text-amber-600" />
-                          <span>{featuredArticle.author.name}</span>
-                        </div>
-
-                        <span className="font-mono text-xs uppercase tracking-wider font-bold text-amber-600 group-hover:text-amber-700 inline-flex items-center gap-1.5 transition-colors">
-                          <span>Read Story</span>
-                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Articles Grid */}
-              <div className="space-y-6">
-                <div className="flex items-center justify-between font-mono text-xs text-slate-500 border-b border-slate-200 pb-3">
-                  <span>
-                    SHOWING <strong className="text-amber-600 font-bold">{filteredArticles.length}</strong> ARTICLES
-                    {selectedCategory !== 'All' && ` IN "${selectedCategory.toUpperCase()}"`}
-                    {searchQuery && ` MATCHING "${searchQuery.toUpperCase()}"`}
-                  </span>
-                </div>
-
-                {filteredArticles.length > 0 ? (
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredArticles.map((article, idx) => (
-                      <motion.article
-                        key={article.id}
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: idx * 0.04 }}
-                        onClick={() => handleSelectArticle(article.id)}
-                        className="cursor-pointer bg-white rounded-[2px] border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-[#0B192C] transition-all duration-300 flex flex-col justify-between group"
-                      >
-                        <div>
-                          <div className="relative h-48 overflow-hidden bg-slate-900 border-b border-slate-100">
-                            <img
-                              src={article.imageUrl}
-                              alt={article.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                            <div className="absolute top-2.5 left-2.5">
-                              <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] bg-[#07162A]/90 text-amber-400 border border-amber-400/40">
-                                {article.category}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="p-5 sm:p-6 space-y-3">
-                            <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-wider text-slate-500">
-                              <span className="flex items-center gap-1.5">
-                                <Calendar className="w-3.5 h-3.5 text-amber-600" />
-                                {article.date}
-                              </span>
-                              <span>•</span>
-                              <span className="text-amber-600 font-bold">{article.readTime}</span>
-                            </div>
-
-                            <h3 className="text-base sm:text-lg font-bold text-[#0B192C] group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug">
-                              {article.title}
-                            </h3>
-
-                            <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
-                              {article.summary}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="p-5 sm:p-6 pt-0 mt-auto border-t border-slate-100 flex items-center justify-between">
-                          <span className="font-mono text-[11px] text-slate-500 truncate max-w-[140px]">
-                            {article.author.name}
-                          </span>
-                          <span className="font-mono text-xs uppercase tracking-wider font-bold text-amber-600 group-hover:text-amber-700 inline-flex items-center gap-1 transition-colors">
-                            <span>Read Article</span>
-                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                          </span>
-                        </div>
-                      </motion.article>
-                    ))}
-                  </div>
-                ) : (
-                  /* Zero Filter Results State */
-                  <div className="text-center py-16 px-4 bg-white rounded-[2px] border border-slate-200 max-w-md mx-auto space-y-4">
-                    <BookOpen className="w-10 h-10 text-slate-400 mx-auto" />
-                    <div className="space-y-1">
-                      <h3 className="text-base font-bold text-[#0B192C]">No Articles Found</h3>
-                      <p className="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
-                        No articles match your current search query or category filter. Try clearing filters or using different keywords.
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSearchQuery('');
-                        setSelectedCategory('All');
-                      }}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-[2px] bg-[#0B192C] hover:bg-[#1E3E66] text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
-                      <span>Reset Filters</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {activeArticle ? <ArticleView article={activeArticle} /> : <NewsIndex />}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BenchmarkStatStrip } from '../molecules/BenchmarkStatStrip';
 
 const STATS = [
   { value: '2019',    label: 'YEAR ESTABLISHED', sublabel: 'Philippine engineering origin' },
@@ -73,47 +74,37 @@ export const AboutUs: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 text-left">
 
         {/* ── 1. SECTION HEADER (LIGHT SLATE SECTION, NAVY TYPOGRAPHY, GOLD ACCENT) ── */}
-        <div className="space-y-6 max-w-3xl">
-          <p className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold">
-            CCDI / CORPORATE FOUNDATION
-          </p>
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12">
+          <div className="space-y-4 max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold">
+              CCDI / CORPORATE FOUNDATION
+            </p>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0B192C] leading-[1.08]">
-            Pioneering agro-industrial engineering standards since 2019.
-          </h2>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0B192C] leading-[1.08]">
+              Pioneering agro-industrial engineering standards since 2019.
+            </h2>
 
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-            Clarkbase Construction Dev't Inc. (CCDI) transforms agricultural production through integrated structural engineering, bio-secure poultry housing, turnkey feedmilling plants, and industrial solar integration across the Philippines.
-          </p>
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+              Clarkbase Construction Dev't Inc. (CCDI) transforms agricultural production through integrated structural engineering, bio-secure poultry housing, turnkey feedmilling plants, and industrial solar integration across the Philippines.
+            </p>
+          </div>
+
+          <div className="shrink-0 self-start lg:self-center">
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt="CCDI"
+              className="h-28 sm:h-36 lg:h-44 w-auto object-contain"
+            />
+          </div>
         </div>
 
         {/* ── 2. NUMBERS ARE THE HERO: HIGH-CONTRAST GOLD MONUMENTAL METRICS ── */}
         <div className="border-t border-slate-200 pt-12">
-          <div className="mb-6">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500 font-bold">
-              OPERATIONAL BENCHMARKS
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {STATS.map(({ value, label, sublabel }) => (
-              <div
-                key={label}
-                className="border-l-2 border-amber-500 pl-5 flex flex-col justify-start text-left"
-              >
-                {/* Hero Number: Plus Jakarta Sans, Bold, Gold */}
-                <div className="text-4xl sm:text-5xl font-extrabold font-sans tracking-tight text-amber-600 leading-none mb-3">
-                  {value}
-                </div>
-                <p className="font-sans text-xs font-bold uppercase tracking-wider text-[#0B192C] mb-1">
-                  {label}
-                </p>
-                <p className="text-xs text-slate-500 leading-normal font-sans">
-                  {sublabel}
-                </p>
-              </div>
-            ))}
-          </div>
+          <BenchmarkStatStrip
+            eyebrow="OPERATIONAL BENCHMARKS"
+            items={STATS}
+            theme="light"
+          />
         </div>
 
         {/* ── 3. STRATEGIC PURPOSE: MISSION & VISION (SHARP 2PX CORNERS, WHITE PANEL) ── */}
@@ -156,7 +147,14 @@ export const AboutUs: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-8 p-6 sm:p-8 bg-white border border-slate-200 rounded-[2px]">
+          <div className="lg:col-span-8 p-6 sm:p-8 bg-white border border-slate-200 rounded-[2px] relative overflow-hidden">
+            {/* Ambient Logo Watermark */}
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt=""
+              aria-hidden="true"
+              className="absolute -right-4 -bottom-6 h-40 sm:h-48 w-auto object-contain opacity-[0.05] pointer-events-none select-none"
+            />
             {activeTab === 'mission' ? (
               <div className="space-y-3">
                 <span className="font-mono text-xs uppercase tracking-wider text-amber-600 font-bold">

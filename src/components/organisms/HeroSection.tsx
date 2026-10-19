@@ -28,8 +28,8 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
     id: 'slide-overview',
     tabLabel: 'OVERVIEW',
     kicker: 'CLARKBASE CONSTRUCTION DEV\'T INC.',
-    titleWhite: 'INTEGRATED SOLUTIONS FOR',
-    titleGold: 'AGRIBUSINESS INDUSTRY',
+    titleWhite: 'Integrated Solutions for',
+    titleGold: 'Agribusiness Industry',
     subheadline:
       'From turnkey bio-secure poultry and hatchery complexes to high-tonnage feedmills and clean solar energy integration, CCDI delivers end-to-end agro-industrial infrastructure built for superior operational yields.',
     ctaPrimary: {
@@ -47,8 +47,8 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
     id: 'slide-poultry',
     tabLabel: 'POULTRY',
     kicker: 'CCDI / POULTRY FARM EQUIPMENT & HOUSING',
-    titleWhite: 'BIO-SECURE CLIMATE HOUSING &',
-    titleGold: 'PRECISION POULTRY SYSTEMS',
+    titleWhite: 'Bio-Secure Climate Housing &',
+    titleGold: 'Precision Poultry Systems',
     subheadline:
       'Turnkey climate-controlled broiler, breeder, and commercial layer facilities engineered for pathogen defense, high bird density, automated tunnel ventilation, and optimal Feed Conversion Ratios.',
     ctaPrimary: {
@@ -59,14 +59,14 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
       label: 'Request Consultation',
       href: '#contact',
     },
-    imageUrl: '/images/capabilities/poultry-facility.jpg',
+    imageUrl: '/images/broiler/broiler-hero.jpg',
   },
   {
     id: 'slide-hatchery',
     tabLabel: 'HATCHERY',
     kicker: 'CCDI / HATCHERY CONSTRUCTION & INCUBATION',
-    titleWhite: 'CLEANROOM HATCHERIES &',
-    titleGold: 'SINGLE-STAGE INCUBATION',
+    titleWhite: 'Cleanroom Hatcheries &',
+    titleGold: 'Single-Stage Incubation',
     subheadline:
       'Sterile, thermally optimized incubation plants with zoned cleanroom airflow, automated egg transfer, high-capacity setters, and strict biosecurity containment.',
     ctaPrimary: {
@@ -83,8 +83,8 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
     id: 'slide-feedmill',
     tabLabel: 'FEEDMILL',
     kicker: 'CCDI / FEEDMILL SYSTEMS & SILOS',
-    titleWhite: 'AUTOMATED FEEDMILL PLANTS &',
-    titleGold: 'BULK GRAIN SILO COMPLEXES',
+    titleWhite: 'Automated Feedmill Plants &',
+    titleGold: 'Bulk Grain Silo Complexes',
     subheadline:
       'Industrial feed processing infrastructure engineered with computerized micro-dosing, high-throughput pelleting towers, heavy galvanized corrugated silos, and pneumatic conveying.',
     ctaPrimary: {
@@ -101,8 +101,8 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
     id: 'slide-solar',
     tabLabel: 'SOLAR PV',
     kicker: 'CCDI / SOLAR ENERGY INTEGRATION',
-    titleWhite: 'COMMERCIAL SOLAR MICROGRIDS FOR',
-    titleGold: 'AGRO-INDUSTRIAL ENTERPRISES',
+    titleWhite: 'Commercial Solar Microgrids for',
+    titleGold: 'Agro-Industrial Enterprises',
     subheadline:
       'Heavy-duty rooftop and ground-mounted photovoltaic systems engineered to slash daytime electricity overhead, synchronized with generator backups for uninterrupted power.',
     ctaPrimary: {
@@ -113,32 +113,32 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
       label: 'Request Consultation',
       href: '#contact',
     },
-    imageUrl: '/images/capabilities/solar-facility.jpg',
+    imageUrl: '/images/hero/solar-hero.jpg',
   },
   {
     id: 'slide-updates',
     tabLabel: 'UPDATES',
-    kicker: 'CCDI / COMMISSIONED PROJECTS & UPDATES',
-    titleWhite: 'COMMISSIONED: 500K-CAPACITY',
-    titleGold: 'BROILER COMPLEX IN CENTRAL LUZON',
+    kicker: 'CCDI / INDUSTRY EXHIBITIONS & UPDATES',
+    titleWhite: 'CCDI Showcases Solutions at',
+    titleGold: 'AgriLink 2026 World Trade Center',
     subheadline:
-      'CCDI successfully hands over a 10-house climate-controlled poultry complex equipped with automated feeding, tunnel ventilation, and biosecure building envelopes—15 days ahead of schedule.',
+      'Visit Clarkbase Construction Development Inc. (CCDI) and Tai Chi at AgriLink, FoodLink & AquaLink 2026 this October 8–10 at World Trade Center Manila.',
     ctaPrimary: {
-      label: 'Read Project Case Study →',
-      href: '/news/news-1',
+      label: 'Explore Event Highlights →',
+      href: '/news',
     },
     ctaSecondary: {
       label: 'Browse All News & Insights',
       href: '/news',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=80',
+    imageUrl: '/images/hero/agrilink-updates.jpg',
   },
   {
     id: 'slide-careers',
     tabLabel: 'CAREERS',
     kicker: 'CCDI / CAREERS & ENGINEERING TEAM',
-    titleWhite: 'SHAPE FUTURE-READY',
-    titleGold: 'AGRO-INDUSTRIAL INFRASTRUCTURE',
+    titleWhite: 'Shape Future-Ready',
+    titleGold: 'Agro-Industrial Infrastructure',
     subheadline:
       'Join our multidisciplinary engineering team delivering high-performance poultry facilities, feedmills, and solar microgrids across the Philippines. We are actively hiring licensed engineers and project specialists.',
     ctaPrimary: {
@@ -168,7 +168,7 @@ const CAPABILITIES: CapabilityCardData[] = [
     label: 'POULTRY',
     spec: 'Bio-Secure Climate Housing',
     bu: 'Poultry Farm Equipment',
-    imageUrl: '/images/capabilities/poultry-facility.jpg',
+    imageUrl: '/images/broiler/broiler-hero.jpg',
     keyFeatures: ['Automated Tunnel Ventilation', 'Evaporative Cooling Pads', 'Automatic Feeding Lines'],
   },
   {
@@ -192,7 +192,7 @@ const CAPABILITIES: CapabilityCardData[] = [
     label: 'SOLAR PV',
     spec: 'Industrial Rooftop Microgrid',
     bu: 'Solar Systems',
-    imageUrl: '/images/capabilities/solar-facility.jpg',
+    imageUrl: '/images/hero/solar-hero.jpg',
     keyFeatures: ['High-Wind Rooftop Arrays', 'Generator Sync Inverters', 'Up to 35% OPEX Reduction'],
   },
 ];
@@ -383,55 +383,66 @@ export const HeroSection: React.FC = () => {
         </div>
 
         {/* Dynamic Slide Body with Drop-Shadows and High Contrast */}
-        <div className="max-w-4xl min-h-[286px] flex flex-col justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSlide.id}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Clean Kicker / Eyebrow (High contrast gold with subtle drop shadow) */}
-              <div className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] mb-3.5">
-                {activeSlide.kicker}
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[286px]">
+          <div className="lg:col-span-8 xl:col-span-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSlide.id}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Clean Kicker / Eyebrow (High contrast gold with subtle drop shadow) */}
+                <div className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] mb-3.5">
+                  {activeSlide.kicker}
+                </div>
 
-              {/* Refined Headline with Balanced Proportions & Line-Height */}
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-black tracking-tight text-white leading-[1.25] font-sans drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] mb-5 sm:mb-6">
-                <span>{activeSlide.titleWhite}</span>
-                {activeSlide.titleGold && (
-                  <span className="block text-[#F3A812] mt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
-                    {activeSlide.titleGold}
-                  </span>
-                )}
-              </h1>
+                {/* Refined Headline with Balanced Proportions & Line-Height */}
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-black tracking-tight text-white leading-[1.25] font-sans drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] mb-5 sm:mb-6">
+                  <span>{activeSlide.titleWhite}</span>
+                  {activeSlide.titleGold && (
+                    <span className="block text-[#F3A812] mt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+                      {activeSlide.titleGold}
+                    </span>
+                  )}
+                </h1>
 
-              {/* Core Description with Clean High-Contrast Text */}
-              <p className="text-sm sm:text-base text-slate-200 max-w-2xl leading-[1.75] font-normal drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] mb-7 sm:mb-8">
-                {activeSlide.subheadline}
-              </p>
+                {/* Core Description with Clean High-Contrast Text */}
+                <p className="text-sm sm:text-base text-slate-200 max-w-2xl leading-[1.75] font-normal drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] mb-7 sm:mb-8">
+                  {activeSlide.subheadline}
+                </p>
 
-              {/* High-Contrast Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-1.5">
-                <button
-                  type="button"
-                  onClick={() => handleCta(activeSlide.ctaPrimary.href)}
-                  className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-[#F3A812] text-slate-950 hover:bg-amber-300 transition-colors shadow-lg hover:shadow-amber-500/20 cursor-pointer"
-                >
-                  {activeSlide.ctaPrimary.label}
-                </button>
+                {/* High-Contrast Action Buttons */}
+                <div className="flex flex-wrap items-center gap-3.5 pt-1.5">
+                  <button
+                    type="button"
+                    onClick={() => handleCta(activeSlide.ctaPrimary.href)}
+                    className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-[#F3A812] text-slate-950 hover:bg-amber-300 transition-colors shadow-lg hover:shadow-amber-500/20 cursor-pointer"
+                  >
+                    {activeSlide.ctaPrimary.label}
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={() => handleCta(activeSlide.ctaSecondary.href)}
-                  className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-bold border-2 border-[#1E3E66] text-white hover:border-[#F3A812] transition-colors bg-[#07162A]/90 shadow-md cursor-pointer"
-                >
-                  {activeSlide.ctaSecondary.label}
-                </button>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                  <button
+                    type="button"
+                    onClick={() => handleCta(activeSlide.ctaSecondary.href)}
+                    className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-bold border-2 border-[#1E3E66] text-white hover:border-[#F3A812] transition-colors bg-[#07162A]/90 shadow-md cursor-pointer"
+                  >
+                    {activeSlide.ctaSecondary.label}
+                  </button>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Right Side: Prominent Hero CCDI Crest Logo in balance with left side elements */}
+          <div className="hidden lg:flex lg:col-span-4 xl:col-span-4 items-center justify-center xl:justify-end">
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt="CCDI"
+              className="w-auto h-56 lg:h-64 xl:h-72 object-contain drop-shadow-[0_12px_32px_rgba(0,0,0,0.9)] pointer-events-none select-none"
+            />
+          </div>
         </div>
 
         {/* Carousel Prev/Next & Slide Counter Controls */}
@@ -517,19 +528,19 @@ export const HeroSection: React.FC = () => {
                       className="w-full h-full object-cover object-center brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-all duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent" />
-
-                    {/* Architectural Top-Right Corner Accent */}
-                    <img
-                      src="/images/accents/card-corner-accent.png"
-                      alt=""
-                      className="absolute top-0 right-0 w-28 sm:w-32 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm"
-                      aria-hidden="true"
-                    />
                   </div>
 
                   {/* Card Body */}
-                  <div className="p-4 flex flex-col flex-grow justify-between space-y-3 bg-[#07162A]">
-                    <div>
+                  <div className="relative p-4 flex flex-col flex-grow justify-between space-y-3 bg-[#07162A] overflow-hidden">
+                    {/* Dark Accent Graphic placed where indicated */}
+                    <img
+                      src="/images/accents/dark-accent-graphic.png"
+                      alt=""
+                      className="absolute -right-2 top-3 w-28 sm:w-32 h-auto object-contain object-right pointer-events-none select-none opacity-40 z-0"
+                      aria-hidden="true"
+                    />
+
+                    <div className="relative z-10">
                       <h3 className="font-sans text-base font-extrabold text-white tracking-tight group-hover:text-[#F3A812] transition-colors">
                         {cap.bu}
                       </h3>
@@ -537,41 +548,59 @@ export const HeroSection: React.FC = () => {
 
                     {/* Micro Deliverables (Non-Poultry) */}
                     {!isPoultry && (
-                      <div className="space-y-1 pt-2 border-t border-[#102A43] text-xs font-mono text-slate-300 font-medium">
-                        {cap.keyFeatures.map((feat) => (
-                          <div key={feat} className="truncate">
-                            • {feat}
-                          </div>
-                        ))}
+                      <div className="relative z-10 pt-2 border-t border-[#102A43] flex items-center justify-between gap-2">
+                        <div className="space-y-1 text-[11px] sm:text-xs font-mono text-slate-300 font-medium min-w-0">
+                          {cap.keyFeatures.map((feat) => (
+                            <div key={feat} className="truncate">
+                              • {feat}
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* CCDI Crest Logo in Designated Spot */}
+                        <img
+                          src="/images/branding/ccdi-logo.svg"
+                          alt="CCDI"
+                          className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none mr-0.5"
+                        />
                       </div>
                     )}
 
                     {/* Poultry Sub-Category Links */}
                     {isPoultry && (
                       <div
-                        className="pt-2 border-t border-[#102A43] flex flex-col gap-1.5"
+                        className="relative z-10 pt-2 border-t border-[#102A43] flex items-center justify-between gap-2"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        {poultrySubLinks.map((sub) => (
-                          <button
-                            key={sub.href}
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(sub.href);
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
-                            className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-300 hover:text-amber-400 transition-colors text-left cursor-pointer py-0.5"
-                          >
-                            <span className="text-[10px] text-amber-400">▶</span>
-                            {sub.label}
-                          </button>
-                        ))}
+                        <div className="flex flex-col gap-1.5">
+                          {poultrySubLinks.map((sub) => (
+                            <button
+                              key={sub.href}
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(sub.href);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }}
+                              className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-300 hover:text-amber-400 transition-colors text-left cursor-pointer py-0.5"
+                            >
+                              <span className="text-[10px] text-amber-400">▶</span>
+                              {sub.label}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* CCDI Crest Logo in Designated Spot */}
+                        <img
+                          src="/images/branding/ccdi-logo.svg"
+                          alt="CCDI"
+                          className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none mr-0.5"
+                        />
                       </div>
                     )}
 
                     {/* Direct Catalog Action */}
-                    <div className="pt-2 flex items-center justify-between font-mono text-xs text-[#F3A812] font-bold group-hover:translate-x-0.5 transition-transform">
+                    <div className="relative z-10 pt-2 flex items-center justify-between font-mono text-xs text-[#F3A812] font-bold group-hover:translate-x-0.5 transition-transform">
                       <span>EXPLORE PRODUCTS</span>
                       <span>→</span>
                     </div>

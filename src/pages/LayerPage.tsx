@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
+  ChevronLeft,
   ChevronRight,
-  CheckCircle2,
   Plus,
   Check,
   PhoneCall,
@@ -14,11 +14,22 @@ import {
   Droplets,
   Activity,
 } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
+import { Parallax, Scrollbar, Mousewheel, Navigation } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/parallax';
+import 'swiper/css/scrollbar';
+import 'swiper/css/navigation';
+
 import type { Product } from '../data/mockProducts';
 import { LAYER_CATALOG_PRODUCTS } from '../data/layerCatalogProducts';
 import { PoultrySubNav } from '../components/molecules/PoultrySubNav';
+import { HousingDesignSlide } from '../components/molecules/HousingDesignSlide';
+import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../components/molecules';
 import { PrefabricatedMaterialsSection } from '../components/organisms/PrefabricatedMaterialsSection';
-import { CategoryAccessoriesCatalog } from '../components/organisms/CategoryAccessoriesCatalog';
+import { PoultryRetrofitCallout } from '../components/molecules/PoultryRetrofitCallout';
 import { ContactSection } from '../components/organisms/ContactSection';
 
 export interface LayerPageProps {
@@ -32,7 +43,8 @@ export const LayerPage: React.FC<LayerPageProps> = ({
   onToggleInquiry,
   onRemoveInquiryItem,
 }) => {
-  const [selectedDesign, setSelectedDesign] = useState<'h-frame' | 'a-frame'>('h-frame');
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -54,18 +66,64 @@ export const LayerPage: React.FC<LayerPageProps> = ({
     }
   };
 
-  const layerDesigns = {
-    'h-frame': {
-      optionNumber: 'DESIGN OPTION 01',
-      badge: 'HIGH-DENSITY H-FRAME',
+  const heroLayerOptions: HeroDesignOption[] = [
+    {
+      id: 'h-frame',
+      optionNumber: 'Option 01',
+      badge: 'Vertical Multi-Tier',
+      title: 'H-Frame Layer Cage',
+      caption: 'High-density vertical battery cages with automated longitudinal egg collection and continuous PP manure drying belts.',
+      imageUrl: '/images/layer/h-frame-layer.jpg',
+      targetSectionId: 'cage-architecture',
+      slideIndex: 0,
+      metrics: [
+        { label: 'FLOCK CAPACITY', value: 'Customizable Multi-Tier' },
+        { label: 'DIMENSIONS', value: '97m × 10m × 4.3m' },
+      ],
+    },
+    {
+      id: 'a-frame',
+      optionNumber: 'Option 02',
+      badge: 'Open-Sloped Structure',
+      title: 'A-Frame Layer Cage',
+      caption: 'Sloped A-frame cage configuration providing open visibility, effortless inspection, and natural cross-ventilation.',
+      imageUrl: '/images/layer/a-frame-layer.jpg',
+      targetSectionId: 'cage-architecture',
+      slideIndex: 1,
+      metrics: [
+        { label: 'FLOCK CAPACITY', value: 'Scalable by Length' },
+        { label: 'DIMENSIONS', value: '133m × 13m × 3.5m' },
+      ],
+    },
+  ];
+
+  const handleSelectLayerDesign = (option: HeroDesignOption) => {
+    swiperInstance?.slideTo(option.slideIndex);
+    setActiveSlideIndex(option.slideIndex);
+    const el = document.getElementById(option.targetSectionId);
+    if (el) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = el.getBoundingClientRect().top;
+      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
+    }
+  };
+
+  const layerDesignsList = [
+    {
+      id: 'h-frame',
+      optionNumber: 'Design Option 01',
+      badge: 'Vertical Multi-Tier',
+      tabLabel: '1. H-Frame System',
+      shortLabel: '1. H-Frame',
       title: 'H-Frame Layer Cage',
       description:
         'A high-density, multi-tier poultry housing system with cages vertically stacked on a rigid H-shaped structure. It typically integrates automated feeding, nipple drinking, egg collection, manure-belt removal, and ventilation systems for efficient, hygienic, and large-scale layer production.',
       buildingType: 'Pre-fabricated House',
       dimensions: '97m length × 10m width × 4.3m height',
-      birdCapacity: '45,000 Birds',
-      cageDetails: '36 birds per cage',
-      stockingDensity: '450 sq cm bird density',
+      birdCapacity: 'Customizable',
+      cageDetails: 'Scalable by Tier & House Length',
+      stockingDensity: '450 sq cm / bird standard',
       manureHandling: 'Manure-Belt Removal',
       manureHandlingSub: 'Continuous automated PP belts under tiers for biosecure removal',
       eggCollection: 'Belt-Type Egg Collection',
@@ -75,22 +133,25 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       isAdded: isHFrameAdded,
       advantages: [
         'Vertically stacked cages on rigid H-shaped structure for high-density, large-scale commercial egg output',
-        'Turnkey pre-fabricated house dimensions: 97m length × 10m width × 4.3m height for 45,000 bird capacity',
-        'Cage allocation of 36 birds per cage calibrated to 450 sq cm bird density',
+        'Turnkey pre-fabricated house dimensions: 97m length × 10m width × 4.3m height scalable to client footprint',
+        'High-efficiency multi-tier cage allocation engineered to 450 sq cm bird welfare density standards',
         'Full integration of automated feeding, nipple drinking, egg collection, manure-belt removal, and ventilation',
       ],
     },
-    'a-frame': {
-      optionNumber: 'DESIGN OPTION 02',
-      badge: 'OPEN SLOPED A-FRAME',
+    {
+      id: 'a-frame',
+      optionNumber: 'Design Option 02',
+      badge: 'Open-Sloped Structure',
+      tabLabel: '2. A-Frame System',
+      shortLabel: '2. A-Frame',
       title: 'A-Frame Layer Cage',
       description:
         'A multi-tier poultry housing system with cages arranged in a sloped "A" configuration. It provides individual compartments for laying hens, with integrated feed troughs, nipple drinkers, egg-collection channels, and manual-disposal space beneath each tier. The open design supports ventilation, easy inspection, efficient egg collection, and straightforward operation and maintenance.',
       buildingType: 'Pre-fabricated House',
       dimensions: '133m length × 13m width × 3.5m height',
-      birdCapacity: '30,000 Birds',
-      cageDetails: '20 birds per cage',
-      stockingDensity: '450 sq cm bird density',
+      birdCapacity: 'Customizable',
+      cageDetails: 'Scalable by Tier & House Length',
+      stockingDensity: '450 sq cm / bird standard',
       manureHandling: 'Manual-Disposal Space',
       manureHandlingSub: 'Dedicated open space beneath each tier for straightforward cleanout',
       eggCollection: 'Egg-Collection Channels',
@@ -100,14 +161,14 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       isAdded: isAFrameAdded,
       advantages: [
         'Sloped "A" configuration provides open visibility, superior airflow, and effortless flock inspection',
-        'Turnkey pre-fabricated house dimensions: 133m length × 13m width × 3.5m height for 30,000 bird capacity',
-        'Cage allocation of 20 birds per cage calibrated to 450 sq cm bird density',
+        'Turnkey pre-fabricated house dimensions: 133m length × 13m width × 3.5m height scalable to client footprint',
+        'Open A-frame cage allocation engineered to 450 sq cm bird welfare density standards',
         'Integrated individual compartments with feed troughs, nipple drinkers, egg-collection channels, and sub-tier disposal',
       ],
     },
-  };
+  ];
 
-  const currentDesign = layerDesigns[selectedDesign];
+  const currentDesign = layerDesignsList[activeSlideIndex] ?? layerDesignsList[0];
 
   const subSystems = [
     {
@@ -231,7 +292,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
               </h1>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-                Industrial commercial egg production and high-density layer housing engineering. From 45,000-capacity vertical H-frame cages to 30,000-capacity open A-frame systems, CCDI delivers turnkey prefabricated facilities built with automated egg collection, regulated feeding, controlled climate, and biosecure manure handling.
+                Industrial commercial egg production and high-density layer housing engineering. From high-density vertical H-frame cages to open A-frame systems, CCDI delivers turnkey prefabricated facilities built with automated egg collection, regulated feeding, controlled climate, and biosecure manure handling.
               </p>
 
               {/* Action Buttons */}
@@ -263,7 +324,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                     ) : (
                       <>
                         <Plus className="w-4 h-4 text-amber-400" />
-                        Add Standard Module to Inquiry
+                        Add {currentDesign.title} to Inquiry
                       </>
                     )}
                   </button>
@@ -271,75 +332,18 @@ export const LayerPage: React.FC<LayerPageProps> = ({
               </div>
             </div>
 
-            {/* Right Quick Metric Card */}
+            {/* Right Design Options Carousel */}
             <div className="lg:col-span-5">
-              <div className="bg-[#0B192C] border-2 border-amber-400/40 rounded-[2px] p-6 sm:p-8 shadow-2xl space-y-6 relative">
-                <div className="absolute -top-3 right-4 bg-amber-400 text-slate-950 font-mono text-[10px] uppercase font-normal px-2 py-0.5 rounded-[2px] tracking-wider">
-                  STANDARD MODULE
-                </div>
-
-                <div className="border-b border-[#1E3E66] pb-4">
-                  <span className="font-mono text-xs text-slate-400 uppercase tracking-widest block mb-1 font-normal">
-                    ENGINEERING MODULE BENCHMARK
-                  </span>
-                  <div className="text-3xl font-black text-white font-mono">
-                    {currentDesign.dimensions.split(' ')[0]} × {currentDesign.dimensions.split(' × ')[1] || '10m × 4.3m'}
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1 font-normal">
-                    Pre-fabricated commercial layer envelope engineered for high-density table egg production.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 uppercase tracking-wider block font-normal">
-                      FLOCK CAPACITY
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      {currentDesign.birdCapacity}
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5 font-normal">
-                      {currentDesign.title}
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 uppercase tracking-wider block font-normal">
-                      STOCKING DENSITY
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      450 <span className="text-xs font-normal text-slate-400">sq cm</span>
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5 font-normal">
-                      Bird Density Standard
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 uppercase tracking-wider block font-normal">
-                      CAGE OCCUPANCY
-                    </span>
-                    <span className="text-sm font-black text-white mt-1 block">
-                      {currentDesign.cageDetails}
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5 font-normal">
-                      Per Cage Cell
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 uppercase tracking-wider block font-normal">
-                      BUILDING TYPE
-                    </span>
-                    <span className="text-sm font-black text-white mt-1 block">
-                      {currentDesign.buildingType}
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5 font-normal">
-                      Engineered Steel
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <DesignOptionsHeroCarousel
+                options={heroLayerOptions}
+                activeIndex={activeSlideIndex}
+                onActiveIndexChange={(idx) => {
+                  setActiveSlideIndex(idx);
+                  swiperInstance?.slideTo(idx);
+                }}
+                onSelectOption={handleSelectLayerDesign}
+                categoryLabel="LAYER DESIGN FORMATS"
+              />
             </div>
           </div>
         </div>
@@ -372,173 +376,155 @@ export const LayerPage: React.FC<LayerPageProps> = ({
           </div>
 
           {/* Interactive Toggle Switcher */}
-          <div className="inline-flex flex-wrap p-1 bg-slate-100 rounded-[2px] border border-slate-200 gap-1">
-            <button
-              type="button"
-              onClick={() => setSelectedDesign('h-frame')}
-              className={`px-4 sm:px-5 py-2.5 rounded-[2px] text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer ${
-                selectedDesign === 'h-frame'
-                  ? 'bg-[#0B192C] text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950'
-              }`}
-            >
-              1. H-Frame Layer Cage (45,000 Birds)
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedDesign('a-frame')}
-              className={`px-4 sm:px-5 py-2.5 rounded-[2px] text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer ${
-                selectedDesign === 'a-frame'
-                  ? 'bg-[#0B192C] text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950'
-              }`}
-            >
-              2. A-Frame Layer Cage (30,000 Birds)
-            </button>
+          <div className="inline-flex flex-wrap p-1.5 bg-slate-100/90 rounded-xl border border-slate-200/80 gap-1.5 shadow-inner">
+            {layerDesignsList.map((design, idx) => (
+              <button
+                key={design.id}
+                type="button"
+                onClick={() => {
+                  swiperInstance?.slideTo(idx);
+                  setActiveSlideIndex(idx);
+                }}
+                className={`px-4 sm:px-5 py-2.5 rounded-lg text-xs font-bold tracking-wide transition-all cursor-pointer ${
+                  activeSlideIndex === idx
+                    ? 'bg-[#0B192C] text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/50'
+                }`}
+              >
+                {design.tabLabel}
+              </button>
+            ))}
           </div>
 
-          {/* Selected Design Card */}
-          <motion.div
-            key={selectedDesign}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-            className="relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-slate-50 border border-slate-200 rounded-[2px] p-6 sm:p-10 shadow-xs"
-          >
-            {/* Dark Accent Graphic - Lower Right Anchored */}
-            <img
-              src="/images/accents/dark-accent-graphic.png"
-              alt=""
-              className="absolute -bottom-10 -right-10 w-72 sm:w-96 lg:w-[460px] h-auto object-contain object-right-bottom pointer-events-none select-none z-0 opacity-25"
-              aria-hidden="true"
-            />
+          {/* Swiper Slider with Parallax, Scrollbar, Mousewheel & Side Navigation Arrows */}
+          <div className="relative">
+            {/* Side Navigation Arrow - Previous */}
+            <button
+              type="button"
+              className="layer-side-prev absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 border border-slate-300 text-[#0B192C] hover:bg-[#0B192C] hover:text-white hover:border-[#0B192C] transition-all shadow-xl hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer group disabled:opacity-30 disabled:pointer-events-none"
+              aria-label="Previous housing option"
+            >
+              <ChevronLeft className="w-6 h-6 stroke-[2.5] transition-transform group-hover:-translate-x-0.5" />
+            </button>
 
-            {/* Visual Media Showcase */}
-            <div className="relative z-10 lg:col-span-5 flex flex-col justify-between space-y-6">
-              <div className="relative rounded-[2px] overflow-hidden border border-slate-200 bg-white p-5 sm:p-6 text-slate-900 text-center space-y-4 shadow-xs">
-                <div className="flex items-center justify-between gap-2 border-b border-slate-200 pb-3 font-sans text-xs uppercase tracking-wider">
-                  <span className="text-slate-500 font-bold">
-                    {currentDesign.optionNumber}
-                  </span>
-                  <span className="text-amber-800 font-bold bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-[2px]">
-                    {currentDesign.badge}
-                  </span>
-                </div>
+            {/* Side Navigation Arrow - Next */}
+            <button
+              type="button"
+              className="layer-side-next absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 border border-slate-300 text-[#0B192C] hover:bg-[#0B192C] hover:text-white hover:border-[#0B192C] transition-all shadow-xl hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer group disabled:opacity-30 disabled:pointer-events-none"
+              aria-label="Next housing option"
+            >
+              <ChevronRight className="w-6 h-6 stroke-[2.5] transition-transform group-hover:translate-x-0.5" />
+            </button>
 
-                <h3 className="text-xl sm:text-2xl font-black tracking-tight text-[#0B192C] uppercase text-left">
-                  {currentDesign.title}
-                </h3>
+            <Swiper
+              modules={[Parallax, Scrollbar, Mousewheel, Navigation]}
+              speed={600}
+              parallax={true}
+              watchSlidesProgress={true}
+              rewind={true}
+              centeredSlides={true}
+              spaceBetween={20}
+              slidesPerView={1}
+              initialSlide={0}
+              mousewheel={{
+                forceToAxis: true,
+                releaseOnEdges: true,
+              }}
+              scrollbar={{
+                draggable: true,
+                el: '.layer-swiper-scrollbar',
+              }}
+              navigation={{
+                prevEl: '.layer-side-prev, .layer-swiper-prev',
+                nextEl: '.layer-side-next, .layer-swiper-next',
+              }}
+              onSwiper={(swiper) => {
+                setSwiperInstance(swiper);
+              }}
+              onSlideChange={(swiper) => {
+                setActiveSlideIndex(swiper.activeIndex);
+              }}
+              className="w-full !pb-2 overflow-hidden rounded-2xl relative"
+            >
+              {/* Continuous Container Parallax Background Layer - Highly Visible */}
+              <div
+                slot="container-start"
+                className="parallax-bg pointer-events-none select-none z-0 overflow-hidden"
+                data-swiper-parallax="-35%"
+                data-swiper-parallax-duration="600"
+              >
+                {/* Visible architectural grid */}
+                <div
+                  className="absolute inset-0 opacity-25"
+                  style={{
+                    backgroundImage: 'linear-gradient(#94a3b8 1.5px, transparent 1.5px), linear-gradient(90deg, #94a3b8 1.5px, transparent 1.5px)',
+                    backgroundSize: '40px 40px',
+                  }}
+                />
+                {/* Soft ambient glow */}
+                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-400/15 rounded-full blur-3xl pointer-events-none" />
+              </div>
 
-                <div className="relative w-full h-64 sm:h-72 rounded-[2px] overflow-hidden bg-slate-900 border border-slate-200 group shadow-inner">
-                  <img
-                    src={currentDesign.imageUrl}
-                    alt={currentDesign.title}
-                    className="w-full h-full object-cover brightness-95"
-                  />
-                  <img
-                    src="/images/accents/card-corner-accent.png"
-                    alt=""
-                    className="absolute top-0 right-0 w-28 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm"
-                    aria-hidden="true"
-                  />
-                </div>
-
-                <p className="text-slate-600 text-xs text-left leading-relaxed">
-                  {currentDesign.description}
-                </p>
-
-                {/* Inquiry Action */}
-                <div className="pt-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (currentDesign.product) onToggleInquiry(currentDesign.product);
+              {layerDesignsList.map((design) => (
+                <SwiperSlide key={design.id} className="h-auto">
+                  <HousingDesignSlide
+                    optionLabel={design.optionNumber}
+                    badge={design.badge}
+                    title={design.title}
+                    imageUrl={design.imageUrl}
+                    overview={design.description}
+                    metrics={[
+                      { label: 'Total Bird Capacity', value: design.birdCapacity, sub: `${design.cageDetails} (${design.stockingDensity})`, primary: true },
+                      { label: 'Building Dimensions', value: design.dimensions, sub: 'Length × Width × Height', primary: true },
+                      { label: 'Building Type', value: design.buildingType, sub: 'Industrial pre-engineered steel structure' },
+                      { label: 'Manure Removal System', value: design.manureHandling, sub: design.manureHandlingSub },
+                    ]}
+                    advantages={design.advantages}
+                    solutionType="layer"
+                    solutionName={design.title}
+                    isAdded={design.isAdded}
+                    onToggleInquiry={() => {
+                      if (design.product) onToggleInquiry(design.product);
                     }}
-                    className={`w-full py-3 px-4 rounded-[2px] font-sans text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer ${
-                      currentDesign.isAdded
-                        ? 'bg-amber-400 text-slate-950 shadow-xs'
-                        : 'bg-[#0B192C] text-white hover:bg-slate-800 shadow-xs'
-                    }`}
-                  >
-                    {currentDesign.isAdded ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        <span>Attached to Inquiry Drawer</span>
-                      </>
-                    ) : (
-                      <>
-                        <Plus className="w-4 h-4" />
-                        <span>Attach Building Package to Inquiry</span>
-                      </>
-                    )}
-                  </button>
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* Bottom Controls Bar: Centered Page Indicator & Scrollbar */}
+            <div className="mt-4 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-slate-200/80 p-3 sm:px-5 rounded-xl shadow-xs">
+              {/* Draggable Scrollbar Track - Centered */}
+              <div className="w-full max-w-md flex flex-col gap-1.5">
+                <div className="layer-swiper-scrollbar !relative !h-2 !bg-slate-200/70 rounded-full overflow-hidden cursor-pointer" />
+                <div className="flex justify-between text-[10px] font-mono text-slate-500 uppercase tracking-wider">
+                  <span className={activeSlideIndex === 0 ? 'text-[#0B192C] font-bold' : ''}>1. H-Frame</span>
+                  <span className={activeSlideIndex === 1 ? 'text-[#0B192C] font-bold' : ''}>2. A-Frame</span>
                 </div>
               </div>
             </div>
 
-            {/* Technical Parameters & Specifications */}
-            <div className="relative z-10 lg:col-span-7 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold block">
-                  TECHNICAL METRICS & CAPACITIES
-                </span>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-white p-4 rounded-[2px] border border-slate-200 shadow-xs">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase block font-bold">Total Bird Capacity</span>
-                    <span className="text-xl font-normal text-[#0B192C] font-mono">
-                      {currentDesign.birdCapacity}
-                    </span>
-                    <span className="text-[11px] text-slate-500 block mt-1">
-                      {currentDesign.cageDetails} ({currentDesign.stockingDensity})
-                    </span>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-[2px] border border-slate-200 shadow-xs">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase block font-bold">Building Dimensions</span>
-                    <span className="text-xl font-normal text-[#0B192C] font-mono">
-                      {currentDesign.dimensions}
-                    </span>
-                    <span className="text-[11px] text-slate-500 block mt-1">Length × Width × Height</span>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-[2px] border border-slate-200 shadow-xs">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase block font-bold">Building Type</span>
-                    <span className="text-lg font-normal text-amber-700 font-mono">
-                      {currentDesign.buildingType}
-                    </span>
-                    <span className="text-[11px] text-slate-500 block mt-1">
-                      Industrial pre-engineered steel structure
-                    </span>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-[2px] border border-slate-200 shadow-xs">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase block font-bold">Manure Removal System</span>
-                    <span className="text-lg font-normal text-slate-900 font-mono">
-                      {currentDesign.manureHandling}
-                    </span>
-                    <span className="text-[11px] text-slate-500 block mt-1">{currentDesign.manureHandlingSub}</span>
-                  </div>
-                </div>
-
-                {/* Key Advantage Highlights */}
-                <div className="space-y-2 pt-2">
-                  <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold block">
-                    ENGINEERING ADVANTAGES
-                  </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
-                    {currentDesign.advantages.map((adv, idx) => (
-                      <div key={idx} className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                        <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                        <span className="font-sans text-xs text-slate-700">{adv}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </motion.div>
+            <style>{`
+              .parallax-bg {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 140%;
+                height: 100%;
+              }
+              .layer-swiper-scrollbar .swiper-scrollbar-drag {
+                background: #0B192C !important;
+                border-radius: 9999px !important;
+                cursor: grab;
+                transition: background-color 0.2s ease;
+              }
+              .layer-swiper-scrollbar .swiper-scrollbar-drag:hover,
+              .layer-swiper-scrollbar .swiper-scrollbar-drag:active {
+                background: #d97706 !important;
+                cursor: grabbing;
+              }
+            `}</style>
+          </div>
 
         </div>
       </section>
@@ -642,19 +628,10 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         </div>
       </section>
 
-      {/* ── 5. ACCESSORIES, SPARE PARTS & EQUIPMENT LISTING CATALOG ─ */}
-      <CategoryAccessoriesCatalog
-        businessUnit="Poultry Farm Equipment"
-        eyebrow="ACCESSORIES, SPARE PARTS & EQUIPMENT LISTING"
-        title="Commercial Layer Equipment & Automation Catalog"
-        subtitle="Explore CCDI's complete line of traveling hopper cages, chain feeding systems, gentle belt egg collectors, buffers, PVC shielders, and maintenance hardware."
-        inquiryItems={inquiryItems}
-        onToggleInquiry={onToggleInquiry}
-        accentTheme="amber"
-        customProducts={LAYER_CATALOG_PRODUCTS}
-      />
+      {/* ── 5.5. RETROFITTING & MODERNIZATION CALLOUT ────────────── */}
+      <PoultryRetrofitCallout currentCategory="Layer Farm" />
 
-      {/* ── 6. CONTACT & INQUIRY SECTION ───────────────────────────── */}
+      {/* ── 6. CONTACT & INQUIRY SECTION */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

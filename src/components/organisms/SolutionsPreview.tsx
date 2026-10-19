@@ -66,16 +66,18 @@ export const SolutionsPreview: React.FC<SolutionsPreviewProps> = ({
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           {/* Flagship Showcase Header */}
-          <div className="border-b border-[#102A43] pb-6">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold block mb-1">
-              FLAGSHIP SHOWCASE
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-              Featured Flagship Systems
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">
-              Engineered turnkey installations delivering high-density automated production across the Philippine agribusiness sector.
-            </p>
+          <div className="flex items-start justify-between gap-4 border-b border-[#102A43] pb-6">
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold block mb-1">
+                FLAGSHIP SHOWCASE
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                Featured Flagship Systems
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">
+                Engineered turnkey installations delivering high-density automated production across the Philippine agribusiness sector.
+              </p>
+            </div>
           </div>
 
           {/* 6-Item High-Contrast Dark Grid */}

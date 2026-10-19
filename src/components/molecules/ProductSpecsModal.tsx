@@ -106,7 +106,7 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                         }`}
                       >
                         <Images className="w-3.5 h-3.5" />
-                        <span>3D Model Schematic</span>
+                        <span>Facility Photo</span>
                       </button>
                       <button
                         type="button"
@@ -123,7 +123,7 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                     </div>
 
                     <span className="hidden sm:inline font-mono text-[10px] text-slate-400 uppercase tracking-widest">
-                      {modalMediaTab === 'video' ? 'ACTIVE MULTIMEDIA SPEC' : '3D CAD RENDER'}
+                      {modalMediaTab === 'video' ? 'ACTIVE MULTIMEDIA SPEC' : 'FACILITY SPEC PHOTO'}
                     </span>
                   </div>
                 )}

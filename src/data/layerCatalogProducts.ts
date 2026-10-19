@@ -4,7 +4,7 @@ export const LAYER_CATALOG_PRODUCTS: Product[] = [
   // ── PRE-FABRICATED HOUSE PACKAGES ──────────────────────────────
   {
     id: 'pf-layer-hframe',
-    title: 'H-Frame Layer Cage House (45,000 Bird Capacity)',
+    title: 'H-Frame Layer Cage House',
     badge: 'TURNKEY HOUSING',
     businessUnit: 'Poultry Farm Equipment',
     subCategory: 'Pre-Fabricated Houses',
@@ -17,7 +17,7 @@ export const LAYER_CATALOG_PRODUCTS: Product[] = [
     buildingSpecs: {
       buildingType: 'Pre-fabricated House',
       dimensions: '97m length × 10m width × 4.3m height',
-      birdCapacity: '45,000 Birds (36 birds/cage @ 450 cm² density)',
+      birdCapacity: 'Customizable (Scalable to Tier & Length)',
       features: [
         'Q355B Welding & Hot-Rolling H Steel Structure (SA2.5)',
         'Automated multi-tier PP manure removal belt system',
@@ -37,7 +37,7 @@ export const LAYER_CATALOG_PRODUCTS: Product[] = [
     },
     metrics: {
       spec1Label: 'CAPACITY',
-      spec1Value: '45,000 Birds',
+      spec1Value: 'Customizable',
       spec2Label: 'DIMENSIONS',
       spec2Value: '97m × 10m × 4.3m',
       spec3Label: 'DENSITY',
@@ -46,7 +46,7 @@ export const LAYER_CATALOG_PRODUCTS: Product[] = [
   },
   {
     id: 'pf-layer-aframe',
-    title: 'A-Frame Layer Cage House (30,000 Bird Capacity)',
+    title: 'A-Frame Layer Cage House',
     badge: 'TURNKEY HOUSING',
     businessUnit: 'Poultry Farm Equipment',
     subCategory: 'Pre-Fabricated Houses',
@@ -59,7 +59,7 @@ export const LAYER_CATALOG_PRODUCTS: Product[] = [
     buildingSpecs: {
       buildingType: 'Pre-fabricated House',
       dimensions: '133m length × 13m width × 3.5m height',
-      birdCapacity: '30,000 Birds (20 birds/cage @ 450 cm² density)',
+      birdCapacity: 'Customizable (Scalable to Tier & Length)',
       features: [
         'Open sloped configuration for maximum natural airflow and easy inspection',
         'Integrated front roll-out egg collection channel trays',
@@ -79,7 +79,7 @@ export const LAYER_CATALOG_PRODUCTS: Product[] = [
     },
     metrics: {
       spec1Label: 'CAPACITY',
-      spec1Value: '30,000 Birds',
+      spec1Value: 'Customizable',
       spec2Label: 'DIMENSIONS',
       spec2Value: '133m × 13m × 3.5m',
       spec3Label: 'DENSITY',

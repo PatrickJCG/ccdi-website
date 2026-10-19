@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   Plus,
   Check,
-  ChevronRight,
   PhoneCall,
   Maximize2,
   Images,
@@ -16,14 +16,26 @@ import {
   Utensils,
   Droplets,
   Activity,
+  Layers,
+  ShieldCheck,
 } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
+import { Parallax, Scrollbar, Mousewheel, Navigation } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/parallax';
+import 'swiper/css/scrollbar';
+import 'swiper/css/navigation';
+
 import type { Product } from '../data/mockProducts';
 import { MOCK_PRODUCTS } from '../data/mockProducts';
 import { PoultrySubNav } from '../components/molecules/PoultrySubNav';
+import { PoultryLocalEngineers } from '../components/molecules/PoultryLocalEngineers';
+import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../components/molecules';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { PrefabricatedMaterialsSection } from '../components/organisms/PrefabricatedMaterialsSection';
-import { CategoryAccessoriesCatalog } from '../components/organisms/CategoryAccessoriesCatalog';
-import { POULTRY_BREEDER_ACCESSORIES } from '../data/poultryBreederAccessories';
+import { PoultryRetrofitCallout } from '../components/molecules/PoultryRetrofitCallout';
 
 export interface PoultryBreedingPageProps {
   inquiryItems: Product[];
@@ -36,10 +48,16 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
   onToggleInquiry,
   onRemoveInquiryItem,
 }) => {
-  const [selectedDesign, setSelectedDesign] = useState<'american' | 'european'>('american');
-  const [americanViewMode, setAmericanViewMode] = useState<'3d' | 'interior' | 'video'>('3d');
-  const [europeanViewMode, setEuropeanViewMode] = useState<'3d' | 'interior' | 'video'>('3d');
-  const [lightboxImage, setLightboxImage] = useState<{ url: string; title: string; caption?: string; isVideo?: boolean } | null>(null);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [americanViewMode, setAmericanViewMode] = useState<'interior' | 'video'>('interior');
+  const [europeanViewMode, setEuropeanViewMode] = useState<'interior' | 'video'>('interior');
+  const [lightboxImage, setLightboxImage] = useState<{ url: string; title: string; caption?: string; badge?: string; isVideo?: boolean } | null>(null);
+
+  const breederDesignTabs = [
+    { id: 'american', label: '1. American Type Design', shortLabel: '1. American Type' },
+    { id: 'european', label: '2. European Type Design', shortLabel: '2. European Type' },
+  ];
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -51,6 +69,54 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
 
   const isAmericanAdded = americanProduct ? inquiryItems.some((item) => item.id === americanProduct.id) : false;
   const isEuropeanAdded = europeanProduct ? inquiryItems.some((item) => item.id === europeanProduct.id) : false;
+
+  const currentBreederProduct = activeSlideIndex === 1 ? europeanProduct : americanProduct;
+  const isCurrentBreederAdded = activeSlideIndex === 1 ? isEuropeanAdded : isAmericanAdded;
+  const currentBreederTitle = activeSlideIndex === 1 ? 'European Type' : 'American Type';
+  const currentBreederCapacity = activeSlideIndex === 1 ? '12,500 Birds' : '10,890 Birds';
+
+  const heroBreederOptions: HeroDesignOption[] = [
+    {
+      id: 'american',
+      optionNumber: 'Option 01',
+      badge: '1/3 Slat Layout',
+      title: 'American Type Breeder House',
+      caption: 'Turnkey parent stock facility engineered for natural mating, separate-sex feeding, and dual lateral sidewall community nests.',
+      imageUrl: '/images/breeder/american-type-interior.jpg',
+      targetSectionId: 'breeder-designs',
+      slideIndex: 0,
+      metrics: [
+        { label: 'FLOCK CAPACITY', value: '10,890 Birds' },
+        { label: 'DIMENSIONS', value: '14m × 134m × 2.9m' },
+      ],
+    },
+    {
+      id: 'european',
+      optionNumber: 'Option 02',
+      badge: '2/3 Slat Layout',
+      title: 'European Type Breeder House',
+      caption: 'High-efficiency parent stock house featuring central community nest line, automated variable egg belts, and optimized litter foraging.',
+      imageUrl: '/images/breeder/euro-style-interior.png',
+      targetSectionId: 'breeder-designs',
+      slideIndex: 1,
+      metrics: [
+        { label: 'FLOCK CAPACITY', value: '12,500 Birds' },
+        { label: 'DIMENSIONS', value: '16m × 140m × 3.0m' },
+      ],
+    },
+  ];
+
+  const handleSelectBreederDesign = (option: HeroDesignOption) => {
+    swiperInstance?.slideTo(option.slideIndex);
+    setActiveSlideIndex(option.slideIndex);
+    const el = document.getElementById(option.targetSectionId);
+    if (el) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = el.getBoundingClientRect().top;
+      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
+    }
+  };
 
   const scrollToContact = () => {
     const el = document.getElementById('contact');
@@ -74,7 +140,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
     },
     {
       title: 'Controlled Climate & Tunnel Ventilation System',
-      image: '/images/breeder/american-type-3d.png',
+      image: '/images/broiler/climate-system.jpg',
       icon: Wind,
       description:
         'An integrated climate regulation system that ensures stable internal housing conditions with precise static pressure balance, variable-speed cone exhaust fans, and evaporative wet pad cooling walls.',
@@ -200,25 +266,25 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                   Request Breeder Consultation
                 </button>
 
-                {americanProduct && (
+                {currentBreederProduct && (
                   <button
                     type="button"
-                    onClick={() => onToggleInquiry(americanProduct)}
+                    onClick={() => onToggleInquiry(currentBreederProduct)}
                     className={`px-5 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-bold border transition-colors cursor-pointer flex items-center gap-2 ${
-                      isAmericanAdded
+                      isCurrentBreederAdded
                         ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300 hover:bg-emerald-500/30'
                         : 'bg-[#102A43] border-[#1E3E66] text-white hover:border-amber-400/60'
                     }`}
                   >
-                    {isAmericanAdded ? (
+                    {isCurrentBreederAdded ? (
                       <>
                         <Check className="w-4 h-4 text-emerald-400" />
-                        Inquiry Added [10,890 Birds]
+                        Inquiry Added [{currentBreederCapacity}]
                       </>
                     ) : (
                       <>
                         <Plus className="w-4 h-4 text-amber-400" />
-                        Add Standard Module to Inquiry
+                        Add {currentBreederTitle} to Inquiry
                       </>
                     )}
                   </button>
@@ -226,75 +292,18 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
               </div>
             </div>
 
-            {/* Right Quick Metric Card */}
+            {/* Right Design Options Carousel */}
             <div className="lg:col-span-5">
-              <div className="bg-[#0B192C] border-2 border-amber-400/40 rounded-[2px] p-6 sm:p-8 shadow-2xl space-y-6 relative">
-                <div className="absolute -top-3 right-4 bg-amber-400 text-slate-950 font-mono text-[10px] uppercase font-normal px-2 py-0.5 rounded-[2px] tracking-wider">
-                  STANDARD MODULE
-                </div>
-
-                <div className="border-b border-[#1E3E66] pb-4">
-                  <span className="font-mono text-xs text-slate-400 uppercase tracking-widest block mb-1">
-                    ENGINEERING MODULE BENCHMARK
-                  </span>
-                  <div className="text-3xl font-black text-white font-mono">
-                    14m × 134m × 2.9m
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Pre-fabricated broiler breeder structure engineered for tropical climate resilience.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      FLOCK CAPACITY
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      10,890
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      9,900 Female + 990 Male
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      WIND RESISTANCE
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      200–280 <span className="text-xs font-normal text-slate-400">kph</span>
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Typhoon load standard
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      FLOOR CONFIGURATIONS
-                    </span>
-                    <span className="text-sm font-black text-white mt-1 block">
-                      1/3 or 2/3 Slat
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      American vs. European
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      WALL INSULATION
-                    </span>
-                    <span className="text-sm font-black text-white mt-1 block">
-                      PU Sandwich 50mm
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Density 40 ±2 kg/m³
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <DesignOptionsHeroCarousel
+                options={heroBreederOptions}
+                activeIndex={activeSlideIndex}
+                onActiveIndexChange={(idx) => {
+                  setActiveSlideIndex(idx);
+                  swiperInstance?.slideTo(idx);
+                }}
+                onSelectOption={handleSelectBreederDesign}
+                categoryLabel="BREEDER DESIGN FORMATS"
+              />
             </div>
           </div>
         </div>
@@ -304,7 +313,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
       <PoultrySubNav activeTab="broiler-breeder" />
 
       {/* ── 2. HOUSING SYSTEM ARCHITECTURE (AMERICAN VS EUROPEAN TYPE) ──────────── */}
-      <section className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
+      <section id="breeder-designs" className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
         {/* Architectural Top-Right Corner Accent */}
         <img
           src="/images/accents/card-corner-accent.png"
@@ -328,486 +337,892 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
           </div>
 
           {/* Interactive Toggle Switcher */}
-          <div className="inline-flex flex-wrap p-1 bg-slate-100 rounded-[2px] border border-slate-200 gap-1">
-            <button
-              type="button"
-              onClick={() => setSelectedDesign('american')}
-              className={`px-4 sm:px-5 py-2.5 rounded-[2px] text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer ${
-                selectedDesign === 'american'
-                  ? 'bg-[#0B192C] text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950'
-              }`}
-            >
-              1. American Type Design (1/3 Slat)
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedDesign('european')}
-              className={`px-4 sm:px-5 py-2.5 rounded-[2px] text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer ${
-                selectedDesign === 'european'
-                  ? 'bg-[#0B192C] text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950'
-              }`}
-            >
-              2. European Type Design (2/3 Slat)
-            </button>
+          <div className="inline-flex flex-wrap p-1.5 bg-slate-100/90 rounded-xl border border-slate-200/80 gap-1.5 shadow-inner">
+            {breederDesignTabs.map((tab, idx) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => {
+                  swiperInstance?.slideTo(idx);
+                  setActiveSlideIndex(idx);
+                }}
+                className={`px-4 sm:px-5 py-2.5 rounded-lg text-xs font-bold tracking-wide transition-all cursor-pointer ${
+                  activeSlideIndex === idx
+                    ? 'bg-[#0B192C] text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/50'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
-          {/* Selected Design Feature Card */}
-          <motion.div
-            key={selectedDesign}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-            className="relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-slate-50 border border-slate-200 rounded-[2px] p-6 sm:p-10 shadow-xs"
-          >
-            {/* Dark Accent Graphic - Lower Right Anchored */}
-            <img
-              src="/images/accents/dark-accent-graphic.png"
-              alt=""
-              className="absolute -bottom-10 -right-10 w-72 sm:w-96 lg:w-[460px] h-auto object-contain object-right-bottom pointer-events-none select-none z-0 opacity-25"
-              aria-hidden="true"
-            />
+          {/* Swiper Slider with Parallax, Scrollbar, Mousewheel & Side Navigation Arrows */}
+          <div className="relative">
+            {/* Side Navigation Arrow - Previous */}
+            <button
+              type="button"
+              className="breeder-side-prev absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 border border-slate-300 text-[#0B192C] hover:bg-[#0B192C] hover:text-white hover:border-[#0B192C] transition-all shadow-xl hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer group disabled:opacity-30 disabled:pointer-events-none"
+              aria-label="Previous housing option"
+            >
+              <ChevronLeft className="w-6 h-6 stroke-[2.5] transition-transform group-hover:-translate-x-0.5" />
+            </button>
 
-            {/* Visual Graphic Representation */}
-            <div className="relative z-10 lg:col-span-5 flex flex-col justify-between space-y-6">
-              <div className="relative rounded-[2px] overflow-hidden border border-slate-200 bg-white p-5 sm:p-6 text-slate-900 text-center space-y-4 shadow-xs">
-                <div className="flex items-center justify-between gap-2 border-b border-slate-200 pb-3 font-sans text-xs uppercase tracking-wider">
-                  <span className="text-slate-500 font-bold">
-                    {selectedDesign === 'american' ? 'DESIGN OPTION 01' : 'DESIGN OPTION 02'}
-                  </span>
-                  <span className="text-amber-800 font-bold bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-[2px]">
-                    {selectedDesign === 'american' ? '1/3 SLAT LAYOUT' : '2/3 SLAT LAYOUT'}
-                  </span>
-                </div>
+            {/* Side Navigation Arrow - Next */}
+            <button
+              type="button"
+              className="breeder-side-next absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 border border-slate-300 text-[#0B192C] hover:bg-[#0B192C] hover:text-white hover:border-[#0B192C] transition-all shadow-xl hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer group disabled:opacity-30 disabled:pointer-events-none"
+              aria-label="Next housing option"
+            >
+              <ChevronRight className="w-6 h-6 stroke-[2.5] transition-transform group-hover:translate-x-0.5" />
+            </button>
 
-                <h3 className="text-xl sm:text-2xl font-black tracking-tight text-[#0B192C] uppercase text-left">
-                  {selectedDesign === 'american' ? 'American Type Breeder House' : 'European Type Breeder House'}
-                </h3>
-
-                {selectedDesign === 'american' ? (
-                  /* ── Real American Type Images (3D Cutaway & Farm Interior) ── */
-                  <div className="space-y-3 text-left">
-                    {/* Media Display Container */}
-                    <div className="relative w-full h-64 sm:h-72 rounded-[2px] overflow-hidden bg-slate-900 border border-slate-200 group shadow-inner">
-                      {americanViewMode === 'video' ? (
-                        <div className="w-full h-full bg-black relative">
-                          <video
-                            src="/videos/poultry-breeding-american.mp4"
-                            controls
-                            autoPlay
-                            loop
-                            playsInline
-                            className="w-full h-full object-contain bg-black"
-                          />
-                        </div>
-                      ) : (
-                        <AnimatePresence mode="wait">
-                          <motion.img
-                            key={americanViewMode}
-                            src={
-                              americanViewMode === '3d'
-                                ? '/images/breeder/american-type-3d.png'
-                                : '/images/breeder/american-type-interior.jpg'
-                            }
-                            alt={
-                              americanViewMode === '3d'
-                                ? 'American Type 3D Cutaway Architectural Model'
-                                : 'American Type Actual Barn Interior'
-                            }
-                            initial={{ opacity: 0, scale: 1.02 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.98 }}
-                            transition={{ duration: 0.25 }}
-                            className={`w-full h-full ${
-                              americanViewMode === '3d'
-                                ? 'object-contain p-2 bg-gradient-to-b from-[#0B1E36] to-[#040D18]'
-                                : 'object-cover brightness-[0.95]'
-                            }`}
-                          />
-                        </AnimatePresence>
-                      )}
-
-                      {/* Architectural Top-Right Corner Accent */}
-                      {americanViewMode !== 'video' && (
-                        <img
-                          src="/images/accents/card-corner-accent.png"
-                          alt=""
-                          className="absolute top-0 right-0 w-28 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm"
-                          aria-hidden="true"
-                        />
-                      )}
-
-                      {/* Expand / Lightbox Button */}
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setLightboxImage({
-                            url:
-                              americanViewMode === 'video'
-                                ? '/videos/poultry-breeding-american.mp4'
-                                : americanViewMode === '3d'
-                                ? '/images/breeder/american-type-3d.png'
-                                : '/images/breeder/american-type-interior.jpg',
-                            title:
-                              americanViewMode === 'video'
-                                ? 'American Type Breeder House - 3D Facility Video Tour'
-                                : americanViewMode === '3d'
-                                ? 'American Type Breeder House (1/3 Slat) - 3D Architectural Model'
-                                : 'American Type Breeder House - Facility Barn Interior',
-                            caption:
-                              americanViewMode === 'video'
-                                ? 'Complete 3D facility simulation showing building aerodynamics, feeding loops, and internal bird flow.'
-                                : americanViewMode === '3d'
-                                ? 'Pre-fabricated broiler breeder structure (14m x 134m x 2.9m) showing dual lateral nest rows along sidewalls and central scratch area.'
-                                : 'Lateral nest boxes along sidewalls with suspended automated red feeder pans and ceiling fans.',
-                            isVideo: americanViewMode === 'video',
-                          })
-                        }
-                        className="absolute top-2.5 right-2.5 p-1.5 rounded-[2px] bg-white/90 hover:bg-amber-400 hover:text-slate-950 text-slate-800 border border-slate-200 transition-colors backdrop-blur-md cursor-pointer shadow-md z-20"
-                        title="Inspect Full Resolution"
-                      >
-                        <Maximize2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
-                    {/* Media View Toggle Buttons (3-Tab: 3D, Interior, Video) */}
-                    <div className="grid grid-cols-3 gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => setAmericanViewMode('3d')}
-                        className={`px-2 py-1.5 rounded-[2px] text-xs font-sans font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
-                          americanViewMode === '3d'
-                            ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
-                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-950'
-                        }`}
-                      >
-                        <Images className="w-3.5 h-3.5" />
-                        <span>3D Model</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setAmericanViewMode('interior')}
-                        className={`px-2 py-1.5 rounded-[2px] text-xs font-sans font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
-                          americanViewMode === 'interior'
-                            ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
-                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-950'
-                        }`}
-                      >
-                        <Images className="w-3.5 h-3.5" />
-                        <span>Barn Photo</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setAmericanViewMode('video')}
-                        className={`px-2 py-1.5 rounded-[2px] text-xs font-sans font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
-                          americanViewMode === 'video'
-                            ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
-                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-950'
-                        }`}
-                      >
-                        <Play className="w-3.5 h-3.5 fill-current" />
-                        <span>Video Tour</span>
-                      </button>
-                    </div>
-
-                    {/* Floor Plan Schematic Summary */}
-                    <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-[2px] space-y-2 font-sans text-xs">
-                      <div className="text-amber-800 font-bold border-b border-slate-200 pb-1.5 text-xs uppercase tracking-wider">
-                        FLOOR LAYOUT DYNAMICS:
-                      </div>
-                      <div className="text-slate-700 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
-                        <span><strong>1/3 Slat Ratio:</strong> Lateral rows along sidewalls</span>
-                      </div>
-                      <div className="text-slate-700 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
-                        <span><strong>Center Arena:</strong> Free bird movement & natural mating</span>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  /* ── Real European / EURO Type Images (3D Cutaway, Barn Photo & Video) ── */
-                  <div className="space-y-3 text-left">
-                    {/* Media Display Container */}
-                    <div className="relative w-full h-64 sm:h-72 rounded-[2px] overflow-hidden bg-slate-900 border border-slate-200 group shadow-inner">
-                      {europeanViewMode === 'video' ? (
-                        <div className="w-full h-full bg-black relative">
-                          <video
-                            src="/images/breeder/Poultry_breeding_house_EURO.mp4"
-                            controls
-                            autoPlay
-                            loop
-                            playsInline
-                            className="w-full h-full object-contain bg-black"
-                          />
-                        </div>
-                      ) : (
-                        <AnimatePresence mode="wait">
-                          <motion.img
-                            key={europeanViewMode}
-                            src={
-                              europeanViewMode === '3d'
-                                ? '/images/breeder/euro-style-3d.png'
-                                : '/images/breeder/euro-style-interior.png'
-                            }
-                            alt={
-                              europeanViewMode === '3d'
-                                ? 'European Type 3D Cutaway Architectural Model'
-                                : 'European Type Actual Barn Interior'
-                            }
-                            initial={{ opacity: 0, scale: 1.02 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.98 }}
-                            transition={{ duration: 0.25 }}
-                            className={`w-full h-full ${
-                              europeanViewMode === '3d'
-                                ? 'object-contain p-2 bg-gradient-to-b from-[#0B1E36] to-[#040D18]'
-                                : 'object-cover brightness-[0.95]'
-                            }`}
-                          />
-                        </AnimatePresence>
-                      )}
-
-                      {/* Architectural Top-Right Corner Accent */}
-                      {europeanViewMode !== 'video' && (
-                        <img
-                          src="/images/accents/card-corner-accent.png"
-                          alt=""
-                          className="absolute top-0 right-0 w-28 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm"
-                          aria-hidden="true"
-                        />
-                      )}
-
-                      {/* Expand / Lightbox Button */}
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setLightboxImage({
-                            url:
-                              europeanViewMode === 'video'
-                                ? '/images/breeder/Poultry_breeding_house_EURO.mp4'
-                                : europeanViewMode === '3d'
-                                ? '/images/breeder/euro-style-3d.png'
-                                : '/images/breeder/euro-style-interior.png',
-                            title:
-                              europeanViewMode === 'video'
-                                ? 'European Type Breeder House - 3D Facility Video Tour'
-                                : europeanViewMode === '3d'
-                                ? 'European Type Breeder House (2/3 Slat) - 3D Architectural Model'
-                                : 'European Type Breeder House - Facility Barn Interior',
-                            caption:
-                              europeanViewMode === 'video'
-                                ? 'Complete 3D facility simulation showing European 2/3 slat layout, central community nesting, and longitudinal ventilation.'
-                                : europeanViewMode === '3d'
-                                ? 'Pre-fabricated broiler breeder structure (14m x 134m x 2.9m) showing central single-row group community nest boxes with 2/3 slatted deck.'
-                                : 'European type breeder house interior featuring central community nest boxes, elevated slatted floor deck, and hanging feed lines.',
-                            isVideo: europeanViewMode === 'video',
-                          })
-                        }
-                        className="absolute top-2.5 right-2.5 p-1.5 rounded-[2px] bg-white/90 hover:bg-amber-400 hover:text-slate-950 text-slate-800 border border-slate-200 transition-colors backdrop-blur-md cursor-pointer shadow-md z-20"
-                        title="Inspect Full Resolution"
-                      >
-                        <Maximize2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
-                    {/* Media View Toggle Buttons (3-Tab: 3D, Interior, Video) */}
-                    <div className="grid grid-cols-3 gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => setEuropeanViewMode('3d')}
-                        className={`px-2 py-1.5 rounded-[2px] text-xs font-sans font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
-                          europeanViewMode === '3d'
-                            ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
-                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-950'
-                        }`}
-                      >
-                        <Images className="w-3.5 h-3.5" />
-                        <span>3D Model</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setEuropeanViewMode('interior')}
-                        className={`px-2 py-1.5 rounded-[2px] text-xs font-sans font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
-                          europeanViewMode === 'interior'
-                            ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
-                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-950'
-                        }`}
-                      >
-                        <Images className="w-3.5 h-3.5" />
-                        <span>Barn Photo</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setEuropeanViewMode('video')}
-                        className={`px-2 py-1.5 rounded-[2px] text-xs font-sans font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
-                          europeanViewMode === 'video'
-                            ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
-                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-950'
-                        }`}
-                      >
-                        <Play className="w-3.5 h-3.5 fill-current" />
-                        <span>Video Tour</span>
-                      </button>
-                    </div>
-
-                    {/* Floor Plan Schematic Summary */}
-                    <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-[2px] space-y-2 font-sans text-xs">
-                      <div className="text-amber-800 font-bold border-b border-slate-200 pb-1.5 text-xs uppercase tracking-wider">
-                        FLOOR LAYOUT DYNAMICS (EURO STYLE):
-                      </div>
-                      <div className="text-slate-700 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
-                        <span><strong>2/3 Slat Ratio:</strong> Maximized elevated slatted deck for superior hygiene</span>
-                      </div>
-                      <div className="text-slate-700 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
-                        <span><strong>Center Nest Line:</strong> Automated community egg gathering conveyor</span>
-                      </div>
-                      <div className="text-slate-700 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
-                        <span><strong>End Mating Areas:</strong> Open ground arena at both building ends</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Inquiry Action */}
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const prod = selectedDesign === 'american' ? americanProduct : europeanProduct;
-                    if (prod) onToggleInquiry(prod);
+            <Swiper
+              modules={[Parallax, Scrollbar, Mousewheel, Navigation]}
+              speed={600}
+              parallax={true}
+              watchSlidesProgress={true}
+              rewind={true}
+              centeredSlides={true}
+              spaceBetween={20}
+              slidesPerView={1}
+              initialSlide={0}
+              mousewheel={{
+                forceToAxis: true,
+                releaseOnEdges: true,
+              }}
+              scrollbar={{
+                draggable: true,
+                el: '.breeder-swiper-scrollbar',
+              }}
+              navigation={{
+                prevEl: '.breeder-side-prev, .breeder-swiper-prev',
+                nextEl: '.breeder-side-next, .breeder-swiper-next',
+              }}
+              onSwiper={(swiper) => {
+                setSwiperInstance(swiper);
+              }}
+              onSlideChange={(swiper) => {
+                setActiveSlideIndex(swiper.activeIndex);
+              }}
+              className="w-full !pb-2 overflow-hidden rounded-2xl relative"
+            >
+              {/* Continuous Container Parallax Background Layer - Highly Visible */}
+              <div
+                slot="container-start"
+                className="parallax-bg pointer-events-none select-none z-0 overflow-hidden"
+                data-swiper-parallax="-35%"
+                data-swiper-parallax-duration="600"
+              >
+                {/* Visible architectural grid */}
+                <div
+                  className="absolute inset-0 opacity-25"
+                  style={{
+                    backgroundImage: 'linear-gradient(#94a3b8 1.5px, transparent 1.5px), linear-gradient(90deg, #94a3b8 1.5px, transparent 1.5px)',
+                    backgroundSize: '40px 40px',
                   }}
-                  className={`w-full py-3 px-4 rounded-[2px] font-sans text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer ${
-                    (selectedDesign === 'american' ? isAmericanAdded : isEuropeanAdded)
-                      ? 'bg-amber-400 text-slate-950 shadow-xs'
-                      : 'bg-[#0B192C] text-white hover:bg-slate-800 shadow-xs'
-                  }`}
-                >
-                  {(selectedDesign === 'american' ? isAmericanAdded : isEuropeanAdded) ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>Attached to Inquiry Drawer</span>
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="w-4 h-4" />
-                      <span>Attach Building Package to Inquiry</span>
-                    </>
-                  )}
-                </button>
+                />
+                {/* Soft ambient glow */}
+                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-400/15 rounded-full blur-3xl pointer-events-none" />
+              </div>
+
+              {/* SLIDE 1: AMERICAN TYPE DESIGN (1/3 SLAT) */}
+              <SwiperSlide key="american" className="h-auto">
+                <div className="relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-slate-50/60 backdrop-blur-md border border-slate-200/80 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-sm h-full">
+                  {/* Visual Graphic Representation */}
+                  <div
+                    data-swiper-parallax="-260"
+                    className="relative z-10 lg:col-span-5 flex flex-col justify-between"
+                  >
+                    <div className="relative overflow-hidden rounded-2xl border border-[#1D3A63] bg-gradient-to-b from-[#0B192C] via-[#0F213A] to-[#14294A] p-5 sm:p-6 text-white shadow-xl shadow-[#0B192C]/25 h-full flex flex-col justify-between gap-5">
+                      <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-300" />
+                      <div className="space-y-4">
+                        {/* Option Micro-Badge Header */}
+                        <div
+                          data-swiper-parallax="-120"
+                          data-swiper-parallax-opacity="0.4"
+                          className="flex items-center justify-between gap-2 pb-3 border-b border-white/10"
+                        >
+                          <div className="flex items-center gap-2 font-mono text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ring-4 ring-amber-400/20" />
+                            <span>Design Option 01</span>
+                          </div>
+                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-[#0B192C] border border-amber-300 font-sans">
+                            Dual Lateral Nesting
+                          </span>
+                        </div>
+
+                        {/* Product Title in Camel Casing */}
+                        <div>
+                          <h3
+                            data-swiper-parallax="-280"
+                            data-swiper-parallax-opacity="0"
+                            className="text-2xl sm:text-[28px] font-extrabold tracking-tight text-white leading-tight"
+                          >
+                            American Type Breeder House
+                          </h3>
+                          <p className="text-[13px] text-slate-300 mt-1.5 font-normal leading-relaxed">
+                            Turnkey broiler parent stock facility engineered for natural mating and sidewall group nesting.
+                          </p>
+                        </div>
+
+                        {/* Real American Type Images (Barn Photo & Video) */}
+                        <div className="space-y-2.5 text-left">
+                          {/* Media Display Container */}
+                          <div
+                            data-swiper-parallax="-380"
+                            data-swiper-parallax-scale="0.9"
+                            data-swiper-parallax-opacity="0.2"
+                            className="relative w-full h-64 sm:h-80 rounded-xl overflow-hidden bg-slate-950 border border-white/10 ring-1 ring-amber-400/20 shadow-lg shadow-black/30 group"
+                          >
+                            {americanViewMode === 'video' ? (
+                              <div className="w-full h-full bg-black relative">
+                                <video
+                                  src="/videos/poultry-breeding-american.mp4"
+                                  controls
+                                  autoPlay
+                                  loop
+                                  playsInline
+                                  className="w-full h-full object-contain bg-black"
+                                />
+                              </div>
+                            ) : (
+                              <AnimatePresence mode="wait">
+                                <motion.img
+                                  key="american-interior"
+                                  src="/images/breeder/american-type-interior.jpg"
+                                  alt="American Type Breeder House Barn Interior"
+                                  initial={{ opacity: 0, scale: 1.02 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0, scale: 0.98 }}
+                                  transition={{ duration: 0.25 }}
+                                  className="w-full h-full object-cover brightness-[0.98]"
+                                />
+                              </AnimatePresence>
+                            )}
+
+                            {/* Expand / Lightbox Button */}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setLightboxImage({
+                                  url:
+                                    americanViewMode === 'video'
+                                      ? '/videos/poultry-breeding-american.mp4'
+                                      : '/images/breeder/american-type-interior.jpg',
+                                  title:
+                                    americanViewMode === 'video'
+                                      ? 'American Type Breeder House - 3D Facility Video Tour'
+                                      : 'American Type Breeder House - Facility Barn Interior',
+                                  caption:
+                                    americanViewMode === 'video'
+                                      ? 'Complete 3D facility simulation showing building aerodynamics, feeding loops, and internal bird flow.'
+                                      : 'Lateral nest boxes along sidewalls with suspended automated red feeder pans and ceiling fans.',
+                                  badge: 'American Type Breeder',
+                                  isVideo: americanViewMode === 'video',
+                                })
+                              }
+                              className="absolute top-2.5 right-2.5 w-8 h-8 rounded-lg bg-white/90 hover:bg-amber-400 hover:text-slate-950 text-slate-800 border border-slate-200/80 transition-all backdrop-blur-md flex items-center justify-center cursor-pointer shadow-sm z-20 hover:scale-105 active:scale-95"
+                              title="Inspect Full Resolution"
+                            >
+                              <Maximize2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          {/* Media View Toggle Segmented Tabs */}
+                          <div className="p-1 bg-white/5 rounded-lg grid grid-cols-2 gap-1 border border-white/10">
+                            <button
+                              type="button"
+                              onClick={() => setAmericanViewMode('interior')}
+                              className={`py-2 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                                americanViewMode === 'interior'
+                                  ? 'bg-amber-400 text-[#0B192C] shadow-sm font-bold'
+                                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+                              }`}
+                            >
+                              <Images className={`w-3.5 h-3.5 ${americanViewMode === 'interior' ? 'text-[#0B192C]' : 'text-slate-400'}`} />
+                              <span>Barn Photo</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setAmericanViewMode('video')}
+                              className={`py-2 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                                americanViewMode === 'video'
+                                  ? 'bg-amber-400 text-[#0B192C] shadow-sm font-bold'
+                                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+                              }`}
+                            >
+                              <Play className={`w-3.5 h-3.5 fill-current ${americanViewMode === 'video' ? 'text-[#0B192C]' : 'text-slate-400'}`} />
+                              <span>Video Tour</span>
+                            </button>
+                          </div>
+
+                          {/* Floor Plan Schematic Summary Panel */}
+                          <div
+                            data-swiper-parallax="-180"
+                            data-swiper-parallax-opacity="0.2"
+                            className="p-3.5 bg-white/[0.04] border border-white/10 rounded-xl space-y-2 text-xs"
+                          >
+                            <div className="flex items-center gap-1.5 text-amber-400 font-bold uppercase tracking-wider text-[11px]">
+                              <Layers className="w-3.5 h-3.5 text-amber-400" />
+                              <span>Floor Layout Dynamics</span>
+                            </div>
+                            <div className="divide-y divide-white/10">
+                              <div className="flex items-baseline justify-between py-1.5 text-xs">
+                                <span className="font-semibold text-white">Roosting Slats</span>
+                                <span className="text-slate-300 text-right">Lateral rows along sidewalls (1/3)</span>
+                              </div>
+                              <div className="flex items-baseline justify-between py-1.5 text-xs">
+                                <span className="font-semibold text-white">Central Scratch Arena</span>
+                                <span className="text-slate-300 text-right">Free bird movement & mating (2/3)</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Inquiry Action */}
+                      <div data-swiper-parallax="-100" className="pt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (americanProduct) onToggleInquiry(americanProduct);
+                          }}
+                          className={`w-full py-3.5 px-4 rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow-md active:scale-[0.99] ${
+                            isAmericanAdded
+                              ? 'bg-white text-[#0B192C] hover:bg-slate-100'
+                              : 'bg-amber-400 text-[#0B192C] hover:bg-amber-300 shadow-amber-500/30'
+                          }`}
+                        >
+                          {isAmericanAdded ? (
+                            <>
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                              <span>Attached to Inquiry Drawer</span>
+                            </>
+                          ) : (
+                            <>
+                              <Plus className="w-4 h-4 stroke-[2.5]" />
+                              <span>Attach Building Package to Inquiry</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Technical Parameters & Specifications */}
+                  <div
+                    data-swiper-parallax="-420"
+                    className="relative z-10 lg:col-span-7 flex flex-col justify-between space-y-6"
+                  >
+                    <div className="space-y-6">
+                      {/* Section 1: Technical Metrics & Capacities */}
+                      <div className="space-y-3">
+                        <div
+                          data-swiper-parallax="-160"
+                          data-swiper-parallax-opacity="0.3"
+                          className="flex items-center gap-2"
+                        >
+                          <span className="w-1.5 h-3.5 bg-amber-500 rounded-full" />
+                          <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                            Technical Metrics & Capacities
+                          </span>
+                        </div>
+
+                        <div
+                          data-swiper-parallax="-300"
+                          data-swiper-parallax-opacity="0.2"
+                          className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                        >
+                          {/* Card 1: Total Bird Capacity */}
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                            <div className="flex items-center justify-between text-slate-400 mb-1">
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Total Bird Capacity</span>
+                            </div>
+                            <div className="text-xl font-extrabold text-[#0B192C] tracking-tight">
+                              10,890 Birds
+                            </div>
+                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
+                              9,900 Female + 990 Male (10:1 Ratio)
+                            </span>
+                          </div>
+
+                          {/* Card 2: Building Dimensions */}
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                            <div className="flex items-center justify-between text-slate-400 mb-1">
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Building Dimensions</span>
+                            </div>
+                            <div className="text-xl font-extrabold text-[#0B192C] tracking-tight">
+                              14m × 134m × 2.9m
+                            </div>
+                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
+                              Width × Length × Eave Height
+                            </span>
+                          </div>
+
+                          {/* Card 3: Building Type */}
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                            <div className="flex items-center justify-between text-slate-400 mb-1">
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Building Type</span>
+                            </div>
+                            <div className="text-lg font-bold text-slate-900 tracking-tight">
+                              Pre-Fabricated House
+                            </div>
+                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
+                              Thermal insulated PU sandwich panels
+                            </span>
+                          </div>
+
+                          {/* Card 4: Floor Architecture */}
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                            <div className="flex items-center justify-between text-slate-400 mb-1">
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Floor Architecture</span>
+                            </div>
+                            <div className="text-lg font-bold text-slate-900 tracking-tight">
+                              Raised Lateral Slats
+                            </div>
+                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
+                              Outer roost lines with central scratch arena
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Section 2: Engineering Advantages */}
+                      <div
+                        data-swiper-parallax="-480"
+                        data-swiper-parallax-opacity="0.1"
+                        className="space-y-3"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-3.5 bg-amber-500 rounded-full" />
+                          <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                            Engineering Advantages
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-xs text-slate-900 leading-tight">
+                                Natural Mating Behavior
+                              </h4>
+                              <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-normal">
+                                Generous central scratch area allows optimal male-to-female interaction.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-xs text-slate-900 leading-tight">
+                                Flock Distribution
+                              </h4>
+                              <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-normal">
+                                Prevents crowding by balancing bird density across two lateral slat zones.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-xs text-slate-900 leading-tight">
+                                Perimeter Access
+                              </h4>
+                              <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-normal">
+                                Maintenance and egg inspection along outer aisles without disturbing center flock.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-xs text-slate-900 leading-tight">
+                                Clean Slat Elevation
+                              </h4>
+                              <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-normal">
+                                1/3 elevated floor ensures efficient manure drainage beneath slats.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Section 3: Compressed Local Professional Engineering Team */}
+                      <div
+                        data-swiper-parallax="-500"
+                        data-swiper-parallax-opacity="0.1"
+                        className="space-y-2.5 pt-1"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-3.5 bg-amber-500 rounded-full" />
+                          <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                            Local Professional Engineering Team
+                          </span>
+                        </div>
+                        <PoultryLocalEngineers
+                          solutionType="breeder"
+                          solutionName="American (1/3 Slat) Layout"
+                          compact
+                        />
+                      </div>
+                    </div>
+
+                    {/* Section 4: Brand Footer Strip */}
+                    <div
+                      data-swiper-parallax="-520"
+                      data-swiper-parallax-opacity="0.2"
+                      className="flex items-center justify-between pt-3 border-t border-slate-200/60"
+                    >
+                      <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 font-medium">
+                        <ShieldCheck className="w-4 h-4 text-amber-500 shrink-0" />
+                        <span>Turnkey CCDI Engineering & Biosecurity Certified</span>
+                      </div>
+                      <img
+                        src="/images/branding/CCDI%20logo.svg"
+                        alt="CCDI - Clark Base Construction & Dev't Inc."
+                        className="w-20 sm:w-24 h-auto object-contain select-none pointer-events-none drop-shadow-xs opacity-90"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+
+              {/* SLIDE 2: EUROPEAN TYPE DESIGN (2/3 SLAT) */}
+              <SwiperSlide key="european" className="h-auto">
+                <div className="relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-slate-50/60 backdrop-blur-md border border-slate-200/80 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-sm h-full">
+                  {/* Visual Graphic Representation */}
+                  <div
+                    data-swiper-parallax="-260"
+                    className="relative z-10 lg:col-span-5 flex flex-col justify-between"
+                  >
+                    <div className="relative overflow-hidden rounded-2xl border border-[#1D3A63] bg-gradient-to-b from-[#0B192C] via-[#0F213A] to-[#14294A] p-5 sm:p-6 text-white shadow-xl shadow-[#0B192C]/25 h-full flex flex-col justify-between gap-5">
+                      <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-300" />
+                      <div className="space-y-4">
+                        {/* Option Micro-Badge Header */}
+                        <div
+                          data-swiper-parallax="-120"
+                          data-swiper-parallax-opacity="0.4"
+                          className="flex items-center justify-between gap-2 pb-3 border-b border-white/10"
+                        >
+                          <div className="flex items-center gap-2 font-mono text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ring-4 ring-amber-400/20" />
+                            <span>Design Option 02</span>
+                          </div>
+                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-[#0B192C] border border-amber-300 font-sans">
+                            Central Community Nesting
+                          </span>
+                        </div>
+
+                        {/* Product Title in Camel Casing */}
+                        <div>
+                          <h3
+                            data-swiper-parallax="-280"
+                            data-swiper-parallax-opacity="0"
+                            className="text-2xl sm:text-[28px] font-extrabold tracking-tight text-white leading-tight"
+                          >
+                            European Type Breeder House
+                          </h3>
+                          <p className="text-[13px] text-slate-300 mt-1.5 font-normal leading-relaxed">
+                            Turnkey broiler parent stock facility engineered for central community nesting and high space efficiency.
+                          </p>
+                        </div>
+
+                        {/* Real European / EURO Type Images (Barn Photo & Video) */}
+                        <div className="space-y-2.5 text-left">
+                          {/* Media Display Container */}
+                          <div
+                            data-swiper-parallax="-380"
+                            data-swiper-parallax-scale="0.9"
+                            data-swiper-parallax-opacity="0.2"
+                            className="relative w-full h-64 sm:h-80 rounded-xl overflow-hidden bg-slate-950 border border-white/10 ring-1 ring-amber-400/20 shadow-lg shadow-black/30 group"
+                          >
+                            {europeanViewMode === 'video' ? (
+                              <div className="w-full h-full bg-black relative">
+                                <video
+                                  src="/images/breeder/Poultry_breeding_house_EURO.mp4"
+                                  controls
+                                  autoPlay
+                                  loop
+                                  playsInline
+                                  className="w-full h-full object-contain bg-black"
+                                />
+                              </div>
+                            ) : (
+                              <AnimatePresence mode="wait">
+                                <motion.img
+                                  key="european-interior"
+                                  src="/images/breeder/euro-style-interior.png"
+                                  alt="European Type Breeder House Barn Interior"
+                                  initial={{ opacity: 0, scale: 1.02 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0, scale: 0.98 }}
+                                  transition={{ duration: 0.25 }}
+                                  className="w-full h-full object-cover brightness-[0.98]"
+                                />
+                              </AnimatePresence>
+                            )}
+
+                            {/* Architectural Top-Right Corner Accent */}
+                            {europeanViewMode !== 'video' && (
+                              <img
+                                src="/images/accents/card-corner-accent.png"
+                                alt=""
+                                data-swiper-parallax="-480"
+                                className="absolute top-0 right-0 w-28 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-80"
+                                aria-hidden="true"
+                              />
+                            )}
+
+                            {/* Expand / Lightbox Button */}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setLightboxImage({
+                                  url:
+                                    europeanViewMode === 'video'
+                                      ? '/images/breeder/Poultry_breeding_house_EURO.mp4'
+                                      : '/images/breeder/euro-style-interior.png',
+                                  title:
+                                    europeanViewMode === 'video'
+                                      ? 'European Type Breeder House - 3D Facility Video Tour'
+                                      : 'European Type Breeder House - Facility Barn Interior',
+                                  caption:
+                                    europeanViewMode === 'video'
+                                      ? 'Complete 3D facility simulation showing European 2/3 slat layout, central community nesting, and longitudinal ventilation.'
+                                      : 'European type breeder house interior featuring central community nest boxes, elevated slatted floor deck, and hanging feed lines.',
+                                  badge: 'European Type Breeder',
+                                  isVideo: europeanViewMode === 'video',
+                                })
+                              }
+                              className="absolute top-2.5 right-2.5 w-8 h-8 rounded-lg bg-white/90 hover:bg-amber-400 hover:text-slate-950 text-slate-800 border border-slate-200/80 transition-all backdrop-blur-md flex items-center justify-center cursor-pointer shadow-sm z-20 hover:scale-105 active:scale-95"
+                              title="Inspect Full Resolution"
+                            >
+                              <Maximize2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          {/* Media View Toggle Segmented Tabs */}
+                          <div className="p-1 bg-white/5 rounded-lg grid grid-cols-2 gap-1 border border-white/10">
+                            <button
+                              type="button"
+                              onClick={() => setEuropeanViewMode('interior')}
+                              className={`py-2 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                                europeanViewMode === 'interior'
+                                  ? 'bg-amber-400 text-[#0B192C] shadow-sm font-bold'
+                                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+                              }`}
+                            >
+                              <Images className={`w-3.5 h-3.5 ${europeanViewMode === 'interior' ? 'text-[#0B192C]' : 'text-slate-400'}`} />
+                              <span>Barn Photo</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setEuropeanViewMode('video')}
+                              className={`py-2 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                                europeanViewMode === 'video'
+                                  ? 'bg-amber-400 text-[#0B192C] shadow-sm font-bold'
+                                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+                              }`}
+                            >
+                              <Play className={`w-3.5 h-3.5 fill-current ${europeanViewMode === 'video' ? 'text-[#0B192C]' : 'text-slate-400'}`} />
+                              <span>Video Tour</span>
+                            </button>
+                          </div>
+
+                          {/* Floor Plan Schematic Summary Panel */}
+                          <div
+                            data-swiper-parallax="-180"
+                            data-swiper-parallax-opacity="0.2"
+                            className="p-3.5 bg-white/[0.04] border border-white/10 rounded-xl space-y-2 text-xs"
+                          >
+                            <div className="flex items-center gap-1.5 text-amber-400 font-bold uppercase tracking-wider text-[11px]">
+                              <Layers className="w-3.5 h-3.5 text-amber-400" />
+                              <span>Floor Layout Dynamics</span>
+                            </div>
+                            <div className="divide-y divide-white/10">
+                              <div className="flex items-baseline justify-between py-1.5 text-xs">
+                                <span className="font-semibold text-white">Slatted Deck Coverage</span>
+                                <span className="text-slate-300 text-right">Elevated plastic slats over 2/3 floor</span>
+                              </div>
+                              <div className="flex items-baseline justify-between py-1.5 text-xs">
+                                <span className="font-semibold text-white">Center Nest Line</span>
+                                <span className="text-slate-300 text-right">Automated community egg gathering</span>
+                              </div>
+                              <div className="flex items-baseline justify-between py-1.5 text-xs">
+                                <span className="font-semibold text-white">End Scratch Arenas</span>
+                                <span className="text-slate-300 text-right">Dedicated mating areas at both ends</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Inquiry Action */}
+                      <div data-swiper-parallax="-100" className="pt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (europeanProduct) onToggleInquiry(europeanProduct);
+                          }}
+                          className={`w-full py-3.5 px-4 rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow-md active:scale-[0.99] ${
+                            isEuropeanAdded
+                              ? 'bg-white text-[#0B192C] hover:bg-slate-100'
+                              : 'bg-amber-400 text-[#0B192C] hover:bg-amber-300 shadow-amber-500/30'
+                          }`}
+                        >
+                          {isEuropeanAdded ? (
+                            <>
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                              <span>Attached to Inquiry Drawer</span>
+                            </>
+                          ) : (
+                            <>
+                              <Plus className="w-4 h-4 stroke-[2.5]" />
+                              <span>Attach Building Package to Inquiry</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Technical Parameters & Specifications */}
+                  <div
+                    data-swiper-parallax="-420"
+                    className="relative z-10 lg:col-span-7 flex flex-col justify-between space-y-6"
+                  >
+                    <div className="space-y-6">
+                      {/* Section 1: Technical Metrics & Capacities */}
+                      <div className="space-y-3">
+                        <div
+                          data-swiper-parallax="-160"
+                          data-swiper-parallax-opacity="0.3"
+                          className="flex items-center gap-2"
+                        >
+                          <span className="w-1.5 h-3.5 bg-amber-500 rounded-full" />
+                          <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                            Technical Metrics & Capacities
+                          </span>
+                        </div>
+
+                        <div
+                          data-swiper-parallax="-300"
+                          data-swiper-parallax-opacity="0.2"
+                          className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                        >
+                          {/* Card 1: Total Bird Capacity */}
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                            <div className="flex items-center justify-between text-slate-400 mb-1">
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Total Bird Capacity</span>
+                            </div>
+                            <div className="text-xl font-extrabold text-[#0B192C] tracking-tight">
+                              10,890 Birds
+                            </div>
+                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
+                              9,900 Female + 990 Male (10:1 Ratio)
+                            </span>
+                          </div>
+
+                          {/* Card 2: Building Dimensions */}
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                            <div className="flex items-center justify-between text-slate-400 mb-1">
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Building Dimensions</span>
+                            </div>
+                            <div className="text-xl font-extrabold text-[#0B192C] tracking-tight">
+                              14m × 134m × 2.9m
+                            </div>
+                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
+                              Width × Length × Eave Height
+                            </span>
+                          </div>
+
+                          {/* Card 3: Building Type */}
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                            <div className="flex items-center justify-between text-slate-400 mb-1">
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Building Type</span>
+                            </div>
+                            <div className="text-lg font-bold text-slate-900 tracking-tight">
+                              Pre-Fabricated House
+                            </div>
+                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
+                              Thermal insulated PU sandwich panels
+                            </span>
+                          </div>
+
+                          {/* Card 4: Floor Architecture */}
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                            <div className="flex items-center justify-between text-slate-400 mb-1">
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Floor Architecture</span>
+                            </div>
+                            <div className="text-lg font-bold text-slate-900 tracking-tight">
+                              Elevated Slatted Deck
+                            </div>
+                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
+                              High-density plastic slats with end mating zones
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Section 2: Engineering Advantages */}
+                      <div
+                        data-swiper-parallax="-480"
+                        data-swiper-parallax-opacity="0.1"
+                        className="space-y-3"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-3.5 bg-amber-500 rounded-full" />
+                          <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                            Engineering Advantages
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-xs text-slate-900 leading-tight">
+                                High Floor Space Efficiency
+                              </h4>
+                              <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-normal">
+                                2/3 slat ratio minimizes manure contact across the dominant house area.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-xs text-slate-900 leading-tight">
+                                Centralized Egg Collection
+                              </h4>
+                              <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-normal">
+                                High-speed single central egg collection belt delivers to egg room.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-xs text-slate-900 leading-tight">
+                                Community Group Nests
+                              </h4>
+                              <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-normal">
+                                Enhanced comfort and darker laying environment for reduced floor eggs.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 shrink-0 mt-0.5">
+                              <Check className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-xs text-slate-900 leading-tight">
+                                Dedicated Mating Zones
+                              </h4>
+                              <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-normal">
+                                Concentrated end zones facilitate structured mating and flock observation.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Section 3: Compressed Local Professional Engineering Team */}
+                      <div
+                        data-swiper-parallax="-500"
+                        data-swiper-parallax-opacity="0.1"
+                        className="space-y-2.5 pt-1"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-3.5 bg-amber-500 rounded-full" />
+                          <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                            Local Professional Engineering Team
+                          </span>
+                        </div>
+                        <PoultryLocalEngineers
+                          solutionType="breeder"
+                          solutionName="European (2/3 Slat) Layout"
+                          compact
+                        />
+                      </div>
+                    </div>
+
+                    {/* Section 4: Brand Footer Strip */}
+                    <div
+                      data-swiper-parallax="-520"
+                      data-swiper-parallax-opacity="0.2"
+                      className="flex items-center justify-between pt-3 border-t border-slate-200/60"
+                    >
+                      <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 font-medium">
+                        <ShieldCheck className="w-4 h-4 text-amber-500 shrink-0" />
+                        <span>Turnkey CCDI Engineering & Biosecurity Certified</span>
+                      </div>
+                      <img
+                        src="/images/branding/CCDI%20logo.svg"
+                        alt="CCDI - Clark Base Construction & Dev't Inc."
+                        className="w-20 sm:w-24 h-auto object-contain select-none pointer-events-none drop-shadow-xs opacity-90"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            </Swiper>
+
+            {/* Bottom Controls Bar: Centered Page Indicator & Scrollbar */}
+            <div className="mt-4 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-slate-200/80 p-3 sm:px-5 rounded-xl shadow-xs">
+              {/* Draggable Scrollbar Track - Centered */}
+              <div className="w-full max-w-md flex flex-col gap-1.5">
+                <div className="breeder-swiper-scrollbar !relative !h-2 !bg-slate-200/70 rounded-full overflow-hidden cursor-pointer" />
+                <div className="flex justify-between text-[10px] font-mono text-slate-500 uppercase tracking-wider">
+                  <span className={activeSlideIndex === 0 ? 'text-[#0B192C] font-bold' : ''}>1. American Type</span>
+                  <span className={activeSlideIndex === 1 ? 'text-[#0B192C] font-bold' : ''}>2. European Type</span>
+                </div>
               </div>
             </div>
 
-            {/* Technical Parameters & Specifications */}
-            <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold block">
-                  TECHNICAL METRICS & CAPACITIES
-                </span>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-white p-4 rounded-[2px] border border-slate-200 shadow-xs">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase block font-bold">Total Bird Capacity</span>
-                    <span className="text-xl font-normal text-[#0B192C] font-mono">
-                      10,890 Birds
-                    </span>
-                    <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                      9,900 Female + 990 Male (10:1 Ratio)
-                    </span>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-[2px] border border-slate-200 shadow-xs">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase block font-bold">Building Dimensions</span>
-                    <span className="text-xl font-normal text-[#0B192C] font-mono">
-                      14m × 134m × 2.9m
-                    </span>
-                    <span className="text-[11px] text-slate-500 block mt-1 font-normal">Width × Length × Eave Height</span>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-[2px] border border-slate-200 shadow-xs">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase block font-bold">Building Type</span>
-                    <span className="text-lg font-normal text-amber-700 font-mono">
-                      Pre-Fabricated House
-                    </span>
-                    <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                      {selectedDesign === 'american'
-                        ? '1/3 Slat Dual Lateral Nesting'
-                        : '2/3 Slat Central Community Nesting'}
-                    </span>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-[2px] border border-slate-200 shadow-xs">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase block font-bold">Floor Architecture</span>
-                    <span className="text-lg font-normal text-slate-900 font-mono">
-                      {selectedDesign === 'american' ? '1/3 Slatted Deck' : '2/3 Slatted Deck'}
-                    </span>
-                    <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                      {selectedDesign === 'american'
-                        ? 'Lateral rows with central scratch arena'
-                        : 'Maximized slat deck with end mating areas'}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Key Advantage Highlights */}
-                <div className="space-y-2 pt-2">
-                  <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold block">
-                    ENGINEERING ADVANTAGES
-                  </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
-                    {selectedDesign === 'american' ? (
-                      <>
-                        <div className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                          <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="font-sans text-xs text-slate-700"><strong>Natural Mating Behavior:</strong> Generous central scratch area allows optimal male-to-female interaction.</span>
-                        </div>
-                        <div className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                          <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="font-sans text-xs text-slate-700"><strong>Flock Distribution:</strong> Prevents crowding by balancing bird density across two lateral slat zones.</span>
-                        </div>
-                        <div className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                          <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="font-sans text-xs text-slate-700"><strong>Perimeter Access:</strong> Maintenance and egg inspection along outer aisles without disturbing center flock.</span>
-                        </div>
-                        <div className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                          <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="font-sans text-xs text-slate-700"><strong>Clean Slat Elevation:</strong> 1/3 elevated floor ensures efficient manure drainage beneath slats.</span>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                          <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="font-sans text-xs text-slate-700"><strong>High Floor Space Efficiency:</strong> 2/3 slat ratio minimizes manure contact across the dominant house area.</span>
-                        </div>
-                        <div className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                          <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="font-sans text-xs text-slate-700"><strong>Centralized Egg Collection:</strong> High-speed single central egg collection belt delivers to egg room.</span>
-                        </div>
-                        <div className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                          <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="font-sans text-xs text-slate-700"><strong>Community Group Nests:</strong> Enhanced comfort and darker laying environment for reduced floor eggs.</span>
-                        </div>
-                        <div className="flex items-start gap-2 bg-white p-3 border border-slate-200 rounded-[2px]">
-                          <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="font-sans text-xs text-slate-700"><strong>Dedicated Mating Zones:</strong> Concentrated end zones facilitate structured mating and flock observation.</span>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+            <style>{`
+              .parallax-bg {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 140%;
+                height: 100%;
+              }
+              .breeder-swiper-scrollbar .swiper-scrollbar-drag {
+                background: #0B192C !important;
+                border-radius: 9999px !important;
+                cursor: grab;
+                transition: background-color 0.2s ease;
+              }
+              .breeder-swiper-scrollbar .swiper-scrollbar-drag:hover,
+              .breeder-swiper-scrollbar .swiper-scrollbar-drag:active {
+                background: #d97706 !important;
+                cursor: grabbing;
+              }
+            `}</style>
+          </div>
         </div>
       </section>
 
@@ -910,17 +1325,8 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
         </div>
       </section>
 
-      {/* ── 5. EQUIPMENT & ACCESSORIES INQUIRY CATALOG ── */}
-      <CategoryAccessoriesCatalog
-        businessUnit="Poultry Farm Equipment"
-        customProducts={POULTRY_BREEDER_ACCESSORIES}
-        eyebrow="POULTRY BREEDER ACCESSORIES INQUIRY"
-        title="Poultry Breeder Equipment & Accessories Catalog"
-        subtitle="Select and add breeder pan & chain feeding lines, nipple drinking systems, anti-skid floor slats, automated nest boxes, EI-6000 controllers, and radiant brooders to your inquiry."
-        inquiryItems={inquiryItems}
-        onToggleInquiry={onToggleInquiry}
-        accentTheme="amber"
-      />
+      {/* ── 5.5. RETROFITTING & MODERNIZATION CALLOUT ────────────── */}
+      <PoultryRetrofitCallout currentCategory="Breeder Farm" />
 
       {/* ── 6. CONTACT & CONSULTATION SECTION ──────────────────────────────────── */}
       <ContactSection
@@ -979,7 +1385,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                   )}
                 </div>
                 <span className="font-mono text-xs text-amber-400 font-bold bg-[#07162A] px-2.5 py-1 rounded-[2px] border border-amber-400/30 shrink-0">
-                  AMERICAN TYPE (1/3 SLAT)
+                  {lightboxImage.badge || 'BREEDER OPERATION'}
                 </span>
               </div>
             </motion.div>

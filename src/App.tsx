@@ -12,9 +12,16 @@ const PoultryOverviewPage  = lazy(() => import('./pages/PoultryOverviewPage').th
 const BroilerPage          = lazy(() => import('./pages/BroilerPage').then(m => ({ default: m.BroilerPage })));
 const PoultryBreedingPage  = lazy(() => import('./pages/PoultryBreedingPage').then(m => ({ default: m.PoultryBreedingPage })));
 const LayerPage            = lazy(() => import('./pages/LayerPage').then(m => ({ default: m.LayerPage })));
+const RetrofittingPage     = lazy(() => import('./pages/RetrofittingPage').then(m => ({ default: m.RetrofittingPage })));
+const AccessoriesPage      = lazy(() => import('./pages/AccessoriesPage').then(m => ({ default: m.AccessoriesPage })));
 const HatcheryPage         = lazy(() => import('./pages/HatcheryPage').then(m => ({ default: m.HatcheryPage })));
 const FeedmillPage         = lazy(() => import('./pages/FeedmillPage').then(m => ({ default: m.FeedmillPage })));
 const SolarPage            = lazy(() => import('./pages/SolarPage').then(m => ({ default: m.SolarPage })));
+const SolarCalculatorPage  = lazy(() => import('./pages/SolarCalculatorPage').then(m => ({ default: m.SolarCalculatorPage })));
+const PoultryAfterSalesPage  = lazy(() => import('./pages/PoultryAfterSalesPage').then(m => ({ default: m.PoultryAfterSalesPage })));
+const HatcheryAfterSalesPage = lazy(() => import('./pages/HatcheryAfterSalesPage').then(m => ({ default: m.HatcheryAfterSalesPage })));
+const FeedmillAfterSalesPage = lazy(() => import('./pages/FeedmillAfterSalesPage').then(m => ({ default: m.FeedmillAfterSalesPage })));
+const SolarAfterSalesPage    = lazy(() => import('./pages/SolarAfterSalesPage').then(m => ({ default: m.SolarAfterSalesPage })));
 const ProductsPage         = lazy(() => import('./pages/ProductsPage').then(m => ({ default: m.ProductsPage })));
 const ProjectsPage         = lazy(() => import('./pages/ProjectsPage').then(m => ({ default: m.ProjectsPage })));
 const NewsPage             = lazy(() => import('./pages/NewsPage').then(m => ({ default: m.NewsPage })));
@@ -110,6 +117,42 @@ function AppRoutes() {
         </PageLayout>
       } />
 
+      <Route path="/solutions/poultry/retrofitting" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <RetrofittingPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/poultry/accessories" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <AccessoriesPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/poultry/after-sales" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <PoultryAfterSalesPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
       {/* Legacy / Alias Route for Poultry Breeding */}
       <Route path="/solutions/poultry-breeding" element={
         <PageLayout inquiryCount={inquiryCount}>
@@ -135,6 +178,18 @@ function AppRoutes() {
         </PageLayout>
       } />
 
+      <Route path="/solutions/hatchery/after-sales" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <HatcheryAfterSalesPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
       <Route path="/solutions/feedmill" element={
         <PageLayout inquiryCount={inquiryCount}>
           <Suspense fallback={<PageSkeleton />}>
@@ -147,10 +202,46 @@ function AppRoutes() {
         </PageLayout>
       } />
 
+      <Route path="/solutions/feedmill/after-sales" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <FeedmillAfterSalesPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
       <Route path="/solutions/solar" element={
         <PageLayout inquiryCount={inquiryCount}>
           <Suspense fallback={<PageSkeleton />}>
             <SolarPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/solar/calculator" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <SolarCalculatorPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/solar/after-sales" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <SolarAfterSalesPage
               inquiryItems={inquiryItems}
               onToggleInquiry={toggleInquiry}
               onRemoveInquiryItem={removeInquiryItem}

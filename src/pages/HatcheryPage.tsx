@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, PhoneCall } from 'lucide-react';
+import { ChevronRight, PhoneCall, Egg } from 'lucide-react';
 import type { Product } from '../data/mockProducts';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { CoreProductionSystemsShowcase } from '../components/organisms/CoreProductionSystemsShowcase';
 import { CategoryEndToEndApproach } from '../components/organisms/CategoryEndToEndApproach';
 import { CategoryAccessoriesCatalog } from '../components/organisms/CategoryAccessoriesCatalog';
+import { CategorySubNav } from '../components/molecules/CategorySubNav';
 import { HATCHERY_SYSTEMS } from '../data/coreProductionSystems';
 
 export interface HatcheryPageProps {
@@ -35,6 +36,16 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
+      {/* ── Sub-Nav ── */}
+      <CategorySubNav
+        categoryName="Hatchery Solutions"
+        basePath="/solutions/hatchery"
+        activeTab="systems"
+        systemLabel="Incubation & Systems"
+        accentColor="sky"
+        systemIcon={Egg}
+      />
+
       {/* ── HERO BANNER ────────────────────────────────────────── */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#38BDF8_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />

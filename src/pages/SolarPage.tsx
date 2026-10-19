@@ -1,12 +1,22 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, PhoneCall } from 'lucide-react';
+import { ChevronRight, PhoneCall, Sun, Calculator, ArrowRight } from 'lucide-react';
 import type { Product } from '../data/mockProducts';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { CoreProductionSystemsShowcase } from '../components/organisms/CoreProductionSystemsShowcase';
 import { CategoryEndToEndApproach } from '../components/organisms/CategoryEndToEndApproach';
 import { CategoryAccessoriesCatalog } from '../components/organisms/CategoryAccessoriesCatalog';
+import { CategorySubNav, type CategorySubNavTab } from '../components/molecules/CategorySubNav';
 import { SOLAR_SYSTEMS } from '../data/coreProductionSystems';
+
+const SOLAR_EXTRA_TABS: CategorySubNavTab[] = [
+  {
+    id: 'calculator',
+    label: 'Price Calculator',
+    path: '/solutions/solar/calculator',
+    icon: Calculator,
+  },
+];
 
 export interface SolarPageProps {
   inquiryItems: Product[];
@@ -35,6 +45,17 @@ export const SolarPage: React.FC<SolarPageProps> = ({
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
+      {/* ── Sub-Nav ── */}
+      <CategorySubNav
+        categoryName="Solar Systems"
+        basePath="/solutions/solar"
+        activeTab="systems"
+        systemLabel="Solar PV Systems"
+        accentColor="amber"
+        systemIcon={Sun}
+        extraTabs={SOLAR_EXTRA_TABS}
+      />
+
       {/* ── HERO BANNER ────────────────────────────────────────── */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
@@ -84,11 +105,11 @@ export const SolarPage: React.FC<SolarPageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 space-y-6">
               <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-white leading-[1.2]">
-                Agro-Industrial Solar Systems & Microgrid Integration
+                Commercial & Residential Solar Systems
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-                Lower operational power costs by 40% to 60% across poultry buildings, hatcheries, and feedmills. Turnkey commercial rooftop solar PV arrays, hybrid energy storage, and net metering integration.
+                Lower electricity bills by 40% to 80% for commercial farms, agro-industrial facilities, and residential homes. Turnkey rooftop solar PV arrays, hybrid battery backup systems, and seamless net-metering integration.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -110,10 +131,10 @@ export const SolarPage: React.FC<SolarPageProps> = ({
                     ENERGY SAVINGS BENCHMARK
                   </span>
                   <div className="text-3xl font-black text-white font-mono">
-                    40% – 60% Reduction
+                    40% – 80% Reduction
                   </div>
                   <p className="text-xs text-slate-400 mt-1">
-                    Optimized for 24/7 ventilation, feed conveying, and hatchery incubation loads.
+                    Customized for commercial poultry & industrial facilities, as well as modern residential homes and estates.
                   </p>
                 </div>
 
@@ -167,6 +188,37 @@ export const SolarPage: React.FC<SolarPageProps> = ({
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── INTERACTIVE SOLAR PRICE CALCULATOR CALLOUT BANNER ── */}
+      <section className="bg-gradient-to-r from-[#07162A] via-[#0B192C] to-[#07162A] border-b border-[#1E3E66] py-8 text-white relative overflow-hidden">
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-[#0B192C]/90 border border-amber-400/40 rounded-[2px] p-6 sm:p-7 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-xl backdrop-blur-md">
+            <div className="space-y-2 max-w-2xl">
+              <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider">
+                <Calculator className="w-4 h-4" />
+                <span>INTERACTIVE SIZING ENGINE</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                Calculate Solar Price & Monthly Savings for Your Home or Business
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                Easily estimate turnkey equipment costs, panel quantities, battery backup, and monthly electric bill savings for residential homes, farms, and commercial buildings.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+              <a
+                href="/solutions/solar/calculator"
+                className="px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black font-sans text-xs uppercase tracking-wider rounded-[2px] transition-colors shadow-md flex items-center justify-center gap-2"
+              >
+                <span>Launch Price Calculator</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>

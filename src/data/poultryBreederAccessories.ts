@@ -204,7 +204,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Civil & Structural Construction',
     speciesTags: ['990×550×40 mm', '24×19 mm Openings', '100 kg/m² Rating', 'Adjustable Legs'],
     description: 'Multi-purpose slatted plastic floor panels suitable for floor-reared poultry, pullets, and ducks.',
-    imageUrl: '/images/breeder/american-type-3d.png',
+    imageUrl: '/images/breeder/american-type-interior.jpg',
     metrics: {
       spec1Label: 'Dimensions',
       spec1Value: '990 × 550 × 40 mm',

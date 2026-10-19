@@ -4,14 +4,30 @@ import { Mail, Phone, MapPin, ExternalLink, ArrowUpRight } from 'lucide-react';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
-const SOLUTION_LINKS = [
-  { label: 'The Poultry Solution', href: '/solutions/poultry', isPrimary: true },
-  { label: 'Broiler Housing', href: '/solutions/poultry/broiler', isSub: true },
-  { label: 'Broiler Breeder', href: '/solutions/poultry/broiler-breeder', isSub: true },
-  { label: 'Commercial Layer', href: '/solutions/poultry/layer', isSub: true },
-  { label: 'Hatchery Solutions', href: '/solutions/hatchery', isPrimary: true },
-  { label: 'Feedmill Systems', href: '/solutions/feedmill', isPrimary: true },
-  { label: 'Solar Systems', href: '/solutions/solar', isPrimary: true },
+const POULTRY_LINKS = [
+  { label: 'The Poultry Solution', href: '/solutions/poultry' },
+  { label: 'Broiler Housing', href: '/solutions/poultry/broiler' },
+  { label: 'Broiler Breeder', href: '/solutions/poultry/broiler-breeder' },
+  { label: 'Commercial Layer', href: '/solutions/poultry/layer' },
+  { label: 'Accessories & Spare Parts', href: '/solutions/poultry/accessories' },
+  { label: 'Farm Retrofitting', href: '/solutions/poultry/retrofitting' },
+  { label: 'Poultry After-Sales', href: '/solutions/poultry/after-sales' },
+];
+
+const HATCHERY_LINKS = [
+  { label: 'Hatchery Solutions', href: '/solutions/hatchery' },
+  { label: 'Hatchery After-Sales', href: '/solutions/hatchery/after-sales' },
+];
+
+const FEEDMILL_LINKS = [
+  { label: 'Feedmill Systems', href: '/solutions/feedmill' },
+  { label: 'Feedmill After-Sales', href: '/solutions/feedmill/after-sales' },
+];
+
+const SOLAR_LINKS = [
+  { label: 'Solar Systems', href: '/solutions/solar' },
+  { label: 'Solar Price Calculator', href: '/solutions/solar/calculator' },
+  { label: 'Solar After-Sales', href: '/solutions/solar/after-sales' },
 ];
 
 const COMPANY_LINKS = [
@@ -19,6 +35,7 @@ const COMPANY_LINKS = [
   { label: 'Our Solutions',   href: '/solutions' },
   { label: 'Careers',         href: '/careers' },
   { label: 'News & Updates', href: '/news' },
+  { label: 'FAQ',             href: '/#faq' },
   { label: 'Contact Us',      href: '/#contact' },
 ];
 
@@ -62,129 +79,214 @@ export const Footer: React.FC = () => {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-200">
-
-          {/* Brand Column */}
-          <div className="lg:col-span-4 space-y-5">
-            <Link to="/" className="inline-block group" aria-label="Clarkbase Construction Development Inc. Home">
-              <div className="bg-white rounded-[2px] px-3.5 py-2 inline-flex items-center justify-center border border-slate-200 shadow-xs hover:border-slate-300 transition-colors">
+          
+          {/* Brand Header & Hotline Row */}
+          <div className="pb-10 mb-10 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="max-w-xl space-y-3">
+              <Link to="/" className="inline-block group" aria-label="Clarkbase Construction Development Inc. Home">
                 <img
                   src="/images/branding/ccdi-landscape-logo.svg"
                   alt="Clarkbase Construction Development Inc."
-                  className="h-8 sm:h-9 w-auto object-contain"
+                  className="h-12 sm:h-14 md:h-16 w-auto max-w-[300px] sm:max-w-[340px] object-contain block transition-transform duration-200 group-hover:scale-[1.01]"
                   draggable={false}
                 />
-              </div>
-            </Link>
+              </Link>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                A premier Philippine-based agro-industrial solutions provider delivering turnkey
+                engineering for poultry, hatchery, feedmill, and solar energy projects.
+              </p>
+            </div>
 
-            <p className="text-sm text-slate-600 leading-relaxed max-w-sm">
-              A premier Philippine-based agro-industrial solutions provider delivering turnkey
-              engineering for poultry, hatchery, feedmill, and solar energy projects.
-            </p>
-          </div>
-
-          {/* Our Solutions */}
-          <div className="lg:col-span-3 space-y-4">
-            <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">Our Solutions</h3>
-            <ul className="space-y-2 text-sm">
-              {SOLUTION_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className={`transition-colors duration-200 block ${
-                      link.isSub
-                        ? 'text-xs text-slate-500 hover:text-amber-600 pl-2.5 border-l border-slate-200'
-                        : 'text-slate-700 font-semibold hover:text-amber-600 text-sm'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company Links */}
-          <div className="lg:col-span-2 space-y-4">
-            <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">Company</h3>
-            <ul className="space-y-2.5 text-sm">
-              {COMPANY_LINKS.map(({ label, href }) => (
-                <li key={label}>
-                  <Link
-                    to={href}
-                    className="text-slate-600 hover:text-amber-600 transition-colors duration-200"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Details */}
-          <div className="lg:col-span-3 space-y-4">
-            <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">Contact</h3>
-
-            <div className="space-y-3.5 text-sm">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                <div className="space-y-1.5 text-xs text-slate-600 leading-relaxed">
-                  <div>
-                    <p className="font-semibold text-slate-900">Clark Freeport Zone HQ</p>
-                    <p>Office Center 05J Berthaphil Clark Center, Pampanga</p>
-                  </div>
-                  <div className="pt-1.5 border-t border-slate-200">
-                    <p className="font-semibold text-slate-900">Angeles City Office</p>
-                    <p>Blk. 22 Lot 6 Fil-Am Friendship Hi-way, Cut-cut</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-amber-600 shrink-0" />
-                <div className="text-xs space-y-0.5">
-                  <a href="tel:+639257588458" className="text-slate-900 hover:text-amber-600 transition-colors block font-semibold">
-                    +63 925 7588 458
-                  </a>
-                  <span className="text-slate-500">(045) 499 8508</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-amber-600 shrink-0" />
-                <a
-                  href="mailto:inquiries@ccdi-asia.com"
-                  className="text-xs text-slate-900 hover:text-amber-600 transition-colors font-semibold"
-                >
-                  inquiries@ccdi-asia.com
-                </a>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <ExternalLink className="w-4 h-4 text-amber-600 shrink-0" />
-                <a
-                  href="https://www.ccdi-asia.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-amber-600 hover:text-amber-700 font-semibold transition-colors"
-                >
-                  www.ccdi-asia.com
-                </a>
-              </div>
+            <div className="flex flex-wrap items-center gap-3 text-xs">
+              <a
+                href="tel:+639257588458"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-[2px] bg-slate-50 hover:bg-amber-50 text-slate-800 hover:text-amber-700 border border-slate-200 hover:border-amber-300 transition-colors font-semibold"
+              >
+                <Phone className="w-3.5 h-3.5 text-amber-600" />
+                <span>+63 925 7588 458</span>
+              </a>
+              <a
+                href="mailto:inquiries@ccdi-asia.com"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-[2px] bg-slate-50 hover:bg-amber-50 text-slate-800 hover:text-amber-700 border border-slate-200 hover:border-amber-300 transition-colors font-semibold"
+              >
+                <Mail className="w-3.5 h-3.5 text-amber-600" />
+                <span>inquiries@ccdi-asia.com</span>
+              </a>
             </div>
           </div>
 
-        </div>
+          {/* 6 Category Columns */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 pb-12 border-b border-slate-200">
+
+            {/* Column 1: Poultry Solution */}
+            <div className="space-y-4">
+              <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
+                The Poultry Solution
+              </h3>
+              <ul className="space-y-2 text-sm">
+                {POULTRY_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      to={link.href}
+                      className="text-slate-600 hover:text-amber-600 transition-colors duration-200 block text-xs sm:text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 2: Hatchery Solutions */}
+            <div className="space-y-4">
+              <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
+                Hatchery Solutions
+              </h3>
+              <ul className="space-y-2 text-sm">
+                {HATCHERY_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      to={link.href}
+                      className="text-slate-600 hover:text-amber-600 transition-colors duration-200 block text-xs sm:text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 3: Feedmill Systems */}
+            <div className="space-y-4">
+              <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
+                Feedmill Systems
+              </h3>
+              <ul className="space-y-2 text-sm">
+                {FEEDMILL_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      to={link.href}
+                      className="text-slate-600 hover:text-amber-600 transition-colors duration-200 block text-xs sm:text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 4: Solar Systems */}
+            <div className="space-y-4">
+              <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
+                Solar Systems
+              </h3>
+              <ul className="space-y-2 text-sm">
+                {SOLAR_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      to={link.href}
+                      className="text-slate-600 hover:text-amber-600 transition-colors duration-200 block text-xs sm:text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 5: Company */}
+            <div className="space-y-4">
+              <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
+                Company
+              </h3>
+              <ul className="space-y-2 text-sm">
+                {COMPANY_LINKS.map(({ label, href }) => (
+                  <li key={label}>
+                    <Link
+                      to={href}
+                      className="text-slate-600 hover:text-amber-600 transition-colors duration-200 block text-xs sm:text-sm"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 6: Contact */}
+            <div className="space-y-4">
+              <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
+                Contact
+              </h3>
+
+              <div className="space-y-3.5 text-xs text-slate-600">
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <div className="space-y-1.5 leading-relaxed">
+                    <div>
+                      <p className="font-semibold text-slate-900">Clark Freeport Zone HQ</p>
+                      <p className="text-slate-500">Office Center 05J Berthaphil Clark Center, Pampanga</p>
+                    </div>
+                    <div className="pt-1.5 border-t border-slate-200">
+                      <p className="font-semibold text-slate-900">Angeles City Office</p>
+                      <p className="text-slate-500">Blk. 22 Lot 6 Fil-Am Friendship Hi-way, Cut-cut</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                  <Phone className="w-4 h-4 text-amber-600 shrink-0" />
+                  <div className="space-y-0.5">
+                    <a href="tel:+639257588458" className="text-slate-900 hover:text-amber-600 transition-colors block font-semibold">
+                      +63 925 7588 458
+                    </a>
+                    <span className="text-slate-500 text-[11px]">(045) 499 8508</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                  <Mail className="w-4 h-4 text-amber-600 shrink-0" />
+                  <a
+                    href="mailto:inquiries@ccdi-asia.com"
+                    className="text-slate-900 hover:text-amber-600 transition-colors font-semibold truncate block"
+                    title="inquiries@ccdi-asia.com"
+                  >
+                    inquiries@ccdi-asia.com
+                  </a>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                  <ExternalLink className="w-4 h-4 text-amber-600 shrink-0" />
+                  <a
+                    href="https://www.ccdi-asia.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-amber-600 hover:text-amber-700 font-semibold transition-colors"
+                  >
+                    www.ccdi-asia.com
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
 
         {/* ── Bottom Bar ── */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-          <p>
-            © {CURRENT_YEAR}{' '}
-            <span className="text-slate-800 font-semibold">
-              Clarkbase Construction Dev't Inc. (CCDI)
-            </span>
-            . All rights reserved. · Pampanga, Philippines
-          </p>
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt="CCDI"
+              className="h-6 w-auto object-contain opacity-75 hover:opacity-100 transition-opacity"
+            />
+            <p>
+              © {CURRENT_YEAR}{' '}
+              <span className="text-slate-800 font-semibold">
+                Clarkbase Construction Dev't Inc. (CCDI)
+              </span>
+              . All rights reserved. · Pampanga, Philippines
+            </p>
+          </div>
           <div className="flex items-center gap-5">
             <a href="#" className="hover:text-slate-900 transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-slate-900 transition-colors">Terms of Use</a>

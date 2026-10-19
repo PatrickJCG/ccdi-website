@@ -33,46 +33,60 @@ const CATEGORY_APPROACH_CONFIG: Record<SolutionCategory, CategoryConfig> = {
       'From master site planning and bio-secure structural erection to specialized broiler, breeder, and layer equipment commissioning, CCDI delivers single-source accountability.',
     phases: [
       {
-        num: '01',
-        title: 'Site Selection & Biosecurity Zoning',
-        desc: 'Topographical appraisal, prevailing wind assessment, isolation buffer zones, and water availability validation for commercial poultry.',
-        deliverable: 'Biosecurity & Wind Risk Assessment',
-        image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80',
+        num: '1',
+        title: 'Site Selection',
+        desc: 'In choosing the right location, we guide you in identifying important factors such as biosecurity, topography, water availability, and long-term expansion and sustainability.',
+        deliverable: 'Biosecurity & Water Availability Survey',
+        image: '/images/turnkey/step1-site.jpg',
       },
       {
-        num: '02',
-        title: 'Master Layout & Aerodynamic Engineering',
-        desc: 'Optimized spacing between houses to avoid ventilation exhaust recirculation, clear bird traffic flow, and storm drainage planning.',
-        deliverable: 'Master Plan & Airflow Simulation',
-        image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=600&q=80',
+        num: '2',
+        title: 'Strategic Layout Planning',
+        desc: 'Our team develops a systematic design and arrangement of poultry farm components to enhance biosecurity, operational efficiency, bird comfort, environmental control, and future expansion.',
+        deliverable: 'Systematic Farm Layout Masterplan',
+        image: '/images/turnkey/step2-layout.jpg',
       },
       {
-        num: '03',
-        title: 'Structural Steel & Insulated Envelope',
-        desc: 'High-tensile Q355B H-beam steel fabrication, hot-dip galvanized purlins, and 50mm airtight PU sandwich panel cladding.',
-        deliverable: 'Typhoon-Rated Prefab Structural Kit',
-        image: '/images/breeder/american-type-3d.png',
+        num: '3',
+        title: 'Architectural Engineering Designs',
+        desc: 'Our expertise lies in developing integrated designs that strategically combines architectural, structural, mechanical, installation, and utility designs tailored to the chosen poultry production system.',
+        deliverable: 'Integrated Architectural & Engineering CAD',
+        image: '/images/turnkey/step3-architectural.jpg',
       },
       {
-        num: '04',
-        title: 'Equipment & Climate Installation',
-        desc: 'Integration of automated pan/chain feeding lines, closed nipple drinkers, tunnel cone fans, and Munters-style evaporative pads.',
-        deliverable: 'Automated Microclimate & Feeding Lines',
-        image: '/images/capabilities/poultry-facility.jpg',
+        num: '4',
+        title: 'Civil Work and Prefab Installation',
+        desc: 'We handle construction of foundations and structures using a combination of conventional civil works and factory-manufactured, pre-engineered components for speed, quality, and cost efficiency.',
+        deliverable: 'Foundations & Typhoon-Rated Prefab Erection',
+        image: '/images/turnkey/step4-civil.jpg',
       },
       {
-        num: '05',
-        title: 'Commissioning & Telemetry Calibration',
-        desc: 'Smoke testing airtightness, static pressure calibration, IoT environmental alarm setup, and electrical load balancing.',
-        deliverable: 'Commissioning Certificate & IoT Activation',
-        image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
+        num: '5',
+        title: 'Equipment Installation',
+        desc: 'We precisely install equipment and commissioning of mechanical, electrical, and automated systems according to approved designs, manufacturer specifications, and industry standards to uphold biosecurity and animal welfare',
+        deliverable: 'Automated Equipment & Climate Installation',
+        image: '/images/turnkey/step5-equipment.jpg',
       },
       {
-        num: '06',
-        title: 'Flock Placement & Lifetime Support',
-        desc: 'On-site technical supervision during first brooding cycle, farm staff training, preventative maintenance, and spare parts inventory.',
-        deliverable: 'O&M Manuals & 24/7 Service Hotline',
-        image: '/images/breeder/american-type-interior.jpg',
+        num: '6',
+        title: 'Commissioning',
+        desc: 'Our team follows a comprehensive testing and validation to ensure all equipment and systems are fully integrated, performing, compliant, and ready before full-scale operation begins.',
+        deliverable: 'Testing, Validation & System Commissioning',
+        image: '/images/turnkey/step6-commissioning.jpg',
+      },
+      {
+        num: '7',
+        title: 'Personnel Training',
+        desc: 'We provide training programs to equip your farm staff with the right knowledge, practical skills, procedures, and standards needed to efficiently and safely operate various production systems.',
+        deliverable: 'Farm Personnel SOP & Equipment Training',
+        image: '/images/turnkey/step7-training.jpg',
+      },
+      {
+        num: '8',
+        title: 'After-Sales Service and Technical Support',
+        desc: 'At CCDI, our commitment continuous as we offer an ongoing technical support, advisory services, performance monitoring, maintenance assistance, and spare parts support even after project completion.',
+        deliverable: '24/7 Advisory, Monitoring & Spare Parts SLA',
+        image: '/images/turnkey/step8-support.jpg',
       },
     ],
   },
@@ -122,7 +136,7 @@ const CATEGORY_APPROACH_CONFIG: Record<SolutionCategory, CategoryConfig> = {
         title: 'Catching & Sanitation Turnover Handover',
         desc: 'Commissioning end-wall bird catching roll-up doors, skid-steer manure access paths, and hot-wash high pressure protocols.',
         deliverable: 'Operational Handover & Cleanout SOP',
-        image: '/images/breeder/american-type-3d.png',
+        image: '/images/broiler/harvest-system.jpg',
       },
     ],
   },
@@ -144,7 +158,7 @@ const CATEGORY_APPROACH_CONFIG: Record<SolutionCategory, CategoryConfig> = {
         title: 'Breeder Slat & Scratch Floor Design',
         desc: 'Architectural drafting of 1/3 slat (lateral nest) or 2/3 slat (central community nest) layout with durable plastic slats.',
         deliverable: 'Slatted Floor & Scratch Area Blueprints',
-        image: '/images/breeder/american-type-3d.png',
+        image: '/images/breeder/american-type-interior.jpg',
       },
       {
         num: '03',
@@ -222,7 +236,7 @@ const CATEGORY_APPROACH_CONFIG: Record<SolutionCategory, CategoryConfig> = {
         title: 'Packing Room Integration & Staff Training',
         desc: 'Connecting cross-conveyors to sorting, grading, and packing tables with full operational training for egg farm teams.',
         deliverable: 'Complete Turnkey Layer Commissioning',
-        image: '/images/breeder/american-type-3d.png',
+        image: '/images/layer/egg-handling.jpg',
       },
     ],
   },
@@ -251,7 +265,7 @@ const CATEGORY_APPROACH_CONFIG: Record<SolutionCategory, CategoryConfig> = {
         title: 'Architectural Engineering Designs',
         desc: 'Our expertise lies in developing integrated designs that strategically combines architectural, structural, mechanical, installation, and utility designs tailored to the chosen poultry production system.',
         deliverable: '3D CAD & Typhoon-Rated Blueprints',
-        image: '/images/breeder/american-type-3d.png',
+        image: '/images/turnkey/step3-architectural.jpg',
       },
       {
         num: '04',
@@ -486,11 +500,88 @@ const CATEGORY_APPROACH_CONFIG: Record<SolutionCategory, CategoryConfig> = {
 
 export interface CategoryEndToEndApproachProps {
   category: SolutionCategory;
+  variant?: 'timeline' | 'grid';
 }
 
-export const CategoryEndToEndApproach: React.FC<CategoryEndToEndApproachProps> = ({ category }) => {
+export const CategoryEndToEndApproach: React.FC<CategoryEndToEndApproachProps> = ({
+  category,
+  variant,
+}) => {
   const config = CATEGORY_APPROACH_CONFIG[category];
+  const useTimeline = variant ? variant === 'timeline' : category === 'poultry';
 
+  if (useTimeline) {
+    return (
+      <section className="relative py-20 sm:py-28 lg:py-32 bg-[#E6F0F5] text-slate-900 border-b border-slate-300/70 overflow-hidden font-sans">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="mb-12 sm:mb-16">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-700 font-bold block mb-2">
+              {config.tag} — {config.title}
+            </span>
+            <div className="inline-block">
+              <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-[#0B192C] uppercase font-heading">
+                OUR END-TO-END TURNKEY APPROACH
+              </h2>
+              {/* Brand Tricolor Underline Bar */}
+              <div className="mt-2.5 flex items-center h-1 sm:h-1.5 w-full">
+                <div className="h-full bg-[#0B192C] flex-1" />
+                <div className="h-full bg-[#1A5B64] w-12 sm:w-16" />
+                <div className="h-full bg-[#E5A93C] w-10 sm:w-14" />
+              </div>
+            </div>
+          </div>
+
+          {/* Vertical Timeline */}
+          <div className="relative">
+            {/* Continuous Vertical Golden Line passing through diamond badge centers */}
+            <div className="absolute left-[80px] sm:left-[112px] lg:left-[124px] top-10 sm:top-14 lg:top-16 bottom-10 sm:bottom-14 lg:bottom-16 w-[3px] bg-[#E5A93C] -translate-x-1/2 z-0" />
+
+            {/* 8 Steps */}
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10 relative z-10">
+              {config.phases.map((step) => (
+                <div
+                  key={step.num}
+                  className="flex items-center gap-4 sm:gap-6 lg:gap-8 group"
+                >
+                  {/* Left Column: Rounded Image Thumbnail + Diamond Badge */}
+                  <div className="relative shrink-0 w-[80px] sm:w-[112px] lg:w-[124px]">
+                    <div className="w-[80px] h-[80px] sm:w-[112px] sm:h-[112px] lg:w-[124px] lg:h-[124px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm bg-slate-900 border border-slate-300/60">
+                      <img
+                        src={step.image}
+                        alt={step.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+
+                    {/* Diamond Badge: Overlaps right edge of thumbnail and aligns with golden line */}
+                    <div className="absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-white border-2 border-[#0B192C] rotate-45 flex items-center justify-center shadow-xs group-hover:border-amber-500 transition-colors">
+                      <span className="-rotate-45 font-black text-[#0B192C] text-sm sm:text-base lg:text-lg font-sans select-none">
+                        {step.num}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Title and Description */}
+                  <div className="flex-1 pl-2 sm:pl-4 lg:pl-5">
+                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-[#0B192C] leading-snug mb-1 sm:mb-1.5 group-hover:text-[#1A5B64] transition-colors">
+                      {step.title}
+                    </h3>
+                    <p className="text-slate-700 text-xs sm:text-sm lg:text-[15px] leading-relaxed max-w-2xl font-normal">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Fallback / Grid Layout for other categories
   return (
     <section className="relative py-24 sm:py-32 bg-slate-50 text-slate-900 border-b border-slate-200 overflow-hidden font-sans">
       {/* Architectural Top-Right Corner Accent */}
@@ -515,7 +606,7 @@ export const CategoryEndToEndApproach: React.FC<CategoryEndToEndApproachProps> =
           </p>
         </div>
 
-        {/* 8-Step Process Grid with Step & Category Specific Photography */}
+        {/* Process Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {config.phases.map((step) => (
             <div

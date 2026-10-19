@@ -7,121 +7,120 @@ export interface PrefabricatedMaterialsSectionProps {
 
 export interface MaterialSpecItem {
   id: string;
+  badge: string;
   category: string;
   name: string;
-  specification: string;
-  standard: string;
+  bullets: string[];
   image: string;
-  description: string;
-  keyMetrics: { label: string; value: string }[];
+  application: string;
 }
 
 export const POULTRY_MATERIALS_SPECS: MaterialSpecItem[] = [
   {
     id: 'main-structure',
-    category: 'PRIMARY FRAME',
-    name: 'Main Structure (Q355B H-Steel)',
-    specification: 'Q355B Welding and hot rolling H steel',
-    standard: 'Shot blasting (SA2.5) • Antirusting paint (Grey)',
-    image: '/images/materials/main-structure.jpg',
-    description: 'High-tensile rigid portal frame columns and rafters engineered for wide spans without interior obstructions.',
-    keyMetrics: [
-      { label: 'Steel Grade', value: 'Q355B Hot-Rolled' },
-      { label: 'Surface Prep', value: 'SA2.5 Shot Blasting' },
-      { label: 'Finish', value: 'Anti-rust Grey Coat' },
+    badge: 'MAIN STRUCTURE',
+    category: 'Primary Framing',
+    name: 'Main Structure',
+    bullets: [
+      'Q355B Welding and hot rolling H steel',
+      'Shot blasting (SA2.5)',
+      'Antirusting paint (Grey)',
     ],
+    image: '/images/materials/main-structure.jpg',
+    application: 'Rigid portal frame columns and rafters',
   },
   {
     id: 'secondary-structure',
-    category: 'LATERAL STABILITY',
-    name: 'Secondary Structure & Wind Stand',
-    specification: 'Q235B round steel / circular tube / angle iron',
-    standard: 'Wind Stand: 200–280kph (includes ceiling joist framework)',
-    image: '/images/materials/secondary-structure.jpg',
-    description: 'Diagonal cross-bracings, horizontal tie rods, and ceiling joist framework providing typhoon-grade lateral stability.',
-    keyMetrics: [
-      { label: 'Steel Grade', value: 'Q235B Structural' },
-      { label: 'Wind Load', value: '200–280 kph' },
-      { label: 'Components', value: 'Bracing & Joists' },
+    badge: 'SECONDARY STRUCTURE',
+    category: 'Lateral Stability',
+    name: 'Secondary Structure',
+    bullets: [
+      'Wind Stand: 200-280kph',
+      'Q235B round steel/circular tube/angle iron (including ceiling joist)',
     ],
+    image: '/images/materials/secondary-structure.jpg',
+    application: 'Diagonal bracings, tie rods & ceiling joists',
   },
   {
-    id: 'c-purlins',
-    category: 'STRUCTURAL FRAMING',
-    name: 'Galvanized C-Purlins (Roof & Wall)',
-    specification: 'Galvanized cold-rolled steel',
-    standard: 'High-tensile C-purlins for roof and wall cladding support',
-    image: '/images/materials/c-purlins.jpg',
-    description: 'Cold-formed continuous galvanized C-channels engineered to transfer wind and dead loads directly into primary portal frames.',
-    keyMetrics: [
-      { label: 'Material', value: 'Cold-Rolled Steel' },
-      { label: 'Coating', value: 'Hot-Dip Galvanized' },
-      { label: 'Profile', value: 'High-Tensile C' },
+    id: 'roof-purlin',
+    badge: 'ROOF PURLIN',
+    category: 'Roof Framing',
+    name: 'Roof Purlin',
+    bullets: [
+      'Galvanized cold-rolled steel',
+      'C-purlins',
     ],
+    image: '/images/materials/c-purlins.jpg',
+    application: 'High-tensile roof cladding support',
+  },
+  {
+    id: 'wall-purlin',
+    badge: 'WALL PURLIN',
+    category: 'Wall Framing',
+    name: 'Wall Purlin',
+    bullets: [
+      'Galvanized cold-rolled steel',
+      'C-purlins',
+    ],
+    image: '/images/materials/c-purlins.jpg',
+    application: 'High-tensile wall panel cladding support',
   },
   {
     id: 'roof-sheet',
-    category: 'WEATHERPROOF ROOF',
-    name: 'V840 Color Steel Roof Sheet',
-    specification: 'V840 color single steel sheet',
-    standard: 'T = 0.4mm, 0.5mm, 0.6mm thickness options',
-    image: '/images/materials/v840-roof-sheet.jpg',
-    description: 'Trapezoidal high-ribbed single sheet profile designed for rapid rainwater runoff, superior wind load uplift resistance, and UV longevity.',
-    keyMetrics: [
-      { label: 'Profile', value: 'V840 Trapezoidal' },
-      { label: 'Thickness', value: '0.4 – 0.6mm' },
-      { label: 'Coating', value: 'Pre-painted Galv.' },
+    badge: 'ROOF SHEET',
+    category: 'External Roof',
+    name: 'Roof Sheet',
+    bullets: [
+      'V840 color single steel sheet',
+      'T= 0.4mm, 0.5mm, 0.6mm',
     ],
+    image: '/images/materials/color-steel-sheets.png',
+    application: 'High-ribbed weather-resistant roof envelope',
   },
   {
     id: 'ceiling-sheet',
-    category: 'INTERIOR CEILING',
-    name: 'V900 Color Steel Ceiling Sheet',
-    specification: 'V900 color single steel sheet',
-    standard: 'T = 0.37mm gauge',
-    image: '/images/materials/v900-ceiling-sheet.jpg',
-    description: 'Sanitary interior corrugated ceiling panel that delivers uniform light reflection and withstands periodic chemical washdowns.',
-    keyMetrics: [
-      { label: 'Profile', value: 'V900 Fine-Ribbed' },
-      { label: 'Thickness', value: '0.37mm' },
-      { label: 'Surface', value: 'Washable White' },
+    badge: 'CEILING SHEET',
+    category: 'Interior Ceiling',
+    name: 'Ceiling Sheet',
+    bullets: [
+      'V900 color single steel sheet',
+      'T= 0.37mm',
     ],
+    image: '/images/materials/color-steel-sheets.png',
+    application: 'Washable interior ceiling liner',
   },
   {
     id: 'ceiling-insulation',
-    category: 'THERMAL BARRIER',
-    name: 'Ceiling Fiberglass Insulation Roll',
-    specification: 'Fiberglass roll + Polyethylene Sheet',
-    standard: 'W = 1.15m • Thickness = 100mm • Density = 16kg/m³',
-    image: '/images/materials/fiberglass-insulation.jpg',
-    description: 'High-performance fiberglass blanket with aluminum vapor barrier installed over ceilings to block tropical radiant solar heat.',
-    keyMetrics: [
-      { label: 'Thickness', value: '100mm Blanket' },
-      { label: 'Density', value: '16 kg/m³' },
-      { label: 'Roll Width', value: '1.15m With Vapor Foil' },
+    badge: 'CEILING INSULATION',
+    category: 'Thermal Barrier',
+    name: 'Ceiling Insulation',
+    bullets: [
+      'Fiberglass roll',
+      'W=1.15m, T= 100mm, D=16kg/m³',
+      'Polyethylene Sheet',
     ],
+    image: '/images/materials/fiberglass-insulation.png',
+    application: 'Overhead radiant heat deflection & vapor seal',
   },
   {
     id: 'wall-panel',
-    category: 'INSULATED ENVELOPE',
-    name: 'PPGI V1000 PU Sandwich Wall Panel',
-    specification: 'PPGI V1000 PU sandwich panel',
-    standard: 'T = 0.4mm + 50mm + 0.4mm • Density = 40 ±2 kg/m³',
-    image: '/images/materials/pu-wall-panel.jpg',
-    description: 'Factory-bonded polyurethane insulated wall system delivering airtight negative-pressure sealing, structural rigidity, and biosecure sanitation.',
-    keyMetrics: [
-      { label: 'Core / Facing', value: '50mm PU + 0.4/0.4mm' },
-      { label: 'Core Density', value: '40 ±2 kg/m³' },
-      { label: 'Joint Profile', value: 'Airtight T&G System' },
+    badge: 'WALL PANEL',
+    category: 'Insulated Envelope',
+    name: 'Wall Panel',
+    bullets: [
+      'PPGI V1000 PU sandwich panel',
+      'T=0.4mm+50mm+0.4mm, D=40 ±2kg/m³',
     ],
+    image: '/images/materials/pu-wall-panel.png',
+    application: 'Airtight thermal sandwich wall insulation',
   },
 ];
 
 // Backward-compatible export for any consumers
 export const POULTRY_MATERIALS_SCHEDULE = POULTRY_MATERIALS_SPECS.map(item => ({
-  component: item.name.toUpperCase(),
-  specification: item.specification,
-  standard: item.standard,
+  component: item.badge,
+  specification: item.bullets[0],
+  standard: item.bullets.slice(1).join(' • ') || item.application,
 }));
 
 export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSectionProps> = ({
@@ -130,9 +129,11 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
 }) => {
   const [activeView, setActiveView] = useState<'cards' | 'table'>('cards');
   const [selectedImage, setSelectedImage] = useState<MaterialSpecItem | null>(null);
+  const [activeInsulationSubItem, setActiveInsulationSubItem] = useState<'both' | 'fiberglass' | 'polyethylene'>('both');
+  const [modalInsulationTab, setModalInsulationTab] = useState<'both' | 'fiberglass' | 'polyethylene'>('both');
 
   return (
-    <section id={id} className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden text-left font-sans">
+    <section id={id} className="relative py-20 sm:py-24 bg-[#E6F0F5] border-b border-slate-300/70 overflow-hidden text-left font-sans">
       {/* Architectural Top-Right Corner Accent */}
       <img
         src="/images/accents/card-corner-accent.png"
@@ -152,22 +153,19 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
               Pre-Fabricated House Materials & Specifications
             </h2>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
-              Every structural portal frame, purlin, thermal insulation roll, and composite sandwich panel is precision-engineered to withstand tropical agro-climatic conditions and high typhoon wind loads.
+              Certified technical specifications for primary frames, secondary bracing, cladding profiles, and thermal insulation rolls engineered for high typhoon wind loads.
             </p>
           </div>
 
-          {/* View Mode Switcher & Wind Stand Badge */}
-          <div className="flex flex-wrap items-center gap-3 self-start md:self-auto">
-            <span className="font-mono text-xs text-amber-800 font-normal bg-amber-50 px-3 py-1.5 rounded-[2px] border border-amber-200 tracking-wider">
-              WIND STAND: 200–280 KPH
-            </span>
-            <div className="inline-flex items-center p-1 bg-slate-100 rounded-[2px] border border-slate-200 text-xs">
+          {/* View Mode Switcher & CCDI Logo */}
+          <div className="flex items-center gap-5 sm:gap-6 self-start md:self-end shrink-0">
+            <div className="inline-flex items-center p-1 bg-white/80 rounded-[2px] border border-slate-300/80 text-xs shadow-2xs">
               <button
                 type="button"
                 onClick={() => setActiveView('cards')}
-                className={`px-3 py-1 rounded-[2px] transition-colors font-medium flex items-center gap-1.5 ${
+                className={`px-3 py-1 rounded-[2px] transition-colors font-medium flex items-center gap-1.5 cursor-pointer ${
                   activeView === 'cards'
-                    ? 'bg-white text-[#0B192C] shadow-xs'
+                    ? 'bg-[#0B192C] text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -179,9 +177,9 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
               <button
                 type="button"
                 onClick={() => setActiveView('table')}
-                className={`px-3 py-1 rounded-[2px] transition-colors font-medium flex items-center gap-1.5 ${
+                className={`px-3 py-1 rounded-[2px] transition-colors font-medium flex items-center gap-1.5 cursor-pointer ${
                   activeView === 'table'
-                    ? 'bg-white text-[#0B192C] shadow-xs'
+                    ? 'bg-[#0B192C] text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -191,78 +189,245 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                 Schedule Table
               </button>
             </div>
+
+            <img
+              src="/images/branding/CCDI logo.svg"
+              alt="CCDI"
+              className="h-14 sm:h-16 md:h-20 w-auto object-contain shrink-0"
+            />
           </div>
         </div>
 
-        {/* VIEW 1: Rich Visual Cards Grid */}
+        {/* VIEW 1: Clean Structured Cards Grid (Uniform Height, Non-Redundant, Perfectly Aligned) */}
         {activeView === 'cards' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             {POULTRY_MATERIALS_SPECS.map((item) => (
               <div
                 key={item.id}
-                className="group flex flex-col bg-white border border-slate-200 rounded-[2px] overflow-hidden hover:border-slate-300 hover:shadow-lg transition-all duration-300 text-left"
+                className="group flex flex-col bg-white border border-slate-200/90 rounded-[2px] overflow-hidden hover:border-amber-400 hover:shadow-lg transition-all duration-300 text-left h-full"
               >
-                {/* Card Image with Tag Overlay */}
+                {/* Standard Uniform Image Container: Fixed h-48 sm:h-52 on ALL 8 cards */}
                 <div
-                  className="relative aspect-16/10 bg-slate-100 overflow-hidden cursor-pointer"
-                  onClick={() => setSelectedImage(item)}
-                  title="Click to view high-resolution photo"
+                  className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-950 shrink-0 cursor-pointer select-none"
+                  onClick={() => {
+                    setSelectedImage(item);
+                    setModalInsulationTab('both');
+                  }}
+                  title="Click to view full photo & specifications"
                 >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                    loading="lazy"
-                  />
-                  {/* Subtle Gradient Backdrop for Tag */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 opacity-70 group-hover:opacity-40 transition-opacity" />
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-2.5 left-2.5 z-10">
-                    <span className="font-mono text-[10px] tracking-wider text-slate-800 bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-[2px] shadow-xs font-normal border border-slate-200/80">
+                  {/* Category Chip (Top Left on every card) */}
+                  <div className="absolute top-2.5 left-2.5 z-20">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-slate-800 bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-[2px] shadow-xs font-semibold border border-slate-200/80">
                       {item.category}
                     </span>
                   </div>
 
-                  {/* Zoom Indicator on Hover */}
-                  <div className="absolute bottom-2.5 right-2.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="font-mono text-[10px] text-white bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-[2px] flex items-center gap-1 font-normal">
+                  {/* Zoom Indicator on Hover (Bottom Right on every card) */}
+                  <div className="absolute bottom-2.5 right-2.5 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="font-mono text-[10px] text-white bg-black/70 backdrop-blur-xs px-2 py-0.5 rounded-[2px] flex items-center gap-1 font-normal">
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
                       </svg>
                       View
                     </span>
                   </div>
-                </div>
 
-                {/* Card Body */}
-                <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-[#0B192C] text-base leading-snug group-hover:text-amber-600 transition-colors">
-                      {item.name}
-                    </h3>
-                    <p className="text-xs text-slate-700 font-normal leading-relaxed">
-                      {item.specification}
-                    </p>
-                    <p className="text-[11px] text-slate-500 font-normal leading-relaxed line-clamp-2">
-                      {item.description}
-                    </p>
-                  </div>
+                  {/* CASE 1: CEILING INSULATION (Fiberglass Roll + Polyethylene Sheet on Warehouse Floor) */}
+                  {item.id === 'ceiling-insulation' ? (
+                    <div className="relative w-full h-full bg-slate-950 flex items-center justify-center overflow-hidden">
+                      {/* Generated High-Resolution Pre-Engineered Steel Warehouse Floor Backdrop */}
+                      <img
+                        src="/images/materials/warehouse-backdrop.jpg"
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover brightness-[0.88] contrast-[1.05]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
 
-                  {/* Engineering Parameters Strip */}
-                  <div className="pt-3 border-t border-slate-100 space-y-1.5">
-                    {item.keyMetrics.map((metric, mIdx) => (
-                      <div key={mIdx} className="flex items-center justify-between text-[11px]">
-                        <span className="text-slate-500 font-normal">{metric.label}</span>
-                        <span className="text-slate-800 font-normal font-mono">{metric.value}</span>
+                      {/* Floor Contact Ground Shadows */}
+                      <div className="absolute bottom-1.5 left-3 w-32 h-2.5 bg-black/60 blur-xs rounded-full pointer-events-none" />
+                      <div className="absolute bottom-2.5 right-2 w-40 h-3 bg-black/60 blur-xs rounded-full pointer-events-none" />
+
+                      {/* Dual Component Toggle Pills (Top Right) */}
+                      <div
+                        className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-black/60 backdrop-blur-xs p-0.5 rounded-[2px] border border-white/20 text-[9px] font-mono"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setActiveInsulationSubItem('both')}
+                          className={`px-1.5 py-0.5 rounded-[2px] transition-colors cursor-pointer ${
+                            activeInsulationSubItem === 'both' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300 hover:text-white'
+                          }`}
+                        >
+                          Dual
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActiveInsulationSubItem('fiberglass')}
+                          className={`px-1.5 py-0.5 rounded-[2px] transition-colors cursor-pointer ${
+                            activeInsulationSubItem === 'fiberglass' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300 hover:text-white'
+                          }`}
+                        >
+                          Roll
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActiveInsulationSubItem('polyethylene')}
+                          className={`px-1.5 py-0.5 rounded-[2px] transition-colors cursor-pointer ${
+                            activeInsulationSubItem === 'polyethylene' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300 hover:text-white'
+                          }`}
+                        >
+                          Sheet
+                        </button>
                       </div>
-                    ))}
-                  </div>
+
+                      {/* Original Untouched PNGs firmly staged on concrete floor */}
+                      {activeInsulationSubItem === 'both' && (
+                        <div className="relative z-10 w-full h-full flex items-end justify-center p-2.5 pb-2">
+                          {/* Ceiling Insulation 1: Fiberglass Roll (resting on floor) */}
+                          <img
+                            src="/images/materials/fiberglass-insulation.png"
+                            alt="Fiberglass Insulation Roll"
+                            className="absolute bottom-2.5 right-1 w-[68%] max-h-[70%] object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.7)] group-hover:scale-105 transition-transform duration-500"
+                          />
+                          {/* Ceiling Insulation 2: Polyethylene Sheet (resting in front on floor) */}
+                          <img
+                            src="/images/materials/polyethylene-sheet.png"
+                            alt="Polyethylene Sheet Vapor Barrier"
+                            className="absolute bottom-1.5 left-1 w-[55%] max-h-[56%] object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.7)] group-hover:scale-105 transition-transform duration-500"
+                          />
+                          {/* Architectural Polyethylene Label Badge */}
+                          <span className="absolute bottom-2 left-2 z-10 font-mono text-[9px] uppercase tracking-wider text-slate-800 bg-white/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-slate-300">
+                            Polyethylene Sheet
+                          </span>
+                        </div>
+                      )}
+
+                      {activeInsulationSubItem === 'fiberglass' && (
+                        <div className="relative z-10 w-full h-full flex items-end justify-center pb-2 px-3">
+                          <img
+                            src="/images/materials/fiberglass-insulation.png"
+                            alt="Fiberglass Roll"
+                            className="w-[85%] max-h-[78%] object-contain drop-shadow-[0_16px_22px_rgba(0,0,0,0.75)] group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <span className="absolute bottom-2 left-2.5 z-10 font-mono text-[9px] uppercase tracking-wider text-amber-950 bg-amber-200/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-amber-400">
+                            1. Fiberglass Roll (100mm)
+                          </span>
+                        </div>
+                      )}
+
+                      {activeInsulationSubItem === 'polyethylene' && (
+                        <div className="relative z-10 w-full h-full flex items-end justify-center pb-2 px-3">
+                          <img
+                            src="/images/materials/polyethylene-sheet.png"
+                            alt="Polyethylene Sheet"
+                            className="w-[82%] max-h-[78%] object-contain drop-shadow-[0_16px_22px_rgba(0,0,0,0.75)] group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <span className="absolute bottom-2 left-2.5 z-10 font-mono text-[9px] uppercase tracking-wider text-slate-800 bg-white/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-slate-300">
+                            2. Polyethylene Vapor Barrier
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ) : item.id === 'wall-panel' ? (
+                    /* CASE 2: WALL PANEL (PU Sandwich Panel standing upright on Warehouse Floor) */
+                    <div className="relative w-full h-full bg-slate-950 flex items-end justify-center overflow-hidden">
+                      {/* Generated High-Resolution Pre-Engineered Steel Warehouse Floor Backdrop */}
+                      <img
+                        src="/images/materials/warehouse-backdrop.jpg"
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover brightness-[0.88] contrast-[1.05]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
+
+                      {/* Floor Contact Ground Shadow for standing panel */}
+                      <div className="absolute bottom-1 w-28 h-3 bg-black/75 blur-xs rounded-full pointer-events-none" />
+
+                      {/* Original Untouched PNG strictly constrained within standard container */}
+                      <div className="relative z-10 w-full h-full flex items-end justify-center pb-2">
+                        <img
+                          src="/images/materials/pu-wall-panel.png"
+                          alt={item.badge}
+                          className="h-[88%] w-auto max-w-[80%] object-contain drop-shadow-[0_16px_24px_rgba(0,0,0,0.8)] group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <span className="absolute bottom-2 right-2.5 z-10 font-mono text-[9px] uppercase tracking-wider text-slate-800 bg-white/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-slate-300">
+                          50mm PU Core
+                        </span>
+                      </div>
+                    </div>
+                  ) : item.id === 'roof-sheet' || item.id === 'ceiling-sheet' ? (
+                    /* CASE 3: ROOF & CEILING SHEETS (4 Color Profiles on Generated Pre-Engineered Steel Warehouse Backdrop) */
+                    <div className="relative w-full h-full bg-slate-950 flex items-center justify-center overflow-hidden">
+                      {/* Generated High-Resolution Pre-Engineered Steel Warehouse Floor Backdrop */}
+                      <img
+                        src="/images/materials/sheets-backdrop.jpg"
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover brightness-[0.88] contrast-[1.05]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
+
+                      {/* Floor Contact Ground Shadow for the steel sheets stack */}
+                      <div className="absolute bottom-2.5 inset-x-6 h-3 bg-black/65 blur-xs rounded-full pointer-events-none" />
+
+                      {/* Original Untouched PNG: 4 Color Trapezoidal Corrugated Sheets */}
+                      <div className="relative z-10 w-full h-full flex items-center justify-center p-2.5">
+                        <img
+                          src="/images/materials/color-steel-sheets.png"
+                          alt={item.badge}
+                          className="w-[94%] h-auto max-h-[85%] object-contain drop-shadow-[0_12px_22px_rgba(0,0,0,0.75)] group-hover:scale-105 transition-transform duration-500"
+                        />
+                        {item.id === 'roof-sheet' ? (
+                          <span className="absolute bottom-2 left-2.5 z-10 font-mono text-[9px] uppercase tracking-wider text-slate-800 bg-white/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-slate-300">
+                            V840 • 4-Color Profile
+                          </span>
+                        ) : (
+                          <span className="absolute bottom-2 left-2.5 z-10 font-mono text-[9px] uppercase tracking-wider text-slate-800 bg-white/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-slate-300">
+                            V900 • Ceiling Profile
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    /* CASE 4: STANDARD WAREHOUSE PHOTOGRAPHS (Main Structure, Secondary, Roof Purlin, Wall Purlin) */
+                    <div className="relative w-full h-full bg-slate-950">
+                      <img
+                        src={item.image}
+                        alt={item.badge}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none" />
+                    </div>
+                  )}
                 </div>
 
-                {/* Card Bottom Standard Banner */}
-                <div className="px-4 py-2 bg-slate-50 border-t border-slate-100 text-[10px] text-slate-600 font-mono font-normal truncate">
-                  {item.standard}
+                {/* Card Body: Structured Navy Badge + Bullet Points List */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5">
+                  {/* Iconic Dark Navy Badge with Angled Gold Accent Tab */}
+                  <div className="inline-flex items-stretch self-start shadow-2xs shrink-0 h-6">
+                    <span className="bg-[#0B192C] text-white text-xs font-bold font-mono px-3 py-1 tracking-wider uppercase flex items-center">
+                      {item.badge}
+                    </span>
+                    <span className="w-2.5 bg-amber-400 [clip-path:polygon(0_0,100%_0,40%_100%,0_100%)]" />
+                  </div>
+
+                  {/* Clean Technical Bullet Points (Zero Redundancy, exact min-h-[96px] for horizontal alignment) */}
+                  <ul className="space-y-2 text-xs sm:text-[13px] text-slate-800 font-sans flex-1 min-h-[96px] pt-1">
+                    {item.bullets.map((bullet, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 mt-1.5" />
+                        <span className="leading-relaxed font-normal">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Subtle Application Strip (Aligned horizontally across all cards) */}
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500 shrink-0">
+                    <span className="truncate">{item.application}</span>
+                    <svg className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-500 group-hover:translate-x-0.5 transition-all shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             ))}
@@ -281,9 +446,6 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                   Engineering data verified against {sourceBrochure}.
                 </p>
               </div>
-              <span className="font-mono text-xs text-amber-400 font-normal bg-[#0B192C] px-3 py-1 rounded-[2px] border border-amber-400/30 tracking-wider self-start sm:self-auto">
-                WIND STAND: 200–280 KPH
-              </span>
             </div>
 
             <div className="overflow-x-auto">
@@ -292,8 +454,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                   <tr>
                     <th className="px-4 py-3 font-normal tracking-wider w-24">Photo</th>
                     <th className="px-5 py-3 font-normal tracking-wider w-1/4">Component</th>
-                    <th className="px-5 py-3 font-normal tracking-wider w-1/3">Material Specification</th>
-                    <th className="px-5 py-3 font-normal tracking-wider">Standard / Treatment</th>
+                    <th className="px-5 py-3 font-normal tracking-wider">Engineering Specifications</th>
+                    <th className="px-5 py-3 font-normal tracking-wider w-1/4">Application</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-sans">
@@ -301,28 +463,89 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                     <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
                       <td className="px-4 py-3">
                         <div
-                          className="w-16 h-12 rounded-[2px] overflow-hidden bg-slate-100 border border-slate-200 cursor-pointer"
-                          onClick={() => setSelectedImage(item)}
+                          className="w-16 h-12 rounded-[2px] overflow-hidden bg-slate-900 border border-slate-200 cursor-pointer relative shrink-0"
+                          onClick={() => {
+                            setSelectedImage(item);
+                            setModalInsulationTab('both');
+                          }}
                         >
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-                            loading="lazy"
-                          />
+                          {item.id === 'ceiling-insulation' ? (
+                            <div className="relative w-full h-full">
+                              <img
+                                src="/images/materials/warehouse-backdrop.jpg"
+                                alt=""
+                                className="absolute inset-0 w-full h-full object-cover brightness-[0.85]"
+                              />
+                              <img
+                                src="/images/materials/fiberglass-insulation.png"
+                                alt="Fiberglass"
+                                className="absolute bottom-1 right-1 w-[65%] max-h-[70%] object-contain"
+                              />
+                              <img
+                                src="/images/materials/polyethylene-sheet.png"
+                                alt="Polyethylene"
+                                className="absolute bottom-0.5 left-1 w-[55%] max-h-[60%] object-contain"
+                              />
+                            </div>
+                          ) : item.id === 'wall-panel' ? (
+                            <div className="relative w-full h-full">
+                              <img
+                                src="/images/materials/warehouse-backdrop.jpg"
+                                alt=""
+                                className="absolute inset-0 w-full h-full object-cover brightness-[0.85]"
+                              />
+                              <img
+                                src="/images/materials/pu-wall-panel.png"
+                                alt="Wall Panel"
+                                className="absolute bottom-0 inset-x-0 mx-auto h-[88%] w-auto object-contain"
+                              />
+                            </div>
+                          ) : item.id === 'roof-sheet' || item.id === 'ceiling-sheet' ? (
+                            <div className="relative w-full h-full">
+                              <img
+                                src="/images/materials/sheets-backdrop.jpg"
+                                alt=""
+                                className="absolute inset-0 w-full h-full object-cover brightness-[0.85]"
+                              />
+                              <img
+                                src="/images/materials/color-steel-sheets.png"
+                                alt="Color Steel Sheets"
+                                className="absolute inset-0 m-auto w-[90%] h-auto object-contain"
+                              />
+                            </div>
+                          ) : (
+                            <img
+                              src={item.image}
+                              alt={item.badge}
+                              className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                          )}
                         </div>
                       </td>
-                      <td className="px-5 py-3 font-normal text-slate-900 font-mono">
-                        <div className="space-y-0.5">
-                          <span className="text-[10px] text-amber-600 block uppercase">{item.category}</span>
-                          <span className="font-semibold text-slate-800">{item.name}</span>
+                      <td className="px-5 py-3">
+                        <div className="space-y-1">
+                          <div className="inline-flex items-stretch self-start shadow-2xs">
+                            <span className="bg-[#0B192C] text-white text-[11px] font-bold font-mono px-2 py-0.5 tracking-wider uppercase">
+                              {item.badge}
+                            </span>
+                            <span className="w-2 bg-amber-400 [clip-path:polygon(0_0,100%_0,40%_100%,0_100%)]" />
+                          </div>
+                          <span className="text-[10px] text-slate-500 block font-mono">{item.category}</span>
                         </div>
                       </td>
-                      <td className="px-5 py-3 font-normal text-slate-800">
-                        {item.specification}
+                      <td className="px-5 py-3 text-slate-800">
+                        <ul className="space-y-1 text-xs">
+                          {item.bullets.map((bullet, idx) => (
+                            <li key={idx} className="flex items-start gap-2">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 mt-1" />
+                              <span>{bullet}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </td>
-                      <td className="px-5 py-3 font-normal text-slate-600">
-                        {item.standard}
+                      <td className="px-5 py-3 text-slate-600 font-mono text-[11px]">
+                        {item.application}
                       </td>
                     </tr>
                   ))}
@@ -333,7 +556,7 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
         )}
 
         {/* Bottom Highlights Strip */}
-        <div className="p-4 sm:p-5 bg-slate-50 border border-slate-200 rounded-[2px] flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs">
+        <div className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-[2px] flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs shadow-2xs">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -358,38 +581,184 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
           onClick={() => setSelectedImage(null)}
         >
           <div
-            className="bg-white rounded-[2px] overflow-hidden max-w-3xl w-full shadow-2xl border border-slate-700 text-left"
+            className="bg-white rounded-[2px] overflow-hidden max-w-2xl w-full shadow-2xl border border-slate-700 text-left"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-16/10 bg-black">
-              <img
-                src={selectedImage.image}
-                alt={selectedImage.name}
-                className="w-full h-full object-cover"
-              />
+            {/* Modal Image Display Area */}
+            <div className="relative aspect-16/10 bg-slate-950 flex items-center justify-center overflow-hidden">
+              {selectedImage.id === 'ceiling-insulation' ? (
+                <div className="relative w-full h-full flex items-center justify-center">
+                  {/* Warehouse Backdrop */}
+                  <img
+                    src="/images/materials/warehouse-backdrop.jpg"
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover brightness-[0.9] contrast-[1.05]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
+
+                  {/* Modal Insulation Switcher */}
+                  <div className="absolute top-3 left-4 z-20 flex items-center gap-1.5 bg-black/70 backdrop-blur-xs p-1 rounded-[2px] border border-white/20 text-xs font-mono">
+                    <button
+                      type="button"
+                      onClick={() => setModalInsulationTab('both')}
+                      className={`px-2 py-0.5 rounded-[2px] transition-colors cursor-pointer ${
+                        modalInsulationTab === 'both' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      Dual View
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setModalInsulationTab('fiberglass')}
+                      className={`px-2 py-0.5 rounded-[2px] transition-colors cursor-pointer ${
+                        modalInsulationTab === 'fiberglass' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      1. Fiberglass Roll
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setModalInsulationTab('polyethylene')}
+                      className={`px-2 py-0.5 rounded-[2px] transition-colors cursor-pointer ${
+                        modalInsulationTab === 'polyethylene' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      2. Polyethylene Sheet
+                    </button>
+                  </div>
+
+                  {modalInsulationTab === 'both' && (
+                    <div className="relative z-10 w-full h-full flex items-end justify-center p-6">
+                      <div className="absolute bottom-4 left-6 w-44 h-4 bg-black/60 blur-xs rounded-full pointer-events-none" />
+                      <div className="absolute bottom-5 right-6 w-52 h-4 bg-black/60 blur-xs rounded-full pointer-events-none" />
+                      <img
+                        src="/images/materials/fiberglass-insulation.png"
+                        alt="Fiberglass Roll"
+                        className="absolute bottom-5 right-4 w-[68%] max-h-[72%] object-contain drop-shadow-2xl"
+                      />
+                      <img
+                        src="/images/materials/polyethylene-sheet.png"
+                        alt="Polyethylene Sheet"
+                        className="absolute bottom-3 left-4 w-[56%] max-h-[60%] object-contain drop-shadow-2xl"
+                      />
+                      <span className="absolute bottom-4 left-6 font-mono text-xs uppercase tracking-wider text-slate-800 bg-white/95 px-2 py-0.5 rounded-[2px] shadow-sm font-semibold border border-slate-300">
+                        Polyethylene Sheet
+                      </span>
+                    </div>
+                  )}
+
+                  {modalInsulationTab === 'fiberglass' && (
+                    <div className="relative z-10 w-full h-full flex items-end justify-center p-6">
+                      <div className="absolute bottom-4 w-72 h-5 bg-black/70 blur-xs rounded-full pointer-events-none" />
+                      <img
+                        src="/images/materials/fiberglass-insulation.png"
+                        alt="Fiberglass Roll"
+                        className="w-[80%] max-h-[80%] object-contain drop-shadow-2xl pb-2"
+                      />
+                      <span className="absolute bottom-4 left-6 font-mono text-xs uppercase tracking-wider text-amber-950 bg-amber-200/95 px-2.5 py-1 rounded-[2px] shadow-sm font-semibold border border-amber-400">
+                        Ceiling Insulation 1: Fiberglass Roll (W=1.15m, T=100mm, D=16kg/m³)
+                      </span>
+                    </div>
+                  )}
+
+                  {modalInsulationTab === 'polyethylene' && (
+                    <div className="relative z-10 w-full h-full flex items-end justify-center p-6">
+                      <div className="absolute bottom-4 w-72 h-5 bg-black/70 blur-xs rounded-full pointer-events-none" />
+                      <img
+                        src="/images/materials/polyethylene-sheet.png"
+                        alt="Polyethylene Sheet"
+                        className="w-[80%] max-h-[80%] object-contain drop-shadow-2xl pb-2"
+                      />
+                      <span className="absolute bottom-4 left-6 font-mono text-xs uppercase tracking-wider text-slate-800 bg-white/95 px-2.5 py-1 rounded-[2px] shadow-sm font-semibold border border-slate-300">
+                        Ceiling Insulation 2: Polyethylene Vapor Barrier Sheet
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ) : selectedImage.id === 'wall-panel' ? (
+                <div className="relative w-full h-full flex items-end justify-center">
+                  <img
+                    src="/images/materials/warehouse-backdrop.jpg"
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover brightness-[0.9] contrast-[1.05]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
+                  <div className="absolute bottom-2 w-36 h-4 bg-black/75 blur-xs rounded-full pointer-events-none" />
+                  <img
+                    src="/images/materials/pu-wall-panel.png"
+                    alt={selectedImage.badge}
+                    className="h-[88%] w-auto max-w-[80%] object-contain drop-shadow-2xl relative z-10 pb-2"
+                  />
+                  <span className="absolute bottom-4 right-6 z-20 font-mono text-xs uppercase tracking-wider text-slate-800 bg-white/95 px-2 py-0.5 rounded-[2px] shadow-sm font-semibold border border-slate-300">
+                    PPGI V1000 PU Panel
+                  </span>
+                </div>
+              ) : selectedImage.id === 'roof-sheet' || selectedImage.id === 'ceiling-sheet' ? (
+                <div className="relative w-full h-full flex items-center justify-center p-6">
+                  <img
+                    src="/images/materials/sheets-backdrop.jpg"
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover brightness-[0.9] contrast-[1.05]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
+                  <div className="absolute bottom-5 inset-x-12 h-4 bg-black/70 blur-xs rounded-full pointer-events-none" />
+                  <img
+                    src="/images/materials/color-steel-sheets.png"
+                    alt={selectedImage.badge}
+                    className="w-[90%] h-auto max-h-[84%] object-contain drop-shadow-2xl relative z-10"
+                  />
+                  <span className="absolute bottom-4 left-6 z-20 font-mono text-xs uppercase tracking-wider text-slate-800 bg-white/95 px-2.5 py-1 rounded-[2px] shadow-sm font-semibold border border-slate-300">
+                    {selectedImage.id === 'roof-sheet' ? 'V840 4-Color Single Steel Sheet Profiles' : 'V900 Color Single Steel Ceiling Liner'}
+                  </span>
+                </div>
+              ) : (
+                <img
+                  src={selectedImage.image}
+                  alt={selectedImage.badge}
+                  className="w-full h-full object-cover"
+                />
+              )}
+
+              {/* Close Button */}
               <button
                 type="button"
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-3 right-3 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors"
+                className="absolute top-3 right-3 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer z-30"
                 aria-label="Close modal"
               >
                 ✕
               </button>
             </div>
-            <div className="p-6 space-y-3">
-              <div className="flex items-center justify-between gap-2">
-                <span className="font-mono text-xs uppercase text-amber-600">{selectedImage.category}</span>
-                <span className="font-mono text-xs text-slate-500">{selectedImage.standard}</span>
+
+            {/* Modal Content Info */}
+            <div className="p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="inline-flex items-stretch self-start shadow-2xs">
+                  <span className="bg-[#0B192C] text-white text-xs font-bold font-mono px-3 py-1 tracking-wider uppercase">
+                    {selectedImage.badge}
+                  </span>
+                  <span className="w-2.5 bg-amber-400 [clip-path:polygon(0_0,100%_0,40%_100%,0_100%)]" />
+                </div>
+                <span className="font-mono text-xs text-slate-500 uppercase tracking-wider">
+                  Category: {selectedImage.category}
+                </span>
               </div>
-              <h3 className="text-xl font-bold text-[#0B192C]">{selectedImage.name}</h3>
-              <p className="text-sm text-slate-700 font-normal">{selectedImage.description}</p>
-              <div className="grid grid-cols-3 gap-3 pt-3 border-t border-slate-100">
-                {selectedImage.keyMetrics.map((metric, idx) => (
-                  <div key={idx} className="bg-slate-50 p-2.5 rounded-[2px]">
-                    <div className="text-[10px] text-slate-500 uppercase">{metric.label}</div>
-                    <div className="text-xs font-mono font-medium text-slate-900">{metric.value}</div>
-                  </div>
-                ))}
+
+              <div className="space-y-2">
+                <p className="text-xs font-mono uppercase tracking-wider text-slate-500">Engineering Specifications:</p>
+                <ul className="space-y-2 text-sm text-slate-800 font-sans">
+                  {selectedImage.bullets.map((bullet, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 mt-1.5" />
+                      <span className="leading-relaxed font-normal">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
+                <span>Application: <span className="text-slate-800 font-sans">{selectedImage.application}</span></span>
+                <span className="text-amber-700 bg-amber-50 px-2 py-0.5 rounded-[2px] border border-amber-200">Wind Stand: 200–280 kph</span>
               </div>
             </div>
           </div>
@@ -398,4 +767,5 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
     </section>
   );
 };
+
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Shield, Dna, Egg } from 'lucide-react';
+import { Shield, Dna, Egg, Wrench, Headphones, RefreshCw } from 'lucide-react';
 
 export interface PoultrySubNavProps {
-  activeTab?: 'overview' | 'broiler' | 'broiler-breeder' | 'layer';
+  activeTab?: 'overview' | 'broiler' | 'broiler-breeder' | 'layer' | 'retrofitting' | 'accessories' | 'after-sales';
 }
 
 const POULTRY_TABS = [
@@ -25,6 +25,24 @@ const POULTRY_TABS = [
     path: '/solutions/poultry/layer',
     icon: Egg,
   },
+  {
+    id: 'retrofitting',
+    label: 'Retrofitting & Modernization',
+    path: '/solutions/poultry/retrofitting',
+    icon: RefreshCw,
+  },
+  {
+    id: 'accessories',
+    label: 'Accessories & Spare Parts',
+    path: '/solutions/poultry/accessories',
+    icon: Wrench,
+  },
+  {
+    id: 'after-sales',
+    label: 'After-Sales Services',
+    path: '/solutions/poultry/after-sales',
+    icon: Headphones,
+  },
 ];
 
 export const PoultrySubNav: React.FC<PoultrySubNavProps> = ({ activeTab }) => {
@@ -44,7 +62,12 @@ export const PoultrySubNav: React.FC<PoultrySubNavProps> = ({ activeTab }) => {
         
         {/* Left: Sector Identifier & Sub-Nav Tabs */}
         <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar py-0.5">
-          <div className="hidden lg:flex items-center gap-2 shrink-0 pr-3 border-r border-slate-700/60">
+          <div className="hidden lg:flex items-center gap-2.5 shrink-0 pr-3 border-r border-slate-700/60">
+            <img
+              src="/images/branding/ccdi-logo.png"
+              alt="CCDI"
+              className="h-5 sm:h-6 w-auto object-contain"
+            />
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
             <span className="font-mono text-xs font-bold text-amber-400 uppercase tracking-widest">
               Poultry Solution

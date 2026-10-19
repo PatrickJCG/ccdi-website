@@ -4,6 +4,7 @@ import { AboutUs } from '../components/organisms/AboutUs';
 import { SolutionsPreview } from '../components/organisms/SolutionsPreview';
 import { WhyChooseUs } from '../components/organisms/WhyChooseUs';
 import { NewsSection } from '../components/organisms/NewsSection';
+import { FaqSection } from '../components/organisms/FaqSection';
 import { ContactSection } from '../components/organisms/ContactSection';
 import type { Product } from '../data/mockProducts';
 
@@ -35,8 +36,12 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* 5. NEWS & UPDATES PREVIEW (<NewsSection /> Latest Projects & Articles Grid) */}
       <NewsSection />
 
-      {/* 6. CONTACT & CONSULTATION (<ContactSection /> Shared Contact & Dynamic Form) */}
+      {/* 6. FREQUENTLY ASKED QUESTIONS (<FaqSection /> Turnkey, Poultry, Feedmill, Solar, Warranties) */}
+      <FaqSection />
+
+      {/* 7. CONTACT & CONSULTATION (<ContactSection /> Shared Contact & Dynamic Form) */}
       <ContactSection inquiryItems={inquiryItems} onRemoveInquiryItem={onRemoveInquiryItem} />
     </>
   );
 };
+

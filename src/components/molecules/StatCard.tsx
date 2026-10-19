@@ -1,44 +1,55 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { AnimatedCounter } from './AnimatedCounter';
 
 export interface StatCardProps {
   value: string;
   label: string;
   sublabel?: string;
-  icon?: React.ReactNode;
+  theme?: 'light' | 'dark';
+  className?: string;
 }
 
-export const StatCard: React.FC<StatCardProps> = ({ value, label, sublabel, icon }) => {
-  return (
-    <motion.div
-      whileHover={{ y: -6, scale: 1.02 }}
-      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-      className="gradient-border-card bg-white p-6 rounded-2xl text-center shadow-sm hover:shadow-teal-glow transition-all duration-300 group"
-    >
-      {/* Optional icon */}
-      {icon && (
-        <div className="w-10 h-10 rounded-xl bg-brand-teal-50 border border-brand-teal-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-          {icon}
-        </div>
-      )}
+export const StatCard: React.FC<StatCardProps> = ({
+  value,
+  label,
+  sublabel,
+  theme = 'light',
+  className = '',
+}) => {
+  const isDark = theme === 'dark';
 
-      {/* Animated counter value */}
-      <div className="text-4xl sm:text-5xl font-extrabold tracking-tight font-heading stat-value-gradient leading-none">
+  return (
+    <div
+      className={`border-l-2 border-amber-500 pl-5 flex flex-col justify-start text-left ${className}`}
+    >
+      {/* Hero Stat Value: Monumental font-extrabold typography */}
+      <div
+        className={`text-4xl sm:text-5xl font-extrabold font-sans tracking-tight leading-none mb-3 ${
+          isDark ? 'text-amber-400' : 'text-amber-600'
+        }`}
+      >
         <AnimatedCounter value={value} duration={2.0} />
       </div>
 
-      {/* Primary label */}
-      <div className="text-sm font-semibold text-slate-700 mt-3 leading-snug">
+      {/* Primary Label: Uppercase bold text */}
+      <p
+        className={`font-sans text-xs font-bold uppercase tracking-wider mb-1 ${
+          isDark ? 'text-white' : 'text-[#0B192C]'
+        }`}
+      >
         {label}
-      </div>
+      </p>
 
-      {/* Optional sub-label (units / context) */}
+      {/* Context Sublabel: Muted regular text */}
       {sublabel && (
-        <div className="text-xs text-slate-400 mt-1 font-medium">
+        <p
+          className={`text-xs leading-normal font-sans ${
+            isDark ? 'text-slate-400' : 'text-slate-500'
+          }`}
+        >
           {sublabel}
-        </div>
+        </p>
       )}
-    </motion.div>
+    </div>
   );
 };

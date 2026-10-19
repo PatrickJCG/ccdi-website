@@ -47,17 +47,26 @@ export const WhyChooseUs: React.FC = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
-        {/* Section Header: Plus Jakarta Sans, Navy + Gold */}
-        <div className="space-y-4 max-w-3xl">
-          <p className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold">
-            CCDI / OPERATIONAL ADVANTAGES
-          </p>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0B192C] leading-tight">
-            Built on engineering integrity & proven execution.
-          </h2>
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-            We combine international material standards, direct supply chains, and specialized engineering knowledge to deliver agro-industrial infrastructure projects on time, within budget, and built to endure.
-          </p>
+        {/* Section Header: Plus Jakarta Sans, Navy + Gold + CCDI Logo */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="space-y-4 max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold">
+              CCDI / OPERATIONAL ADVANTAGES
+            </p>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0B192C] leading-tight">
+              Built on engineering integrity & proven execution.
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+              We combine international material standards, direct supply chains, and specialized engineering knowledge to deliver agro-industrial infrastructure projects on time, within budget, and built to endure.
+            </p>
+          </div>
+          <div className="shrink-0 hidden md:flex items-center justify-center self-center">
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt="CCDI"
+              className="h-28 sm:h-36 lg:h-44 w-auto object-contain"
+            />
+          </div>
         </div>
 
         {/* ── 4 PILLARS: 1PX GRID / WHITE CARDS / GOLD ACCENTS / SHARP 2PX ── */}

@@ -14,3 +14,5 @@ export * from './EndToEndHeader';
 export * from './CoreProductionSystemsShowcase';
 export * from './CategoryEndToEndApproach';
 export * from './CategoryAccessoriesCatalog';
+export * from './FaqSection';
+export * from './CategoryAfterSalesTemplate';

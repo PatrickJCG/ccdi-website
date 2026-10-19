@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Mail, MapPin, Phone, Clock, X, Building2,
@@ -44,9 +44,16 @@ const OfficeInfoPanel: React.FC = React.memo(() => {
   const office = OFFICES.find(o => o.id === activeTab) ?? OFFICES[0];
   return (
     <div className="bg-[#0B192C] border border-[#102A43] rounded-[2px] p-6 space-y-5 text-left font-sans">
-      <div className="flex items-center gap-2 font-bold text-white text-base">
-        <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-        <span>Office Locations</span>
+      <div className="flex items-center justify-between font-bold text-white text-base">
+        <div className="flex items-center gap-2">
+          <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
+          <span>Office Locations</span>
+        </div>
+        <img
+          src="/images/branding/ccdi-logo.svg"
+          alt="CCDI"
+          className="h-7 w-auto object-contain shrink-0"
+        />
       </div>
       <div className="grid grid-cols-2 gap-1.5 p-1 bg-[#07162A] rounded-[2px] border border-[#102A43]">
         {OFFICES.map(o => (
@@ -173,16 +180,25 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, on
       </motion.div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        <div className="space-y-4 max-w-3xl">
-          <p className="font-mono text-xs uppercase tracking-widest text-amber-400 font-bold">
-            CCDI / ENGINEERING CONSULTATION
-          </p>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Partner with CCDI for your next agro-industrial build.
-          </h2>
-          <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-            Whether you are expanding a broiler farm, engineering an automated feedmill, or synchronizing a solar microgrid, our Pampanga-based team responds within 24 hours.
-          </p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="space-y-4 max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-widest text-amber-400 font-bold">
+              CCDI / ENGINEERING CONSULTATION
+            </p>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              Partner with CCDI for your next agro-industrial build.
+            </h2>
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
+              Whether you are expanding a broiler farm, engineering an automated feedmill, or synchronizing a solar microgrid, our Pampanga-based team responds within 24 hours.
+            </p>
+          </div>
+          <div className="shrink-0 hidden md:flex items-center justify-center lg:justify-end">
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt="CCDI Logo"
+              className="h-32 sm:h-40 lg:h-48 w-auto object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.6)]"
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-t border-[#102A43] pt-12">

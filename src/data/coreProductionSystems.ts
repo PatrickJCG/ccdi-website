@@ -50,23 +50,14 @@ export const POULTRY_BREEDER_SYSTEMS: ProductionSystem[] = [
         title: 'Sidewall Nests & Slatted Floor Layout',
         caption: 'Lateral group nest boxes along the sidewalls in an American Type breeder house',
       },
-      {
-        url: '/images/breeder/american-type-3d.png',
-        title: 'American Type 3D Architecture (1/3 Slat)',
-        caption: '1/3 elevated slat ratio along sidewalls with central open mating arena',
-      },
-      {
-        url: '/images/breeder/euro-style-3d.png',
-        title: 'European Type 3D Architecture (2/3 Slat)',
-        caption: 'Central automated group nesting row with 2/3 slatted deck and end mating areas',
-      },
+
       {
         url: '/images/breeder/euro-style-interior.png',
         title: 'European Style Central Community Nesting',
         caption: 'Automated central group community nest line with continuous collection belts',
       },
       {
-        url: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80',
+        url: '/images/layer/egg-handling.jpg',
         title: 'Community Group Nests',
         caption: 'High-density community nest boxes with perforated comfort mats',
       },
@@ -102,10 +93,10 @@ export const POULTRY_BREEDER_SYSTEMS: ProductionSystem[] = [
     name: 'Controlled Climate System',
     tagline: 'Precision Tunnel Ventilation & Static Balance',
     description: 'An integrated climate regulation system that ensures stable internal housing conditions with precise static pressure balance, variable-speed cone exhaust fans, and evaporative cooling pads.',
-    primaryImage: '/images/breeder/american-type-3d.png',
+    primaryImage: '/images/broiler/climate-system.jpg',
     galleryImages: [
       {
-        url: '/images/breeder/american-type-3d.png',
+        url: '/images/broiler/climate-system.jpg',
         title: 'Gable End Tunnel Exhaust Bank',
         caption: '18 high-velocity cone fans engineered for static-balanced negative pressure',
       },
@@ -205,7 +196,7 @@ export const POULTRY_BREEDER_SYSTEMS: ProductionSystem[] = [
         caption: 'Suspended automated pan feeding network ensuring rapid flock access and zero feed bridging',
       },
       {
-        url: '/images/breeder/american-type-3d.png',
+        url: '/images/broiler/feeding-drinking-system.jpg',
         title: 'Complete House Feeder & Silo Run',
         caption: 'Bulk outdoor silo feeding multiple longitudinal tracks through the poultry house',
       },
@@ -220,7 +211,7 @@ export const POULTRY_BREEDER_SYSTEMS: ProductionSystem[] = [
         caption: 'Anti-spill breeder pans with adjustable male exclusion grills',
       },
       {
-        url: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80',
+        url: '/images/layer/feeding-system.jpg',
         title: 'High-Speed Chain Feeder Loop',
         caption: 'Uniform flock nutrition distribution at 36 meters/min travel speed',
       },
@@ -1050,7 +1041,7 @@ export const POULTRY_BROILER_SYSTEMS: ProductionSystem[] = [
         caption: 'Rigid steel portal frames with insulated ceiling and perimeter sandwich panels',
       },
       {
-        url: '/images/breeder/american-type-3d.png',
+        url: '/images/broiler/multi-tier-broiler.jpg',
         title: 'Airflow & Structural Aerodynamics',
         caption: 'Negative-pressure sealed structure ensuring uniform wind tunnel velocity from inlet to exhaust',
       },
@@ -1189,10 +1180,10 @@ export const POULTRY_BROILER_SYSTEMS: ProductionSystem[] = [
     name: 'Fully Automated Harvest or Manual Harvest setups',
     tagline: 'High-Throughput Bird Handling & Rapid Turnaround',
     description: 'Versatile harvesting infrastructure engineered for rapid, humane bird clearing. Features fully automated catching conveyor options or clear-span manual harvest corridors with winch-to-ceiling suspension clearance for 10–14 day flock turnaround.',
-    primaryImage: '/images/breeder/american-type-3d.png',
+    primaryImage: '/images/broiler/harvest-system.jpg',
     galleryImages: [
       {
-        url: '/images/breeder/american-type-3d.png',
+        url: '/images/broiler/harvest-system.jpg',
         title: 'Clear-Span Interior Architecture',
         caption: 'Obstacle-free ground envelope allowing mechanized harvesting crews and skid-steer manure loaders',
       },
@@ -1259,33 +1250,33 @@ export const POULTRY_LAYER_SYSTEMS: ProductionSystem[] = [
     systemNumber: 'SYSTEM 01',
     num: '01',
     name: 'Prefabricated Layer Cage Housing Systems',
-    tagline: 'H-Frame (45k Birds) & A-Frame (30k Birds) Configurations',
-    description: 'Pre-engineered industrial prefabricated poultry houses built with Q355B H-steel, V840 roof sheets, V900 ceiling sheets, 100mm fiberglass insulation, and PPGI V1000 PU wall panels, supporting H-Frame (45,000 birds) and A-Frame (30,000 birds) layouts.',
+    tagline: 'Multi-Tier H-Frame & Open A-Frame Configurations',
+    description: 'Pre-engineered industrial prefabricated poultry houses built with Q355B H-steel, V840 roof sheets, V900 ceiling sheets, 100mm fiberglass insulation, and PPGI V1000 PU wall panels, supporting scalable H-Frame and A-Frame layouts.',
     primaryImage: '/images/capabilities/poultry-facility.jpg',
     galleryImages: [
       {
         url: '/images/capabilities/poultry-facility.jpg',
         title: 'H-Frame Vertical Battery Columns',
-        caption: 'Vertically stacked cages on rigid H-shaped frame for high-density 45,000-bird setups (97m x 10m x 4.3m)',
+        caption: 'Vertically stacked cages on rigid H-shaped frame for scalable high-density setups (97m x 10m x 4.3m)',
       },
       {
         url: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80',
         title: 'A-Frame Multi-Tier Open Layout',
-        caption: 'Open sloped A-frame configuration for 30,000-bird setups (133m x 13m x 3.5m) optimizing natural airflow',
+        caption: 'Open sloped A-frame configuration for scalable setups (133m x 13m x 3.5m) optimizing natural airflow',
       },
     ],
     specCategoryLabel: 'LAYER HOUSING ARCHITECTURES:',
     specTags: [
-      'H-Frame Layer Cage (97m x 10m x 4.3m - 45k Birds)',
-      'A-Frame Layer Cage (133m x 13m x 3.5m - 30k Birds)',
-      '450 cm² Density per Bird (36/Cage H-Frame, 20/Cage A-Frame)',
+      'H-Frame Layer Cage (Multi-Tier High Density)',
+      'A-Frame Layer Cage (Sloped Natural Airflow)',
+      '450 cm² Welfare Density Standard per Bird',
       'Q355B Welded & Hot-Rolling H Steel (SA2.5)',
       'PPGI V1000 PU Sandwich Wall Panels',
       'V840 Roof & V900 Ceiling Steel Sheets',
     ],
     keyMetrics: [
-      { label: 'H-Frame Setup', value: '45,000 Birds' },
-      { label: 'A-Frame Setup', value: '30,000 Birds' },
+      { label: 'H-Frame Setup', value: 'Customizable' },
+      { label: 'A-Frame Setup', value: 'Customizable' },
     ],
     accentColor: 'amber',
   },

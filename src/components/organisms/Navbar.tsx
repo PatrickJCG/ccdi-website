@@ -30,6 +30,9 @@ const SOLUTION_CATEGORIES: SolutionCategoryItem[] = [
       { name: 'Broiler', path: '/solutions/poultry/broiler' },
       { name: 'Broiler Breeder', path: '/solutions/poultry/broiler-breeder' },
       { name: 'Layer', path: '/solutions/poultry/layer' },
+      { name: 'Retrofitting & Modernization', path: '/solutions/poultry/retrofitting' },
+      { name: 'Accessories & Spare Parts', path: '/solutions/poultry/accessories' },
+      { name: 'After-Sales Services', path: '/solutions/poultry/after-sales' },
     ],
   },
   {
@@ -37,18 +40,31 @@ const SOLUTION_CATEGORIES: SolutionCategoryItem[] = [
     shortName: 'Hatchery',
     path: '/solutions/hatchery',
     desc: 'Cleanroom incubation, single-stage setters, egg transfer & vaccination',
+    subCategories: [
+      { name: 'Hatchery Systems', path: '/solutions/hatchery' },
+      { name: 'After-Sales Services', path: '/solutions/hatchery/after-sales' },
+    ],
   },
   {
     name: 'Feedmill Systems',
     shortName: 'Feedmill',
     path: '/solutions/feedmill',
     desc: 'Grain storage silos, pelleting towers & precision batching automation',
+    subCategories: [
+      { name: 'Feedmill Systems', path: '/solutions/feedmill' },
+      { name: 'After-Sales Services', path: '/solutions/feedmill/after-sales' },
+    ],
   },
   {
     name: 'Solar Systems',
     shortName: 'Solar Systems',
     path: '/solutions/solar',
-    desc: 'Agro-industrial rooftop PV, ground mounts & hybrid microgrids',
+    desc: 'Commercial & residential rooftop PV, hybrid battery storage & microgrids',
+    subCategories: [
+      { name: 'Solar Systems', path: '/solutions/solar' },
+      { name: 'Solar Price Calculator', path: '/solutions/solar/calculator' },
+      { name: 'After-Sales Services', path: '/solutions/solar/after-sales' },
+    ],
   },
 ];
 
@@ -231,76 +247,82 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
                         />
                       </button>
 
-                      {/* Desktop Solutions Dropdown — Single Column */}
+                      {/* Desktop Solutions Dropdown — 4-Column Mega Menu */}
                       <AnimatePresence>
                         {solutionsDropdownOpen && (
                           <motion.div
-                            initial={{ opacity: 0, y: 6 }}
+                            initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 4 }}
-                            transition={{ duration: 0.13, ease: [0.22, 1, 0.36, 1] }}
-                            className="absolute left-0 mt-1.5 w-64 bg-white border border-slate-200 shadow-xl rounded-[2px] z-50 overflow-hidden"
+                            exit={{ opacity: 0, y: 6 }}
+                            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                            /* Mega-menu: anchored to the header's left padding edge, full container width */
+                            className="fixed left-0 right-0 mt-1.5 bg-white border-b border-slate-200 shadow-2xl z-50"
+                            style={{ top: '64px' }}
                           >
-                            {/* Header */}
-                            <div className="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
-                              <span className="font-mono text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                                Our Solutions
-                              </span>
-                            </div>
-
-                            {/* Single-column list */}
-                            <div className="py-1.5">
-                              {SOLUTION_CATEGORIES.map((cat) => (
-                                <div key={cat.path}>
-                                  {/* Primary category row */}
-                                  <a
-                                    href={cat.path}
-                                    onClick={(e) => handleNavClick(e, cat.path)}
-                                    className="group flex items-center justify-between px-4 py-2.5 text-slate-800 hover:bg-slate-50 hover:text-amber-700 transition-colors duration-100"
-                                  >
-                                    <div className="flex items-center gap-2.5">
-                                      <span className="w-1 h-1 rounded-full shrink-0 transition-colors bg-slate-300 group-hover:bg-amber-400" />
-                                      <span className="font-sans text-[12px] font-semibold leading-none whitespace-nowrap">
-                                        {cat.name}
-                                      </span>
-                                    </div>
-                                  </a>
-
-                                  {/* Sub-category bullet list */}
-                                  {cat.subCategories && (
-                                    <div className="pb-1">
-                                      {cat.subCategories.map((sub) => (
-                                        <a
-                                          key={sub.path}
-                                          href={sub.path}
-                                          onClick={(e) => handleNavClick(e, sub.path)}
-                                          className="flex items-center gap-2.5 pl-[30px] pr-4 py-1.5 text-[11px] font-medium font-sans text-slate-800 hover:text-amber-700 hover:bg-slate-50 transition-colors duration-100 whitespace-nowrap"
-                                        >
-                                          <span className="text-[8px] shrink-0 text-slate-400">
-                                            ●
-                                          </span>
-                                          {sub.name}
-                                        </a>
-                                      ))}
-                                    </div>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-
-                            {/* Footer CTA */}
-                            <div className="border-t border-slate-100">
-                              <a
-                                href="/solutions"
-                                onClick={(e) => handleNavClick(e, '/solutions')}
-                                className="flex items-center justify-between px-4 py-2.5 text-[11px] font-bold text-amber-600 hover:text-amber-800 hover:bg-amber-50 transition-colors group whitespace-nowrap"
-                              >
-                                <span className="flex items-center gap-2">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                              {/* Top bar label */}
+                              <div className="py-2.5 border-b border-slate-100 flex items-center justify-between">
+                                <span className="font-mono text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                                  Our Solutions
+                                </span>
+                                <a
+                                  href="/solutions"
+                                  onClick={(e) => handleNavClick(e, '/solutions')}
+                                  className="flex items-center gap-1.5 text-[10px] font-bold text-amber-600 hover:text-amber-800 transition-colors group"
+                                >
                                   <Layers className="w-3 h-3 shrink-0" />
                                   <span>View All Solutions</span>
-                                </span>
-                                <ArrowRight className="w-3 h-3 shrink-0 transition-transform group-hover:translate-x-0.5" />
-                              </a>
+                                  <ArrowRight className="w-3 h-3 shrink-0 transition-transform group-hover:translate-x-0.5" />
+                                </a>
+                              </div>
+
+                              {/* 4-Column Grid */}
+                              <div className="grid grid-cols-4 gap-0 py-5">
+                                {SOLUTION_CATEGORIES.map((cat, idx) => (
+                                  <div
+                                    key={cat.path}
+                                    className={`flex flex-col gap-3 px-5 ${idx < SOLUTION_CATEGORIES.length - 1 ? 'border-r border-slate-100' : ''}`}
+                                  >
+                                    {/* Category header */}
+                                    <a
+                                      href={cat.path}
+                                      onClick={(e) => handleNavClick(e, cat.path)}
+                                      className="group flex flex-col gap-1"
+                                    >
+                                      <span className="font-sans text-[11px] font-bold text-slate-900 uppercase tracking-wide group-hover:text-amber-700 transition-colors leading-tight">
+                                        {cat.name}
+                                      </span>
+                                      <span className="text-[10px] text-slate-400 leading-snug font-sans font-normal">
+                                        {cat.desc}
+                                      </span>
+                                    </a>
+
+                                    {/* Divider */}
+                                    <div className="w-8 h-px bg-amber-400" />
+
+                                    {/* Sub-category links */}
+                                    {cat.subCategories && (
+                                      <div className="flex flex-col gap-0.5">
+                                        {cat.subCategories.map((sub) => (
+                                          <a
+                                            key={sub.path}
+                                            href={sub.path}
+                                            onClick={(e) => handleNavClick(e, sub.path)}
+                                            className={`flex items-center gap-2 py-1.5 px-2 rounded-[2px] text-[11px] font-medium font-sans transition-colors duration-100 ${
+                                              location.pathname === sub.path
+                                                ? 'bg-amber-50 text-amber-700 font-semibold'
+                                                : 'text-slate-600 hover:text-amber-700 hover:bg-slate-50'
+                                            }`}
+                                          >
+                                            <span className="w-1 h-1 rounded-full bg-slate-300 shrink-0 group-hover:bg-amber-400" />
+                                            {sub.name}
+                                          </a>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </motion.div>
                         )}

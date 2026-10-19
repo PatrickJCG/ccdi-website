@@ -223,7 +223,7 @@ export const MOCK_PRODUCTS: Product[] = [
     functionCategory: 'Civil & Structural Construction',
     speciesTags: ['Broiler Breeder', '1/3 Slat', 'Lateral Nests', 'Central Mating'],
     description: 'A breeding housing system with nest boxes arranged in two rows along both sides of the building and a central mating area that allows free movement, natural mating, and improved bird distribution.',
-    imageUrl: '/images/breeder/american-type-3d.png',
+    imageUrl: '/images/breeder/american-type-interior.jpg',
     videoUrl: '/videos/poultry-breeding-american.mp4',
     metrics: { spec1Label: 'Slat Floor', spec1Value: '1/3 Slat Design', spec2Label: 'Dimensions', spec2Value: '14m x 134m x 2.9m', spec3Label: 'Bird Capacity', spec3Value: '9,900 F / 990 M' },
     buildingSpecs: {
@@ -262,7 +262,7 @@ export const MOCK_PRODUCTS: Product[] = [
     functionCategory: 'Civil & Structural Construction',
     speciesTags: ['Broiler Breeder', '2/3 Slat', 'Center Community Nest', 'High Density'],
     description: 'A breeding housing system that uses group or community nests arranged in a single row at the center, with mating areas at both ends of the building to improve space efficiency, egg collection, and production consistency.',
-    imageUrl: '/images/breeder/euro-style-3d.png',
+    imageUrl: '/images/breeder/euro-style-interior.png',
     videoUrl: '/images/breeder/Poultry_breeding_house_EURO.mp4',
     metrics: { spec1Label: 'Slat Floor', spec1Value: '2/3 Slat Design', spec2Label: 'Dimensions', spec2Value: '14m x 134m x 2.9m', spec3Label: 'Bird Capacity', spec3Value: '9,900 F / 990 M' },
     buildingSpecs: {
@@ -301,7 +301,7 @@ export const MOCK_PRODUCTS: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['Conventional Nests', 'Single Automatic', 'Group Automatic'],
     description: 'An egg-laying system for clean, efficient, and reliable egg collection, with configurations from manual to fully automated.',
-    imageUrl: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/breeder/american-type-interior.jpg',
     metrics: { spec1Label: 'Collection', spec1Value: 'Manual / Automated', spec2Label: 'Egg Quality', spec2Value: 'Clean Collection', spec3Label: 'Configurations', spec3Value: 'Single / Group' },
     buildingSpecs: {
       features: [
@@ -426,16 +426,16 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'Poultry Facilities',
     functionCategory: 'Civil & Structural Construction',
     speciesTags: ['Layer', 'Commercial Layer', 'H-Frame', 'Automated Egg Collection', 'Manure Belt'],
-    description: 'A high-density system featuring cages vertically stacked on a rigid H-shaped structure, designed for efficient, large-scale production. It features fully integrated systems for feeding, drinking, egg collection, ventilation, and manure-belt removal. A standard 45,000-bird setup utilizes a prefabricated house dimension of 97m x 10m x 4.3m, with cages holding 36 birds each at a density of 450 sq cm per bird.',
+    description: 'A high-density system featuring cages vertically stacked on a rigid H-shaped structure, designed for efficient, large-scale production. It features fully integrated systems for feeding, drinking, egg collection, ventilation, and manure-belt removal, customizable to client barn footprint and tier requirements.',
     imageUrl: '/images/capabilities/poultry-facility.jpg',
-    metrics: { spec1Label: 'Building Type', spec1Value: 'Prefabricated House', spec2Label: 'Dimensions', spec2Value: '97m x 10m x 4.3m', spec3Label: 'Bird Capacity', spec3Value: '45,000 Birds (36/Cage)' },
+    metrics: { spec1Label: 'Building Type', spec1Value: 'Prefabricated House', spec2Label: 'Dimensions', spec2Value: '97m x 10m x 4.3m', spec3Label: 'Bird Capacity', spec3Value: 'Customizable' },
     buildingSpecs: {
       buildingType: 'Prefabricated House',
       dimensions: '97m x 10m x 4.3m',
-      birdCapacity: '45,000 Birds (36 Birds/Cage @ 450 cm²/Bird)',
+      birdCapacity: 'Customizable (Scalable to Tier & Length)',
       features: [
         'Rigid H-shaped vertical cage stack structure',
-        '36 birds per cage partition (450 sq cm / bird)',
+        'Standardized cage layout engineered to 450 sq cm / bird',
         'Integrated automated feeding, drinking & ventilation',
         'Continuous longitudinal manure-belt removal',
         'Synchronized automated egg collection elevators',
@@ -464,16 +464,16 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'Poultry Facilities',
     functionCategory: 'Civil & Structural Construction',
     speciesTags: ['Layer', 'Commercial Layer', 'A-Frame', 'Natural Ventilation', 'Easy Inspection'],
-    description: 'A multi-tier system with an open, sloped "A" configuration that facilitates better ventilation, easy inspection, and straightforward maintenance. It provides individual compartments equipped with feed troughs, nipple drinkers, egg-collection channels, and dedicated manure disposal space beneath each tier. A standard 30,000-bird setup requires a building dimension of 133m x 13m x 3.5m, with cages holding 20 birds each at a density of 450 sq cm per bird.',
-    imageUrl: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80',
-    metrics: { spec1Label: 'Building Type', spec1Value: 'Prefabricated House', spec2Label: 'Dimensions', spec2Value: '133m x 13m x 3.5m', spec3Label: 'Bird Capacity', spec3Value: '30,000 Birds (20/Cage)' },
+    description: 'A multi-tier system with an open, sloped "A" configuration that facilitates better ventilation, easy inspection, and straightforward maintenance. It provides individual compartments equipped with feed troughs, nipple drinkers, egg-collection channels, and dedicated manure disposal space beneath each tier, customizable to client barn footprint.',
+    imageUrl: '/images/layer/a-frame-layer.jpg',
+    metrics: { spec1Label: 'Building Type', spec1Value: 'Prefabricated House', spec2Label: 'Dimensions', spec2Value: '133m x 13m x 3.5m', spec3Label: 'Bird Capacity', spec3Value: 'Customizable' },
     buildingSpecs: {
       buildingType: 'Prefabricated House',
       dimensions: '133m x 13m x 3.5m',
-      birdCapacity: '30,000 Birds (20 Birds/Cage @ 450 cm²/Bird)',
+      birdCapacity: 'Customizable (Scalable to Tier & Length)',
       features: [
         'Open, sloped "A" frame multi-tier configuration',
-        '20 birds per cage partition (450 sq cm / bird)',
+        'Standardized cage layout engineered to 450 sq cm / bird',
         'Individual compartments with feed troughs & nipple drinkers',
         'Egg-collection channels & dedicated manure space beneath each tier',
         'Superior airflow ventilation & straightforward maintenance',
@@ -578,7 +578,7 @@ export const MOCK_PRODUCTS: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['Chick Counter', 'In-Ovo Vaccine', 'Separation'],
     description: 'Automated chick pull, sexing conveyor, electronic chick counter, spray vaccination cabinet, and box-filling station designed for high-speed, low-stress day-old chick processing.',
-    imageUrl: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/capabilities/hatchery-facility.jpg',
     metrics: { spec1Label: 'Processing Speed', spec1Value: '60,000 chicks/hr', spec2Label: 'Accuracy', spec2Value: '±2 chicks/box', spec3Label: 'Install Time', spec3Value: '30 Days' },
     isBrochureSpec: false,
     isSample: true,
@@ -859,83 +859,6 @@ export const MOCK_COMPARISON_DATA: ComparisonRow[] = [
 
 // ─── News Articles ─────────────────────────────────────────────────────────
 
-export interface NewsArticle {
-  id: string;
-  title: string;
-  date: string;
-  category: string;
-  summary: string;
-  imageUrl: string;
-  readTime: string;
-  author: {
-    name: string;
-    role: string;
-    avatarUrl?: string;
-  };
-  content: string[];
-  keyHighlights: string[];
-  tags: string[];
-  featured?: boolean;
-}
+export type { NewsArticle } from './newsData';
+export { DEFAULT_NEWS_ARTICLES as MOCK_NEWS } from './newsData';
 
-export const MOCK_NEWS: NewsArticle[] = [
-  {
-    id: 'news-1',
-    title: 'CCDI Commissioned Turnkey 500k-Capacity Broiler Complex in Central Luzon',
-    date: 'July 12, 2026',
-    category: 'Projects',
-    summary: 'Clarkbase Construction Dev\'t Inc. (CCDI) successfully hands over a modern 10-house climate-controlled broiler complex featuring automated feeding, tunnel ventilation, and bio-secure building envelopes.',
-    imageUrl: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1200&q=80',
-    readTime: '4 min read',
-    featured: true,
-    author: { name: 'Engr. Marco Santos', role: 'Project Engineering Director' },
-    keyHighlights: [
-      '10 climate-controlled broiler houses built with insulated sandwich panel walls.',
-      'Automated tunnel ventilation system maintaining steady 24°C internal temperature.',
-      'Completed 15 days ahead of schedule with zero safety incidents.',
-    ],
-    tags: ['Poultry Construction', 'Broiler', 'Tunnel Ventilation', 'Central Luzon'],
-    content: [
-      'Clarkbase Construction Dev\'t Inc. (CCDI) is proud to announce the successful completion and commissioning of a 500,000-bird capacity broiler farm complex in Central Luzon.',
-      'Designed from the ground up to meet rigorous biosecurity standards, the project features 10 fully climate-controlled poultry houses equipped with automated feeding lines, closed-nipple watering systems, and evaporative cooling pads.',
-    ],
-  },
-  {
-    id: 'news-2',
-    title: 'Technical Overview: Solar PV Microgrid Integration in Commercial Feedmills',
-    date: 'June 28, 2026',
-    category: 'Energy',
-    summary: 'A technical review analyzing how combining rooftop solar PV arrays with generator synchronizing inverters reduces daytime electricity overhead by up to 35% in feed processing plants.',
-    imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
-    readTime: '6 min read',
-    featured: false,
-    author: { name: 'Engr. Elena Rostova', role: 'Head of Renewable Energy Solutions' },
-    keyHighlights: [
-      'Integration of 800 kWp rooftop solar array with existing 3-phase industrial power grid.',
-      '35% reduction in monthly grid electricity expenditure with a 3.2-year payback period.',
-    ],
-    tags: ['Solar PV', 'Feedmill', 'Energy Savings', 'Renewable Energy'],
-    content: [
-      'High-tonnage feedmills face heavy power demands from pelleting mills, hammermills, and pneumatic conveying systems. With daytime electricity tariffs rising, integrating solar power has become an essential strategy for cost reduction.',
-    ],
-  },
-  {
-    id: 'news-3',
-    title: 'CCDI Expands Direct Supplier Network for Advanced Hatchery Automation',
-    date: 'May 15, 2026',
-    category: 'Partnerships',
-    summary: 'By strengthening direct relationships with global hatchery equipment manufacturers, CCDI secures tier-one pricing and factory warranties on automated setters, hatchers, and egg handling lines.',
-    imageUrl: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=80',
-    readTime: '3 min read',
-    featured: false,
-    author: { name: 'Aisha Al-Hassan', role: 'Procurement & Quality Officer' },
-    keyHighlights: [
-      'Direct tier-one sourcing partnerships with leading European and Asian machinery manufacturers.',
-      'Eliminates distributor markups for Philippine agribusiness clients.',
-    ],
-    tags: ['Direct Sourcing', 'Hatchery Automation', 'Partnerships', 'Equipment'],
-    content: [
-      'Clarkbase Construction Dev\'t Inc. (CCDI) has expanded its direct procurement networks with international manufacturers of automated hatchery equipment.',
-    ],
-  },
-];

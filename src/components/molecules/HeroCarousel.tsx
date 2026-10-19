@@ -42,7 +42,7 @@ export const FULL_HERO_SLIDES: FullHeroSlide[] = [
     ctaPrimaryHref: '/solutions?bu=Poultry%20Farm%20Equipment',
     ctaSecondary: 'Request Proposal',
     ctaSecondaryHref: '#contact',
-    imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=2000&q=80',
+    imageUrl: '/images/broiler/broiler-hero.jpg',
     badgeText: 'Bio-Secure Construction'
   },
   {
@@ -68,7 +68,7 @@ export const FULL_HERO_SLIDES: FullHeroSlide[] = [
     ctaPrimaryHref: '/solutions?bu=Solar%20Systems',
     ctaSecondary: 'Contact Us',
     ctaSecondaryHref: '#contact',
-    imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=2000&q=80',
+    imageUrl: '/images/hero/solar-hero.jpg',
     badgeText: 'Clean Solar Microgrids'
   }
 ];

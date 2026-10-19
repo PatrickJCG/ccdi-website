@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { MOCK_NEWS } from '../../data/mockProducts';
+import { NEWS_ARTICLES } from '../../data/newsData';
 import { NewsCard } from '../molecules';
 
 export const NewsSection: React.FC = () => {
   const navigate = useNavigate();
+  const displayedArticles = NEWS_ARTICLES;
 
   return (
     <section id="news" className="relative py-24 sm:py-32 bg-[#07162A] text-white border-b border-[#102A43] text-left font-sans overflow-hidden">
@@ -56,9 +57,9 @@ export const NewsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 3 News Articles Grid (Sharp 2px Corners, Dark Navy Cards) */}
-        <div className="border-t border-[#102A43] pt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {MOCK_NEWS.slice(0, 3).map((article) => (
+        {/* News Articles Grid */}
+        <div className={`border-t border-[#102A43] pt-12 grid gap-8 ${displayedArticles.length === 2 ? 'md:grid-cols-2 max-w-5xl' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+          {displayedArticles.slice(0, 3).map((article) => (
             <NewsCard key={article.id} article={article} />
           ))}
         </div>
