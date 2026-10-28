@@ -794,7 +794,7 @@ export const SOLAR_SYSTEMS: ProductionSystem[] = [
     num: '01',
     name: 'Typhoon-Rated Rooftop PV Array',
     tagline: '280 kph Wind-Certified Clamping on Agro Roofs',
-    description: 'Tier-1 bifacial monocrystalline solar PV panels secured with industrial marine-grade aluminum rail clamping. Engineered to withstand 200–280 kph typhoon wind loads across prefabricated poultry and feedmill roofs.',
+    description: 'Tier-1 bifacial monocrystalline Solar Power Systems panels secured with industrial marine-grade aluminum rail clamping. Engineered to withstand 200–280 kph typhoon wind loads across prefabricated poultry and feedmill roofs.',
     primaryImage: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
     galleryImages: [
       {
@@ -989,7 +989,7 @@ export const SOLAR_SYSTEMS: ProductionSystem[] = [
     num: '06',
     name: 'Hybrid Agro-Microgrid Sync',
     tagline: 'Zero-Export Fuel Saver & Diesel Genset Integration',
-    description: 'Intelligent hybrid controller combining solar PV, battery storage, and standby diesel generators. Maximizes renewable penetration and prevents reverse power flow into diesel generator sets.',
+    description: 'Intelligent hybrid controller combining Solar Power Systems, battery storage, and standby diesel generators. Maximizes renewable penetration and prevents reverse power flow into diesel generator sets.',
     primaryImage: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80',
     galleryImages: [
       {
@@ -1269,6 +1269,7 @@ export const POULTRY_LAYER_SYSTEMS: ProductionSystem[] = [
     specTags: [
       'H-Frame Layer Cage (Multi-Tier High Density)',
       'A-Frame Layer Cage (Sloped Natural Airflow)',
+      'H-Frame Pullet Rearing Cage (Growing Stage Pullets)',
       '450 cm² Welfare Density Standard per Bird',
       'Q355B Welded & Hot-Rolling H Steel (SA2.5)',
       'PPGI V1000 PU Sandwich Wall Panels',
@@ -1277,6 +1278,7 @@ export const POULTRY_LAYER_SYSTEMS: ProductionSystem[] = [
     keyMetrics: [
       { label: 'H-Frame Setup', value: 'Customizable' },
       { label: 'A-Frame Setup', value: 'Customizable' },
+      { label: 'Pullet Rearing', value: 'Customizable' },
     ],
     accentColor: 'amber',
   },

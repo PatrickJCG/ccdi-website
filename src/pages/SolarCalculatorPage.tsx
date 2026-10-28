@@ -178,7 +178,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
         categoryName="Solar Systems"
         basePath="/solutions/solar"
         activeTab="calculator"
-        systemLabel="Solar PV Systems"
+        systemLabel="Solar Power Systems"
         accentColor="amber"
         systemIcon={Sun}
         extraTabs={[

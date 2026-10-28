@@ -544,7 +544,7 @@ export const AFTER_SALES_DATA: Record<string, CategoryAfterSalesInfo> = {
     slug: 'solar',
     categoryName: 'Solar Systems',
     badge: 'SOLAR LIFECYCLE ASSURANCE',
-    title: 'Agro-Solar PV After-Sales, O&M & Grid Sync Support',
+    title: 'Agro-Solar Power Systems After-Sales, O&M & Grid Sync Support',
     subtitle:
       'Professional Operations & Maintenance (O&M), thermal imaging scans, automated Zero-Export tuning, inverter servicing, and panel cleaning for agricultural rooftop and ground-mounted solar microgrids.',
     accentColor: 'amber',

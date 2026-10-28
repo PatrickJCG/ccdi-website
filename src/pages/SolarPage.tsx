@@ -50,7 +50,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         categoryName="Solar Systems"
         basePath="/solutions/solar"
         activeTab="systems"
-        systemLabel="Solar PV Systems"
+        systemLabel="Solar Power Systems"
         accentColor="amber"
         systemIcon={Sun}
         extraTabs={SOLAR_EXTRA_TABS}
@@ -109,7 +109,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-                Lower electricity bills by 40% to 80% for commercial farms, agro-industrial facilities, and residential homes. Turnkey rooftop solar PV arrays, hybrid battery backup systems, and seamless net-metering integration.
+                Lower electricity bills by 40% to 80% for commercial farms, agro-industrial facilities, and residential homes. Turnkey rooftop Solar Power Systems arrays, hybrid battery backup systems, and seamless net-metering integration.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-2">

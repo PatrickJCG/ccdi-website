@@ -99,7 +99,7 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
   },
   {
     id: 'slide-solar',
-    tabLabel: 'SOLAR PV',
+    tabLabel: 'SOLAR POWER SYSTEMS',
     kicker: 'CCDI / SOLAR ENERGY INTEGRATION',
     titleWhite: 'Commercial Solar Microgrids for',
     titleGold: 'Agro-Industrial Enterprises',
@@ -153,13 +153,18 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
   },
 ];
 
+interface CapabilitySlide {
+  label: string;
+  imageUrl: string;
+  href?: string;
+}
+
 interface CapabilityCardData {
   code: string;
   label: string;
   spec: string;
   bu: BusinessUnit;
-  imageUrl: string;
-  keyFeatures: string[];
+  slides: CapabilitySlide[];
 }
 
 const CAPABILITIES: CapabilityCardData[] = [
@@ -168,34 +173,294 @@ const CAPABILITIES: CapabilityCardData[] = [
     label: 'POULTRY',
     spec: 'Bio-Secure Climate Housing',
     bu: 'Poultry Farm Equipment',
-    imageUrl: '/images/broiler/broiler-hero.jpg',
-    keyFeatures: ['Automated Tunnel Ventilation', 'Evaporative Cooling Pads', 'Automatic Feeding Lines'],
+    slides: [
+      {
+        label: 'Broiler',
+        imageUrl: '/images/broiler/feeding-drinking-system.jpg',
+        href: '/solutions/poultry/broiler',
+      },
+      {
+        label: 'Broiler Breeder',
+        imageUrl: '/images/breeder/american-type-interior.jpg',
+        href: '/solutions/poultry/broiler-breeder',
+      },
+      {
+        label: 'Layer',
+        imageUrl: '/images/layer/h-frame-layer.jpg',
+        href: '/solutions/poultry/layer',
+      },
+    ],
   },
   {
     code: '02',
     label: 'HATCHERY',
     spec: 'Cleanroom Single-Stage Incubation',
     bu: 'Hatchery',
-    imageUrl: '/images/capabilities/hatchery-facility.jpg',
-    keyFeatures: ['Zoned Biosecurity Airflow', 'Automated Egg Handling', 'Precision Microclimate Control'],
+    slides: [
+      {
+        label: 'Zoned Biosecurity Airflow',
+        imageUrl: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1200&q=80',
+      },
+      {
+        label: 'Automated Egg Handling',
+        imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+      },
+      {
+        label: 'Precision Microclimate Control',
+        imageUrl: '/images/capabilities/hatchery-facility.jpg',
+      },
+    ],
   },
   {
     code: '03',
     label: 'FEEDMILL',
     spec: 'Automated Micro-Batching & Silos',
     bu: 'Feedmill',
-    imageUrl: '/images/capabilities/feedmill-facility.jpg',
-    keyFeatures: ['Computerized Dosing Towers', 'Heavy Corrugated Silos', 'Pneumatic Grain Conveying'],
+    slides: [
+      {
+        label: 'Computerized Dosing Towers',
+        imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=80',
+      },
+      {
+        label: 'Heavy Corrugated Silos',
+        imageUrl: '/images/capabilities/feedmill-facility.jpg',
+      },
+      {
+        label: 'Pneumatic Grain Conveying',
+        imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+      },
+    ],
   },
   {
     code: '04',
-    label: 'SOLAR PV',
+    label: 'SOLAR POWER SYSTEMS',
     spec: 'Industrial Rooftop Microgrid',
     bu: 'Solar Systems',
-    imageUrl: '/images/hero/solar-hero.jpg',
-    keyFeatures: ['High-Wind Rooftop Arrays', 'Generator Sync Inverters', 'Up to 35% OPEX Reduction'],
+    slides: [
+      {
+        label: 'High-Wind Rooftop Arrays',
+        imageUrl: '/images/hero/solar-hero.jpg',
+      },
+      {
+        label: 'Generator Sync Inverters',
+        imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
+      },
+      {
+        label: 'Up to 35% OPEX Reduction',
+        imageUrl: '/images/capabilities/solar-facility.jpg',
+      },
+    ],
   },
 ];
+
+const CapabilityCard: React.FC<{ cap: CapabilityCardData }> = ({ cap }) => {
+  const navigate = useNavigate();
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const isPoultry = cap.bu === 'Poultry Farm Equipment';
+  const slides = cap.slides;
+  const currentSlide = slides[slideIndex] || slides[0];
+
+  // Auto-advance carousel every 3.8s when not hovered
+  useEffect(() => {
+    if (isHovered || slides.length <= 1) return;
+    const timer = setInterval(() => {
+      setSlideIndex((prev) => (prev + 1) % slides.length);
+    }, 3800);
+    return () => clearInterval(timer);
+  }, [isHovered, slides.length]);
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSlideIndex((prev) => (prev + 1) % slides.length);
+  };
+
+  const handleCardClick = () => {
+    navigate(isPoultry ? '/solutions/poultry' : `/solutions?bu=${encodeURIComponent(cap.bu)}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleCardClick}
+      className="group relative bg-[#07162A] border border-[#1E3E66] hover:border-[#F3A812] rounded-[2px] overflow-hidden cursor-pointer transition-all duration-300 flex flex-col justify-between text-left hover:shadow-xl hover:shadow-amber-500/15"
+    >
+      {/* Image Carousel Container with Controlled Contrast Scrim */}
+      <div className="relative w-full h-44 overflow-hidden bg-[#040D18]">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentSlide.imageUrl}
+            src={currentSlide.imageUrl}
+            alt={currentSlide.label}
+            loading="lazy"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+            className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-transform duration-500"
+          />
+        </AnimatePresence>
+
+        {/* Dual Gradient Scrim for Legibility & Polish */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
+
+        {/* Carousel Arrow Controls (Visible on hover) */}
+        <button
+          type="button"
+          onClick={handlePrev}
+          aria-label={`Previous ${cap.bu} image`}
+          className="absolute left-1.5 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-slate-950/75 hover:bg-[#F3A812] text-white hover:text-slate-950 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 border border-white/20 hover:border-[#F3A812] shadow-md cursor-pointer"
+        >
+          <ChevronLeft className="w-3.5 h-3.5" />
+        </button>
+        <button
+          type="button"
+          onClick={handleNext}
+          aria-label={`Next ${cap.bu} image`}
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-slate-950/75 hover:bg-[#F3A812] text-white hover:text-slate-950 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 border border-white/20 hover:border-[#F3A812] shadow-md cursor-pointer"
+        >
+          <ChevronRight className="w-3.5 h-3.5" />
+        </button>
+
+        {/* Slide Indicator Dots on Image */}
+        <div className="absolute bottom-2 right-2 z-20 flex items-center gap-1 bg-black/60 px-1.5 py-1 rounded-[2px] border border-white/10 backdrop-blur-xs">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSlideIndex(i);
+              }}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-1.5 rounded-[1px] transition-all duration-300 cursor-pointer ${
+                i === slideIndex
+                  ? 'w-4 bg-[#F3A812]'
+                  : 'w-1.5 bg-white/40 hover:bg-white/80'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Card Body */}
+      <div className="relative p-4 flex flex-col flex-grow justify-between space-y-3 bg-[#07162A] overflow-hidden">
+        {/* Dark Accent Graphic */}
+        <img
+          src="/images/accents/dark-accent-graphic.png"
+          alt=""
+          className="absolute -right-2 top-3 w-28 sm:w-32 h-auto object-contain object-right pointer-events-none select-none opacity-40 z-0"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10">
+          <h3 className="font-sans text-base font-extrabold text-white tracking-tight group-hover:text-[#F3A812] transition-colors">
+            {cap.bu}
+          </h3>
+        </div>
+
+        {/* Poultry Sub-Category Interactive Links */}
+        {isPoultry && (
+          <div
+            className="relative z-10 pt-2 border-t border-[#102A43] flex items-center justify-between gap-2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col gap-1.5">
+              {slides.map((sub, idx) => {
+                const isSlideActive = slideIndex === idx;
+                return (
+                  <button
+                    key={sub.label}
+                    type="button"
+                    onMouseEnter={() => setSlideIndex(idx)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (sub.href) {
+                        navigate(sub.href);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
+                    className={`flex items-center gap-1.5 text-xs font-mono font-bold transition-all text-left cursor-pointer py-0.5 ${
+                      isSlideActive ? 'text-[#F3A812] translate-x-1' : 'text-slate-300 hover:text-amber-400'
+                    }`}
+                  >
+                    <span className={`text-[10px] transition-transform ${isSlideActive ? 'text-[#F3A812] scale-125' : 'text-amber-400/70'}`}>
+                      ▶
+                    </span>
+                    {sub.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* CCDI Crest Logo in Designated Spot */}
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt="CCDI"
+              className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none mr-0.5"
+            />
+          </div>
+        )}
+
+        {/* Non-Poultry Sub-Deliverables synced with carousel */}
+        {!isPoultry && (
+          <div
+            className="relative z-10 pt-2 border-t border-[#102A43] flex items-center justify-between gap-2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="space-y-1 text-[11px] sm:text-xs font-mono font-medium min-w-0">
+              {slides.map((slide, idx) => {
+                const isSlideActive = slideIndex === idx;
+                return (
+                  <button
+                    key={slide.label}
+                    type="button"
+                    onMouseEnter={() => setSlideIndex(idx)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSlideIndex(idx);
+                    }}
+                    className={`w-full flex items-center gap-1.5 text-left transition-all cursor-pointer truncate py-0.5 ${
+                      isSlideActive
+                        ? 'text-[#F3A812] font-bold translate-x-0.5'
+                        : 'text-slate-300 hover:text-amber-300'
+                    }`}
+                  >
+                    <span className={`text-[10px] shrink-0 ${isSlideActive ? 'text-[#F3A812]' : 'text-slate-500'}`}>
+                      {isSlideActive ? '▶' : '•'}
+                    </span>
+                    <span className="truncate">{slide.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* CCDI Crest Logo in Designated Spot */}
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt="CCDI"
+              className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none mr-0.5"
+            />
+          </div>
+        )}
+
+        {/* Direct Catalog Action */}
+        <div className="relative z-10 pt-2 flex items-center justify-between font-mono text-xs text-[#F3A812] font-bold group-hover:translate-x-0.5 transition-transform">
+          <span>EXPLORE PRODUCTS</span>
+          <span>→</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const SLIDE_DURATION = 6500;
 
@@ -502,112 +767,9 @@ export const HeroSection: React.FC = () => {
 
           {/* 4-Item Grid with High-Contrast Typography & Visual Clarity */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {CAPABILITIES.map((cap) => {
-              const isPoultry = cap.bu === 'Poultry Farm Equipment';
-              const poultrySubLinks = [
-                { label: 'Broiler', href: '/solutions/poultry/broiler' },
-                { label: 'Broiler Breeder', href: '/solutions/poultry/broiler-breeder' },
-                { label: 'Layer', href: '/solutions/poultry/layer' },
-              ];
-
-              return (
-                <div
-                  key={cap.label}
-                  onClick={() => {
-                    navigate(isPoultry ? '/solutions/poultry' : `/solutions?bu=${encodeURIComponent(cap.bu)}`);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="group relative bg-[#07162A] border border-[#1E3E66] hover:border-[#F3A812] rounded-[2px] overflow-hidden cursor-pointer transition-all duration-300 flex flex-col justify-between text-left hover:shadow-xl hover:shadow-amber-500/15"
-                >
-                  {/* Image Container with Controlled Contrast Scrim */}
-                  <div className="relative w-full h-44 overflow-hidden bg-[#040D18]">
-                    <img
-                      src={cap.imageUrl}
-                      alt={cap.label}
-                      loading="lazy"
-                      className="w-full h-full object-cover object-center brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-all duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent" />
-                  </div>
-
-                  {/* Card Body */}
-                  <div className="relative p-4 flex flex-col flex-grow justify-between space-y-3 bg-[#07162A] overflow-hidden">
-                    {/* Dark Accent Graphic placed where indicated */}
-                    <img
-                      src="/images/accents/dark-accent-graphic.png"
-                      alt=""
-                      className="absolute -right-2 top-3 w-28 sm:w-32 h-auto object-contain object-right pointer-events-none select-none opacity-40 z-0"
-                      aria-hidden="true"
-                    />
-
-                    <div className="relative z-10">
-                      <h3 className="font-sans text-base font-extrabold text-white tracking-tight group-hover:text-[#F3A812] transition-colors">
-                        {cap.bu}
-                      </h3>
-                    </div>
-
-                    {/* Micro Deliverables (Non-Poultry) */}
-                    {!isPoultry && (
-                      <div className="relative z-10 pt-2 border-t border-[#102A43] flex items-center justify-between gap-2">
-                        <div className="space-y-1 text-[11px] sm:text-xs font-mono text-slate-300 font-medium min-w-0">
-                          {cap.keyFeatures.map((feat) => (
-                            <div key={feat} className="truncate">
-                              • {feat}
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* CCDI Crest Logo in Designated Spot */}
-                        <img
-                          src="/images/branding/ccdi-logo.svg"
-                          alt="CCDI"
-                          className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none mr-0.5"
-                        />
-                      </div>
-                    )}
-
-                    {/* Poultry Sub-Category Links */}
-                    {isPoultry && (
-                      <div
-                        className="relative z-10 pt-2 border-t border-[#102A43] flex items-center justify-between gap-2"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex flex-col gap-1.5">
-                          {poultrySubLinks.map((sub) => (
-                            <button
-                              key={sub.href}
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigate(sub.href);
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                              }}
-                              className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-300 hover:text-amber-400 transition-colors text-left cursor-pointer py-0.5"
-                            >
-                              <span className="text-[10px] text-amber-400">▶</span>
-                              {sub.label}
-                            </button>
-                          ))}
-                        </div>
-
-                        {/* CCDI Crest Logo in Designated Spot */}
-                        <img
-                          src="/images/branding/ccdi-logo.svg"
-                          alt="CCDI"
-                          className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none mr-0.5"
-                        />
-                      </div>
-                    )}
-
-                    {/* Direct Catalog Action */}
-                    <div className="relative z-10 pt-2 flex items-center justify-between font-mono text-xs text-[#F3A812] font-bold group-hover:translate-x-0.5 transition-transform">
-                      <span>EXPLORE PRODUCTS</span>
-                      <span>→</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {CAPABILITIES.map((cap) => (
+              <CapabilityCard key={cap.label} cap={cap} />
+            ))}
           </div>
         </div>
 

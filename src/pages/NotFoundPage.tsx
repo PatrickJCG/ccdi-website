@@ -37,7 +37,7 @@ const QUICK_LINKS = [
     desc: 'Turnkey setter and hatcher halls with biosecure cleanroom HVAC airflow.',
   },
   {
-    title: 'Solar PV Microgrids',
+    title: 'Solar Power Systems Microgrids',
     category: 'RENEWABLE ENERGY',
     path: '/solutions/solar',
     icon: <Sun className="w-5 h-5 text-amber-400" />,

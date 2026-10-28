@@ -61,10 +61,10 @@ export const FULL_HERO_SLIDES: FullHeroSlide[] = [
   {
     id: 'slide-4',
     tag: 'Clean Energy Infrastructure',
-    title: 'Industrial Solar PV Integration for',
+    title: 'Industrial Solar Power Systems Integration for',
     highlightText: 'Sustainable Cost Efficiency',
-    description: 'Industrial rooftop and ground-mounted solar PV systems designed to slash electricity costs and ensure uninterrupted farm operations.',
-    ctaPrimary: 'Solar PV Solutions',
+    description: 'Industrial rooftop and ground-mounted Solar Power Systems designed to slash electricity costs and ensure uninterrupted farm operations.',
+    ctaPrimary: 'Solar Power Systems Solutions',
     ctaPrimaryHref: '/solutions?bu=Solar%20Systems',
     ctaSecondary: 'Contact Us',
     ctaSecondaryHref: '#contact',

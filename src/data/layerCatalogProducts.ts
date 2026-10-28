@@ -86,6 +86,48 @@ export const LAYER_CATALOG_PRODUCTS: Product[] = [
       spec3Value: '450 cm² / Bird',
     },
   },
+  {
+    id: 'pf-layer-rearing',
+    title: 'H-Frame Pullet Rearing Cage House',
+    badge: 'PULLET REARING',
+    businessUnit: 'Poultry Farm Equipment',
+    subCategory: 'Pre-Fabricated Houses',
+    category: 'Commercial Layer',
+    functionCategory: 'Housing Architecture',
+    speciesTags: ['Layers', 'Pullet Rearing', 'Growing Phase', 'Day-Old to Pullet'],
+    description:
+      'A specialized multi-tier vertical cage housing system engineered specifically for the pullet growing phase (day-old chicks up to pre-laying age). Features customized wire mesh sizing and cage dimensions tailored for young birds, automated feeding, nipple drinking, and manure-belt evacuation without egg collection machinery.',
+    imageUrl: '/images/layer/pullet-rearing-cage.jpg',
+    buildingSpecs: {
+      buildingType: 'Pre-fabricated House',
+      dimensions: '97m length × 10m width × 4.3m height',
+      birdCapacity: 'Customizable (Scalable to Tier & Length)',
+      features: [
+        'Purpose-built for the growing phase (pullet period) for young chicks before reaching egg-laying maturity',
+        'Customized cage dimensions & tighter wire mesh sizing engineered for young chicks',
+        'Streamlined infrastructure without egg collection machinery or conveyors',
+        'Automated multi-tier PP manure belt removal and adjustable nipple drinking lines',
+      ],
+    },
+    materials: {
+      mainStructure: ['Q355B Welding & Hot Rolling H Steel', 'Shot Blasting (SA2.5)', 'Gray Anti-Rusting Paint'],
+      secondaryStructure: ['Wind Stand: 200-280kph', 'Q235B Round Steel / Circular Tube / Angle Iron', 'Ceiling Joists'],
+      roofPurlin: ['Galvanized Cold-Rolled Steel C-Purlins'],
+      wallPurlin: ['Galvanized Cold-Rolled Steel C-Purlins'],
+      roofSheet: ['V840 Color Single Steel Sheet (T=0.4mm, 0.5mm, 0.6mm)'],
+      ceilingSheet: ['V900 Color Single Steel Sheet (T=0.37mm)'],
+      ceilingInsulation: ['Fiberglass Roll (W=1.15m, T=100mm, D=16kg/m³)'],
+      wallPanel: ['PPGI V1000 PU Sandwich Panel (T=0.4mm+50mm+0.4mm, D=40±2kg/m³)'],
+    },
+    metrics: {
+      spec1Label: 'STAGE',
+      spec1Value: 'Pullet Growing',
+      spec2Label: 'DIMENSIONS',
+      spec2Value: '97m × 10m × 4.3m',
+      spec3Label: 'EGG SYSTEM',
+      spec3Value: 'None (Rearing Stage)',
+    },
+  },
 
   // ── LAYER CAGE CONFIGURATIONS ──────────────────────────────────
   {

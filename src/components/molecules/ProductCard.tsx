@@ -20,7 +20,7 @@ const getShortBu = (bu: BusinessUnit): string => {
     case 'Feedmill':
       return 'FEEDMILL';
     case 'Solar Systems':
-      return 'SOLAR PV';
+      return 'SOLAR POWER SYSTEMS';
     default:
       return 'EQUIPMENT';
   }

@@ -18,7 +18,7 @@ const SERVICE_CATEGORIES = [
   { id: "Poultry",  title: "Poultry Facilities",    icon: Home    },
   { id: "Hatchery", title: "Hatchery Construction", icon: Egg     },
   { id: "Feedmill", title: "Feedmill Systems",       icon: Factory },
-  { id: "Solar",    title: "Solar PV Integration",  icon: Sun     },
+  { id: "Solar",    title: "Solar Power Systems Integration",  icon: Sun     },
   { id: "General",  title: "General Construction",  icon: HardHat },
 ];
 

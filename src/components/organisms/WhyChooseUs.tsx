@@ -30,7 +30,7 @@ const PILLARS: Pillar[] = [
     number: '04',
     title: 'Technical Engineering Competency',
     category: 'CROSS-DISCIPLINARY TEAMS',
-    description: 'Our in-house team unites civil engineers, electrical designers, agricultural specialists, and solar PV technicians to deliver unified project execution.',
+    description: 'Our in-house team unites civil engineers, electrical designers, agricultural specialists, and Solar Power Systems technicians to deliver unified project execution.',
   },
 ];
 

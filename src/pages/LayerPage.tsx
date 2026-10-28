@@ -52,9 +52,11 @@ export const LayerPage: React.FC<LayerPageProps> = ({
 
   const hFrameProduct = LAYER_CATALOG_PRODUCTS.find((p) => p.id === 'pf-layer-hframe');
   const aFrameProduct = LAYER_CATALOG_PRODUCTS.find((p) => p.id === 'pf-layer-aframe');
+  const rearingProduct = LAYER_CATALOG_PRODUCTS.find((p) => p.id === 'pf-layer-rearing');
 
   const isHFrameAdded = hFrameProduct ? inquiryItems.some((item) => item.id === hFrameProduct.id) : false;
   const isAFrameAdded = aFrameProduct ? inquiryItems.some((item) => item.id === aFrameProduct.id) : false;
+  const isRearingAdded = rearingProduct ? inquiryItems.some((item) => item.id === rearingProduct.id) : false;
 
   const scrollToContact = () => {
     const el = document.getElementById('contact');
@@ -93,6 +95,20 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       metrics: [
         { label: 'FLOCK CAPACITY', value: 'Scalable by Length' },
         { label: 'DIMENSIONS', value: '133m × 13m × 3.5m' },
+      ],
+    },
+    {
+      id: 'pullet-rearing',
+      optionNumber: 'Option 03',
+      badge: 'Pullet Growing Stage',
+      title: 'H-Frame Pullet Rearing Cage',
+      caption: 'High-density vertical battery cages customized for young growing chicks with tighter mesh spacing and streamlined zero-egg infrastructure.',
+      imageUrl: '/images/layer/pullet-rearing-cage.jpg',
+      targetSectionId: 'cage-architecture',
+      slideIndex: 2,
+      metrics: [
+        { label: 'FLOCK CAPACITY', value: 'Customizable Multi-Tier' },
+        { label: 'DIMENSIONS', value: '97m × 10m × 4.3m' },
       ],
     },
   ];
@@ -164,6 +180,34 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         'Turnkey pre-fabricated house dimensions: 133m length × 13m width × 3.5m height scalable to client footprint',
         'Open A-frame cage allocation engineered to 450 sq cm bird welfare density standards',
         'Integrated individual compartments with feed troughs, nipple drinkers, egg-collection channels, and sub-tier disposal',
+      ],
+    },
+    {
+      id: 'pullet-rearing',
+      optionNumber: 'Design Option 03',
+      badge: 'Pullet Growing Stage',
+      tabLabel: '3. Pullet Rearing System',
+      shortLabel: '3. Pullet Rearing',
+      title: 'H-Frame Pullet Rearing Cage',
+      description:
+        'A specialized multi-tier vertical cage housing system engineered specifically for the pullet growing phase (day-old chicks up to pre-laying maturity). Built on an H-frame structure featuring customized cage dimensions and tighter wire mesh for young chicks. Unlike egg-laying setups, the rearing system does not include egg collection machinery while integrating precision nipple drinking, automated feeding, and continuous manure-belt evacuation.',
+      buildingType: 'Pre-fabricated House',
+      dimensions: '97m length × 10m width × 4.3m height',
+      birdCapacity: 'Customizable',
+      cageDetails: 'Scalable by Tier & House Length',
+      stockingDensity: 'Specialized Chick-to-Pullet Density',
+      manureHandling: 'Manure-Belt Removal',
+      manureHandlingSub: 'Continuous automated PP belts under tiers for biosecure removal',
+      eggCollection: 'None (Growing Phase)',
+      eggCollectionSub: 'Dedicated growing stage for young chicks prior to egg-laying age',
+      imageUrl: '/images/layer/pullet-rearing-cage.jpg',
+      product: rearingProduct,
+      isAdded: isRearingAdded,
+      advantages: [
+        'Operational Purpose: Purpose-built for the growing phase (pullet period) for young chicks before they reach egg-laying age',
+        'Absence of Egg Collection: Birds in rearing do not lay eggs; system omits egg collection machinery, reducing cost and maintenance',
+        'Cage Dimensions & Mesh Sizing: Visually similar to H-Frame, with cage heights and mesh sizes customized specifically for smaller chicks',
+        'Automated Infrastructure: Integrated traveling hopper feeding, adjustable nipple lines with drip cups, and PP manure belts',
       ],
     },
   ];
@@ -292,7 +336,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
               </h1>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-                Industrial commercial egg production and high-density layer housing engineering. From high-density vertical H-frame cages to open A-frame systems, CCDI delivers turnkey prefabricated facilities built with automated egg collection, regulated feeding, controlled climate, and biosecure manure handling.
+                Industrial commercial egg production and high-density layer housing engineering. From high-density vertical H-frame cages and open A-frame systems to dedicated pullet rearing houses, CCDI delivers turnkey prefabricated facilities built with automated egg collection, regulated feeding, controlled climate, and biosecure manure handling.
               </p>
 
               {/* Action Buttons */}
@@ -367,11 +411,11 @@ export const LayerPage: React.FC<LayerPageProps> = ({
               LAYER HOUSING DESIGN OPTIONS
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
-              Two Proven Commercial Layer Housing Configurations
+              Three Proven Commercial Layer &amp; Pullet Housing Configurations
             </h2>
             <p className="text-slate-600 text-base leading-relaxed">
-              Select your preferred commercial layer production layout to review architectural blueprints, bird capacities,
-              cage stocking density, and industrial materials.
+              Select your preferred commercial production layout to review architectural blueprints, bird capacities,
+              specialized cage dimensions, and industrial turnkey materials.
             </p>
           </div>
 
@@ -499,6 +543,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                 <div className="flex justify-between text-[10px] font-mono text-slate-500 uppercase tracking-wider">
                   <span className={activeSlideIndex === 0 ? 'text-[#0B192C] font-bold' : ''}>1. H-Frame</span>
                   <span className={activeSlideIndex === 1 ? 'text-[#0B192C] font-bold' : ''}>2. A-Frame</span>
+                  <span className={activeSlideIndex === 2 ? 'text-[#0B192C] font-bold' : ''}>3. Pullet Rearing</span>
                 </div>
               </div>
             </div>

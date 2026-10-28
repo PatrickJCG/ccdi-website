@@ -142,7 +142,7 @@ Modern agribusiness requires more than basic shelter—it demands intelligent, b
   * **Dust Suppression & Safety Standards:** Integrated pneumatic dust extraction systems complying with industrial health and explosion-prevention standards.
 
 ### 4. Solar Energy Integration
-* **Overview:** Commercial and industrial solar PV solutions engineered specifically to power high-demand agro-industrial operations.
+* **Overview:** Commercial and industrial Solar Power Systems solutions engineered specifically to power high-demand agro-industrial operations.
 * **Key Features:**
   * **Rooftop & Ground-Mounted PV Arrays:** Custom structural mounting designed to withstand high wind loads on farm roofs and open lands.
   * **Hybrid & On-Grid Inverter Systems:** Seamless power sync with utility grids and back-up diesel generators for uninterrupted operations.

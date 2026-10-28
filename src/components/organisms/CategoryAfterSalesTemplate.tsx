@@ -78,7 +78,7 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
             categoryName="Solar Systems"
             basePath="/solutions/solar"
             activeTab="after-sales"
-            systemLabel="Solar PV Systems"
+            systemLabel="Solar Power Systems"
             accentColor="amber"
             systemIcon={Sun}
             extraTabs={[

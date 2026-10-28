@@ -28,7 +28,7 @@ const FAQ_CATEGORIES = [
   { id: 'turnkey', label: 'Turnkey EPC & Build', icon: Building2 },
   { id: 'poultry', label: 'Poultry Housing', icon: Layers },
   { id: 'feedmill-hatchery', label: 'Feedmill & Hatchery', icon: Factory },
-  { id: 'solar', label: 'Solar PV & Energy', icon: Sun },
+  { id: 'solar', label: 'Solar Power Systems & Energy', icon: Sun },
   { id: 'warranty', label: 'Warranties & Logistics', icon: ShieldCheck },
 ] as const;
 
@@ -142,10 +142,10 @@ const FAQ_DATA: FaqItem[] = [
   {
     id: 'solar-energy-savings',
     category: 'solar',
-    categoryLabel: 'Solar PV Systems',
+    categoryLabel: 'Solar Power Systems',
     question: 'How much energy overhead can agro-solar installations offset for farm operators?',
     answer:
-      'Agricultural solar PV systems typically reduce daytime utility electricity expenses by 35% to 55%. For tunnel-ventilated poultry farms and feedmills, peak solar power generation directly mirrors peak daytime energy demand—precisely when all cooling fans, water pumps, or milling motors operate at maximum load under the midday sun.',
+      'Agricultural Solar Power Systems typically reduce daytime utility electricity expenses by 35% to 55%. For tunnel-ventilated poultry farms and feedmills, peak solar power generation directly mirrors peak daytime energy demand—precisely when all cooling fans, water pumps, or milling motors operate at maximum load under the midday sun.',
     highlights: [
       'Direct daytime peak offsetting with high Return on Investment (typically 3–4 years)',
       'Optimized rooftop mounting on insulated sandwich panel roofs without penetration leaks',
@@ -155,8 +155,8 @@ const FAQ_DATA: FaqItem[] = [
   {
     id: 'solar-generator-sync',
     category: 'solar',
-    categoryLabel: 'Solar PV Systems',
-    question: 'Can the solar PV system synchronize with our backup diesel generators during power outages?',
+    categoryLabel: 'Solar Power Systems',
+    question: 'Can the Solar Power Systems synchronize with our backup diesel generators during power outages?',
     answer:
       'Yes. CCDI installs intelligent Zero-Export and Generator Fuel-Saver controllers. During utility grid blackouts, the controller dynamically modulates solar inverter output to match instantaneous farm demand alongside the diesel generator. This prevents reverse power flow into the genset while cutting costly diesel fuel consumption by up to 40%.',
     highlights: [
@@ -285,7 +285,7 @@ export const FaqSection: React.FC = () => {
             </h2>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
               Find transparent answers on turnkey poultry farm construction, climate-controlled
-              housing, feedmill &amp; hatchery engineering, solar PV integration, and local warranty
+              housing, feedmill &amp; hatchery engineering, Solar Power Systems integration, and local warranty
               support across the Philippines.
             </p>
           </div>
