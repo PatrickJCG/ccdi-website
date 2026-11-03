@@ -64,20 +64,20 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
   {
     id: 'slide-hatchery',
     tabLabel: 'HATCHERY',
-    kicker: 'CCDI / HATCHERY CONSTRUCTION & INCUBATION',
-    titleWhite: 'Cleanroom Hatcheries &',
-    titleGold: 'Single-Stage Incubation',
+    kicker: 'CCDI / INTEGRATED HATCHERY SOLUTION',
+    titleWhite: 'Integrated Hatchery',
+    titleGold: 'Solution & Automation',
     subheadline:
-      'Sterile, thermally optimized incubation plants with zoned cleanroom airflow, automated egg transfer, high-capacity setters, and strict biosecurity containment.',
+      'CCDI brings together incubation, automation, HVAC, supporting systems, and digital management into one coordinated hatchery operation.',
     ctaPrimary: {
       label: 'Explore Hatchery Systems →',
-      href: '/solutions?bu=Hatchery',
+      href: '/solutions/hatchery',
     },
     ctaSecondary: {
       label: 'Request Consultation',
       href: '#contact',
     },
-    imageUrl: '/images/capabilities/hatchery-facility.jpg',
+    imageUrl: '/images/hatchery/hatchery-hero.jpg',
   },
   {
     id: 'slide-feedmill',
@@ -89,7 +89,7 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
       'Industrial feed processing infrastructure engineered with computerized micro-dosing, high-throughput pelleting towers, heavy galvanized corrugated silos, and pneumatic conveying.',
     ctaPrimary: {
       label: 'Explore Feedmill Solutions →',
-      href: '/solutions?bu=Feedmill',
+      href: '/solutions/feedmill',
     },
     ctaSecondary: {
       label: 'Request Consultation',
@@ -107,7 +107,7 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
       'Heavy-duty rooftop and ground-mounted photovoltaic systems engineered to slash daytime electricity overhead, synchronized with generator backups for uninterrupted power.',
     ctaPrimary: {
       label: 'Explore Solar Solutions →',
-      href: '/solutions?bu=Solar%20Systems',
+      href: '/solutions/solar',
     },
     ctaSecondary: {
       label: 'Request Consultation',
@@ -164,6 +164,8 @@ interface CapabilityCardData {
   label: string;
   spec: string;
   bu: BusinessUnit;
+  href: string;
+  description: string;
   slides: CapabilitySlide[];
 }
 
@@ -173,6 +175,9 @@ const CAPABILITIES: CapabilityCardData[] = [
     label: 'POULTRY',
     spec: 'Bio-Secure Climate Housing',
     bu: 'Poultry Farm Equipment',
+    href: '/solutions/poultry',
+    description:
+      'High-performance climate-controlled housing and automated equipment engineered for commercial broiler meat birds, parent stock breeders, and multi-tier layer operations.',
     slides: [
       {
         label: 'Broiler',
@@ -194,20 +199,41 @@ const CAPABILITIES: CapabilityCardData[] = [
   {
     code: '02',
     label: 'HATCHERY',
-    spec: 'Cleanroom Single-Stage Incubation',
+    spec: 'Integrated Hatchery Solution',
     bu: 'Hatchery',
+    href: '/solutions/hatchery',
+    description:
+      'CCDI brings together incubation, automation, HVAC, supporting systems, and digital management into one coordinated hatchery operation from egg receiving to chick handling.',
     slides: [
       {
-        label: 'Zoned Biosecurity Airflow',
-        imageUrl: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1200&q=80',
+        label: 'Incubation',
+        imageUrl: '/images/news/bulacan-single-stage-setter.png',
+        href: '/solutions/hatchery/incubation',
       },
       {
-        label: 'Automated Egg Handling',
-        imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+        label: 'Egg Handling & AI Candling',
+        imageUrl: '/images/hatchery/egg-handling-hero.jpg',
+        href: '/solutions/hatchery/egg-handling',
       },
       {
-        label: 'Precision Microclimate Control',
+        label: 'Chick Handling',
+        imageUrl: '/images/news/bulacan-hatcher.jpg',
+        href: '/solutions/hatchery/chick-handling',
+      },
+      {
+        label: 'Hatchery HVAC',
+        imageUrl: '/images/hatchery/Embryo Heat Recovery System.jpg',
+        href: '/solutions/hatchery/hvac',
+      },
+      {
+        label: 'Intelligent Management',
         imageUrl: '/images/capabilities/hatchery-facility.jpg',
+        href: '/solutions/hatchery/management',
+      },
+      {
+        label: 'Waste Disposal',
+        imageUrl: '/images/hatchery/Water Disposal System.png',
+        href: '/solutions/hatchery/waste-disposal',
       },
     ],
   },
@@ -216,10 +242,13 @@ const CAPABILITIES: CapabilityCardData[] = [
     label: 'FEEDMILL',
     spec: 'Automated Micro-Batching & Silos',
     bu: 'Feedmill',
+    href: '/solutions/feedmill',
+    description:
+      'Turnkey feed processing plants engineered with computerized micro-dosing, high-throughput pelleting towers, heavy corrugated storage silos, and pneumatic conveying.',
     slides: [
       {
         label: 'Computerized Dosing Towers',
-        imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=80',
+        imageUrl: '/images/capabilities/feedmill-facility.jpg',
       },
       {
         label: 'Heavy Corrugated Silos',
@@ -236,6 +265,9 @@ const CAPABILITIES: CapabilityCardData[] = [
     label: 'SOLAR POWER SYSTEMS',
     spec: 'Industrial Rooftop Microgrid',
     bu: 'Solar Systems',
+    href: '/solutions/solar',
+    description:
+      'Commercial rooftop and ground-mounted solar microgrids engineered to lower energy overhead by 40% to 80%, synchronized with hybrid batteries and backup generators.',
     slides: [
       {
         label: 'High-Wind Rooftop Arrays',
@@ -257,16 +289,15 @@ const CapabilityCard: React.FC<{ cap: CapabilityCardData }> = ({ cap }) => {
   const navigate = useNavigate();
   const [slideIndex, setSlideIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const isPoultry = cap.bu === 'Poultry Farm Equipment';
   const slides = cap.slides;
   const currentSlide = slides[slideIndex] || slides[0];
 
-  // Auto-advance carousel every 3.8s when not hovered
+  // Auto-advance carousel every 5s when not hovered
   useEffect(() => {
     if (isHovered || slides.length <= 1) return;
     const timer = setInterval(() => {
       setSlideIndex((prev) => (prev + 1) % slides.length);
-    }, 3800);
+    }, 5000);
     return () => clearInterval(timer);
   }, [isHovered, slides.length]);
 
@@ -281,7 +312,7 @@ const CapabilityCard: React.FC<{ cap: CapabilityCardData }> = ({ cap }) => {
   };
 
   const handleCardClick = () => {
-    navigate(isPoultry ? '/solutions/poultry' : `/solutions?bu=${encodeURIComponent(cap.bu)}`);
+    navigate(cap.href);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -312,6 +343,22 @@ const CapabilityCard: React.FC<{ cap: CapabilityCardData }> = ({ cap }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
 
+        {/* Carousel Slide Identifier Badge (Subtle dark slate, not too colorful) */}
+        <div className="absolute top-2.5 left-2.5 z-20 pointer-events-none">
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={currentSlide.label}
+              initial={{ opacity: 0, y: -2 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 2 }}
+              transition={{ duration: 0.2 }}
+              className="inline-flex items-center px-2 py-0.5 rounded-[2px] bg-[#040D18]/90 border border-slate-700/80 text-slate-200 font-mono text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase backdrop-blur-xs shadow-md"
+            >
+              {currentSlide.label}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+
         {/* Carousel Arrow Controls (Visible on hover) */}
         <button
           type="button"
@@ -341,18 +388,17 @@ const CapabilityCard: React.FC<{ cap: CapabilityCardData }> = ({ cap }) => {
                 setSlideIndex(i);
               }}
               aria-label={`Go to slide ${i + 1}`}
-              className={`h-1.5 rounded-[1px] transition-all duration-300 cursor-pointer ${
-                i === slideIndex
-                  ? 'w-4 bg-[#F3A812]'
-                  : 'w-1.5 bg-white/40 hover:bg-white/80'
-              }`}
+              className={`h-1.5 rounded-[1px] transition-all duration-300 cursor-pointer ${i === slideIndex
+                ? 'w-4 bg-[#F3A812]'
+                : 'w-1.5 bg-white/40 hover:bg-white/80'
+                }`}
             />
           ))}
         </div>
       </div>
 
       {/* Card Body */}
-      <div className="relative p-4 flex flex-col flex-grow justify-between space-y-3 bg-[#07162A] overflow-hidden">
+      <div className="relative p-4 flex flex-col flex-grow justify-between gap-3 bg-[#07162A] overflow-hidden">
         {/* Dark Accent Graphic */}
         <img
           src="/images/accents/dark-accent-graphic.png"
@@ -361,99 +407,29 @@ const CapabilityCard: React.FC<{ cap: CapabilityCardData }> = ({ cap }) => {
           aria-hidden="true"
         />
 
-        <div className="relative z-10">
-          <h3 className="font-sans text-base font-extrabold text-white tracking-tight group-hover:text-[#F3A812] transition-colors">
-            {cap.bu}
-          </h3>
+        <div className="relative z-10 space-y-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="font-sans text-base font-extrabold text-white tracking-tight group-hover:text-[#F3A812] transition-colors">
+              {cap.bu}
+            </h3>
+            {/* CCDI Crest Logo in Designated Spot */}
+            <img
+              src="/images/branding/ccdi-logo.svg"
+              alt="CCDI"
+              className="w-10 h-10 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none"
+            />
+          </div>
+
+          {/* Short Category Description based on Brochure */}
+          <div className="pt-2 border-t border-[#102A43]">
+            <p className="text-xs text-slate-300 leading-relaxed font-normal">
+              {cap.description}
+            </p>
+          </div>
         </div>
 
-        {/* Poultry Sub-Category Interactive Links */}
-        {isPoultry && (
-          <div
-            className="relative z-10 pt-2 border-t border-[#102A43] flex items-center justify-between gap-2"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex flex-col gap-1.5">
-              {slides.map((sub, idx) => {
-                const isSlideActive = slideIndex === idx;
-                return (
-                  <button
-                    key={sub.label}
-                    type="button"
-                    onMouseEnter={() => setSlideIndex(idx)}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (sub.href) {
-                        navigate(sub.href);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }
-                    }}
-                    className={`flex items-center gap-1.5 text-xs font-mono font-bold transition-all text-left cursor-pointer py-0.5 ${
-                      isSlideActive ? 'text-[#F3A812] translate-x-1' : 'text-slate-300 hover:text-amber-400'
-                    }`}
-                  >
-                    <span className={`text-[10px] transition-transform ${isSlideActive ? 'text-[#F3A812] scale-125' : 'text-amber-400/70'}`}>
-                      ▶
-                    </span>
-                    {sub.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* CCDI Crest Logo in Designated Spot */}
-            <img
-              src="/images/branding/ccdi-logo.svg"
-              alt="CCDI"
-              className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none mr-0.5"
-            />
-          </div>
-        )}
-
-        {/* Non-Poultry Sub-Deliverables synced with carousel */}
-        {!isPoultry && (
-          <div
-            className="relative z-10 pt-2 border-t border-[#102A43] flex items-center justify-between gap-2"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="space-y-1 text-[11px] sm:text-xs font-mono font-medium min-w-0">
-              {slides.map((slide, idx) => {
-                const isSlideActive = slideIndex === idx;
-                return (
-                  <button
-                    key={slide.label}
-                    type="button"
-                    onMouseEnter={() => setSlideIndex(idx)}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSlideIndex(idx);
-                    }}
-                    className={`w-full flex items-center gap-1.5 text-left transition-all cursor-pointer truncate py-0.5 ${
-                      isSlideActive
-                        ? 'text-[#F3A812] font-bold translate-x-0.5'
-                        : 'text-slate-300 hover:text-amber-300'
-                    }`}
-                  >
-                    <span className={`text-[10px] shrink-0 ${isSlideActive ? 'text-[#F3A812]' : 'text-slate-500'}`}>
-                      {isSlideActive ? '▶' : '•'}
-                    </span>
-                    <span className="truncate">{slide.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* CCDI Crest Logo in Designated Spot */}
-            <img
-              src="/images/branding/ccdi-logo.svg"
-              alt="CCDI"
-              className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all select-none pointer-events-none mr-0.5"
-            />
-          </div>
-        )}
-
         {/* Direct Catalog Action */}
-        <div className="relative z-10 pt-2 flex items-center justify-between font-mono text-xs text-[#F3A812] font-bold group-hover:translate-x-0.5 transition-transform">
+        <div className="relative z-10 mt-auto pt-2 border-t border-[#102A43] flex items-center justify-between font-mono text-xs text-[#F3A812] font-bold group-hover:translate-x-0.5 transition-transform">
           <span>EXPLORE PRODUCTS</span>
           <span>→</span>
         </div>
@@ -477,10 +453,12 @@ export const HeroSection: React.FC = () => {
     setCurrentSlideIndex((prev) => (prev + 1) % CAROUSEL_SLIDES.length);
   }, []);
 
-  const prevSlide = useCallback(() => {
+  // prevSlide available for carousel controls if needed
+  const _prevSlide = useCallback(() => {
     setProgress(0);
     setCurrentSlideIndex((prev) => (prev - 1 + CAROUSEL_SLIDES.length) % CAROUSEL_SLIDES.length);
   }, []);
+  void _prevSlide;
 
   const goToSlide = useCallback((index: number) => {
     setProgress(0);
@@ -618,7 +596,7 @@ export const HeroSection: React.FC = () => {
 
       {/* ── 3. MAIN CAROUSEL CONTENT ── */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-9 sm:pt-14 pb-16 sm:pb-20 w-full text-left">
-        
+
         {/* Minimalist Tab Navigation Bar (Transparent, Non-Distracting) */}
         <div className="flex flex-wrap items-center gap-3 sm:gap-5 md:gap-7 mb-7 sm:mb-9 border-b border-white/15 pb-3">
           {CAROUSEL_SLIDES.map((slide, idx) => {
@@ -628,11 +606,10 @@ export const HeroSection: React.FC = () => {
                 key={slide.id}
                 type="button"
                 onClick={() => goToSlide(idx)}
-                className={`relative py-1 text-xs font-mono tracking-wider transition-all uppercase cursor-pointer ${
-                  isActive
-                    ? 'text-[#F3A812] font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]'
-                    : 'text-white/60 hover:text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'
-                }`}
+                className={`relative py-1 text-xs font-mono tracking-wider transition-all uppercase cursor-pointer ${isActive
+                  ? 'text-[#F3A812] font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]'
+                  : 'text-white/60 hover:text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'
+                  }`}
               >
                 <span>{slide.tabLabel}</span>
                 {isActive && (
@@ -648,7 +625,7 @@ export const HeroSection: React.FC = () => {
         </div>
 
         {/* Dynamic Slide Body with Drop-Shadows and High Contrast */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[286px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[286px] pb-12 sm:pb-16 lg:pb-24" >
           <div className="lg:col-span-8 xl:col-span-8">
             <AnimatePresence mode="wait">
               <motion.div
@@ -710,44 +687,7 @@ export const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Carousel Prev/Next & Slide Counter Controls */}
-        <div className="pt-7 sm:pt-9 flex items-center justify-between border-t border-[#102A43] mt-9 sm:mt-11">
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={prevSlide}
-              aria-label="Previous Slide"
-              className="w-10 h-10 rounded-[2px] bg-[#07162A] border border-[#1E3E66] hover:border-[#F3A812] text-slate-200 hover:text-[#F3A812] flex items-center justify-center transition-colors shadow-sm"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={nextSlide}
-              aria-label="Next Slide"
-              className="w-10 h-10 rounded-[2px] bg-[#07162A] border border-[#1E3E66] hover:border-[#F3A812] text-slate-200 hover:text-[#F3A812] flex items-center justify-center transition-colors shadow-sm"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-            <span className="font-mono text-xs text-slate-300 ml-2 font-medium">
-              SLIDE <strong className="text-[#F3A812] font-bold">0{currentSlideIndex + 1}</strong> / 0{CAROUSEL_SLIDES.length}
-            </span>
-          </div>
 
-          <div className="flex items-center gap-1.5 bg-[#07162A]/80 px-2.5 py-1.5 rounded-[2px] border border-[#102A43]">
-            {CAROUSEL_SLIDES.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => goToSlide(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`h-1.5 rounded-[1px] transition-all duration-300 ${
-                  currentSlideIndex === i ? 'w-8 bg-[#F3A812]' : 'w-2.5 bg-slate-600 hover:bg-slate-400'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
 
         {/* ── 4. CORE CAPABILITIES (WITH HIGH-CONTRAST BROCHURE STYLING) ── */}
         <div className="pt-11 mt-9 border-t border-[#102A43]">

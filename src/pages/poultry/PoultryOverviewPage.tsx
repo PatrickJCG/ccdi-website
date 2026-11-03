@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import {
-  ChevronRight,
-  ArrowRight,
-  CheckCircle2,
-} from 'lucide-react';
-import type { Product } from '../data/mockProducts';
-import { ContactSection } from '../components/organisms/ContactSection';
-import { CategoryEndToEndApproach } from '../components/organisms/CategoryEndToEndApproach';
-import { PoultrySubNav } from '../components/molecules/PoultrySubNav';
+import { ArrowRight } from 'lucide-react';
+import type { Product } from '../../data/mockProducts';
+import { ContactSection } from '../../components/organisms/ContactSection';
+import { CategoryEndToEndApproach } from '../../components/organisms/CategoryEndToEndApproach';
+import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
+import { SolutionHeroBanner } from '../../components/molecules/SolutionHeroBanner';
+import { SolutionPillarCard } from '../../components/molecules/SolutionPillarCard';
 
 export interface PoultryOverviewPageProps {
   inquiryItems: Product[];
@@ -36,7 +33,6 @@ const POULTRY_PILLARS = [
       'Automated flex-auger pan feeding lines',
       'Rapid 10-day flock cleanout & turnaround',
     ],
-    accentColor: 'amber',
   },
   {
     id: 'broiler-breeder',
@@ -57,7 +53,6 @@ const POULTRY_PILLARS = [
       'Automated community nests with variable collection belts',
       '3D architectural facility walkthrough available',
     ],
-    accentColor: 'sky',
   },
   {
     id: 'layer',
@@ -77,7 +72,6 @@ const POULTRY_PILLARS = [
       'In-barn PP manure belts with perforated air-drying tubes',
       'Dimmable 2700K ovulation photoperiod automation',
     ],
-    accentColor: 'amber',
   },
   {
     id: 'retrofitting',
@@ -97,7 +91,6 @@ const POULTRY_PILLARS = [
       'Automated pan feeding, 360° nipple drinkers & Agro-logic climate telemetry',
       'Interactive farm audit module to calculate custom upgrade requirements',
     ],
-    accentColor: 'emerald',
   },
   {
     id: 'accessories',
@@ -117,7 +110,6 @@ const POULTRY_PILLARS = [
       'Fiberglass cone fans, IP55 motors & cooling pads',
       'Anti-skid PP plastic slats, winches & cage hardware',
     ],
-    accentColor: 'amber',
   },
   {
     id: 'after-sales',
@@ -137,7 +129,6 @@ const POULTRY_PILLARS = [
       'Ventilation static pressure & sensor recalibration audits',
       'Dedicated central spare parts warehouse in Pampanga',
     ],
-    accentColor: 'sky',
   },
 ];
 
@@ -153,85 +144,31 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
       {/* ── 1. HERO BANNER ────────────────────────────────────────── */}
-      <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
-        {/* Background Hero Image with Scrim */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <img
-            src="/images/broiler/feeding-drinking-system.jpg"
-            alt="CCDI Poultry Infrastructure"
-            className="w-full h-full object-cover object-center opacity-85 sm:opacity-95 lg:opacity-100 brightness-[1.02] contrast-[1.06]"
-          />
-          {/* Dual-zone dark navy gradient: solid dark background on left for 100% text legibility, transparent on right for full image clarity */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#07162A] via-[#07162A]/90 to-[#07162A]/60 md:from-[#07162A] md:from-20% md:via-[#07162A]/95 md:via-48% md:to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07162A]/85 via-transparent to-transparent" />
-        </div>
-
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Architectural Accent 2 - Top Left Anchored */}
-        <motion.div
-          initial={{ opacity: 0, y: -45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/accent2.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
-
-        {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored */}
-        <motion.div
-          initial={{ opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-6">
-            <Link to="/" className="hover:text-amber-400 transition-colors">HOME</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link to="/solutions" className="hover:text-amber-400 transition-colors">OUR SOLUTIONS</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-amber-400 font-bold">THE POULTRY SOLUTION</span>
-          </nav>
-
-          <div className="max-w-4xl space-y-5">
-            <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-white leading-[1.2]">
-              The Poultry Solution
-            </h1>
-
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed max-w-3xl">
-              Clarkbase Construction Dev't Inc. (CCDI) delivers high-performance turnkey infrastructure
-              tailored to every tier of modern poultry production. From high-density climate-controlled
-              <strong className="text-white font-semibold"> Broiler</strong> facilities and specialized <strong className="text-white font-semibold">Broiler Breeder</strong> parent stock housing
-              to massive multi-tier vertical <strong className="text-white font-semibold">Commercial Layer</strong> battery cage envelopes, we provide
-              single-source engineering accountability across the Philippines.
-            </p>
-
-          </div>
-        </div>
-      </section>
+      <SolutionHeroBanner
+        breadcrumbs={[
+          { label: 'HOME', path: '/' },
+          { label: 'OUR SOLUTIONS', path: '/solutions' },
+          { label: 'THE POULTRY SOLUTION' },
+        ]}
+        title="The Poultry Solution"
+        subtitle={
+          <>
+            Clarkbase Construction Dev't Inc. (CCDI) delivers high-performance turnkey infrastructure
+            tailored to every tier of modern poultry production. From high-density climate-controlled
+            <strong className="text-white font-semibold"> Broiler</strong> facilities and specialized{' '}
+            <strong className="text-white font-semibold">Broiler Breeder</strong> parent stock housing
+            to massive multi-tier vertical <strong className="text-white font-semibold">Commercial Layer</strong>{' '}
+            battery cage envelopes, we provide single-source engineering accountability across the Philippines.
+          </>
+        }
+        backgroundImage="/images/broiler/feeding-drinking-system.jpg"
+        imageAlt="CCDI Poultry Infrastructure"
+      />
 
       {/* ── 2. POULTRY SUB-NAV BAR ─────────────────────────────────── */}
       <PoultrySubNav activeTab="overview" />
 
-      {/* ── 3. FIVE PILLARS COMPARISON SHOWCASE ───────────────────── */}
+      {/* ── 3. SIX PILLARS COMPARISON SHOWCASE ───────────────────── */}
       <section id="pillars" className="relative py-20 sm:py-28 bg-white border-b border-slate-200 overflow-hidden">
         {/* Architectural Top-Right Corner Accent */}
         <img
@@ -269,65 +206,16 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
                 {POULTRY_PILLARS.slice(0, 3).map((pillar) => (
-                  <div
+                  <SolutionPillarCard
                     key={pillar.id}
-                    className="flex flex-col justify-between bg-slate-50 border border-slate-200 hover:border-amber-400/80 rounded-[2px] overflow-hidden transition-all duration-200 hover:shadow-lg group"
-                  >
-                    {/* Card Header Media */}
-                    <div className="relative h-56 sm:h-64 w-full overflow-hidden bg-slate-900 shrink-0">
-                      <img
-                        src={pillar.image}
-                        alt={pillar.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 brightness-95"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent" />
-                      
-                      {/* Top Right Corner Accent */}
-                      <img
-                        src="/images/accents/card-corner-accent.png"
-                        alt=""
-                        className="absolute top-0 right-0 w-24 sm:w-28 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-80"
-                        aria-hidden="true"
-                      />
-
-                      {/* Title in Media Overlay */}
-                      <div className="absolute bottom-3 left-4 right-4 z-10">
-                        <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight group-hover:text-amber-400 transition-colors">
-                          {pillar.title}
-                        </h3>
-                        <p className="text-slate-300 text-xs mt-1 font-medium line-clamp-1">
-                          {pillar.tagline}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Card Body */}
-                    <div className="p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-6">
-                      {/* Core Features List */}
-                      <div className="space-y-2">
-                        <span className="font-mono text-[10px] font-bold text-slate-500 uppercase tracking-widest block">
-                          KEY ENGINEERING ATTRIBUTES
-                        </span>
-                        <ul className="space-y-1.5 text-xs text-slate-700">
-                          {pillar.specs.map((spec, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
-                              <span className="leading-snug">{spec}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Navigation Button */}
-                      <Link
-                        to={pillar.path}
-                        className="inline-flex items-center justify-between w-full px-4 py-3 rounded-[2px] bg-[#0B192C] text-white hover:bg-amber-400 hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-150 shadow-xs group-hover:shadow-md cursor-pointer"
-                      >
-                        <span>Explore {pillar.title}</span>
-                        <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                      </Link>
-                    </div>
-                  </div>
+                    title={pillar.title}
+                    tagline={pillar.tagline}
+                    image={pillar.image}
+                    imageFit="cover"
+                    featuresLabel="KEY ENGINEERING ATTRIBUTES"
+                    features={pillar.specs}
+                    path={pillar.path}
+                  />
                 ))}
               </div>
             </div>
@@ -418,80 +306,27 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
                 {POULTRY_PILLARS.slice(4, 6).map((pillar) => (
-                  <div
+                  <SolutionPillarCard
                     key={pillar.id}
-                    className="flex flex-col justify-between bg-slate-50 border border-slate-200 hover:border-amber-400/80 rounded-[2px] overflow-hidden transition-all duration-200 hover:shadow-lg group"
-                  >
-                    {/* Card Header Media */}
-                    <div className="relative h-56 sm:h-64 w-full overflow-hidden bg-slate-900 shrink-0">
-                      <img
-                        src={pillar.image}
-                        alt={pillar.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 brightness-95"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent" />
-                      
-                      {/* Top Right Corner Accent */}
-                      <img
-                        src="/images/accents/card-corner-accent.png"
-                        alt=""
-                        className="absolute top-0 right-0 w-24 sm:w-28 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-80"
-                        aria-hidden="true"
-                      />
-
-                      {/* Title in Media Overlay */}
-                      <div className="absolute bottom-3 left-4 right-4 z-10">
-                        <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight group-hover:text-amber-400 transition-colors">
-                          {pillar.title}
-                        </h3>
-                        <p className="text-slate-300 text-xs mt-1 font-medium line-clamp-1">
-                          {pillar.tagline}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Card Body */}
-                    <div className="p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-6">
-                      {/* Core Features List */}
-                      <div className="space-y-2">
-                        <span className="font-mono text-[10px] font-bold text-slate-500 uppercase tracking-widest block">
-                          KEY ENGINEERING ATTRIBUTES
-                        </span>
-                        <ul className="space-y-1.5 text-xs text-slate-700">
-                          {pillar.specs.map((spec, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
-                              <span className="leading-snug">{spec}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Navigation Button */}
-                      <Link
-                        to={pillar.path}
-                        className="inline-flex items-center justify-between w-full px-4 py-3 rounded-[2px] bg-[#0B192C] text-white hover:bg-amber-400 hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-150 shadow-xs group-hover:shadow-md cursor-pointer"
-                      >
-                        <span>Explore {pillar.title}</span>
-                        <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                      </Link>
-                    </div>
-                  </div>
+                    title={pillar.title}
+                    tagline={pillar.tagline}
+                    image={pillar.image}
+                    imageFit="cover"
+                    featuresLabel="KEY ENGINEERING ATTRIBUTES"
+                    features={pillar.specs}
+                    path={pillar.path}
+                  />
                 ))}
               </div>
             </div>
           </div>
-
-
         </div>
       </section>
 
       {/* ── 4. TURNKEY END-TO-END METHODOLOGY ──────────────────────── */}
       <CategoryEndToEndApproach category="poultry" />
 
-
-
-      {/* ── 6. CONTACT & INQUIRY SECTION ───────────────────────────── */}
+      {/* ── 5. CONTACT & INQUIRY SECTION ───────────────────────────── */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

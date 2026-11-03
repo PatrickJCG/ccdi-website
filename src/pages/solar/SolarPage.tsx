@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, PhoneCall, Sun, Calculator, ArrowRight } from 'lucide-react';
-import type { Product } from '../data/mockProducts';
-import { ContactSection } from '../components/organisms/ContactSection';
-import { CoreProductionSystemsShowcase } from '../components/organisms/CoreProductionSystemsShowcase';
-import { CategoryEndToEndApproach } from '../components/organisms/CategoryEndToEndApproach';
-import { CategoryAccessoriesCatalog } from '../components/organisms/CategoryAccessoriesCatalog';
-import { CategorySubNav, type CategorySubNavTab } from '../components/molecules/CategorySubNav';
-import { SOLAR_SYSTEMS } from '../data/coreProductionSystems';
+import type { Product } from '../../data/mockProducts';
+import { ContactSection } from '../../components/organisms/ContactSection';
+import { CoreProductionSystemsShowcase } from '../../components/organisms/CoreProductionSystemsShowcase';
+import { CategoryEndToEndApproach } from '../../components/organisms/CategoryEndToEndApproach';
+import { CategoryAccessoriesCatalog } from '../../components/organisms/CategoryAccessoriesCatalog';
+import { CategorySubNav, type CategorySubNavTab } from '../../components/molecules/CategorySubNav';
+import { SOLAR_SYSTEMS } from '../../data/coreProductionSystems';
 
 const SOLAR_EXTRA_TABS: CategorySubNavTab[] = [
   {
@@ -45,7 +45,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
-      {/* ── Sub-Nav ── */}
+      {/* â”€â”€ Sub-Nav â”€â”€ */}
       <CategorySubNav
         categoryName="Solar Systems"
         basePath="/solutions/solar"
@@ -56,7 +56,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         extraTabs={SOLAR_EXTRA_TABS}
       />
 
-      {/* ── HERO BANNER ────────────────────────────────────────── */}
+      {/* â”€â”€ HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -131,7 +131,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
                     ENERGY SAVINGS BENCHMARK
                   </span>
                   <div className="text-3xl font-black text-white font-mono">
-                    40% – 80% Reduction
+                    40% â€“ 80% Reduction
                   </div>
                   <p className="text-xs text-slate-400 mt-1">
                     Customized for commercial poultry & industrial facilities, as well as modern residential homes and estates.
@@ -168,7 +168,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
                       PAYBACK HORIZON
                     </span>
                     <span className="text-xl font-black text-white font-mono mt-1 block">
-                      3.5–5 <span className="text-xs text-slate-400">Yrs</span>
+                      3.5â€“5 <span className="text-xs text-slate-400">Yrs</span>
                     </span>
                     <span className="text-[11px] text-slate-400 block mt-0.5">
                       Accelerated ROI
@@ -193,7 +193,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         </div>
       </section>
 
-      {/* ── INTERACTIVE SOLAR PRICE CALCULATOR CALLOUT BANNER ── */}
+      {/* â”€â”€ INTERACTIVE SOLAR PRICE CALCULATOR CALLOUT BANNER â”€â”€ */}
       <section className="bg-gradient-to-r from-[#07162A] via-[#0B192C] to-[#07162A] border-b border-[#1E3E66] py-8 text-white relative overflow-hidden">
         <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -224,7 +224,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         </div>
       </section>
 
-      {/* ── 2. CORE SOLAR & MICROGRID SYSTEMS (PICTURES & CAROUSEL) ──────────── */}
+      {/* â”€â”€ 2. CORE SOLAR & MICROGRID SYSTEMS (PICTURES & CAROUSEL) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <CoreProductionSystemsShowcase
         id="core-solar-systems"
         systems={SOLAR_SYSTEMS}
@@ -236,7 +236,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         accentTheme="amber"
       />
 
-      {/* ── 3. SOLAR ACCESSORIES & EQUIPMENT INQUIRY CATALOG ── */}
+      {/* â”€â”€ 3. SOLAR ACCESSORIES & EQUIPMENT INQUIRY CATALOG â”€â”€ */}
       <CategoryAccessoriesCatalog
         businessUnit="Solar Systems"
         eyebrow="COMMERCIAL SOLAR & ACCESSORIES INQUIRY"
@@ -247,10 +247,10 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         accentTheme="amber"
       />
 
-      {/* ── 4. END-TO-END TURNKEY APPROACH ── */}
+      {/* â”€â”€ 4. END-TO-END TURNKEY APPROACH â”€â”€ */}
       <CategoryEndToEndApproach category="solar" />
 
-      {/* ── CONTACT SECTION ────────────────────────────────────── */}
+      {/* â”€â”€ CONTACT SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

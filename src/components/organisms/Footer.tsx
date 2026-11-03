@@ -15,7 +15,13 @@ const POULTRY_LINKS = [
 ];
 
 const HATCHERY_LINKS = [
-  { label: 'Hatchery Solutions', href: '/solutions/hatchery' },
+  { label: 'Integrated Hatchery Solution', href: '/solutions/hatchery' },
+  { label: 'Incubation System', href: '/solutions/hatchery/incubation' },
+  { label: 'Egg Handling & AI Candling', href: '/solutions/hatchery/egg-handling' },
+  { label: 'Chick Handling System', href: '/solutions/hatchery/chick-handling' },
+  { label: 'Hatchery HVAC System', href: '/solutions/hatchery/hvac' },
+  { label: 'Intelligent Management', href: '/solutions/hatchery/management' },
+  { label: 'Waste Disposal System', href: '/solutions/hatchery/waste-disposal' },
   { label: 'Hatchery After-Sales', href: '/solutions/hatchery/after-sales' },
 ];
 

@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import type { Product } from '../data/mockProducts';
-import { CategoryAfterSalesTemplate } from '../components/organisms/CategoryAfterSalesTemplate';
-import { AFTER_SALES_DATA } from '../data/afterSalesData';
+﻿import React, { useEffect } from 'react';
+import type { Product } from '../../data/mockProducts';
+import { CategoryAfterSalesTemplate } from '../../components/organisms/CategoryAfterSalesTemplate';
+import { AFTER_SALES_DATA } from '../../data/afterSalesData';
 
-export interface PoultryAfterSalesPageProps {
+export interface SolarAfterSalesPageProps {
   inquiryItems: Product[];
   onToggleInquiry: (product: Product) => void;
   onRemoveInquiryItem: (productId: string) => void;
 }
 
-export const PoultryAfterSalesPage: React.FC<PoultryAfterSalesPageProps> = ({
+export const SolarAfterSalesPage: React.FC<SolarAfterSalesPageProps> = ({
   inquiryItems,
   onToggleInquiry,
   onRemoveInquiryItem,
@@ -20,7 +20,7 @@ export const PoultryAfterSalesPage: React.FC<PoultryAfterSalesPageProps> = ({
 
   return (
     <CategoryAfterSalesTemplate
-      data={AFTER_SALES_DATA.poultry}
+      data={AFTER_SALES_DATA.solar}
       inquiryItems={inquiryItems}
       onToggleInquiry={onToggleInquiry}
       onRemoveInquiryItem={onRemoveInquiryItem}

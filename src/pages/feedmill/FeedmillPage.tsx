@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, PhoneCall, Factory } from 'lucide-react';
-import type { Product } from '../data/mockProducts';
-import { ContactSection } from '../components/organisms/ContactSection';
-import { CoreProductionSystemsShowcase } from '../components/organisms/CoreProductionSystemsShowcase';
-import { CategoryEndToEndApproach } from '../components/organisms/CategoryEndToEndApproach';
-import { CategoryAccessoriesCatalog } from '../components/organisms/CategoryAccessoriesCatalog';
-import { CategorySubNav } from '../components/molecules/CategorySubNav';
-import { FEEDMILL_SYSTEMS } from '../data/coreProductionSystems';
+import type { Product } from '../../data/mockProducts';
+import { ContactSection } from '../../components/organisms/ContactSection';
+import { CoreProductionSystemsShowcase } from '../../components/organisms/CoreProductionSystemsShowcase';
+import { CategoryEndToEndApproach } from '../../components/organisms/CategoryEndToEndApproach';
+import { CategoryAccessoriesCatalog } from '../../components/organisms/CategoryAccessoriesCatalog';
+import { CategorySubNav } from '../../components/molecules/CategorySubNav';
+import { FEEDMILL_SYSTEMS } from '../../data/coreProductionSystems';
 
 export interface FeedmillPageProps {
   inquiryItems: Product[];
@@ -36,7 +36,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
-      {/* ── Sub-Nav ── */}
+      {/* â”€â”€ Sub-Nav â”€â”€ */}
       <CategorySubNav
         categoryName="Feedmill Systems"
         basePath="/solutions/feedmill"
@@ -46,7 +46,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
         systemIcon={Factory}
       />
 
-      {/* ── HERO BANNER ────────────────────────────────────────── */}
+      {/* â”€â”€ HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -146,7 +146,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
                       BATCH ACCURACY
                     </span>
                     <span className="text-xl font-black text-white font-mono mt-1 block">
-                      ±0.05%
+                      Â±0.05%
                     </span>
                     <span className="text-[11px] text-slate-400 block mt-0.5">
                       Multi-cell load scales
@@ -183,7 +183,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
         </div>
       </section>
 
-      {/* ── 2. CORE FEEDMILL PRODUCTION SYSTEMS (PICTURES & CAROUSEL) ─────────── */}
+      {/* â”€â”€ 2. CORE FEEDMILL PRODUCTION SYSTEMS (PICTURES & CAROUSEL) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <CoreProductionSystemsShowcase
         id="core-feedmill-systems"
         systems={FEEDMILL_SYSTEMS}
@@ -195,7 +195,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
         accentTheme="amber"
       />
 
-      {/* ── 3. FEEDMILL ACCESSORIES & EQUIPMENT INQUIRY CATALOG ── */}
+      {/* â”€â”€ 3. FEEDMILL ACCESSORIES & EQUIPMENT INQUIRY CATALOG â”€â”€ */}
       <CategoryAccessoriesCatalog
         businessUnit="Feedmill"
         eyebrow="FEEDMILL MACHINERY & ACCESSORIES INQUIRY"
@@ -206,10 +206,10 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
         accentTheme="amber"
       />
 
-      {/* ── 4. END-TO-END TURNKEY APPROACH ── */}
+      {/* â”€â”€ 4. END-TO-END TURNKEY APPROACH â”€â”€ */}
       <CategoryEndToEndApproach category="feedmill" />
 
-      {/* ── CONTACT SECTION ────────────────────────────────────── */}
+      {/* â”€â”€ CONTACT SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

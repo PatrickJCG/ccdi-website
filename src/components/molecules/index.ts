@@ -10,7 +10,11 @@ export * from './ScannableMetricsTable';
 export * from './ProductSpecsModal';
 export * from './FloatingInquiry';
 export * from './PoultrySubNav';
+export * from './HatcherySubNav';
 export * from './CategorySubNav';
 export * from './BenchmarkStatStrip';
 export * from './PoultryLocalEngineers';
 export * from './DesignOptionsHeroCarousel';
+export * from './SolutionHeroBanner';
+export * from './SolutionPillarCard';
+

@@ -6,27 +6,42 @@ import { PageLayout } from './components/organisms/PageLayout';
 import { ScrollToTop } from './components/utils/ScrollToTop';
 
 // ─── Lazy-loaded pages (each gets its own JS chunk) ───────────────────────────
-const HomePage             = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
-const SolutionsPage        = lazy(() => import('./pages/SolutionsPage').then(m => ({ default: m.SolutionsPage })));
-const PoultryOverviewPage  = lazy(() => import('./pages/PoultryOverviewPage').then(m => ({ default: m.PoultryOverviewPage })));
-const BroilerPage          = lazy(() => import('./pages/BroilerPage').then(m => ({ default: m.BroilerPage })));
-const PoultryBreedingPage  = lazy(() => import('./pages/PoultryBreedingPage').then(m => ({ default: m.PoultryBreedingPage })));
-const LayerPage            = lazy(() => import('./pages/LayerPage').then(m => ({ default: m.LayerPage })));
-const RetrofittingPage     = lazy(() => import('./pages/RetrofittingPage').then(m => ({ default: m.RetrofittingPage })));
-const AccessoriesPage      = lazy(() => import('./pages/AccessoriesPage').then(m => ({ default: m.AccessoriesPage })));
-const HatcheryPage         = lazy(() => import('./pages/HatcheryPage').then(m => ({ default: m.HatcheryPage })));
-const FeedmillPage         = lazy(() => import('./pages/FeedmillPage').then(m => ({ default: m.FeedmillPage })));
-const SolarPage            = lazy(() => import('./pages/SolarPage').then(m => ({ default: m.SolarPage })));
-const SolarCalculatorPage  = lazy(() => import('./pages/SolarCalculatorPage').then(m => ({ default: m.SolarCalculatorPage })));
-const PoultryAfterSalesPage  = lazy(() => import('./pages/PoultryAfterSalesPage').then(m => ({ default: m.PoultryAfterSalesPage })));
-const HatcheryAfterSalesPage = lazy(() => import('./pages/HatcheryAfterSalesPage').then(m => ({ default: m.HatcheryAfterSalesPage })));
-const FeedmillAfterSalesPage = lazy(() => import('./pages/FeedmillAfterSalesPage').then(m => ({ default: m.FeedmillAfterSalesPage })));
-const SolarAfterSalesPage    = lazy(() => import('./pages/SolarAfterSalesPage').then(m => ({ default: m.SolarAfterSalesPage })));
-const ProductsPage         = lazy(() => import('./pages/ProductsPage').then(m => ({ default: m.ProductsPage })));
-const ProjectsPage         = lazy(() => import('./pages/ProjectsPage').then(m => ({ default: m.ProjectsPage })));
-const NewsPage             = lazy(() => import('./pages/NewsPage').then(m => ({ default: m.NewsPage })));
-const CareersPage          = lazy(() => import('./pages/CareersPage').then(m => ({ default: m.CareersPage })));
-const NotFoundPage         = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+// Core / Main Pages
+const HomePage                  = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
+const SolutionsPage             = lazy(() => import('./pages/SolutionsPage').then(m => ({ default: m.SolutionsPage })));
+const ProductsPage              = lazy(() => import('./pages/ProductsPage').then(m => ({ default: m.ProductsPage })));
+const ProjectsPage              = lazy(() => import('./pages/ProjectsPage').then(m => ({ default: m.ProjectsPage })));
+const NewsPage                  = lazy(() => import('./pages/NewsPage').then(m => ({ default: m.NewsPage })));
+const CareersPage               = lazy(() => import('./pages/CareersPage').then(m => ({ default: m.CareersPage })));
+const NotFoundPage              = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+
+// 1. Poultry Solutions (src/pages/poultry/)
+const PoultryOverviewPage       = lazy(() => import('./pages/poultry/PoultryOverviewPage').then(m => ({ default: m.PoultryOverviewPage })));
+const BroilerPage               = lazy(() => import('./pages/poultry/BroilerPage').then(m => ({ default: m.BroilerPage })));
+const PoultryBreedingPage       = lazy(() => import('./pages/poultry/PoultryBreedingPage').then(m => ({ default: m.PoultryBreedingPage })));
+const LayerPage                 = lazy(() => import('./pages/poultry/LayerPage').then(m => ({ default: m.LayerPage })));
+const RetrofittingPage          = lazy(() => import('./pages/poultry/RetrofittingPage').then(m => ({ default: m.RetrofittingPage })));
+const AccessoriesPage           = lazy(() => import('./pages/poultry/AccessoriesPage').then(m => ({ default: m.AccessoriesPage })));
+const PoultryAfterSalesPage     = lazy(() => import('./pages/poultry/PoultryAfterSalesPage').then(m => ({ default: m.PoultryAfterSalesPage })));
+
+// 2. Hatchery Solutions (src/pages/hatchery/)
+const HatcheryPage              = lazy(() => import('./pages/hatchery/HatcheryPage').then(m => ({ default: m.HatcheryPage })));
+const HatcheryIncubationPage    = lazy(() => import('./pages/hatchery/HatcheryIncubationPage').then(m => ({ default: m.HatcheryIncubationPage })));
+const HatcheryEggHandlingPage   = lazy(() => import('./pages/hatchery/HatcheryEggHandlingPage').then(m => ({ default: m.HatcheryEggHandlingPage })));
+const HatcheryChickHandlingPage = lazy(() => import('./pages/hatchery/HatcheryChickHandlingPage').then(m => ({ default: m.HatcheryChickHandlingPage })));
+const HatcheryHvacPage          = lazy(() => import('./pages/hatchery/HatcheryHvacPage').then(m => ({ default: m.HatcheryHvacPage })));
+const HatcheryManagementPage    = lazy(() => import('./pages/hatchery/HatcheryManagementPage').then(m => ({ default: m.HatcheryManagementPage })));
+const HatcheryWasteDisposalPage = lazy(() => import('./pages/hatchery/HatcheryWasteDisposalPage').then(m => ({ default: m.HatcheryWasteDisposalPage })));
+const HatcheryAfterSalesPage    = lazy(() => import('./pages/hatchery/HatcheryAfterSalesPage').then(m => ({ default: m.HatcheryAfterSalesPage })));
+
+// 3. Feedmill Solutions (src/pages/feedmill/)
+const FeedmillPage              = lazy(() => import('./pages/feedmill/FeedmillPage').then(m => ({ default: m.FeedmillPage })));
+const FeedmillAfterSalesPage    = lazy(() => import('./pages/feedmill/FeedmillAfterSalesPage').then(m => ({ default: m.FeedmillAfterSalesPage })));
+
+// 4. Solar Solutions (src/pages/solar/)
+const SolarPage                 = lazy(() => import('./pages/solar/SolarPage').then(m => ({ default: m.SolarPage })));
+const SolarCalculatorPage       = lazy(() => import('./pages/solar/SolarCalculatorPage').then(m => ({ default: m.SolarCalculatorPage })));
+const SolarAfterSalesPage       = lazy(() => import('./pages/solar/SolarAfterSalesPage').then(m => ({ default: m.SolarAfterSalesPage })));
 
 // ─── Lightweight page loading fallback ───────────────────────────────────────
 const PageSkeleton = () => (
@@ -170,6 +185,78 @@ function AppRoutes() {
         <PageLayout inquiryCount={inquiryCount}>
           <Suspense fallback={<PageSkeleton />}>
             <HatcheryPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/hatchery/incubation" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <HatcheryIncubationPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/hatchery/egg-handling" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <HatcheryEggHandlingPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/hatchery/chick-handling" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <HatcheryChickHandlingPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/hatchery/hvac" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <HatcheryHvacPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/hatchery/management" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <HatcheryManagementPage
+              inquiryItems={inquiryItems}
+              onToggleInquiry={toggleInquiry}
+              onRemoveInquiryItem={removeInquiryItem}
+            />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/solutions/hatchery/waste-disposal" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <HatcheryWasteDisposalPage
               inquiryItems={inquiryItems}
               onToggleInquiry={toggleInquiry}
               onRemoveInquiryItem={removeInquiryItem}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -24,14 +24,14 @@ import 'swiper/css/parallax';
 import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
 
-import type { Product } from '../data/mockProducts';
-import { MOCK_PRODUCTS } from '../data/mockProducts';
-import { PoultrySubNav } from '../components/molecules/PoultrySubNav';
-import { HousingDesignSlide } from '../components/molecules/HousingDesignSlide';
-import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../components/molecules';
-import { PrefabricatedMaterialsSection } from '../components/organisms/PrefabricatedMaterialsSection';
-import { PoultryRetrofitCallout } from '../components/molecules/PoultryRetrofitCallout';
-import { ContactSection } from '../components/organisms/ContactSection';
+import type { Product } from '../../data/mockProducts';
+import { MOCK_PRODUCTS } from '../../data/mockProducts';
+import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
+import { HousingDesignSlide } from '../../components/molecules/HousingDesignSlide';
+import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../../components/molecules';
+import { PrefabricatedMaterialsSection } from '../../components/organisms/PrefabricatedMaterialsSection';
+import { PoultryRetrofitCallout } from '../../components/molecules/PoultryRetrofitCallout';
+import { ContactSection } from '../../components/organisms/ContactSection';
 
 export interface BroilerPageProps {
   inquiryItems: Product[];
@@ -82,7 +82,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
       slideIndex: 0,
       metrics: [
         { label: 'FLOCK CAPACITY', value: '80,000 @ 1.8kg' },
-        { label: 'DIMENSIONS', value: '16m × 110m × 4.2m' },
+        { label: 'DIMENSIONS', value: '16m Ã— 110m Ã— 4.2m' },
       ],
     },
     {
@@ -96,7 +96,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
       slideIndex: 1,
       metrics: [
         { label: 'FLOCK CAPACITY', value: '55,000 @ 1.8kg' },
-        { label: 'DIMENSIONS', value: '18m × 156m × 2.4m' },
+        { label: 'DIMENSIONS', value: '18m Ã— 156m Ã— 2.4m' },
       ],
     },
     {
@@ -110,7 +110,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
       slideIndex: 2,
       metrics: [
         { label: 'FLOCK CAPACITY', value: '36,000 @ 1.8kg' },
-        { label: 'DIMENSIONS', value: '16m × 138m × 2.4m' },
+        { label: 'DIMENSIONS', value: '16m Ã— 138m Ã— 2.4m' },
       ],
     },
   ];
@@ -138,7 +138,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         'An intensive poultry housing solution designed to maximize vertical space through the use of multi-tier cages. It features integrated systems for feeding, drinking, ventilation, and manure removal, with options for manual or automatic harvesting systems.',
       buildingType: 'Prefabricated House',
       buildingTypeSub: 'Thermal insulated PU sandwich panels',
-      dimensions: '16m x 110m x 4m–4.2m',
+      dimensions: '16m x 110m x 4mâ€“4.2m',
       birdCapacity: '80,000 @ 1.8kg',
       floorArchitecture: 'Multi-Tier Vertical Battery',
       floorArchSub: 'Maximized vertical space utilization',
@@ -169,7 +169,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
       floorArchitecture: 'Raised Slatted Deck',
       floorArchSub: 'Sub-floor manure clearance & natural separation',
       ventilationSystem: 'Negative Pressure Tunnel',
-      ventilationSub: '2.5–3.2 m/s wind-chill microclimate cooling',
+      ventilationSub: '2.5â€“3.2 m/s wind-chill microclimate cooling',
       imageUrl: '/images/broiler/elevated-floor-broiler.jpg',
       product: elevatedProduct,
       isAdded: isElevatedAdded,
@@ -203,7 +203,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         'Ground-level controlled environment utilizing horizontal space',
         'Flexible configuration on solid concrete or slatted floors',
         'Winch-to-ceiling feeding and drinking line suspension clearance',
-        'Automated 10–14 day flock turnaround and thorough disinfection',
+        'Automated 10â€“14 day flock turnaround and thorough disinfection',
       ],
     },
   ];
@@ -213,7 +213,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
-      {/* ── 1. HERO BANNER ────────────────────────────────────────── */}
+      {/* â”€â”€ 1. HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -332,10 +332,10 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         </div>
       </section>
 
-      {/* ── 2. CONTEXTUAL STICKY SUB-NAV ──────────────────────────── */}
+      {/* â”€â”€ 2. CONTEXTUAL STICKY SUB-NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PoultrySubNav activeTab="broiler" />
 
-      {/* ── 3. HOUSING ARCHITECTURE: THREE PROVEN CONFIGURATIONS ──── */}
+      {/* â”€â”€ 3. HOUSING ARCHITECTURE: THREE PROVEN CONFIGURATIONS â”€â”€â”€â”€ */}
       <section id="housing-designs" className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
         <img
           src="/images/accents/card-corner-accent.png"
@@ -458,7 +458,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     overview={design.description}
                     metrics={[
                       { label: 'Total Bird Capacity', value: design.birdCapacity, sub: 'Commercial stocking benchmark', primary: true },
-                      { label: 'Building Dimensions', value: design.dimensions, sub: 'Width × Length × Eave Height', primary: true },
+                      { label: 'Building Dimensions', value: design.dimensions, sub: 'Width Ã— Length Ã— Eave Height', primary: true },
                       { label: 'Building Type', value: design.buildingType, sub: design.buildingTypeSub },
                       { label: 'Ventilation System', value: design.ventilationSystem, sub: design.ventilationSub },
                     ]}
@@ -512,13 +512,13 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         </div>
       </section>
 
-      {/* ── 4. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE ───────────── */}
+      {/* â”€â”€ 4. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PrefabricatedMaterialsSection
         id="materials-specifications"
         sourceBrochure="CCDI Broiler Operations engineering brochure"
       />
 
-      {/* ── 5. CORE OPERATIONAL SUB-SYSTEMS (DARK THEME) ─────────── */}
+      {/* â”€â”€ 5. CORE OPERATIONAL SUB-SYSTEMS (DARK THEME) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section id="operational-subsystems" className="py-20 bg-[#0B192C] text-white border-b border-slate-800 relative overflow-hidden">
         {/* Subtle background glow & technical grid */}
         <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none" />
@@ -538,7 +538,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
           </div>
 
           <div className="space-y-6">
-            {/* ── FEATURED HERO: CONTROLLED CLIMATE SYSTEM (Exact Brochure Flagship) ── */}
+            {/* â”€â”€ FEATURED HERO: CONTROLLED CLIMATE SYSTEM (Exact Brochure Flagship) â”€â”€ */}
             <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden group hover:border-amber-500/50 transition-all duration-300 shadow-xl">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 {/* Left Media & Description */}
@@ -590,7 +590,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     </p>
                     <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono">
                       <span className="text-slate-400">TUNNEL AIR VELOCITY</span>
-                      <span className="text-amber-400 font-bold">2.5–3.2 m/s</span>
+                      <span className="text-amber-400 font-bold">2.5â€“3.2 m/s</span>
                     </div>
                   </div>
                 </div>
@@ -650,13 +650,13 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     <div className="text-slate-400">
                       <span className="text-slate-200 font-medium">Cooling Media:</span> 150mm High-Efficiency Cellulose Wet Pads
                     </div>
-                    <span className="text-[11px] font-mono text-emerald-400">CE Certified · AMCA Tested</span>
+                    <span className="text-[11px] font-mono text-emerald-400">CE Certified Â· AMCA Tested</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* ── 6 SUPPORTING SYSTEMS GRID (Exact Brochure Definitions + Operational Handling) ── */}
+            {/* â”€â”€ 6 SUPPORTING SYSTEMS GRID (Exact Brochure Definitions + Operational Handling) â”€â”€ */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* System 2: Heating System */}
               <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
@@ -702,7 +702,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 <div className="p-5 pt-0">
                   <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
                     <span>BROODING TEMPERATURE</span>
-                    <span className="text-amber-400 font-semibold">32–35°C</span>
+                    <span className="text-amber-400 font-semibold">32â€“35Â°C</span>
                   </div>
                 </div>
               </div>
@@ -784,7 +784,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                         Key Equipment
                       </span>
                       <div className="flex flex-wrap gap-1.5">
-                        {['360° Stainless Nipples', 'Single-Arm Drip Cups', 'Water Pressure Regulator', 'Dual Filter Manifold'].map((comp, cIdx) => (
+                        {['360Â° Stainless Nipples', 'Single-Arm Drip Cups', 'Water Pressure Regulator', 'Dual Filter Manifold'].map((comp, cIdx) => (
                           <span
                             key={cIdx}
                             className="text-[10px] bg-[#07162A] text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-[2px] font-normal"
@@ -800,7 +800,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 <div className="p-5 pt-0">
                   <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
                     <span>WATER DELIVERY</span>
-                    <span className="text-amber-400 font-semibold">360° Flow</span>
+                    <span className="text-amber-400 font-semibold">360Â° Flow</span>
                   </div>
                 </div>
               </div>
@@ -923,7 +923,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                       Flock Harvesting System
                     </h4>
                     <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                      Tailored harvesting setups with fully automated catching conveyor options or clear-span manual harvest corridors with winch-to-ceiling line clearance, ensuring rapid 10–14 day flock turnaround.
+                      Tailored harvesting setups with fully automated catching conveyor options or clear-span manual harvest corridors with winch-to-ceiling line clearance, ensuring rapid 10â€“14 day flock turnaround.
                     </p>
 
                     <div className="pt-2">
@@ -947,7 +947,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 <div className="p-5 pt-0">
                   <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
                     <span>FLOCK HARVEST CYCLE</span>
-                    <span className="text-amber-400 font-semibold">10–14 Days</span>
+                    <span className="text-amber-400 font-semibold">10â€“14 Days</span>
                   </div>
                 </div>
               </div>
@@ -956,10 +956,10 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         </div>
       </section>
 
-      {/* ── 5.5. RETROFITTING & MODERNIZATION CALLOUT ────────────── */}
+      {/* â”€â”€ 5.5. RETROFITTING & MODERNIZATION CALLOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PoultryRetrofitCallout currentCategory="Broiler Farm" />
 
-      {/* ── 6. CONTACT & INQUIRY SECTION */}
+      {/* â”€â”€ 6. CONTACT & INQUIRY SECTION */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+﻿import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -10,13 +10,13 @@ import {
   RotateCcw,
   CheckCircle2,
 } from 'lucide-react';
-import type { Product } from '../data/mockProducts';
-import { PoultrySubNav } from '../components/molecules/PoultrySubNav';
-import { ContactSection } from '../components/organisms/ContactSection';
-import { ProductCard } from '../components/molecules/ProductCard';
-import { BROILER_CATALOG_PRODUCTS } from '../data/broilerCatalogProducts';
-import { LAYER_CATALOG_PRODUCTS } from '../data/layerCatalogProducts';
-import { POULTRY_BREEDER_ACCESSORIES } from '../data/poultryBreederAccessories';
+import type { Product } from '../../data/mockProducts';
+import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
+import { ContactSection } from '../../components/organisms/ContactSection';
+import { ProductCard } from '../../components/molecules/ProductCard';
+import { BROILER_CATALOG_PRODUCTS } from '../../data/broilerCatalogProducts';
+import { LAYER_CATALOG_PRODUCTS } from '../../data/layerCatalogProducts';
+import { POULTRY_BREEDER_ACCESSORIES } from '../../data/poultryBreederAccessories';
 
 export interface AccessoriesPageProps {
   inquiryItems: Product[];
@@ -24,7 +24,7 @@ export interface AccessoriesPageProps {
   onRemoveInquiryItem: (productId: string) => void;
 }
 
-// ── Segment definitions ──────────────────────────────────────────────────────
+
 const SEGMENTS = [
   {
     id: 'all' as const,
@@ -138,10 +138,10 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      {/* ── Poultry Sub-Nav */}
+      {/* â”€â”€ Poultry Sub-Nav */}
       <PoultrySubNav activeTab="accessories" />
 
-      {/* ── Breadcrumb */}
+      {/* â”€â”€ Breadcrumb */}
       <div className="bg-slate-100 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-xs font-mono text-slate-500 flex-wrap">
           <Link to="/" className="hover:text-amber-600 transition-colors">Home</Link>
@@ -154,7 +154,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
         </div>
       </div>
 
-      {/* ── Hero Section */}
+      {/* â”€â”€ Hero Section */}
       <section className="relative bg-white border-b border-slate-200 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
         <img
@@ -186,7 +186,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
               <span className="text-amber-600">Spare Parts</span>
             </h1>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal mb-8 max-w-2xl">
-              Browse and add CCDI's complete inventory of poultry farm accessories and spare parts —
+              Browse and add CCDI's complete inventory of poultry farm accessories and spare parts â€”
               from broiler cage systems, feeding pans, and climate controllers to layer belt egg collectors,
               breeder nesting modules, and slatted floor panels.
             </p>
@@ -211,7 +211,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
         </div>
       </section>
 
-      {/* ── Segment Selector */}
+      {/* â”€â”€ Segment Selector */}
       <section className="bg-slate-100 border-b border-slate-200 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-2 mb-4">
@@ -223,11 +223,10 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
                   key={seg.id}
                   type="button"
                   onClick={() => setActiveSegment(seg.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-[2px] font-sans text-xs font-semibold tracking-wide transition-all duration-150 cursor-pointer ${
-                    active
+                  className={`flex items-center gap-2 px-4 py-2 rounded-[2px] font-sans text-xs font-semibold tracking-wide transition-all duration-150 cursor-pointer ${active
                       ? 'bg-amber-400 text-slate-950 shadow-sm'
                       : 'bg-white border border-slate-300 text-slate-700 hover:text-slate-900 hover:border-amber-500 hover:bg-amber-50/50'
-                  }`}
+                    }`}
                 >
                   <Icon
                     className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-slate-950' : 'text-slate-500'}`}
@@ -243,7 +242,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
         </div>
       </section>
 
-      {/* ── Catalog Section */}
+      {/* â”€â”€ Catalog Section */}
       <section id="accessories-catalog" className="py-12 sm:py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
@@ -257,11 +256,10 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
                   key={cat}
                   type="button"
                   onClick={() => setActiveSubCat(cat)}
-                  className={`px-3 py-1.5 rounded-[2px] font-mono text-[11px] font-semibold uppercase tracking-wider transition-all duration-150 cursor-pointer ${
-                    activeSubCat === cat
+                  className={`px-3 py-1.5 rounded-[2px] font-mono text-[11px] font-semibold uppercase tracking-wider transition-all duration-150 cursor-pointer ${activeSubCat === cat
                       ? 'bg-amber-400 text-slate-950 shadow-xs'
                       : 'bg-white border border-slate-300 text-slate-600 hover:text-slate-900 hover:border-slate-400 hover:bg-slate-50'
-                  }`}
+                    }`}
                 >
                   {cat}
                 </button>
@@ -370,7 +368,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
         </div>
       </section>
 
-      {/* ── CTA Banner */}
+      {/* â”€â”€ CTA Banner */}
       <section className="bg-white border-t border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-xl">
@@ -404,7 +402,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
         </div>
       </section>
 
-      {/* ── Contact Section */}
+      {/* â”€â”€ Contact Section */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

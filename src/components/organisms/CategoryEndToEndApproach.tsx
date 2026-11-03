@@ -305,66 +305,66 @@ const CATEGORY_APPROACH_CONFIG: Record<SolutionCategory, CategoryConfig> = {
     ],
   },
   hatchery: {
-    tag: 'FULL-CYCLE EXECUTION',
-    title: 'Our End-to-End Turnkey Approach',
+    tag: 'INTEGRATED HATCHERY INFRASTRUCTURE',
+    title: 'Turnkey Hatchery Engineering & Execution',
     subtitle:
       'From cleanroom biosecurity site zoning to single-stage setter calibration, ventilation commissioning, and staff training, CCDI delivers turnkey hatchery plants with total accountability.',
     phases: [
       {
-        num: '01',
+        num: '1',
         title: 'Site Selection',
         desc: 'Comprehensive appraisal evaluating environmental isolation, biological buffer zones, water quality testing, utility supply, and prevailing wind vector analysis for optimal hatchery biosecurity.',
         deliverable: 'Biosecure Parcel & Water Purity Survey',
-        image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80',
+        image: '/images/turnkey/step1-site.jpg',
       },
       {
-        num: '02',
+        num: '2',
         title: 'Strategic Layout Planning',
         desc: 'Designing strict unidirectional airflow workflows (egg receipt → setting → candling → hatching → chick processing) preventing cross-contamination and maximizing operator ergonomics.',
         deliverable: 'Unidirectional Workflow CAD Masterplan',
-        image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=600&q=80',
+        image: '/images/turnkey/step2-layout.jpg',
       },
       {
-        num: '03',
+        num: '3',
         title: 'Architectural Engineering Designs',
         desc: 'Cleanroom HVAC blueprints, positive air pressure differential schedules, HEPA filtration integration, and sealed envelope thermodynamics tailored to high-density incubation.',
         deliverable: 'Cleanroom HVAC & Mechanical Schematics',
-        image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=600&q=80',
+        image: '/images/turnkey/step3-architectural.jpg',
       },
       {
-        num: '04',
+        num: '4',
         title: 'Civil Work and Prefab Installation',
         desc: 'Constructing antibacterial seamless epoxy floors, coved sanitary wall bases, PIR insulated cleanroom sandwich panels, and vapor-tight ceiling envelopes for effortless disinfection.',
         deliverable: 'Sanitary Envelope & Epoxy Slab Fit-out',
-        image: 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b2?auto=format&fit=crop&w=600&q=80',
+        image: '/images/turnkey/step4-civil.jpg',
       },
       {
-        num: '05',
+        num: '5',
         title: 'Equipment Installation',
         desc: 'Precision leveling and installation of single-stage incubation setters, automated egg turning mechanisms, hatchers, candling tables, and sexing carousel conveyor lines.',
         deliverable: 'Single-Stage Setters & Automation Assembly',
-        image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=80',
+        image: '/images/turnkey/step5-equipment.jpg',
       },
       {
-        num: '06',
+        num: '6',
         title: 'Commissioning',
         desc: 'Multi-point temperature mapping (±0.1°F), relative humidity ultrasonic calibration, differential room pressure balancing, and emergency backup generator automatic failover validation.',
         deliverable: 'Microclimate Calibration & Validation Report',
-        image: 'https://images.unsplash.com/photo-1565071783230-fe28b5d3c0d6?auto=format&fit=crop&w=600&q=80',
+        image: '/images/turnkey/step6-commissioning.jpg',
       },
       {
-        num: '07',
+        num: '7',
         title: 'Personnel Training',
         desc: 'Hands-on operator training covering incubation program tuning, egg handling SOPs, clean-in-place (CIP) washdown procedures, and emergency alarm response protocols.',
         deliverable: 'Hatchery Operator SOP Certification',
-        image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80',
+        image: '/images/turnkey/step7-training.jpg',
       },
       {
-        num: '08',
-        title: 'After-Sales Service & Support',
+        num: '8',
+        title: 'After-Sales Service and Technical Support',
         desc: 'Ongoing technical advisory, hatchability percentage analytics review, quarterly preventative maintenance on setters, and guaranteed local stocked spare parts availability.',
         deliverable: 'Yield Optimization & Rapid Spares Support',
-        image: '/images/capabilities/hatchery-facility.jpg',
+        image: '/images/turnkey/step8-support.jpg',
       },
     ],
   },
@@ -508,7 +508,7 @@ export const CategoryEndToEndApproach: React.FC<CategoryEndToEndApproachProps> =
   variant,
 }) => {
   const config = CATEGORY_APPROACH_CONFIG[category];
-  const useTimeline = variant ? variant === 'timeline' : category === 'poultry';
+  const useTimeline = variant ? variant === 'timeline' : category === 'poultry' || category === 'hatchery';
 
   if (useTimeline) {
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+﻿import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ChevronRight,
@@ -10,10 +10,10 @@ import {
   TrendingUp,
   FileCheck2,
 } from 'lucide-react';
-import type { Product } from '../data/mockProducts';
-import { PoultrySubNav } from '../components/molecules/PoultrySubNav';
-import { FarmRetrofitConfigurator } from '../components/organisms/FarmRetrofitConfigurator';
-import { ContactSection } from '../components/organisms/ContactSection';
+import type { Product } from '../../data/mockProducts';
+import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
+import { FarmRetrofitConfigurator } from '../../components/organisms/FarmRetrofitConfigurator';
+import { ContactSection } from '../../components/organisms/ContactSection';
 
 export interface RetrofittingPageProps {
   inquiryItems: Product[];
@@ -42,7 +42,7 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
   return (
     <div className="bg-white text-slate-900 font-sans text-left min-h-screen">
       
-      {/* ── 1. HERO BANNER (CLEAN & SIMPLE) ─────────────────────────── */}
+      {/* â”€â”€ 1. HERO BANNER (CLEAN & SIMPLE) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-16 sm:pb-20 border-b border-[#102A43] overflow-hidden">
         {/* Background photo on right with smooth gradient fade */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -161,10 +161,10 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
         </div>
       </section>
 
-      {/* ── 2. CONTEXTUAL STICKY SUB-NAV ──────────────────────────── */}
+      {/* â”€â”€ 2. CONTEXTUAL STICKY SUB-NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PoultrySubNav activeTab="retrofitting" />
 
-      {/* ── 3. INTERACTIVE RETROFIT ASSESSMENT FORM (LIGHT THEME) ───── */}
+      {/* â”€â”€ 3. INTERACTIVE RETROFIT ASSESSMENT FORM (LIGHT THEME) â”€â”€â”€â”€â”€ */}
       <section ref={configuratorRef} className="py-14 sm:py-16 bg-slate-100 border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <div className="text-center max-w-2xl mx-auto mb-6">
@@ -183,7 +183,7 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
         </div>
       </section>
 
-      {/* ── 4. WHY UPGRADE INSTEAD OF BUILDING NEW? ───────────────── */}
+      {/* â”€â”€ 4. WHY UPGRADE INSTEAD OF BUILDING NEW? â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="py-16 sm:py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-10">
@@ -247,7 +247,7 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
         </div>
       </section>
 
-      {/* ── 5. FOUR WAYS TO UPGRADE YOUR FARM ─────────────────────── */}
+      {/* â”€â”€ 5. FOUR WAYS TO UPGRADE YOUR FARM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-10">
@@ -355,7 +355,7 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
         </div>
       </section>
 
-      {/* ── 6. 5-STEP EASY TIMELINE ───────────────────────────────── */}
+      {/* â”€â”€ 6. 5-STEP EASY TIMELINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="py-16 sm:py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-10">
@@ -373,31 +373,31 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
                 step: '01',
                 title: 'Free Farm Visit',
                 desc: 'Our engineers visit your farm, check your building frame, and measure the house.',
-                duration: 'Days 1–3',
+                duration: 'Days 1â€“3',
               },
               {
                 step: '02',
                 title: 'House Sizing & Plan',
                 desc: 'We calculate how many fans and cooling pads your building needs to stay cool.',
-                duration: 'Days 4–7',
+                duration: 'Days 4â€“7',
               },
               {
                 step: '03',
                 title: 'Equipment Prep',
                 desc: 'We prepare wall panels, fans, and feeders at our Pampanga warehouse for fast delivery.',
-                duration: 'Days 8–14',
+                duration: 'Days 8â€“14',
               },
               {
                 step: '04',
                 title: 'Installation',
                 desc: 'Our team installs the equipment inside your house during your scheduled flock break.',
-                duration: 'Days 15–28',
+                duration: 'Days 15â€“28',
               },
               {
                 step: '05',
                 title: 'Airflow Testing',
                 desc: 'We test the fans with smoke to ensure even cool air everywhere and train your team.',
-                duration: 'Days 29–30',
+                duration: 'Days 29â€“30',
               },
             ].map((st) => (
               <div
@@ -422,7 +422,7 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
         </div>
       </section>
 
-      {/* ── 7. CONTACT & INQUIRY SECTION ──────────────────────────── */}
+      {/* â”€â”€ 7. CONTACT & INQUIRY SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

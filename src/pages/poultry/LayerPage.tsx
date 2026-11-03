@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -23,14 +23,14 @@ import 'swiper/css/parallax';
 import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
 
-import type { Product } from '../data/mockProducts';
-import { LAYER_CATALOG_PRODUCTS } from '../data/layerCatalogProducts';
-import { PoultrySubNav } from '../components/molecules/PoultrySubNav';
-import { HousingDesignSlide } from '../components/molecules/HousingDesignSlide';
-import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../components/molecules';
-import { PrefabricatedMaterialsSection } from '../components/organisms/PrefabricatedMaterialsSection';
-import { PoultryRetrofitCallout } from '../components/molecules/PoultryRetrofitCallout';
-import { ContactSection } from '../components/organisms/ContactSection';
+import type { Product } from '../../data/mockProducts';
+import { LAYER_CATALOG_PRODUCTS } from '../../data/layerCatalogProducts';
+import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
+import { HousingDesignSlide } from '../../components/molecules/HousingDesignSlide';
+import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../../components/molecules';
+import { PrefabricatedMaterialsSection } from '../../components/organisms/PrefabricatedMaterialsSection';
+import { PoultryRetrofitCallout } from '../../components/molecules/PoultryRetrofitCallout';
+import { ContactSection } from '../../components/organisms/ContactSection';
 
 export interface LayerPageProps {
   inquiryItems: Product[];
@@ -80,7 +80,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       slideIndex: 0,
       metrics: [
         { label: 'FLOCK CAPACITY', value: 'Customizable Multi-Tier' },
-        { label: 'DIMENSIONS', value: '97m × 10m × 4.3m' },
+        { label: 'DIMENSIONS', value: '97m Ã— 10m Ã— 4.3m' },
       ],
     },
     {
@@ -94,7 +94,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       slideIndex: 1,
       metrics: [
         { label: 'FLOCK CAPACITY', value: 'Scalable by Length' },
-        { label: 'DIMENSIONS', value: '133m × 13m × 3.5m' },
+        { label: 'DIMENSIONS', value: '133m Ã— 13m Ã— 3.5m' },
       ],
     },
     {
@@ -108,7 +108,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       slideIndex: 2,
       metrics: [
         { label: 'FLOCK CAPACITY', value: 'Customizable Multi-Tier' },
-        { label: 'DIMENSIONS', value: '97m × 10m × 4.3m' },
+        { label: 'DIMENSIONS', value: '97m Ã— 10m Ã— 4.3m' },
       ],
     },
   ];
@@ -136,7 +136,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       description:
         'A high-density, multi-tier poultry housing system with cages vertically stacked on a rigid H-shaped structure. It typically integrates automated feeding, nipple drinking, egg collection, manure-belt removal, and ventilation systems for efficient, hygienic, and large-scale layer production.',
       buildingType: 'Pre-fabricated House',
-      dimensions: '97m length × 10m width × 4.3m height',
+      dimensions: '97m length Ã— 10m width Ã— 4.3m height',
       birdCapacity: 'Customizable',
       cageDetails: 'Scalable by Tier & House Length',
       stockingDensity: '450 sq cm / bird standard',
@@ -149,7 +149,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       isAdded: isHFrameAdded,
       advantages: [
         'Vertically stacked cages on rigid H-shaped structure for high-density, large-scale commercial egg output',
-        'Turnkey pre-fabricated house dimensions: 97m length × 10m width × 4.3m height scalable to client footprint',
+        'Turnkey pre-fabricated house dimensions: 97m length Ã— 10m width Ã— 4.3m height scalable to client footprint',
         'High-efficiency multi-tier cage allocation engineered to 450 sq cm bird welfare density standards',
         'Full integration of automated feeding, nipple drinking, egg collection, manure-belt removal, and ventilation',
       ],
@@ -164,7 +164,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       description:
         'A multi-tier poultry housing system with cages arranged in a sloped "A" configuration. It provides individual compartments for laying hens, with integrated feed troughs, nipple drinkers, egg-collection channels, and manual-disposal space beneath each tier. The open design supports ventilation, easy inspection, efficient egg collection, and straightforward operation and maintenance.',
       buildingType: 'Pre-fabricated House',
-      dimensions: '133m length × 13m width × 3.5m height',
+      dimensions: '133m length Ã— 13m width Ã— 3.5m height',
       birdCapacity: 'Customizable',
       cageDetails: 'Scalable by Tier & House Length',
       stockingDensity: '450 sq cm / bird standard',
@@ -177,7 +177,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       isAdded: isAFrameAdded,
       advantages: [
         'Sloped "A" configuration provides open visibility, superior airflow, and effortless flock inspection',
-        'Turnkey pre-fabricated house dimensions: 133m length × 13m width × 3.5m height scalable to client footprint',
+        'Turnkey pre-fabricated house dimensions: 133m length Ã— 13m width Ã— 3.5m height scalable to client footprint',
         'Open A-frame cage allocation engineered to 450 sq cm bird welfare density standards',
         'Integrated individual compartments with feed troughs, nipple drinkers, egg-collection channels, and sub-tier disposal',
       ],
@@ -192,7 +192,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       description:
         'A specialized multi-tier vertical cage housing system engineered specifically for the pullet growing phase (day-old chicks up to pre-laying maturity). Built on an H-frame structure featuring customized cage dimensions and tighter wire mesh for young chicks. Unlike egg-laying setups, the rearing system does not include egg collection machinery while integrating precision nipple drinking, automated feeding, and continuous manure-belt evacuation.',
       buildingType: 'Pre-fabricated House',
-      dimensions: '97m length × 10m width × 4.3m height',
+      dimensions: '97m length Ã— 10m width Ã— 4.3m height',
       birdCapacity: 'Customizable',
       cageDetails: 'Scalable by Tier & House Length',
       stockingDensity: 'Specialized Chick-to-Pullet Density',
@@ -222,7 +222,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       description:
         'Specialized gentle egg handling infrastructure featuring automated Egg Collection System, cross-facility Egg Conveyor lines, and Centralized Feeding - Feed Cart integration ensuring minimal breakage and streamlined packing.',
       components: ['Egg Collection System', 'Egg Conveyor', 'Centralized Feeding - Feed Cart'],
-      badge: '12,000 PCS/HR · BREAKAGE < 5‰',
+      badge: '12,000 PCS/HR Â· BREAKAGE < 5â€°',
     },
     {
       title: 'Controlled Climate System',
@@ -267,14 +267,14 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       description:
         'A system for delivering medications, vaccines, and supplements through water for accurate dosing and uniform flock treatment, powered by water-driven proportional dispensers and filtration manifolds.',
       components: ['Proportional Dosing Pumps', 'Accurate In-Line Delivery', 'Water-Borne Vaccine Dosing', 'Dual Manifold Filtration'],
-      badge: 'ACCURATE DOSING · UNIFORM TREATMENT',
+      badge: 'ACCURATE DOSING Â· UNIFORM TREATMENT',
     },
   ];
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
-      {/* ── 1. HERO BANNER ────────────────────────────────────────── */}
+      {/* â”€â”€ 1. HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -393,10 +393,10 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         </div>
       </section>
 
-      {/* ── 2. CONTEXTUAL STICKY SUB-NAV ──────────────────────────── */}
+      {/* â”€â”€ 2. CONTEXTUAL STICKY SUB-NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PoultrySubNav activeTab="layer" />
 
-      {/* ── 3. CAGE SYSTEM ARCHITECTURE: H-FRAME VS A-FRAME ──────── */}
+      {/* â”€â”€ 3. CAGE SYSTEM ARCHITECTURE: H-FRAME VS A-FRAME â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section id="cage-architecture" className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
         <img
           src="/images/accents/card-corner-accent.png"
@@ -519,7 +519,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                     overview={design.description}
                     metrics={[
                       { label: 'Total Bird Capacity', value: design.birdCapacity, sub: `${design.cageDetails} (${design.stockingDensity})`, primary: true },
-                      { label: 'Building Dimensions', value: design.dimensions, sub: 'Length × Width × Height', primary: true },
+                      { label: 'Building Dimensions', value: design.dimensions, sub: 'Length Ã— Width Ã— Height', primary: true },
                       { label: 'Building Type', value: design.buildingType, sub: 'Industrial pre-engineered steel structure' },
                       { label: 'Manure Removal System', value: design.manureHandling, sub: design.manureHandlingSub },
                     ]}
@@ -574,13 +574,13 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         </div>
       </section>
 
-      {/* ── 4. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE ───────────── */}
+      {/* â”€â”€ 4. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PrefabricatedMaterialsSection
         id="materials-specifications"
         sourceBrochure="CCDI Commercial Layer Operations engineering brochure"
       />
 
-      {/* ── 4. INTEGRATED LAYER SUB-SYSTEMS (DARK THEME) ───────────── */}
+      {/* â”€â”€ 4. INTEGRATED LAYER SUB-SYSTEMS (DARK THEME) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section id="operational-systems" className="py-20 sm:py-24 bg-[#0B192C] border-b border-slate-800 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
         <img
@@ -654,8 +654,8 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                     <div className="pt-3 border-t border-slate-700/60 flex items-start justify-between text-[11px] font-mono text-slate-400 gap-3">
                       <span className="shrink-0 pt-0.5">SPECIFICATION</span>
                       <div className="flex flex-col items-end text-right space-y-1">
-                        {sys.badge.includes(' · ') ? (
-                          sys.badge.split(' · ').map((part, pIdx) => (
+                        {sys.badge.includes(' Â· ') ? (
+                          sys.badge.split(' Â· ').map((part, pIdx) => (
                             <span key={pIdx} className="text-amber-400 font-normal">
                               {part}
                             </span>
@@ -673,10 +673,10 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         </div>
       </section>
 
-      {/* ── 5.5. RETROFITTING & MODERNIZATION CALLOUT ────────────── */}
+      {/* â”€â”€ 5.5. RETROFITTING & MODERNIZATION CALLOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <PoultryRetrofitCallout currentCategory="Layer Farm" />
 
-      {/* ── 6. CONTACT & INQUIRY SECTION */}
+      {/* â”€â”€ 6. CONTACT & INQUIRY SECTION */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

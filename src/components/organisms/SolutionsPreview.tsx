@@ -52,7 +52,7 @@ const FLAGSHIP_PROJECTS: ProjectShowcaseItem[] = [
       'All-in all-out biosecurity sanitation corridor design',
     ],
     timeline: 'Commissioned August 2026',
-    caseStudyHref: '/news',
+    caseStudyHref: '/solutions/hatchery',
   },
   {
     id: 'pampanga-broiler',
