@@ -48,7 +48,7 @@ const FLAGSHIP_PROJECTS: ProjectShowcaseItem[] = [
     },
     highlights: [
       'Single-Stage Setters & Hatchers (Model EIFTPC-40320)',
-      'Unidirectional positive pressure cleanroom AHU airflow',
+      'Unidirectional positive pressure biosecure hatchery systems AHU airflow',
       'All-in all-out biosecurity sanitation corridor design',
     ],
     timeline: 'Commissioned August 2026',
@@ -228,20 +228,11 @@ export const SolutionsPreview: React.FC<SolutionsPreviewProps> = () => {
           {/* Header & Filter Controls Bar */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#102A43] pb-7">
             <div className="max-w-2xl space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold">
-                  FLAGSHIP SHOWCASE
-                </span>
-                <span className="text-slate-600">•</span>
-                <span className="font-mono text-[11px] text-slate-400 font-semibold tracking-wider uppercase">
-                  PHILIPPINE AGRIBUSINESS INFRASTRUCTURE
-                </span>
-              </div>
               <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-                Successful & Ongoing Projects
+                CCDI Successful & Ongoing Projects
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl">
-                A verified track record of high-performance turnkey engineering across the Philippines — inspect completed facility handovers and active on-site construction below.
+                High-performance turnkey solutions — inspect completed facility handovers and active on-site construction below.
               </p>
             </div>
 

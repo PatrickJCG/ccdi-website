@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -26,7 +26,7 @@ import 'swiper/css/navigation';
 
 import type { Product } from '../../data/mockProducts';
 import { MOCK_PRODUCTS } from '../../data/mockProducts';
-import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
+import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 import { HousingDesignSlide } from '../../components/molecules/HousingDesignSlide';
 import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../../components/molecules';
 import { PrefabricatedMaterialsSection } from '../../components/organisms/PrefabricatedMaterialsSection';
@@ -46,7 +46,6 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
 }) => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [activeSlideIndex, setActiveSlideIndex] = useState(1);
-  const [climateMediaView, setClimateMediaView] = useState<'fans' | 'facility'>('fans');
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -73,44 +72,44 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
   const heroBroilerOptions: HeroDesignOption[] = [
     {
       id: 'cage',
-      optionNumber: 'Option 01',
-      badge: 'Vertical Battery',
+      optionNumber: 'Broiler House',
+      badge: '',
       title: 'Multi-Tier Cage System',
-      caption: 'High-density multi-tier vertical cages with integrated automated feeding, drinking, ventilation & automated manure harvesting.',
+      caption: '',
       imageUrl: '/images/broiler/multi-tier-broiler.jpg',
       targetSectionId: 'housing-designs',
       slideIndex: 0,
       metrics: [
         { label: 'FLOCK CAPACITY', value: '80,000 @ 1.8kg' },
-        { label: 'DIMENSIONS', value: '16m Ã— 110m Ã— 4.2m' },
+        { label: 'DIMENSIONS', value: '16m × 110m × 4.2m' },
       ],
     },
     {
       id: 'elevated',
-      optionNumber: 'Option 02',
+      optionNumber: 'Broiler House',
       badge: 'Raised Slatted Deck',
-      title: 'Elevated-Floor Broiler House',
-      caption: 'Pre-fabricated raised slatted floor envelope optimizing sub-floor manure separation, internal hygiene, and negative-pressure tunnel cooling.',
+      title: 'Elevated-Floor',
+      caption: '',
       imageUrl: '/images/broiler/elevated-floor-broiler.jpg',
       targetSectionId: 'housing-designs',
       slideIndex: 1,
       metrics: [
         { label: 'FLOCK CAPACITY', value: '55,000 @ 1.8kg' },
-        { label: 'DIMENSIONS', value: '18m Ã— 156m Ã— 2.4m' },
+        { label: 'DIMENSIONS', value: '18m × 156m × 2.4m' },
       ],
     },
     {
       id: 'floor',
-      optionNumber: 'Option 03',
+      optionNumber: 'Broiler House',
       badge: 'Deep Litter Bedding',
-      title: 'Floor-Type Broiler House',
-      caption: 'Commercial ground-level deep litter bedding with negative-pressure tunnel airflow and automated flex-auger pan feeding lines.',
+      title: 'Floor-Type',
+      caption: '',
       imageUrl: '/images/broiler/floor-type-broiler.jpg',
       targetSectionId: 'housing-designs',
       slideIndex: 2,
       metrics: [
         { label: 'FLOCK CAPACITY', value: '36,000 @ 1.8kg' },
-        { label: 'DIMENSIONS', value: '16m Ã— 138m Ã— 2.4m' },
+        { label: 'DIMENSIONS', value: '16m × 138m × 2.4m' },
       ],
     },
   ];
@@ -130,20 +129,17 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
   const housingDesignList = [
     {
       id: 'cage',
-      optionNumber: 'Design Option 01',
-      badge: 'Vertical Battery',
+      optionNumber: 'Broiler House',
+      badge: '',
       tabLabel: '1. Multi-Tier System',
       title: 'Multi-Tier Cage System',
       description:
-        'An intensive poultry housing solution designed to maximize vertical space through the use of multi-tier cages. It features integrated systems for feeding, drinking, ventilation, and manure removal, with options for manual or automatic harvesting systems.',
+        'An intensive poultry housing solution that maximizes vertical space through multi-tier cages, featuring integrated feeding, drinking, ventilation, manure removal, and manual or automatic harvesting systems',
       buildingType: 'Prefabricated House',
-      buildingTypeSub: 'Thermal insulated PU sandwich panels',
-      dimensions: '16m x 110m x 4mâ€“4.2m',
+      dimensions: '16m x 110m x 4m–4.2m',
       birdCapacity: '80,000 @ 1.8kg',
       floorArchitecture: 'Multi-Tier Vertical Battery',
-      floorArchSub: 'Maximized vertical space utilization',
       ventilationSystem: 'Integrated Negative Pressure Tunnel',
-      ventilationSub: 'Balanced multi-tier longitudinal air velocity',
       imageUrl: '/images/broiler/multi-tier-broiler.jpg',
       product: cageProduct,
       isAdded: isCageAdded,
@@ -156,20 +152,17 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
     },
     {
       id: 'elevated',
-      optionNumber: 'Design Option 02',
+      optionNumber: 'Broiler House',
       badge: 'Raised Slatted Deck',
       tabLabel: '2. Elevated-Floor System',
-      title: 'Elevated-Floor Broiler House',
+      title: 'Elevated-Floor',
       description:
-        'A broiler housing system utilizing a raised floor design that improves bird manure management, environmental airflow, and internal hygiene.',
+        'A broiler housing system with a raised floor design that improves bird manure management, environmental airflow, and internal hygiene.',
       buildingType: 'Prefabricated House',
-      buildingTypeSub: 'Thermal insulated PU sandwich panels',
       dimensions: '18m x 156m x 2.4m',
       birdCapacity: '55,000 @ 1.8kg',
       floorArchitecture: 'Raised Slatted Deck',
-      floorArchSub: 'Sub-floor manure clearance & natural separation',
       ventilationSystem: 'Negative Pressure Tunnel',
-      ventilationSub: '2.5â€“3.2 m/s wind-chill microclimate cooling',
       imageUrl: '/images/broiler/elevated-floor-broiler.jpg',
       product: elevatedProduct,
       isAdded: isElevatedAdded,
@@ -182,20 +175,17 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
     },
     {
       id: 'floor',
-      optionNumber: 'Design Option 03',
+      optionNumber: 'Broiler House',
       badge: 'Deep Litter Bedding',
       tabLabel: '3. Floor-Type System',
-      title: 'Floor-Type Broiler House',
+      title: 'Floor-Type',
       description:
-        'A ground-level broiler housing system where birds are raised on solid or slatted floors within a controlled environment, utilizing horizontal space structure.',
+        'A ground-level broiler housing system where birds are raised on litter or slatted floors within a controlled environment, utilizing horizontal space structure.',
       buildingType: 'Prefabricated House',
-      buildingTypeSub: 'Thermal insulated PU sandwich panels',
       dimensions: '16m x 138m x 2.4m',
       birdCapacity: '36,000 @ 1.8kg',
       floorArchitecture: 'Solid or Slatted Floors',
-      floorArchSub: 'Horizontal ground-level bed distribution',
       ventilationSystem: 'Negative Pressure Tunnel',
-      ventilationSub: '50" & 54" butterfly cone fan exhaust banks',
       imageUrl: '/images/broiler/floor-type-broiler.jpg',
       product: floorProduct,
       isAdded: isFloorAdded,
@@ -203,7 +193,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         'Ground-level controlled environment utilizing horizontal space',
         'Flexible configuration on solid concrete or slatted floors',
         'Winch-to-ceiling feeding and drinking line suspension clearance',
-        'Automated 10â€“14 day flock turnaround and thorough disinfection',
+        'Automated 10–14 day flock turnaround and thorough disinfection',
       ],
     },
   ];
@@ -213,7 +203,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
-      {/* â”€â”€ 1. HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 1. HERO BANNER ────────────────────────────────────────── */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -275,7 +265,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
               </h1>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-                Industrial meat bird housing and automated climate engineering. From 80,000-bird multi-tier cage batteries and elevated slatted floors to ground-level tunnel houses, CCDI delivers turnkey prefabricated facilities built for tropical climate resilience.
+                CCDI delivers turnkey broiler facilities with automated climate control, including multi-tier systems, elevated floor houses, and ground-level houses.
               </p>
 
               {/* Action Buttons */}
@@ -325,17 +315,17 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                   swiperInstance?.slideTo(idx);
                 }}
                 onSelectOption={handleSelectDesignOption}
-                categoryLabel="BROILER DESIGN FORMATS"
+                categoryLabel="Broiler House Specifications"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* â”€â”€ 2. CONTEXTUAL STICKY SUB-NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <PoultrySubNav activeTab="broiler" />
+      {/* ── 2. CONTEXTUAL STICKY SUB-NAV ──────────────────────────── */}
+      <SolutionSubNav category="poultry" activeTab="broiler" />
 
-      {/* â”€â”€ 3. HOUSING ARCHITECTURE: THREE PROVEN CONFIGURATIONS â”€â”€â”€â”€ */}
+      {/* ── 3. HOUSING ARCHITECTURE: THREE PROVEN CONFIGURATIONS ──── */}
       <section id="housing-designs" className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
         <img
           src="/images/accents/card-corner-accent.png"
@@ -346,15 +336,11 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
-            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
-              BROILER HOUSING DESIGN OPTIONS
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
-              Three Proven Broiler Housing Systems
+              BROILER HOUSING SYSTEM
             </h2>
             <p className="text-slate-600 text-base leading-relaxed">
-              Select your preferred broiler production format to review architectural blueprints, capacity ratios,
-              air handling characteristics, and turnkey materials.
+              Explore CCDI’s three broiler housing systems. Review each option’s bird capacity, building dimensions, ventilation, and key equipment features.
             </p>
           </div>
 
@@ -456,12 +442,20 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     title={design.title}
                     imageUrl={design.imageUrl}
                     overview={design.description}
-                    metrics={[
-                      { label: 'Total Bird Capacity', value: design.birdCapacity, sub: 'Commercial stocking benchmark', primary: true },
-                      { label: 'Building Dimensions', value: design.dimensions, sub: 'Width Ã— Length Ã— Eave Height', primary: true },
-                      { label: 'Building Type', value: design.buildingType, sub: design.buildingTypeSub },
-                      { label: 'Ventilation System', value: design.ventilationSystem, sub: design.ventilationSub },
-                    ]}
+                    metrics={
+                      design.id === 'cage'
+                        ? [
+                            { label: 'Total Bird Capacity', value: design.birdCapacity, primary: true },
+                            { label: 'Building Dimensions', value: design.dimensions, primary: true },
+                            { label: 'Building Type', value: design.buildingType },
+                          ]
+                        : [
+                            { label: 'Total Bird Capacity', value: design.birdCapacity, primary: true },
+                            { label: 'Building Dimensions', value: design.dimensions, primary: true },
+                            { label: 'Building Type', value: design.buildingType },
+                            { label: 'Ventilation System', value: design.ventilationSystem },
+                          ]
+                    }
                     advantages={design.advantages}
                     solutionType="broiler"
                     solutionName={design.title}
@@ -469,6 +463,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     onToggleInquiry={() => {
                       if (design.product) onToggleInquiry(design.product);
                     }}
+                    showLocalEngineers={false}
                   />
                 </SwiperSlide>
               ))}
@@ -512,13 +507,13 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         </div>
       </section>
 
-      {/* â”€â”€ 4. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 4. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE ───────────── */}
       <PrefabricatedMaterialsSection
         id="materials-specifications"
         sourceBrochure="CCDI Broiler Operations engineering brochure"
       />
 
-      {/* â”€â”€ 5. CORE OPERATIONAL SUB-SYSTEMS (DARK THEME) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 5. CORE OPERATIONAL SUB-SYSTEMS (DARK THEME) ─────────── */}
       <section id="operational-subsystems" className="py-20 bg-[#0B192C] text-white border-b border-slate-800 relative overflow-hidden">
         {/* Subtle background glow & technical grid */}
         <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none" />
@@ -527,24 +522,24 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
           <div className="max-w-3xl space-y-3">
             <span className="font-mono text-xs uppercase tracking-widest text-amber-400 font-normal block">
-              CORE OPERATIONAL SUB-SYSTEMS
+              POULTRY HOUSE SYSTEMS & EQUIPMENT
             </span>
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-              Integrated Support Systems
+              Equipment for Broiler House Operations
             </h3>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              These housing environments are supported by a suite of core operational sub-systems engineered for seamless automation, biosecurity, and peak flock performance, strictly aligned with CCDI engineering specifications:
+              Explore the key systems used in CCDI broiler houses that support seamless automation, biosecurity, and peak flock performance.
             </p>
           </div>
 
           <div className="space-y-6">
-            {/* â”€â”€ FEATURED HERO: CONTROLLED CLIMATE SYSTEM (Exact Brochure Flagship) â”€â”€ */}
+            {/* ── FEATURED HERO: CONTROLLED CLIMATE SYSTEM (Exact Brochure Flagship) ── */}
             <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden group hover:border-amber-500/50 transition-all duration-300 shadow-xl">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 {/* Left Media & Description */}
                 <div className="lg:col-span-5 relative min-h-[300px] lg:min-h-[400px] bg-slate-900 overflow-hidden flex flex-col justify-between p-6 sm:p-8">
                   <img
-                    src={climateMediaView === 'fans' ? '/images/broiler/ventilation-fans.jpg' : '/images/broiler/climate-system.jpg'}
+                    src="/images/broiler/ventilation-fans.jpg"
                     alt="Controlled Climate System - High-Efficiency Fans"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -553,31 +548,6 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                   <div className="relative z-10 flex items-center justify-between gap-2">
                     <div className="w-9 h-9 rounded-[2px] bg-[#0B192C]/90 backdrop-blur-xs border border-amber-500/50 flex items-center justify-center text-amber-400 shadow-md">
                       <Wind className="w-5 h-5" />
-                    </div>
-                    {/* Media View Mode Switcher */}
-                    <div className="flex items-center gap-1 bg-[#0B192C]/90 p-1 rounded-[2px] border border-slate-700/80">
-                      <button
-                        type="button"
-                        onClick={() => setClimateMediaView('fans')}
-                        className={`px-2.5 py-1 rounded-[2px] text-[10px] font-mono uppercase tracking-wider transition-all cursor-pointer ${
-                          climateMediaView === 'fans'
-                            ? 'bg-amber-400 text-slate-950 font-bold shadow-xs'
-                            : 'text-slate-300 hover:text-white'
-                        }`}
-                      >
-                        Cone Fans
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setClimateMediaView('facility')}
-                        className={`px-2.5 py-1 rounded-[2px] text-[10px] font-mono uppercase tracking-wider transition-all cursor-pointer ${
-                          climateMediaView === 'facility'
-                            ? 'bg-amber-400 text-slate-950 font-bold shadow-xs'
-                            : 'text-slate-300 hover:text-white'
-                        }`}
-                      >
-                        Barn Install
-                      </button>
                     </div>
                   </div>
 
@@ -590,7 +560,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     </p>
                     <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono">
                       <span className="text-slate-400">TUNNEL AIR VELOCITY</span>
-                      <span className="text-amber-400 font-bold">2.5â€“3.2 m/s</span>
+                      <span className="text-amber-400 font-bold">2.5–3.2 m/s</span>
                     </div>
                   </div>
                 </div>
@@ -650,13 +620,13 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     <div className="text-slate-400">
                       <span className="text-slate-200 font-medium">Cooling Media:</span> 150mm High-Efficiency Cellulose Wet Pads
                     </div>
-                    <span className="text-[11px] font-mono text-emerald-400">CE Certified Â· AMCA Tested</span>
+                    <span className="text-[11px] font-mono text-emerald-400">CE Certified · AMCA Tested</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* â”€â”€ 6 SUPPORTING SYSTEMS GRID (Exact Brochure Definitions + Operational Handling) â”€â”€ */}
+            {/* ── 6 SUPPORTING SYSTEMS GRID (Exact Brochure Definitions + Operational Handling) ── */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* System 2: Heating System */}
               <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
@@ -686,7 +656,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                         Key Equipment
                       </span>
                       <div className="flex flex-wrap gap-1.5">
-                        {['DAMLY Space Heaters', 'Gas Radiant Brooders', 'Infrared Heat Emitters', 'Zone Regulators'].map((comp, cIdx) => (
+                        {['Space Heater', 'Gas Radiant Brooders', 'Infrared Heat Emitters', 'Zone Regulators'].map((comp, cIdx) => (
                           <span
                             key={cIdx}
                             className="text-[10px] bg-[#07162A] text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-[2px] font-normal"
@@ -702,7 +672,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 <div className="p-5 pt-0">
                   <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
                     <span>BROODING TEMPERATURE</span>
-                    <span className="text-amber-400 font-semibold">32â€“35Â°C</span>
+                    <span className="text-amber-400 font-semibold">32–35°C</span>
                   </div>
                 </div>
               </div>
@@ -784,7 +754,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                         Key Equipment
                       </span>
                       <div className="flex flex-wrap gap-1.5">
-                        {['360Â° Stainless Nipples', 'Single-Arm Drip Cups', 'Water Pressure Regulator', 'Dual Filter Manifold'].map((comp, cIdx) => (
+                        {['360° Stainless Nipples', 'Single-Arm Drip Cups', 'Water Pressure Regulator', 'Dual Filter Manifold'].map((comp, cIdx) => (
                           <span
                             key={cIdx}
                             className="text-[10px] bg-[#07162A] text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-[2px] font-normal"
@@ -800,7 +770,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 <div className="p-5 pt-0">
                   <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
                     <span>WATER DELIVERY</span>
-                    <span className="text-amber-400 font-semibold">360Â° Flow</span>
+                    <span className="text-amber-400 font-semibold">360° Flow</span>
                   </div>
                 </div>
               </div>
@@ -923,7 +893,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                       Flock Harvesting System
                     </h4>
                     <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                      Tailored harvesting setups with fully automated catching conveyor options or clear-span manual harvest corridors with winch-to-ceiling line clearance, ensuring rapid 10â€“14 day flock turnaround.
+                      Tailored harvesting setups with fully automated catching conveyor options or clear-span manual harvest corridors with winch-to-ceiling line clearance, ensuring rapid 10–14 day flock turnaround.
                     </p>
 
                     <div className="pt-2">
@@ -947,7 +917,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 <div className="p-5 pt-0">
                   <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
                     <span>FLOCK HARVEST CYCLE</span>
-                    <span className="text-amber-400 font-semibold">10â€“14 Days</span>
+                    <span className="text-amber-400 font-semibold">10–14 Days</span>
                   </div>
                 </div>
               </div>
@@ -956,10 +926,10 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         </div>
       </section>
 
-      {/* â”€â”€ 5.5. RETROFITTING & MODERNIZATION CALLOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 5.5. RETROFITTING & MODERNIZATION CALLOUT ────────────── */}
       <PoultryRetrofitCallout currentCategory="Broiler Farm" />
 
-      {/* â”€â”€ 6. CONTACT & INQUIRY SECTION */}
+      {/* ── 6. CONTACT & INQUIRY SECTION */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

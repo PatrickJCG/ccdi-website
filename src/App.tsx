@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import { InquiryProvider, useInquiry } from './context/InquiryContext';
 import { PageLayout } from './components/organisms/PageLayout';
@@ -26,22 +26,14 @@ const PoultryAfterSalesPage     = lazy(() => import('./pages/poultry/PoultryAfte
 
 // 2. Hatchery Solutions (src/pages/hatchery/)
 const HatcheryPage              = lazy(() => import('./pages/hatchery/HatcheryPage').then(m => ({ default: m.HatcheryPage })));
-const HatcheryIncubationPage    = lazy(() => import('./pages/hatchery/HatcheryIncubationPage').then(m => ({ default: m.HatcheryIncubationPage })));
-const HatcheryEggHandlingPage   = lazy(() => import('./pages/hatchery/HatcheryEggHandlingPage').then(m => ({ default: m.HatcheryEggHandlingPage })));
-const HatcheryChickHandlingPage = lazy(() => import('./pages/hatchery/HatcheryChickHandlingPage').then(m => ({ default: m.HatcheryChickHandlingPage })));
-const HatcheryHvacPage          = lazy(() => import('./pages/hatchery/HatcheryHvacPage').then(m => ({ default: m.HatcheryHvacPage })));
-const HatcheryManagementPage    = lazy(() => import('./pages/hatchery/HatcheryManagementPage').then(m => ({ default: m.HatcheryManagementPage })));
-const HatcheryWasteDisposalPage = lazy(() => import('./pages/hatchery/HatcheryWasteDisposalPage').then(m => ({ default: m.HatcheryWasteDisposalPage })));
-const HatcheryAfterSalesPage    = lazy(() => import('./pages/hatchery/HatcheryAfterSalesPage').then(m => ({ default: m.HatcheryAfterSalesPage })));
 
 // 3. Feedmill Solutions (src/pages/feedmill/)
 const FeedmillPage              = lazy(() => import('./pages/feedmill/FeedmillPage').then(m => ({ default: m.FeedmillPage })));
-const FeedmillAfterSalesPage    = lazy(() => import('./pages/feedmill/FeedmillAfterSalesPage').then(m => ({ default: m.FeedmillAfterSalesPage })));
+const FeedmillAccessoriesPage   = lazy(() => import('./pages/feedmill/FeedmillAccessoriesPage').then(m => ({ default: m.FeedmillAccessoriesPage })));
 
 // 4. Solar Solutions (src/pages/solar/)
 const SolarPage                 = lazy(() => import('./pages/solar/SolarPage').then(m => ({ default: m.SolarPage })));
 const SolarCalculatorPage       = lazy(() => import('./pages/solar/SolarCalculatorPage').then(m => ({ default: m.SolarCalculatorPage })));
-const SolarAfterSalesPage       = lazy(() => import('./pages/solar/SolarAfterSalesPage').then(m => ({ default: m.SolarAfterSalesPage })));
 
 // ─── Lightweight page loading fallback ───────────────────────────────────────
 const PageSkeleton = () => (
@@ -193,89 +185,13 @@ function AppRoutes() {
         </PageLayout>
       } />
 
-      <Route path="/solutions/hatchery/incubation" element={
-        <PageLayout inquiryCount={inquiryCount}>
-          <Suspense fallback={<PageSkeleton />}>
-            <HatcheryIncubationPage
-              inquiryItems={inquiryItems}
-              onToggleInquiry={toggleInquiry}
-              onRemoveInquiryItem={removeInquiryItem}
-            />
-          </Suspense>
-        </PageLayout>
-      } />
-
-      <Route path="/solutions/hatchery/egg-handling" element={
-        <PageLayout inquiryCount={inquiryCount}>
-          <Suspense fallback={<PageSkeleton />}>
-            <HatcheryEggHandlingPage
-              inquiryItems={inquiryItems}
-              onToggleInquiry={toggleInquiry}
-              onRemoveInquiryItem={removeInquiryItem}
-            />
-          </Suspense>
-        </PageLayout>
-      } />
-
-      <Route path="/solutions/hatchery/chick-handling" element={
-        <PageLayout inquiryCount={inquiryCount}>
-          <Suspense fallback={<PageSkeleton />}>
-            <HatcheryChickHandlingPage
-              inquiryItems={inquiryItems}
-              onToggleInquiry={toggleInquiry}
-              onRemoveInquiryItem={removeInquiryItem}
-            />
-          </Suspense>
-        </PageLayout>
-      } />
-
-      <Route path="/solutions/hatchery/hvac" element={
-        <PageLayout inquiryCount={inquiryCount}>
-          <Suspense fallback={<PageSkeleton />}>
-            <HatcheryHvacPage
-              inquiryItems={inquiryItems}
-              onToggleInquiry={toggleInquiry}
-              onRemoveInquiryItem={removeInquiryItem}
-            />
-          </Suspense>
-        </PageLayout>
-      } />
-
-      <Route path="/solutions/hatchery/management" element={
-        <PageLayout inquiryCount={inquiryCount}>
-          <Suspense fallback={<PageSkeleton />}>
-            <HatcheryManagementPage
-              inquiryItems={inquiryItems}
-              onToggleInquiry={toggleInquiry}
-              onRemoveInquiryItem={removeInquiryItem}
-            />
-          </Suspense>
-        </PageLayout>
-      } />
-
-      <Route path="/solutions/hatchery/waste-disposal" element={
-        <PageLayout inquiryCount={inquiryCount}>
-          <Suspense fallback={<PageSkeleton />}>
-            <HatcheryWasteDisposalPage
-              inquiryItems={inquiryItems}
-              onToggleInquiry={toggleInquiry}
-              onRemoveInquiryItem={removeInquiryItem}
-            />
-          </Suspense>
-        </PageLayout>
-      } />
-
-      <Route path="/solutions/hatchery/after-sales" element={
-        <PageLayout inquiryCount={inquiryCount}>
-          <Suspense fallback={<PageSkeleton />}>
-            <HatcheryAfterSalesPage
-              inquiryItems={inquiryItems}
-              onToggleInquiry={toggleInquiry}
-              onRemoveInquiryItem={removeInquiryItem}
-            />
-          </Suspense>
-        </PageLayout>
-      } />
+      <Route path="/solutions/hatchery/incubation" element={<Navigate to="/solutions/hatchery#incubation" replace />} />
+      <Route path="/solutions/hatchery/egg-handling" element={<Navigate to="/solutions/hatchery#egg-handling" replace />} />
+      <Route path="/solutions/hatchery/chick-handling" element={<Navigate to="/solutions/hatchery#chick-handling" replace />} />
+      <Route path="/solutions/hatchery/hvac" element={<Navigate to="/solutions/hatchery#hvac" replace />} />
+      <Route path="/solutions/hatchery/management" element={<Navigate to="/solutions/hatchery#management" replace />} />
+      <Route path="/solutions/hatchery/waste-disposal" element={<Navigate to="/solutions/hatchery#waste-disposal" replace />} />
+      <Route path="/solutions/hatchery/after-sales" element={<Navigate to="/solutions/hatchery#after-sales" replace />} />
 
       <Route path="/solutions/feedmill" element={
         <PageLayout inquiryCount={inquiryCount}>
@@ -289,10 +205,10 @@ function AppRoutes() {
         </PageLayout>
       } />
 
-      <Route path="/solutions/feedmill/after-sales" element={
+      <Route path="/solutions/feedmill/accessories" element={
         <PageLayout inquiryCount={inquiryCount}>
           <Suspense fallback={<PageSkeleton />}>
-            <FeedmillAfterSalesPage
+            <FeedmillAccessoriesPage
               inquiryItems={inquiryItems}
               onToggleInquiry={toggleInquiry}
               onRemoveInquiryItem={removeInquiryItem}
@@ -300,6 +216,8 @@ function AppRoutes() {
           </Suspense>
         </PageLayout>
       } />
+
+      <Route path="/solutions/feedmill/after-sales" element={<Navigate to="/solutions/feedmill#after-sales" replace />} />
 
       <Route path="/solutions/solar" element={
         <PageLayout inquiryCount={inquiryCount}>
@@ -325,17 +243,7 @@ function AppRoutes() {
         </PageLayout>
       } />
 
-      <Route path="/solutions/solar/after-sales" element={
-        <PageLayout inquiryCount={inquiryCount}>
-          <Suspense fallback={<PageSkeleton />}>
-            <SolarAfterSalesPage
-              inquiryItems={inquiryItems}
-              onToggleInquiry={toggleInquiry}
-              onRemoveInquiryItem={removeInquiryItem}
-            />
-          </Suspense>
-        </PageLayout>
-      } />
+      <Route path="/solutions/solar/after-sales" element={<Navigate to="/solutions/solar#after-sales" replace />} />
 
       <Route path="/products" element={
         <PageLayout inquiryCount={inquiryCount}>

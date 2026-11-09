@@ -119,7 +119,7 @@ const FAQ_DATA: FaqItem[] = [
     categoryLabel: 'Feedmill Systems',
     question: 'What feedmill capacities and configurations can CCDI engineer and construct?',
     answer:
-      'We engineer feed processing plants ranging from 5 TPH (tons per hour) modular on-farm feedmills up to 60+ TPH industrial commercial complexes. Turnkey packages include raw material intake pits, grain storage silos with temperature monitoring, hammer mills, micro-ingredient precision batching scales, twin-shaft paddle mixers, pelleting presses, counterflow coolers, and automated packing carousels.',
+      'We engineer feed processing plants ranging from 5 TPH (tons per hour) modular on-farm feedmills up to 60+ TPH industrial commercial complexes. Turnkey packages include raw material intake pits, grain storage silos with temperature monitoring, hammer mills, micro-ingredient automated batching scales, twin-shaft paddle mixers, pelleting presses, counterflow coolers, and automated packing carousels.',
     highlights: [
       'Tailored for poultry mash, broiler pellets, layer crumbles, and aquafeed',
       'Automated batching PLC consoles for recipe precision and zero ingredient waste',
@@ -132,7 +132,7 @@ const FAQ_DATA: FaqItem[] = [
     categoryLabel: 'Hatchery Solutions',
     question: 'How do CCDI hatchery layouts guarantee biosecurity and chick vigor?',
     answer:
-      'Our hatchery designs enforce a strict one-way linear biosecurity flow (egg intake → fumigation → setter hall → transfer room → hatcher hall → chick processing → holding room → dispatch). This physical zoning ensures clean and dirty processes never cross paths. We install cleanroom HVAC air handling units with positive differential pressure and antibacterial sandwich panels.',
+      'Our hatchery designs enforce a strict one-way linear biosecurity flow (egg intake → fumigation → setter hall → transfer room → hatcher hall → chick processing → holding room → dispatch). This physical zoning ensures clean and dirty processes never cross paths. We install biosecure hatchery systems HVAC air handling units with positive differential pressure and antibacterial sandwich panels.',
     highlights: [
       'Strict one-way traffic flow eliminates cross-contamination risks',
       'Positive-pressure climate handling with HEPA / EU filtration',
@@ -278,15 +278,13 @@ export const FaqSection: React.FC = () => {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="space-y-4 max-w-3xl">
             <p className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold">
-              CCDI / KNOWLEDGE BASE &amp; ADVISORY
+              CCDI / FAQ
             </p>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0B192C] leading-tight">
-              Frequently asked questions about our engineering &amp; farm solutions.
+              Frequently Asked Questions
             </h2>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-              Find transparent answers on turnkey poultry farm construction, climate-controlled
-              housing, feedmill &amp; hatchery engineering, Solar Power Systems integration, and local warranty
-              support across the Philippines.
+              Find answers about CCDI’s poultry, hatchery, feedmill, and solar solutions, and how to contact our team.
             </p>
           </div>
 
@@ -380,6 +378,7 @@ export const FaqSection: React.FC = () => {
         )}
 
         {/* ── 3. ACCORDION LIST ── */}
+        {/* TODO: Verify FAQ items with technical team */}
         <div className="space-y-3">
           {filteredFaqs.length > 0 ? (
             filteredFaqs.map((faq) => {
@@ -493,11 +492,10 @@ export const FaqSection: React.FC = () => {
                 CAN'T FIND WHAT YOU'RE LOOKING FOR?
               </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
-                Speak directly with a CCDI agricultural engineer.
+                Contact Our Team Directly
               </h3>
               <p className="text-sm text-slate-300 leading-relaxed font-normal">
-                Whether you need a preliminary site layout, equipment compatibility advice, or an itemized
-                Bill of Quantities for poultry, feedmill, or solar setups, our engineering team is here to assist.
+                Get guidance on planning the facility, choosing equipment, or estimating costs for a poultry, hatchery, feedmill, or solar project.
               </p>
             </div>
 

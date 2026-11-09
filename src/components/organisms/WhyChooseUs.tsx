@@ -1,36 +1,31 @@
 import React from 'react';
 
-interface Pillar {
+interface StrengthItem {
   number: string;
   title: string;
-  category: string;
   description: string;
 }
 
-const PILLARS: Pillar[] = [
+const STRENGTH_ITEMS: StrengthItem[] = [
   {
     number: '01',
-    title: 'Uncompromising Reliability',
-    category: 'CERTIFIED GLOBAL PARTNERS',
-    description: 'We source strictly from certified international manufacturers to ensure structural integrity, biosecurity compliance, and long-term climate durability.',
+    title: 'Reliability',
+    description: 'Trusted suppliers, dependable equipment.',
   },
   {
     number: '02',
-    title: 'Strategic Cost Efficiency',
-    category: 'VALUE ENGINEERING',
-    description: 'Through value engineering and modular planning, we minimize upfront capital expenditure while maximizing lifetime thermal, energy, and operational efficiency.',
+    title: 'Cost Efficiency',
+    description: 'High-quality materials, smartly optimized costs.',
   },
   {
     number: '03',
-    title: 'Direct Global Sourcing',
-    category: 'TIER-1 OEM WARRANTIES',
-    description: 'By bypassing middle-layer distribution channels, CCDI secures direct factory warranties and transparent pricing on heavy agricultural equipment.',
+    title: 'Direct Sourcing',
+    description: 'Strong supplier relationships beyond distribution.',
   },
   {
     number: '04',
-    title: 'Technical Engineering Competency',
-    category: 'CROSS-DISCIPLINARY TEAMS',
-    description: 'Our in-house team unites civil engineers, electrical designers, agricultural specialists, and Solar Power Systems technicians to deliver unified project execution.',
+    title: 'People Competency',
+    description: 'Skilled professionals with technical expertise.',
   },
 ];
 
@@ -51,13 +46,13 @@ export const WhyChooseUs: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-4 max-w-3xl">
             <p className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold">
-              CCDI / OPERATIONAL ADVANTAGES
+              CCDI / OUR STRENGTH
             </p>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0B192C] leading-tight">
               Built on engineering integrity & proven execution.
             </h2>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-              We combine international material standards, direct supply chains, and specialized engineering knowledge to deliver agro-industrial infrastructure projects on time, within budget, and built to endure.
+              We combine international material standards, direct supply chains, and specialized engineering knowledge to deliver agro-industrial infrastructure projects on time, cost-efficient, and built to endure.
             </p>
           </div>
           <div className="shrink-0 hidden md:flex items-center justify-center self-center">
@@ -69,16 +64,16 @@ export const WhyChooseUs: React.FC = () => {
           </div>
         </div>
 
-        {/* ── 4 PILLARS: 1PX GRID / WHITE CARDS / GOLD ACCENTS / SHARP 2PX ── */}
+        {/* ── OUR STRENGTH: 1PX GRID / WHITE CARDS / GOLD ACCENTS / SHARP 2PX ── */}
         <div className="border-t border-slate-200 pt-10">
           <div className="mb-4">
             <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500 font-bold">
-              FOUR OPERATIONAL PILLARS
+              OUR STRENGTH
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200 border border-slate-200">
-            {PILLARS.map(({ number, title, category, description }) => (
+            {STRENGTH_ITEMS.map(({ number, title, description }) => (
               <div
                 key={number}
                 className="bg-white p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:bg-slate-50 transition-colors"
@@ -88,14 +83,7 @@ export const WhyChooseUs: React.FC = () => {
                     <span className="font-mono text-xl font-extrabold text-amber-600 tabular-nums">
                       {number}
                     </span>
-                    <span className="font-mono text-[9px] uppercase tracking-wider text-slate-400">
-                      PILLAR
-                    </span>
                   </div>
-
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-amber-600 font-bold">
-                    {category}
-                  </p>
 
                   <h3 className="text-base font-bold text-[#0B192C] tracking-tight leading-snug">
                     {title}

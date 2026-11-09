@@ -90,78 +90,88 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
               )}
             </div>
 
-            {/* Architectural & Equipment Multimedia Preview (Image / Video) */}
-            {(product.imageUrl || product.videoUrl) && (
-              <div className="space-y-2">
-                {product.videoUrl && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1 bg-[#040D18] p-1 rounded-[2px] border border-[#102A43]">
-                      <button
-                        type="button"
-                        onClick={() => setModalMediaTab('image')}
-                        className={`px-3 py-1 text-xs font-mono font-bold uppercase rounded-[2px] transition-colors cursor-pointer flex items-center gap-1.5 ${
-                          modalMediaTab === 'image'
-                            ? 'bg-amber-400 text-slate-950 shadow-sm'
-                            : 'text-slate-400 hover:text-white'
-                        }`}
-                      >
-                        <Images className="w-3.5 h-3.5" />
-                        <span>Facility Photo</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setModalMediaTab('video')}
-                        className={`px-3 py-1 text-xs font-mono font-bold uppercase rounded-[2px] transition-colors cursor-pointer flex items-center gap-1.5 ${
-                          modalMediaTab === 'video'
-                            ? 'bg-amber-400 text-slate-950 shadow-sm'
-                            : 'text-amber-400 hover:text-white'
-                        }`}
-                      >
-                        <Play className="w-3.5 h-3.5 fill-current" />
-                        <span>Facility Video Tour</span>
-                      </button>
-                    </div>
+            {/* Architectural & Equipment Multimedia Preview (Image / Video / Placeholder) */}
+            <div className="space-y-2">
+              {product.videoUrl && (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1 bg-[#040D18] p-1 rounded-[2px] border border-[#102A43]">
+                    <button
+                      type="button"
+                      onClick={() => setModalMediaTab('image')}
+                      className={`px-3 py-1 text-xs font-mono font-bold uppercase rounded-[2px] transition-colors cursor-pointer flex items-center gap-1.5 ${
+                        modalMediaTab === 'image'
+                          ? 'bg-amber-400 text-slate-950 shadow-sm'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <Images className="w-3.5 h-3.5" />
+                      <span>Facility Photo</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setModalMediaTab('video')}
+                      className={`px-3 py-1 text-xs font-mono font-bold uppercase rounded-[2px] transition-colors cursor-pointer flex items-center gap-1.5 ${
+                        modalMediaTab === 'video'
+                          ? 'bg-amber-400 text-slate-950 shadow-sm'
+                          : 'text-amber-400 hover:text-white'
+                      }`}
+                    >
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                      <span>Facility Video Tour</span>
+                    </button>
+                  </div>
 
-                    <span className="hidden sm:inline font-mono text-[10px] text-slate-400 uppercase tracking-widest">
-                      {modalMediaTab === 'video' ? 'ACTIVE MULTIMEDIA SPEC' : 'FACILITY SPEC PHOTO'}
+                  <span className="hidden sm:inline font-mono text-[10px] text-slate-400 uppercase tracking-widest">
+                    {modalMediaTab === 'video' ? 'ACTIVE MULTIMEDIA SPEC' : 'FACILITY SPEC PHOTO'}
+                  </span>
+                </div>
+              )}
+
+              <div className="relative w-full h-64 sm:h-80 rounded-[2px] overflow-hidden bg-[#040D18] border border-[#102A43]">
+                {product.videoUrl && modalMediaTab === 'video' ? (
+                  <video
+                    src={product.videoUrl}
+                    controls
+                    autoPlay
+                    loop
+                    playsInline
+                    className="w-full h-full object-contain bg-black"
+                  />
+                ) : product.imageUrl ? (
+                  <img
+                    src={product.imageUrl}
+                    alt={product.title}
+                    className={`w-full h-full ${
+                      product.imageUrl.includes('3d') || product.imageUrl.includes('logo')
+                        ? 'object-contain p-8 bg-gradient-to-b from-[#0B1E36] to-[#040D18]'
+                        : 'object-cover brightness-[0.95]'
+                    }`}
+                  />
+                ) : (
+                  <div className="w-full h-full border-2 border-dashed border-[#1E3E66] flex flex-col items-center justify-center p-6 text-center select-none bg-[#07162A]/60">
+                    <div className="w-12 h-12 rounded-[2px] bg-[#0B192C] text-amber-400 flex items-center justify-center mb-3 border border-[#1E3E66]">
+                      <Images className="w-6 h-6 opacity-80" />
+                    </div>
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
+                      {product.title}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase px-2 py-0.5 rounded-[2px] tracking-widest mt-2 bg-[#0B192C] text-slate-400 border border-[#1E3E66]">
+                      Technical Schematic & Photo Placeholder
                     </span>
                   </div>
                 )}
 
-                <div className="relative w-full h-64 sm:h-80 rounded-[2px] overflow-hidden bg-[#040D18] border border-[#102A43]">
-                  {product.videoUrl && modalMediaTab === 'video' ? (
-                    <video
-                      src={product.videoUrl}
-                      controls
-                      autoPlay
-                      loop
-                      playsInline
-                      className="w-full h-full object-contain bg-black"
-                    />
-                  ) : product.imageUrl ? (
-                    <img
-                      src={product.imageUrl}
-                      alt={product.title}
-                      className={`w-full h-full ${
-                        product.imageUrl.includes('3d') || product.imageUrl.includes('logo')
-                          ? 'object-contain p-8 bg-gradient-to-b from-[#0B1E36] to-[#040D18]'
-                          : 'object-cover brightness-[0.95]'
-                      }`}
-                    />
-                  ) : null}
-
-                  {/* Bottom Bar Info */}
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5 bg-gradient-to-t from-[#040D18] via-[#040D18]/80 to-transparent flex items-center justify-between text-[11px] font-mono pointer-events-none">
-                    <span className="text-amber-400 font-bold uppercase tracking-wider">
-                      {product.subCategory} • {modalMediaTab === 'video' ? 'FACILITY VIDEO TOUR' : 'TECHNICAL SPECIFICATION'}
-                    </span>
-                    <span className="text-slate-400">
-                      CCDI CERTIFIED ARCHITECTURE
-                    </span>
-                  </div>
+                {/* Bottom Bar Info */}
+                <div className="absolute bottom-0 left-0 right-0 p-2.5 bg-gradient-to-t from-[#040D18] via-[#040D18]/80 to-transparent flex items-center justify-between text-[11px] font-mono pointer-events-none">
+                  <span className="text-amber-400 font-bold uppercase tracking-wider">
+                    {product.subCategory} • {modalMediaTab === 'video' ? 'FACILITY VIDEO TOUR' : 'TECHNICAL SPECIFICATION'}
+                  </span>
+                  <span className="text-slate-400">
+                    CCDI CERTIFIED ARCHITECTURE
+                  </span>
                 </div>
               </div>
-            )}
+            </div>
 
             {/* Soft Launch Alert Box & CCDI Brand Card */}
             {product.isSoftLaunch && (

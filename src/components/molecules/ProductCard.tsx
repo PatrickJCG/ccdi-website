@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Play } from 'lucide-react';
+import { Play, Image as ImageIcon } from 'lucide-react';
 import type { Product, BusinessUnit } from '../../data/mockProducts';
 import { ProductSpecsModal } from './ProductSpecsModal';
 
@@ -75,18 +75,42 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
               } brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-all duration-500`}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center font-mono text-xs uppercase tracking-widest text-slate-500">
-              [NO SPECIFICATION RECORD]
+            <div
+              className={`w-full h-full border-2 border-dashed flex flex-col items-center justify-center p-4 text-center transition-colors select-none ${
+                dark
+                  ? 'bg-[#040D18] border-[#1E3E66] text-slate-400 group-hover:border-amber-400/60'
+                  : 'bg-slate-50 border-slate-300 text-slate-500 group-hover:border-amber-500/60'
+              }`}
+            >
+              <div
+                className={`w-10 h-10 rounded-[2px] flex items-center justify-center mb-2 ${
+                  dark ? 'bg-[#0B192C] text-amber-400' : 'bg-white text-amber-600 shadow-xs'
+                }`}
+              >
+                <ImageIcon className="w-5 h-5 opacity-80" />
+              </div>
+              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-300 line-clamp-1">
+                {product.title}
+              </span>
+              <span
+                className={`font-mono text-[9px] uppercase px-1.5 py-0.5 rounded-[2px] tracking-widest mt-1 ${
+                  dark
+                    ? 'bg-[#0B192C] text-slate-400 border border-[#1E3E66]'
+                    : 'bg-white text-slate-500 border border-slate-200'
+                }`}
+              >
+                Image Placeholder
+              </span>
             </div>
           )}
 
           {/* Scrim gradient overlay for badge contrast (only in image mode) */}
-          {mediaMode === 'image' && (
+          {mediaMode === 'image' && product.imageUrl && (
             <div className="absolute inset-0 bg-gradient-to-t from-[#040D18]/70 via-transparent to-black/30 pointer-events-none" />
           )}
 
           {/* Architectural Top-Right Corner Accent */}
-          {mediaMode === 'image' && (
+          {mediaMode === 'image' && product.imageUrl && (
             <img
               src="/images/accents/card-corner-accent.png"
               alt=""

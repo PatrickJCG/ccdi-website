@@ -116,9 +116,11 @@ export const DesignOptionsHeroCarousel: React.FC<DesignOptionsHeroCarouselProps>
               <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">
                 {current.title}
               </h3>
-              <p className="text-xs text-slate-300 leading-relaxed font-normal line-clamp-2">
-                {current.caption}
-              </p>
+              {current.caption ? (
+                <p className="text-xs text-slate-300 leading-relaxed font-normal line-clamp-2">
+                  {current.caption}
+                </p>
+              ) : null}
             </div>
 
             {/* Optional Key Metrics Strip */}
@@ -132,7 +134,7 @@ export const DesignOptionsHeroCarousel: React.FC<DesignOptionsHeroCarouselProps>
                     <span className="font-mono text-[9px] text-amber-400 font-bold uppercase tracking-wider block">
                       {m.label}
                     </span>
-                    <span className="text-xs sm:text-sm font-black text-white font-mono block mt-0.5 truncate">
+                    <span className="text-xs sm:text-sm font-black text-white font-mono block mt-0.5 whitespace-pre-line leading-tight">
                       {m.value}
                     </span>
                   </div>

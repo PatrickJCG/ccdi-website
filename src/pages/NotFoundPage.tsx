@@ -34,7 +34,7 @@ const QUICK_LINKS = [
     category: 'INCUBATION ENVELOPES',
     path: '/solutions/hatchery',
     icon: <Egg className="w-5 h-5 text-amber-400" />,
-    desc: 'Turnkey setter and hatcher halls with biosecure cleanroom HVAC airflow.',
+    desc: 'Turnkey setter and hatcher halls with biosecure hatchery systems HVAC airflow.',
   },
   {
     title: 'Solar Power Systems Microgrids',

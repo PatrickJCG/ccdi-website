@@ -11,8 +11,69 @@ import {
   FileText,
   Briefcase,
   GraduationCap,
+  User,
 } from 'lucide-react';
 import { BenchmarkStatStrip } from '../components/molecules/BenchmarkStatStrip';
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  designation: string;
+  department?: string;
+  image: string;
+}
+
+const TEAM_MEMBERS: TeamMember[] = [
+  {
+    id: 'tm-2',
+    name: 'Engr. Christian Reyes',
+    designation: 'Head of Civil & Structural Engineering',
+    department: 'Civil & Structural Design',
+    image: '',
+  },
+  {
+    id: 'tm-3',
+    name: 'Engr. Ronald Mendoza',
+    designation: 'Senior Poultry Housing & Climate Systems Engineer',
+    department: 'Poultry Production Systems',
+    image: '',
+  },
+  {
+    id: 'tm-4',
+    name: 'Dr. Arvin Santos',
+    designation: 'Hatchery Automation & Biosecurity Specialist',
+    department: 'Hatchery Solutions',
+    image: '',
+  },
+  {
+    id: 'tm-5',
+    name: 'Engr. Mark De Leon',
+    designation: 'Feedmill Systems & Milling Equipment Lead',
+    department: 'Feedmill Solutions',
+    image: '',
+  },
+  {
+    id: 'tm-6',
+    name: 'Engr. Rafael Bautista',
+    designation: 'Renewable Energy & Solar Systems Lead',
+    department: 'Solar Power Systems',
+    image: '',
+  },
+  {
+    id: 'tm-7',
+    name: 'Dennis Villanueva',
+    designation: 'Technical Services & Spare Parts Operations Lead',
+    department: 'After-Sales & Field Services',
+    image: '',
+  },
+  {
+    id: 'tm-8',
+    name: 'Ma. Elena Dizon',
+    designation: 'Project Delivery & Client Success Manager',
+    department: 'Project Management',
+    image: '',
+  },
+];
 
 interface JobPosition {
   id: string;
@@ -29,26 +90,63 @@ interface JobPosition {
   badge?: string;
 }
 
-const DISCIPLINES = [
-  {
-    code: '01',
-    name: 'COMMERCIAL & SALES',
-    focus: 'Agro-Industrial Development',
-    desc: 'Connecting livestock integrators, farm owners, and agricultural corporations with high-yield turnkey farm envelopes, automated feedmills, and solar power infrastructure.',
-  },
-  {
-    code: '02',
-    name: 'ENGINEERING & AUTOMATION',
-    focus: 'Feedmills & Climate Automation',
-    desc: 'High-throughput pelleting towers, automated micro-ingredient dosing, bucket elevators, corrugated grain silos, and European climate microcomputers.',
-  },
-  {
-    code: '03',
-    name: 'SOLAR & CLEAN ENERGY',
-    focus: 'Microgrids & Solar Arrays',
-    desc: 'Rooftop solar arrays, 3-phase generator synchronization inverters, energy monitoring telemetry, and industrial grid integration for modern agribusinesses.',
-  },
-];
+const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <div className="bg-white border border-slate-200 hover:border-amber-400 rounded-[2px] p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
+      <div className="space-y-4">
+        {/* Profile Photo / Avatar placeholder */}
+        <div className="relative aspect-square w-full overflow-hidden rounded-[2px] bg-slate-100 border border-slate-200 group-hover:border-amber-400/80 transition-colors flex items-center justify-center">
+          {member.image && !imageError ? (
+            <img
+              src={member.image}
+              alt={member.name}
+              loading="lazy"
+              onError={() => setImageError(true)}
+              className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-b from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4 text-center select-none">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-slate-200/80 border-2 border-dashed border-slate-300 flex items-center justify-center text-slate-400 group-hover:border-amber-400/60 group-hover:text-amber-500 transition-colors shadow-inner">
+                <User className="w-10 h-10 sm:w-12 sm:h-12 stroke-[1.5]" />
+              </div>
+              <span className="font-mono text-[10px] text-slate-400 uppercase tracking-widest mt-3 font-semibold">
+                Photo Placeholder
+              </span>
+            </div>
+          )}
+
+          {/* Architectural Top-Right Corner Accent */}
+          <img
+            src="/images/accents/card-corner-accent.png"
+            alt=""
+            className="absolute top-0 right-0 w-16 sm:w-20 h-auto object-contain object-right-top pointer-events-none select-none z-10 opacity-70"
+            aria-hidden="true"
+          />
+
+          {member.department && (
+            <div className="absolute bottom-2.5 left-2.5 z-10 pointer-events-none">
+              <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] bg-[#07162A]/90 text-amber-400 border border-amber-400/40 backdrop-blur-xs shadow-xs">
+                {member.department}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Member Name & Role / Job Title */}
+        <div className="space-y-1.5 pt-1 text-left">
+          <h3 className="text-lg font-black text-[#0B192C] tracking-tight group-hover:text-amber-600 transition-colors">
+            {member.name}
+          </h3>
+          <p className="font-mono text-xs text-amber-600 font-bold uppercase tracking-wider leading-snug">
+            {member.designation}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const JOB_POSITIONS: JobPosition[] = [
   {
@@ -266,20 +364,17 @@ export const CareersPage: React.FC = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           
           <div className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-            CCDI CAREERS / JOIN OUR GROWING TEAM
+            CCDI CAREERS / MEET OUR TEAM
           </div>
 
           {/* Headline + Paragraph on Left, Balanced with Logo on Right */}
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12">
             <div className="space-y-4 max-w-2xl xl:max-w-3xl">
               <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-[1.06] drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
-                Build Your Career with{' '}
-                <span className="text-[#F3A812] block mt-1">
-                  Clarkbase Construction.
-                </span>
+                Meet the People Behind CCDI
               </h1>
               <p className="text-base sm:text-lg text-slate-100 max-w-2xl leading-relaxed font-normal drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-                Clarkbase Construction Development Inc. (CCDI) is a premier builder of modern poultry complexes, hatcheries, feedmills, and solar power systems in the Philippines. We are expanding nationwide and hiring passionate commercial talent.
+                From engineering and construction to project delivery and technical support, our team works together on poultry, hatchery, feedmill, and solar projects across the Philippines. Get to know the people behind our work and explore opportunities to join CCDI.
               </p>
             </div>
 
@@ -297,12 +392,12 @@ export const CareersPage: React.FC = () => {
           <div className="pt-8 mt-8">
             <div className="bg-[#07162A]/90 backdrop-blur-md border border-[#1E3E66] p-6 sm:p-8 rounded-[2px] shadow-xl max-w-5xl w-full">
               <BenchmarkStatStrip
-                eyebrow="TALENT BENCHMARKS"
+                eyebrow="TEAM & CAPABILITIES"
                 items={[
-                  { value: '04', label: 'ACTIVE OPENINGS', sublabel: 'Immediate deployment' },
+                  { value: '50+', label: 'ENGINEERS & SPECIALISTS', sublabel: 'Multidisciplinary experts' },
                   { value: 'CLARK', label: 'HQ & LOGISTICS HUB', sublabel: 'Clark Freeport Zone' },
                   { value: 'NATIONWIDE', label: 'REGIONAL FOOTPRINT', sublabel: 'Luzon, Visayas & Mindanao' },
-                  { value: '100%', label: 'COMPREHENSIVE HMO', sublabel: 'Insurance & PTO benefits' },
+                  { value: '100%', label: 'IN-HOUSE DELIVERY', sublabel: 'Turnkey project execution' },
                 ]}
                 theme="dark"
               />
@@ -312,8 +407,8 @@ export const CareersPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 2. WHY BUILD AT CCDI (CRISP LIGHT ARCHITECTURAL SECTION) ── */}
-      <section className="relative py-24 bg-slate-50 text-slate-900 border-y border-slate-200 overflow-hidden">
+      {/* ── 2. TEAM SHOWCASE (RESPONSIVE GRID) ───────────────────────── */}
+      <section id="team" className="relative py-20 sm:py-28 bg-slate-50 text-slate-900 border-b border-slate-200 overflow-hidden">
         {/* Architectural Top-Right Corner Accent */}
         <img
           src="/images/accents/card-corner-accent.png"
@@ -323,100 +418,32 @@ export const CareersPage: React.FC = () => {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          
-          <div className="space-y-3 max-w-3xl">
-            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
-              WHY CHOOSE A CAREER AT CCDI
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-[#0B192C] tracking-tight leading-tight">
-              A high-growth culture built for real impact.
-            </h2>
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-              Join a dynamic team delivering essential food security infrastructure, agricultural automation, and clean solar energy across the Philippines.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white border border-slate-200 p-7 rounded-[2px] shadow-sm hover:border-[#0B192C] hover:shadow-md transition-all space-y-3">
-              <span className="font-mono text-xs font-bold text-amber-600 tracking-wider">01 / REWARDING PACKAGES</span>
-              <h3 className="text-lg font-black text-[#0B192C] tracking-tight">
-                Competitive Salary & Commissions
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Enjoy competitive base pay paired with high commission incentives on commercial contracts and project milestones.
-              </p>
-            </div>
-
-            <div className="bg-white border border-slate-200 p-7 rounded-[2px] shadow-sm hover:border-[#0B192C] hover:shadow-md transition-all space-y-3">
-              <span className="font-mono text-xs font-bold text-amber-600 tracking-wider">02 / HEALTH & LEAVES</span>
-              <h3 className="text-lg font-black text-[#0B192C] tracking-tight">
-                Comprehensive HMO & Paid Leave
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Full insurance plan, HMO healthcare coverage, 10 vacation leaves, 10 sick leaves, and 1 dedicated birthday leave.
-              </p>
-            </div>
-
-            <div className="bg-white border border-slate-200 p-7 rounded-[2px] shadow-sm hover:border-[#0B192C] hover:shadow-md transition-all space-y-3">
-              <span className="font-mono text-xs font-bold text-amber-600 tracking-wider">03 / ADVANCEMENT</span>
-              <h3 className="text-lg font-black text-[#0B192C] tracking-tight">
-                Clear Career Advancement
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Structured mentorship, direct exposure to senior leadership, and fast-track promotions in a rapidly expanding enterprise.
-              </p>
-            </div>
-
-            <div className="bg-white border border-slate-200 p-7 rounded-[2px] shadow-sm hover:border-[#0B192C] hover:shadow-md transition-all space-y-3">
-              <span className="font-mono text-xs font-bold text-amber-600 tracking-wider">04 / CULTURE</span>
-              <h3 className="text-lg font-black text-[#0B192C] tracking-tight">
-                Collaborative Workplace Culture
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Work alongside passionate engineers, agricultural experts, and project managers committed to mutual success and stability.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── 3. CORE DISCIPLINES SPOTLIGHT ── */}
-      <section className="py-20 border-b border-[#102A43] bg-[#07162A] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 border-b border-[#102A43] pb-6">
-            <div>
-              <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold block mb-1">
-                OUR OPERATIONAL DIVISIONS
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 border-b border-slate-200 pb-6">
+            <div className="space-y-2 max-w-2xl">
+              <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+                CCDI TEAM SHOWCASE
               </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Multidisciplinary Agribusiness Scope
+              <h2 className="text-3xl sm:text-4xl font-black text-[#0B192C] tracking-tight">
+                Our Specialists & Project Leaders
               </h2>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                Dedicated professionals driving engineering excellence, biosecurity innovation, and turnkey execution for modern agribusiness projects.
+              </p>
             </div>
-            <p className="font-mono text-xs text-slate-400">
-              COMMERCIAL • POULTRY • FEED MILL • SOLAR POWER
+            <p className="font-mono text-xs text-slate-500 shrink-0">
+              SHOWING <span className="text-amber-600 font-bold tabular-nums">{TEAM_MEMBERS.length}</span> KEY TEAM LEADERS
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {DISCIPLINES.map((d) => (
-              <div
-                key={d.code}
-                className="bg-[#0B192C] border border-[#1E3E66] p-6 rounded-[2px] space-y-3 hover:border-[#F3A812] transition-colors"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-[#F3A812]">{d.code}</span>
-                </div>
-                <h3 className="text-lg font-bold text-white tracking-tight">{d.name}</h3>
-                <p className="text-xs font-mono text-amber-300 font-medium">{d.focus}</p>
-                <p className="text-xs text-slate-300 leading-relaxed pt-1 border-t border-[#102A43]">{d.desc}</p>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {TEAM_MEMBERS.map((member) => (
+              <TeamMemberCard key={member.id} member={member} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 4. OPEN POSITIONS DIRECTORY (LITE THEME) ── */}
+      {/* ── 3. OPEN POSITIONS DIRECTORY (LITE THEME) ── */}
       <section id="positions" className="relative py-24 bg-slate-50 text-slate-900 border-t border-slate-200 overflow-hidden">
         {/* Architectural Top-Right Corner Accent */}
         <img

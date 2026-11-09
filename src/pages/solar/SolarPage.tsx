@@ -1,22 +1,31 @@
-﻿import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, PhoneCall, Sun, Calculator, ArrowRight } from 'lucide-react';
+import {
+  Calculator,
+  PhoneCall,
+  CheckCircle2,
+  Activity,
+  MapPin,
+  Cpu,
+  FileCheck,
+  Wrench,
+  Headphones,
+} from 'lucide-react';
 import type { Product } from '../../data/mockProducts';
+import { SolutionHeroBanner } from '../../components/molecules/SolutionHeroBanner';
+import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
+import { SolutionEquipmentCard } from '../../components/molecules/SolutionEquipmentCard';
+import { ProcessWorkflowDiagram, type WorkflowStepItem, WORKFLOW_COLOR_PRIMARY, WORKFLOW_COLOR_SECONDARY } from '../../components/organisms/ProcessWorkflowDiagram';
+import { AfterSalesSection } from '../../components/organisms/AfterSalesSection';
 import { ContactSection } from '../../components/organisms/ContactSection';
-import { CoreProductionSystemsShowcase } from '../../components/organisms/CoreProductionSystemsShowcase';
-import { CategoryEndToEndApproach } from '../../components/organisms/CategoryEndToEndApproach';
-import { CategoryAccessoriesCatalog } from '../../components/organisms/CategoryAccessoriesCatalog';
-import { CategorySubNav, type CategorySubNavTab } from '../../components/molecules/CategorySubNav';
-import { SOLAR_SYSTEMS } from '../../data/coreProductionSystems';
-
-const SOLAR_EXTRA_TABS: CategorySubNavTab[] = [
-  {
-    id: 'calculator',
-    label: 'Price Calculator',
-    path: '/solutions/solar/calculator',
-    icon: Calculator,
-  },
-];
+import { AFTER_SALES_DATA } from '../../data/afterSalesData';
+import {
+  SOLAR_TAB_1_ON_GRID,
+  SOLAR_TAB_2_HYBRID,
+  SOLAR_TAB_3_BESS,
+  SOLAR_TAB_4_PV_EV,
+  SOLAR_PRODUCTS_MAP,
+} from '../../data/solarProducts';
 
 export interface SolarPageProps {
   inquiryItems: Product[];
@@ -24,13 +33,75 @@ export interface SolarPageProps {
   onRemoveInquiryItem: (productId: string) => void;
 }
 
+const SOLAR_DELIVERY_STEPS: WorkflowStepItem[] = [
+  {
+    step: '01',
+    title: 'STEP 01',
+    name: 'Energy Assessment',
+    lines: ['Energy', 'Assessment'],
+    icon: Activity,
+    accentColor: WORKFLOW_COLOR_SECONDARY,
+  },
+  {
+    step: '02',
+    title: 'STEP 02',
+    name: 'Site Survey & Planning',
+    lines: ['Site Survey', '& Planning'],
+    icon: MapPin,
+    accentColor: WORKFLOW_COLOR_PRIMARY,
+  },
+  {
+    step: '03',
+    title: 'STEP 03',
+    name: 'Engineering & Design',
+    lines: ['Engineering', '& Design'],
+    icon: Cpu,
+    accentColor: WORKFLOW_COLOR_SECONDARY,
+  },
+  {
+    step: '04',
+    title: 'STEP 04',
+    name: 'Permits & Coordination',
+    lines: ['Permits &', 'Coordination'],
+    icon: FileCheck,
+    accentColor: WORKFLOW_COLOR_PRIMARY,
+  },
+  {
+    step: '05',
+    title: 'STEP 05',
+    name: 'Installation & Testing',
+    lines: ['Installation', '& Testing'],
+    icon: Wrench,
+    accentColor: WORKFLOW_COLOR_SECONDARY,
+  },
+  {
+    step: '06',
+    title: 'STEP 06',
+    name: 'Monitoring & Support',
+    lines: ['Monitoring', '& Support'],
+    icon: Headphones,
+    accentColor: WORKFLOW_COLOR_PRIMARY,
+  },
+];
+
 export const SolarPage: React.FC<SolarPageProps> = ({
   inquiryItems,
   onToggleInquiry,
   onRemoveInquiryItem,
 }) => {
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (window.location.hash) {
+      const el = document.getElementById(window.location.hash.substring(1));
+      if (el) {
+        setTimeout(() => {
+          const offset = 72;
+          const top = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }, 150);
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
   }, []);
 
   const scrollToContact = () => {
@@ -45,216 +116,502 @@ export const SolarPage: React.FC<SolarPageProps> = ({
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
-      {/* â”€â”€ Sub-Nav â”€â”€ */}
-      <CategorySubNav
-        categoryName="Solar Systems"
-        basePath="/solutions/solar"
-        activeTab="systems"
-        systemLabel="Solar Power Systems"
-        accentColor="amber"
-        systemIcon={Sun}
-        extraTabs={SOLAR_EXTRA_TABS}
-      />
+      
+      {/* ── SECTION 1: HERO & PRIMARY ACTION ─────────────────────────── */}
+      <SolutionHeroBanner
+        breadcrumbs={[
+          { label: 'HOME', path: '/' },
+          { label: 'OUR SOLUTIONS', path: '/solutions' },
+          { label: 'SOLAR ENERGY SOLUTIONS' },
+        ]}
+        title="Solar Power and Storage"
+        subtitle="Reliable power systems for homes, farms, commercial facilities and industrial operations."
+        backgroundImage="/images/capabilities/solar-facility.jpg"
+        imageAlt="Solar Power and Storage"
+      >
+        <a
+          href="/solutions/solar/calculator"
+          className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors shadow-lg shadow-amber-500/20 cursor-pointer flex items-center gap-2"
+        >
+          <Calculator className="w-4 h-4" />
+          Get an Estimate
+        </a>
+        <button
+          type="button"
+          onClick={scrollToContact}
+          className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-[#0B192C]/80 hover:bg-[#0B192C] text-white border border-[#1E3E66] hover:border-amber-400/80 transition-colors shadow-lg cursor-pointer flex items-center gap-2"
+        >
+          <PhoneCall className="w-4 h-4 text-amber-400" />
+          Connect with our team today.
+        </button>
+      </SolutionHeroBanner>
 
-      {/* â”€â”€ HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
+      {/* ── STICKY SUB-NAV BAR (IN-PAGE HYPERLINKS JUST LIKE HATCHERY) ── */}
+      <SolutionSubNav category="solar" />
+
+      {/* ── SECTION 2: COMPLETE SOLAR DELIVERY & WORKFLOW ────────────── */}
+      <section
+        id="delivery-workflow"
+        className="relative py-16 sm:py-24 bg-[#07162A] text-white border-b border-[#102A43] overflow-hidden"
+      >
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Architectural Accent 2 - Top Left Anchored (Fades in downwards on view) */}
-        <motion.div
-          initial={{ opacity: 0, y: -45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-20"
           aria-hidden="true"
-        >
-          <img
-            src="/images/accents/accent2.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
+        />
 
-        {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored (Fades in upwards on view) */}
-        <motion.div
-          initial={{ opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          {/* Section Header */}
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+              COMPLETE SOLAR DELIVERY
+            </h2>
+          </div>
+
+          {/* 3 Delivery Pillars Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+            {/* Pillar 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="bg-[#0B192C] border border-[#1E3E66] hover:border-amber-400/80 rounded-[2px] p-6 sm:p-8 space-y-5 transition-all duration-300 shadow-xl group"
+            >
+              <div className="flex items-center gap-3 pb-3 border-b border-[#1E3E66]">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0" />
+                <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight uppercase">
+                  ENGINEERING &amp; DESIGN
+                </h3>
+              </div>
+              <ul className="space-y-3 text-sm text-slate-300">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>Load and bill analysis</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>PV and electrical design</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>Energy yield and savings estimate</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Pillar 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="bg-[#0B192C] border border-[#1E3E66] hover:border-amber-400/80 rounded-[2px] p-6 sm:p-8 space-y-5 transition-all duration-300 shadow-xl group"
+            >
+              <div className="flex items-center gap-3 pb-3 border-b border-[#1E3E66]">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0" />
+                <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight uppercase">
+                  PROJECT DELIVERY
+                </h3>
+              </div>
+              <ul className="space-y-3 text-sm text-slate-300">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>Procurement and logistics</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>Installation and testing</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>Turnover and training</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Pillar 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="bg-[#0B192C] border border-[#1E3E66] hover:border-amber-400/80 rounded-[2px] p-6 sm:p-8 space-y-5 transition-all duration-300 shadow-xl group"
+            >
+              <div className="flex items-center gap-3 pb-3 border-b border-[#1E3E66]">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0" />
+                <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight uppercase">
+                  ONGOING SUPPORT
+                </h3>
+              </div>
+              <ul className="space-y-3 text-sm text-slate-300">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>Performance monitoring</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>Maintenance and troubleshooting</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>Warranty and system support</span>
+                </li>
+              </ul>
+            </motion.div>
+          </div>
+
+          {/* 6-Step Workflow Timeline using Reusable ProcessWorkflowDiagram */}
+          <div className="space-y-6 pt-6">
+            <ProcessWorkflowDiagram
+              id="workflow-steps"
+              eyebrow="STEP-BY-STEP EXECUTION"
+              title="OUR DELIVERY WORKFLOW"
+              steps={SOLAR_DELIVERY_STEPS}
+              className="py-0 sm:py-0 bg-transparent border-none"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. PRODUCT CATEGORY 1: ON-GRID SOLAR (ID="on-grid") ──────── */}
+      <section
+        id="on-grid"
+        className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden"
+      >
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
           aria-hidden="true"
-        >
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
+        />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-6">
-            <a href="/" className="hover:text-amber-400 transition-colors">HOME</a>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <a href="/solutions" className="hover:text-amber-400 transition-colors">OUR SOLUTIONS</a>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-amber-400 font-bold">SOLAR SYSTEMS</span>
-          </nav>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+              {SOLAR_TAB_1_ON_GRID.categoryTitle}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
+              {SOLAR_TAB_1_ON_GRID.categorySubhead}
+            </h2>
+            {SOLAR_TAB_1_ON_GRID.categoryBadges && (
+              <div className="pt-1">
+                <span className="font-mono text-xs sm:text-sm font-bold text-amber-600 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-[2px] inline-block">
+                  {SOLAR_TAB_1_ON_GRID.categoryBadges}
+                </span>
+              </div>
+            )}
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6">
-              <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-white leading-[1.2]">
-                Commercial & Residential Solar Systems
-              </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+            {SOLAR_TAB_1_ON_GRID.equipment.map((card) => (
+              <SolutionEquipmentCard
+                key={card.id}
+                product={SOLAR_PRODUCTS_MAP[card.id]}
+                title={card.title}
+                badge={card.badge}
+                description={card.description}
+                imageUrl="/images/capabilities/solar-facility.jpg"
+                inquiryItems={inquiryItems}
+                onToggleInquiry={onToggleInquiry}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-                Lower electricity bills by 40% to 80% for commercial farms, agro-industrial facilities, and residential homes. Turnkey rooftop Solar Power Systems arrays, hybrid battery backup systems, and seamless net-metering integration.
-              </p>
+      {/* ── 4. PRODUCT CATEGORY 2: HYBRID ENERGY STORAGE (ID="hybrid-storage") ── */}
+      <section
+        id="hybrid-storage"
+        className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden"
+      >
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+          aria-hidden="true"
+        />
 
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <button
-                  type="button"
-                  onClick={scrollToContact}
-                  className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors shadow-lg shadow-amber-500/20 cursor-pointer flex items-center gap-2"
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+          <div className="max-w-3xl space-y-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+              {SOLAR_TAB_2_HYBRID.categoryTitle}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
+              {SOLAR_TAB_2_HYBRID.categorySubhead}
+            </h2>
+          </div>
+
+          {/* Grouped Section: Hybrid Inverters with Value Callouts */}
+          <div className="flex flex-col justify-between bg-white border border-slate-200 hover:border-amber-400/80 rounded-[2px] p-6 sm:p-8 space-y-8 transition-all duration-200 shadow-xs hover:shadow-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+              {SOLAR_TAB_2_HYBRID.valueCallouts.map((block) => (
+                <div
+                  key={block.title}
+                  className="bg-slate-50 border border-slate-200 rounded-[2px] p-6 space-y-3"
                 >
-                  <PhoneCall className="w-4 h-4" />
-                  Request Solar Consultation
-                </button>
-              </div>
+                  <h4 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-600 border-b border-slate-200 pb-2.5">
+                    {block.title}
+                  </h4>
+                  <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+                    {block.bullets.map((bullet) => (
+                      <li key={bullet} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
 
-            <div className="lg:col-span-5">
-              <div className="bg-[#0B192C] border-2 border-amber-400/40 rounded-[2px] p-6 sm:p-8 shadow-2xl space-y-6">
-                <div className="border-b border-[#1E3E66] pb-4">
-                  <span className="font-mono text-xs text-amber-400 uppercase tracking-widest block mb-1 font-bold">
-                    ENERGY SAVINGS BENCHMARK
-                  </span>
-                  <div className="text-3xl font-black text-white font-mono">
-                    40% â€“ 80% Reduction
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Customized for commercial poultry & industrial facilities, as well as modern residential homes and estates.
-                  </p>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 items-stretch">
+              {SOLAR_TAB_2_HYBRID.hybridInverters.map((card) => (
+                <SolutionEquipmentCard
+                  key={card.id}
+                  product={SOLAR_PRODUCTS_MAP[card.id]}
+                  title={card.title}
+                  badge={card.badge}
+                  description={card.description}
+                  imageUrl="/images/capabilities/solar-facility.jpg"
+                  inquiryItems={inquiryItems}
+                  onToggleInquiry={onToggleInquiry}
+                />
+              ))}
+            </div>
+          </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      WARRANTY RATING
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      25 Years
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Tier-1 linear performance
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      TYPHOON CLAMPING
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      280 kph
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Certified wind rating
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      PAYBACK HORIZON
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      3.5â€“5 <span className="text-xs text-slate-400">Yrs</span>
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Accelerated ROI
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      GRID INTEGRATION
-                    </span>
-                    <span className="text-sm font-black text-white mt-1 block">
-                      Net Metering
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      DU compliant interconnection
-                    </span>
-                  </div>
-                </div>
-              </div>
+          {/* Grouped Section: Modular Battery Options */}
+          <div className="space-y-6">
+            <div className="border-b border-slate-200 pb-3">
+              <h3 className="text-2xl sm:text-3xl font-normal text-[#0B192C] tracking-tight">
+                {SOLAR_TAB_2_HYBRID.modularBatterySubhead}
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+              {SOLAR_TAB_2_HYBRID.modularBatteries.map((card) => (
+                <SolutionEquipmentCard
+                  key={card.id}
+                  product={SOLAR_PRODUCTS_MAP[card.id]}
+                  title={card.title}
+                  badge={card.badge}
+                  description={card.description}
+                  imageUrl="/images/capabilities/solar-facility.jpg"
+                  inquiryItems={inquiryItems}
+                  onToggleInquiry={onToggleInquiry}
+                />
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* â”€â”€ INTERACTIVE SOLAR PRICE CALCULATOR CALLOUT BANNER â”€â”€ */}
-      <section className="bg-gradient-to-r from-[#07162A] via-[#0B192C] to-[#07162A] border-b border-[#1E3E66] py-8 text-white relative overflow-hidden">
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#0B192C]/90 border border-amber-400/40 rounded-[2px] p-6 sm:p-7 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-xl backdrop-blur-md">
-            <div className="space-y-2 max-w-2xl">
-              <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider">
-                <Calculator className="w-4 h-4" />
-                <span>INTERACTIVE SIZING ENGINE</span>
+      {/* ── 5. PRODUCT CATEGORY 3: COMMERCIAL & INDUSTRIAL BESS (ID="commercial-bess") ── */}
+      <section
+        id="commercial-bess"
+        className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden"
+      >
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+          <div className="max-w-3xl space-y-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+              {SOLAR_TAB_3_BESS.categoryTitle}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
+              {SOLAR_TAB_3_BESS.categorySubhead}
+            </h2>
+          </div>
+
+          {/* BESS Systems Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+            {SOLAR_TAB_3_BESS.bessSystems.map((card) => (
+              <SolutionEquipmentCard
+                key={card.id}
+                product={SOLAR_PRODUCTS_MAP[card.id]}
+                title={card.title}
+                badge={card.badge}
+                description={card.description}
+                imageUrl="/images/capabilities/solar-facility.jpg"
+                inquiryItems={inquiryItems}
+                onToggleInquiry={onToggleInquiry}
+              />
+            ))}
+          </div>
+
+          {/* Feature Callouts (Business Value, Resilience, Operations) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+            {SOLAR_TAB_3_BESS.featureCallouts.map((block) => (
+              <div
+                key={block.title}
+                className="bg-slate-50 border border-slate-200 rounded-[2px] p-6 space-y-3 shadow-xs"
+              >
+                <h4 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-600 border-b border-slate-200 pb-2.5">
+                  {block.title}
+                </h4>
+                <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+                  {block.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                Calculate Solar Price & Monthly Savings for Your Home or Business
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                Easily estimate turnkey equipment costs, panel quantities, battery backup, and monthly electric bill savings for residential homes, farms, and commercial buildings.
+            ))}
+          </div>
+
+          {/* System Building Blocks */}
+          <div className="space-y-6">
+            <div className="border-b border-slate-200 pb-3">
+              <h3 className="text-2xl sm:text-3xl font-normal text-[#0B192C] tracking-tight">
+                {SOLAR_TAB_3_BESS.systemBuildingBlocksHeader}
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+              {SOLAR_TAB_3_BESS.systemBuildingBlocks.map((card) => (
+                <SolutionEquipmentCard
+                  key={card.id}
+                  product={SOLAR_PRODUCTS_MAP[card.id]}
+                  title={card.title}
+                  badge={card.badge}
+                  description={card.description}
+                  imageUrl="/images/capabilities/solar-facility.jpg"
+                  inquiryItems={inquiryItems}
+                  onToggleInquiry={onToggleInquiry}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. PRODUCT CATEGORY 4: SOLAR PV & EV CHARGING (ID="pv-ev-charging") ── */}
+      <section
+        id="pv-ev-charging"
+        className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden"
+      >
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+              {SOLAR_TAB_4_PV_EV.categoryTitle}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
+              {SOLAR_TAB_4_PV_EV.categorySubhead}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+            {SOLAR_TAB_4_PV_EV.equipment.map((card) => (
+              <SolutionEquipmentCard
+                key={card.id}
+                product={SOLAR_PRODUCTS_MAP[card.id]}
+                title={card.title}
+                badge={card.badge}
+                description={card.description}
+                imageUrl="/images/capabilities/solar-facility.jpg"
+                inquiryItems={inquiryItems}
+                onToggleInquiry={onToggleInquiry}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. TRUSTED TECHNOLOGY PARTNERS & BOTTOM CTA ──────────────── */}
+      <section
+        id="technology-partners"
+        className="relative py-16 sm:py-24 bg-[#07162A] text-white border-b border-[#102A43] overflow-hidden"
+      >
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-20"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+              TRUSTED SOLAR TECHNOLOGY PARTNERS
+            </h2>
+          </div>
+
+          {/* Partner Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+            {/* RENAC */}
+            <div className="bg-[#0B192C] border border-[#1E3E66] hover:border-amber-400/80 rounded-[2px] p-6 sm:p-8 space-y-4 shadow-xl transition-all duration-200">
+              <h3 className="text-2xl font-black text-amber-400 tracking-tight font-sans">
+                RENAC
+              </h3>
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                Smart inverters, hybrid systems and energy storage.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
-              <a
-                href="/solutions/solar/calculator"
-                className="px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black font-sans text-xs uppercase tracking-wider rounded-[2px] transition-colors shadow-md flex items-center justify-center gap-2"
+            {/* GCL S.I. */}
+            <div className="bg-[#0B192C] border border-[#1E3E66] hover:border-amber-400/80 rounded-[2px] p-6 sm:p-8 space-y-4 shadow-xl transition-all duration-200">
+              <h3 className="text-2xl font-black text-amber-400 tracking-tight font-sans">
+                GCL S.I.
+              </h3>
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                High-efficiency photovoltaic modules.
+              </p>
+            </div>
+          </div>
+
+          {/* Bottom Banner / CTA */}
+          <div className="bg-gradient-to-r from-[#0B192C] via-[#102A43] to-[#0B192C] border border-amber-400/40 rounded-[2px] p-8 sm:p-12 text-center space-y-6 shadow-2xl">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase">
+              TAKE THE NEXT STEP TOWARD SOLAR ENERGY.
+            </h3>
+            <div className="pt-2 flex justify-center">
+              <button
+                type="button"
+                onClick={scrollToContact}
+                className="px-8 py-4 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs uppercase tracking-wider rounded-[2px] transition-all shadow-lg shadow-amber-500/20 cursor-pointer"
               >
-                <span>Launch Price Calculator</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
+                Connect with our team today.
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* â”€â”€ 2. CORE SOLAR & MICROGRID SYSTEMS (PICTURES & CAROUSEL) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <CoreProductionSystemsShowcase
-        id="core-solar-systems"
-        systems={SOLAR_SYSTEMS}
-        eyebrow="CLEAN ENERGY & AGRO-MICROGRIDS"
-        sectionTitle="6 Core Commercial Solar & Microgrid Systems"
-        description="Turnkey commercial rooftop PV arrays, hybrid LiFePO4 battery energy storage systems, utility net-metering switchgear, and real-time cloud SCADA telemetry engineered to cut operational agribusiness power costs by 40% to 60%. Inspect equipment photography and specifications below."
-        totalCountBadge="06 FULLY INTEGRATED SYSTEMS"
-        defaultViewMode="carousel"
-        accentTheme="amber"
+      {/* ── 8. AFTER-SALES SERVICES (ID="after-sales") ───────────────── */}
+      <AfterSalesSection
+        id="after-sales"
+        data={AFTER_SALES_DATA.solar}
+        onCtaClick={scrollToContact}
+        catalogLink={{
+          label: 'Browse Solar Equipment',
+          href: '#on-grid',
+        }}
       />
 
-      {/* â”€â”€ 3. SOLAR ACCESSORIES & EQUIPMENT INQUIRY CATALOG â”€â”€ */}
-      <CategoryAccessoriesCatalog
-        businessUnit="Solar Systems"
-        eyebrow="COMMERCIAL SOLAR & ACCESSORIES INQUIRY"
-        title="Solar Equipment & Microgrid Catalog"
-        subtitle="Select agro-industrial PV panels, BESS battery banks, dual-axis agrivoltaic trackers, and net-metering switchgear for your project inquiry."
-        inquiryItems={inquiryItems}
-        onToggleInquiry={onToggleInquiry}
-        accentTheme="amber"
-      />
+      {/* ── 9. CONTACT SECTION (ID="contact") ────────────────────────── */}
+      <div id="contact">
+        <ContactSection
+          inquiryItems={inquiryItems}
+          onRemoveInquiryItem={onRemoveInquiryItem}
+        />
+      </div>
 
-      {/* â”€â”€ 4. END-TO-END TURNKEY APPROACH â”€â”€ */}
-      <CategoryEndToEndApproach category="solar" />
-
-      {/* â”€â”€ CONTACT SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <ContactSection
-        inquiryItems={inquiryItems}
-        onRemoveInquiryItem={onRemoveInquiryItem}
-      />
     </div>
   );
 };

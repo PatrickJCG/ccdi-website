@@ -183,13 +183,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, on
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="space-y-4 max-w-3xl">
             <p className="font-mono text-xs uppercase tracking-widest text-amber-400 font-bold">
-              CCDI / ENGINEERING CONSULTATION
+              CCDI / GET CONSULTATION
             </p>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
               Partner with CCDI for your next agro-industrial build.
             </h2>
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-              Whether you are expanding a broiler farm, engineering an automated feedmill, or synchronizing a solar microgrid, our Pampanga-based team responds within 24 hours.
+              Whether you’re expanding a farm, building a feedmill, or adding solar power, CCDI is ready to support your poultry project.
             </p>
           </div>
           <div className="shrink-0 hidden md:flex items-center justify-center lg:justify-end">

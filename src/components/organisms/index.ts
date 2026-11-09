@@ -16,3 +16,8 @@ export * from './CategoryEndToEndApproach';
 export * from './CategoryAccessoriesCatalog';
 export * from './FaqSection';
 export * from './CategoryAfterSalesTemplate';
+export * from './FeedProcessingWorkflow';
+export * from './ProcessWorkflowDiagram';
+export * from './AfterSalesSection';
+export * from './FeedmillEquipmentCatalog';
+export * from './FeedmillTechnicalSupportSection';

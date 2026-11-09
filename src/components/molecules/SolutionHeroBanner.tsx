@@ -17,6 +17,7 @@ export interface SolutionHeroBannerProps {
   ctaText?: string;
   onCtaClick?: () => void;
   children?: React.ReactNode;
+  bottomContent?: React.ReactNode;
 }
 
 export const SolutionHeroBanner: React.FC<SolutionHeroBannerProps> = ({
@@ -28,9 +29,10 @@ export const SolutionHeroBanner: React.FC<SolutionHeroBannerProps> = ({
   ctaText,
   onCtaClick,
   children,
+  bottomContent,
 }) => {
   return (
-    <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
+    <section className={`relative bg-[#07162A] text-white pt-10 ${bottomContent ? 'pb-12 sm:pb-16' : 'pb-20 sm:pb-24'} border-b border-[#102A43] overflow-hidden`}>
       {/* Background Hero Image with Dual-Zone Scrim */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <img
@@ -78,55 +80,63 @@ export const SolutionHeroBanner: React.FC<SolutionHeroBannerProps> = ({
         />
       </motion.div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400 mb-6">
-          {breadcrumbs.map((crumb, idx) => {
-            const isLast = idx === breadcrumbs.length - 1;
-            return (
-              <React.Fragment key={idx}>
-                {idx > 0 && <ChevronRight className="w-3.5 h-3.5 shrink-0" />}
-                {crumb.path && !isLast ? (
-                  <Link to={crumb.path} className="hover:text-amber-400 transition-colors uppercase">
-                    {crumb.label}
-                  </Link>
-                ) : (
-                  <span className={isLast ? 'text-amber-400 font-bold uppercase' : 'uppercase'}>
-                    {crumb.label}
-                  </span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="space-y-6">
+          {/* Breadcrumb */}
+          <nav className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400">
+            {breadcrumbs.map((crumb, idx) => {
+              const isLast = idx === breadcrumbs.length - 1;
+              return (
+                <React.Fragment key={idx}>
+                  {idx > 0 && <ChevronRight className="w-3.5 h-3.5 shrink-0" />}
+                  {crumb.path && !isLast ? (
+                    <Link to={crumb.path} className="hover:text-amber-400 transition-colors uppercase">
+                      {crumb.label}
+                    </Link>
+                  ) : (
+                    <span className={isLast ? 'text-amber-400 font-bold uppercase' : 'uppercase'}>
+                      {crumb.label}
+                    </span>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </nav>
+
+          <div className="max-w-4xl space-y-5">
+            <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-white leading-[1.2]">
+              {title}
+            </h1>
+
+            {subtitle && (
+              <p className="text-slate-200 text-base sm:text-lg leading-relaxed max-w-3xl">
+                {subtitle}
+              </p>
+            )}
+
+            {(ctaText || children) && (
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                {ctaText && onCtaClick && (
+                  <button
+                    type="button"
+                    onClick={onCtaClick}
+                    className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors shadow-lg shadow-amber-500/20 cursor-pointer flex items-center gap-2"
+                  >
+                    <PhoneCall className="w-4 h-4" />
+                    {ctaText}
+                  </button>
                 )}
-              </React.Fragment>
-            );
-          })}
-        </nav>
-
-        <div className="max-w-4xl space-y-5">
-          <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-white leading-[1.2]">
-            {title}
-          </h1>
-
-          {subtitle && (
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed max-w-3xl">
-              {subtitle}
-            </p>
-          )}
-
-          {(ctaText || children) && (
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              {ctaText && onCtaClick && (
-                <button
-                  type="button"
-                  onClick={onCtaClick}
-                  className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors shadow-lg shadow-amber-500/20 cursor-pointer flex items-center gap-2"
-                >
-                  <PhoneCall className="w-4 h-4" />
-                  {ctaText}
-                </button>
-              )}
-              {children}
-            </div>
-          )}
+                {children}
+              </div>
+            )}
+          </div>
         </div>
+
+        {bottomContent && (
+          <div className="pt-2">
+            {bottomContent}
+          </div>
+        )}
       </div>
     </section>
   );

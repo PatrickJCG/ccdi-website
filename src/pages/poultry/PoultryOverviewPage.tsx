@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import type { Product } from '../../data/mockProducts';
 import { ContactSection } from '../../components/organisms/ContactSection';
 import { CategoryEndToEndApproach } from '../../components/organisms/CategoryEndToEndApproach';
-import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
+import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 import { SolutionHeroBanner } from '../../components/molecules/SolutionHeroBanner';
 import { SolutionPillarCard } from '../../components/molecules/SolutionPillarCard';
 
@@ -17,9 +17,9 @@ export interface PoultryOverviewPageProps {
 const POULTRY_PILLARS = [
   {
     id: 'broiler',
-    title: 'Broiler Farm Operations',
+    title: 'Broiler Farm Operation',
     category: 'Commercial Meat Production',
-    tagline: 'High-Density Climate-Controlled Meat Bird Envelopes',
+    tagline: '',
     description:
       'Engineered for maximum bird density, exceptional Feed Conversion Ratios (FCR), and rapid flock turnaround. Supports both elevated-floor and floor-type prefabricated structures with negative-pressure tunnel cooling.',
     path: '/solutions/poultry/broiler',
@@ -38,7 +38,7 @@ const POULTRY_PILLARS = [
     id: 'broiler-breeder',
     title: 'Poultry Breeding Operations',
     category: 'Parent Stock & Hatching Eggs',
-    tagline: 'Precision Housing for Fertile Egg Productivity',
+    tagline: '',
     description:
       'Turnkey facilities engineered specifically for parent stock management. Features globally validated American (1/3 slat) and European (2/3 slat) layouts, separate-sex feeding, community nesting, and zero-crack automated egg transport.',
     path: '/solutions/poultry/broiler-breeder',
@@ -58,7 +58,7 @@ const POULTRY_PILLARS = [
     id: 'layer',
     title: 'Layer Farm Operations',
     category: 'Table Egg Production',
-    tagline: 'Multi-Tier Vertical Battery Cage Envelopes',
+    tagline: '',
     description:
       'Intensive vertical battery cage systems (3 to 8 tiers) maximizing cubic barn footprint. Fully automated with multi-level egg collection elevators, longitudinal PP manure drying belts, and precision traveling feed hoppers.',
     path: '/solutions/poultry/layer',
@@ -151,22 +151,13 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
           { label: 'THE POULTRY SOLUTION' },
         ]}
         title="The Poultry Solution"
-        subtitle={
-          <>
-            Clarkbase Construction Dev't Inc. (CCDI) delivers high-performance turnkey infrastructure
-            tailored to every tier of modern poultry production. From high-density climate-controlled
-            <strong className="text-white font-semibold"> Broiler</strong> facilities and specialized{' '}
-            <strong className="text-white font-semibold">Broiler Breeder</strong> parent stock housing
-            to massive multi-tier vertical <strong className="text-white font-semibold">Commercial Layer</strong>{' '}
-            battery cage envelopes, we provide single-source engineering accountability across the Philippines.
-          </>
-        }
+        subtitle="Clarkbase Construction Development Inc. delivers high-performance, turnkey solutions for modern poultry production. From broiler facilities and broiler breeder housing to layer cage systems, CCDI serves as a single-source partner, managing each project from engineering and equipment supply through construction, installation, and commissioning."
         backgroundImage="/images/broiler/feeding-drinking-system.jpg"
         imageAlt="CCDI Poultry Infrastructure"
       />
 
       {/* ── 2. POULTRY SUB-NAV BAR ─────────────────────────────────── */}
-      <PoultrySubNav activeTab="overview" />
+      <SolutionSubNav category="poultry" activeTab="overview" />
 
       {/* ── 3. SIX PILLARS COMPARISON SHOWCASE ───────────────────── */}
       <section id="pillars" className="relative py-20 sm:py-28 bg-white border-b border-slate-200 overflow-hidden">
@@ -181,15 +172,13 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           <div className="max-w-3xl space-y-3">
             <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
-              POULTRY SUB-CATEGORIES & SERVICES
+              POULTRY SYSTEMS & SERVICES
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
-              Six Specialized Poultry Pillars, One Turnkey Standard
+              Integrated Poultry Solutions, One Coordinated Team
             </h2>
             <p className="text-slate-600 text-base leading-relaxed">
-              Whether you are scaling commercial broiler meat bird output, safeguarding parent stock fertility,
-              installing high-density vertical layer cages, modernizing existing open or aging farm sheds, sourcing
-              genuine replacement parts, or securing 24/7 after-sales maintenance, select your target category below.
+              CCDI provides systems for broiler, breeder, and layer farms, as well as hatcheries. Solutions include poultry housing and equipment, ventilation and climate control, upgrades to existing facilities, and after-sales support.
             </p>
           </div>
 

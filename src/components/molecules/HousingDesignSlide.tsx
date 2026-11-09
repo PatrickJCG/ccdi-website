@@ -17,7 +17,7 @@ export interface HousingAdvantage {
 
 export interface HousingDesignSlideProps {
   optionLabel: string;
-  badge: string;
+  badge?: string;
   title: string;
   subtitle?: string;
   imageUrl: string;
@@ -31,6 +31,7 @@ export interface HousingDesignSlideProps {
   solutionName: string;
   isAdded: boolean;
   onToggleInquiry: () => void;
+  showLocalEngineers?: boolean;
 }
 
 /** Amber pill accent used for right-column section headings */
@@ -47,7 +48,7 @@ const SectionHeading: React.FC<{ children: React.ReactNode }> = ({ children }) =
  */
 export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
   optionLabel,
-  badge,
+  badge: _badge,
   title,
   subtitle,
   imageUrl,
@@ -60,6 +61,7 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
   solutionName,
   isAdded,
   onToggleInquiry,
+  showLocalEngineers = false,
 }) => (
   <div className="relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-slate-50/60 backdrop-blur-md border border-slate-200/80 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-sm h-full">
     {/* ── Product Card (dark hero) ── */}
@@ -77,9 +79,6 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ring-4 ring-amber-400/20" />
               <span>{optionLabel}</span>
             </div>
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-[#0B192C] border border-amber-300 font-sans">
-              {badge}
-            </span>
           </div>
 
           {/* Product Title */}
@@ -225,10 +224,12 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
         </div>
 
         {/* Local Engineering Team */}
-        <div data-swiper-parallax="-500" data-swiper-parallax-opacity="0.1" className="space-y-2.5 pt-1">
-          <SectionHeading>Local Professional Engineering Team</SectionHeading>
-          <PoultryLocalEngineers solutionType={solutionType} solutionName={solutionName} compact />
-        </div>
+        {showLocalEngineers && (
+          <div data-swiper-parallax="-500" data-swiper-parallax-opacity="0.1" className="space-y-2.5 pt-1">
+            <SectionHeading>Local Professional Engineering Team</SectionHeading>
+            <PoultryLocalEngineers solutionType={solutionType} solutionName={solutionName} compact />
+          </div>
+        )}
       </div>
 
       {/* Brand Footer Strip */}

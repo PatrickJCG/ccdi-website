@@ -46,11 +46,11 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
   {
     id: 'slide-poultry',
     tabLabel: 'POULTRY',
-    kicker: 'CCDI / POULTRY FARM EQUIPMENT & HOUSING',
-    titleWhite: 'Bio-Secure Climate Housing &',
-    titleGold: 'Precision Poultry Systems',
+    kicker: 'CCDI / POULTRY SOLUTIONS',
+    titleWhite: 'Poultry Housing and',
+    titleGold: 'Climate Control Systems',
     subheadline:
-      'Turnkey climate-controlled broiler, breeder, and commercial layer facilities engineered for pathogen defense, high bird density, automated tunnel ventilation, and optimal Feed Conversion Ratios.',
+      'Turnkey housing and equipment for broilers, breeders, and commercial layers, with climate control, ventilation, feeding, and drinking systems to support reliable farm operations.',
     ctaPrimary: {
       label: 'Explore Poultry Solutions →',
       href: '/solutions/poultry',
@@ -64,11 +64,11 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
   {
     id: 'slide-hatchery',
     tabLabel: 'HATCHERY',
-    kicker: 'CCDI / INTEGRATED HATCHERY SOLUTION',
-    titleWhite: 'Integrated Hatchery',
-    titleGold: 'Solution & Automation',
+    kicker: 'CCDI / HATCHERY SOLUTIONS',
+    titleWhite: 'Integrated Hatchery Systems and',
+    titleGold: 'Incubation Solutions',
     subheadline:
-      'CCDI brings together incubation, automation, HVAC, supporting systems, and digital management into one coordinated hatchery operation.',
+      'Integrated hatchery systems combine incubation equipment, egg handling, airflow control, and supporting systems for coordinated hatchery operations.',
     ctaPrimary: {
       label: 'Explore Hatchery Systems →',
       href: '/solutions/hatchery',
@@ -82,11 +82,11 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
   {
     id: 'slide-feedmill',
     tabLabel: 'FEEDMILL',
-    kicker: 'CCDI / FEEDMILL SYSTEMS & SILOS',
-    titleWhite: 'Automated Feedmill Plants &',
-    titleGold: 'Bulk Grain Silo Complexes',
+    kicker: 'CCDI / FEEDMILL SOLUTIONS',
+    titleWhite: 'Feedmill Systems and',
+    titleGold: 'Grain Storage',
     subheadline:
-      'Industrial feed processing infrastructure engineered with computerized micro-dosing, high-throughput pelleting towers, heavy galvanized corrugated silos, and pneumatic conveying.',
+      'Integrated feedmill systems from raw material receiving and cleaning to grinding, mixing, pelleting, packing, and finished feed storage.',
     ctaPrimary: {
       label: 'Explore Feedmill Solutions →',
       href: '/solutions/feedmill',
@@ -100,11 +100,11 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
   {
     id: 'slide-solar',
     tabLabel: 'SOLAR POWER SYSTEMS',
-    kicker: 'CCDI / SOLAR ENERGY INTEGRATION',
-    titleWhite: 'Commercial Solar Microgrids for',
-    titleGold: 'Agro-Industrial Enterprises',
+    kicker: 'CCDI / SOLAR ENERGY SOLUTIONS',
+    titleWhite: 'Solar Power and',
+    titleGold: 'Storage',
     subheadline:
-      'Heavy-duty rooftop and ground-mounted photovoltaic systems engineered to slash daytime electricity overhead, synchronized with generator backups for uninterrupted power.',
+      'Solar power systems for residential, agricultural, commercial, and industrial properties, with rooftop or ground-mounted panels, energy storage, and backup options.',
     ctaPrimary: {
       label: 'Explore Solar Solutions →',
       href: '/solutions/solar',
@@ -136,13 +136,13 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
   {
     id: 'slide-careers',
     tabLabel: 'CAREERS',
-    kicker: 'CCDI / CAREERS & ENGINEERING TEAM',
-    titleWhite: 'Shape Future-Ready',
-    titleGold: 'Agro-Industrial Infrastructure',
+    kicker: 'CCDI / CAREERS AND TEAM',
+    titleWhite: 'Explore Careers at',
+    titleGold: 'CCDI',
     subheadline:
-      'Join our multidisciplinary engineering team delivering high-performance poultry facilities, feedmills, and solar microgrids across the Philippines. We are actively hiring licensed engineers and project specialists.',
+      'Join the team working on poultry, feedmill, and solar projects across the Philippines.',
     ctaPrimary: {
-      label: 'View Open Engineering Roles (4) →',
+      label: 'VIEW OPEN ROLES',
       href: '/careers',
     },
     ctaSecondary: {
@@ -208,32 +208,32 @@ const CAPABILITIES: CapabilityCardData[] = [
       {
         label: 'Incubation',
         imageUrl: '/images/news/bulacan-single-stage-setter.png',
-        href: '/solutions/hatchery/incubation',
+        href: '/solutions/hatchery#incubation',
       },
       {
         label: 'Egg Handling & AI Candling',
         imageUrl: '/images/hatchery/egg-handling-hero.jpg',
-        href: '/solutions/hatchery/egg-handling',
+        href: '/solutions/hatchery#egg-handling',
       },
       {
         label: 'Chick Handling',
         imageUrl: '/images/news/bulacan-hatcher.jpg',
-        href: '/solutions/hatchery/chick-handling',
+        href: '/solutions/hatchery#chick-handling',
       },
       {
         label: 'Hatchery HVAC',
         imageUrl: '/images/hatchery/Embryo Heat Recovery System.jpg',
-        href: '/solutions/hatchery/hvac',
+        href: '/solutions/hatchery#hvac',
       },
       {
         label: 'Intelligent Management',
         imageUrl: '/images/capabilities/hatchery-facility.jpg',
-        href: '/solutions/hatchery/management',
+        href: '/solutions/hatchery#management',
       },
       {
         label: 'Waste Disposal',
         imageUrl: '/images/hatchery/Water Disposal System.png',
-        href: '/solutions/hatchery/waste-disposal',
+        href: '/solutions/hatchery#waste-disposal',
       },
     ],
   },
@@ -694,14 +694,14 @@ export const HeroSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-7">
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold block mb-1">
-                ENGINEERING PILLARS
+                OUR SOLUTIONS
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white drop-shadow-sm">
-                Core Capabilities & Product Solutions
+                Core Capabilities & Products
               </h2>
             </div>
             <p className="text-xs font-mono text-slate-300 font-medium">
-              SELECT ANY PILLAR TO VIEW PRODUCTS & SPECS →
+              SELECT TO VIEW PRODUCTS & SPECS →
             </p>
           </div>
 

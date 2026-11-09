@@ -4,20 +4,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronRight,
   Phone,
-  CheckCircle2,
   Wrench,
   Clock,
   ChevronDown,
   Warehouse,
-  Egg,
-  Factory,
-  Sun,
-  Calculator,
 } from 'lucide-react';
 import type { Product } from '../../data/mockProducts';
 import { ContactSection } from './ContactSection';
-import { PoultrySubNav } from '../molecules/PoultrySubNav';
-import { CategorySubNav } from '../molecules/CategorySubNav';
+import { SolutionSubNav, type SubNavCategory } from '../molecules/SolutionSubNav';
 import { BenchmarkStatStrip } from '../molecules/BenchmarkStatStrip';
 import type { CategoryAfterSalesInfo } from '../../data/afterSalesData';
 
@@ -33,7 +27,6 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
   inquiryItems,
   onRemoveInquiryItem,
 }) => {
-  const [activeChecklistIndex, setActiveChecklistIndex] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const scrollToContact = () => {
@@ -46,62 +39,12 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
     }
   };
 
-  const getSubNav = () => {
-    switch (data.slug) {
-      case 'poultry':
-        return <PoultrySubNav activeTab="after-sales" />;
-      case 'hatchery':
-        return (
-          <CategorySubNav
-            categoryName="Hatchery Solutions"
-            basePath="/solutions/hatchery"
-            activeTab="after-sales"
-            systemLabel="Incubation & Systems"
-            accentColor="sky"
-            systemIcon={Egg}
-          />
-        );
-      case 'feedmill':
-        return (
-          <CategorySubNav
-            categoryName="Feedmill Systems"
-            basePath="/solutions/feedmill"
-            activeTab="after-sales"
-            systemLabel="Milling & Processing"
-            accentColor="amber"
-            systemIcon={Factory}
-          />
-        );
-      case 'solar':
-        return (
-          <CategorySubNav
-            categoryName="Solar Systems"
-            basePath="/solutions/solar"
-            activeTab="after-sales"
-            systemLabel="Solar Power Systems"
-            accentColor="amber"
-            systemIcon={Sun}
-            extraTabs={[
-              {
-                id: 'calculator',
-                label: 'Price Calculator',
-                path: '/solutions/solar/calculator',
-                icon: Calculator,
-              },
-            ]}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
   const accentText = data.accentColor === 'sky' ? 'text-sky-600' : 'text-amber-600';
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans text-left">
       {/* ── 1. Sub-Nav Bar ── */}
-      {getSubNav()}
+      <SolutionSubNav category={data.slug as SubNavCategory} activeTab="after-sales" />
 
       {/* ── 2. Breadcrumb ── */}
       <div className="bg-slate-100 border-b border-slate-200">
@@ -234,99 +177,14 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
                     {pillar.description}
                   </p>
                 </div>
-
-                {/* Deliverables checklist */}
-                <div className="pt-3 border-t border-slate-100 space-y-2">
-                  <span className="font-mono text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
-                    Included Field Scope:
-                  </span>
-                  <ul className="space-y-1.5">
-                    {pillar.deliverables.map((item, i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 5. Detailed Maintenance Checklist ── */}
-      <section className="py-16 sm:py-20 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="max-w-2xl space-y-3">
-              <span className={`font-mono text-xs uppercase tracking-widest ${accentText} font-bold block`}>
-                PREVENTIVE MAINTENANCE SPECIFICATIONS
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-                Systematic multi-point inspection protocol.
-              </h2>
-              <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                Every maintenance visit adheres to rigorous standard operating procedures (SOPs)
-                documented with before-and-after diagnostic reports.
-              </p>
-            </div>
-
-            {/* Checklist category switchers */}
-            <div className="flex flex-wrap gap-2">
-              {data.checklist.map((group, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setActiveChecklistIndex(idx)}
-                  className={`px-3 py-1.5 rounded-[2px] font-sans text-xs font-semibold tracking-wide transition-all cursor-pointer ${
-                    activeChecklistIndex === idx
-                      ? 'bg-slate-900 text-white shadow-xs'
-                      : 'bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
-                  }`}
-                >
-                  {group.category}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Active Checklist Card */}
-          <div className="bg-slate-50 border border-slate-200 rounded-[2px] p-6 sm:p-8 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
-              <div>
-                <h3 className="text-lg font-bold text-slate-900">
-                  {data.checklist[activeChecklistIndex].category}
-                </h3>
-                <span className="text-xs text-slate-500 font-normal">
-                  Recommended service cycle: Every {data.checklist[activeChecklistIndex].interval.toLowerCase()}
-                </span>
-              </div>
-              <span className="font-mono text-xs font-bold px-3 py-1 bg-amber-100 text-amber-900 border border-amber-300 rounded-[2px] shrink-0 self-start sm:self-auto">
-                Interval: {data.checklist[activeChecklistIndex].interval}
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {data.checklist[activeChecklistIndex].items.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-3 p-3.5 bg-white border border-slate-200 rounded-[2px] shadow-2xs"
-                >
-                  <span className="font-mono text-xs font-bold text-amber-600 shrink-0 w-6 h-6 rounded-[2px] bg-amber-50 flex items-center justify-center border border-amber-200">
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
-                  <span className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
-                    {item}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 6. Service Level Agreement (SLA) & Response Tiers ── */}
+      {/* TODO: Verify SLA guaranteed response tiers with technical team */}
+      {/* ── 5. Service Level Agreement (SLA) & Response Tiers ── */}
       <section className="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-2xl space-y-3">
@@ -401,23 +259,21 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
         </div>
       </section>
 
-      {/* ── 7. Strategic Spare Parts Hub in Pampanga ── */}
+      {/* ── 6. Central Logistics & Warehouse Hub ── */}
       <section className="py-16 sm:py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-slate-900 via-[#0B1E36] to-slate-950 text-white rounded-[2px] p-8 sm:p-12 border border-[#1E3E66] shadow-xl space-y-8">
+          <div className="bg-gradient-to-br from-slate-900 via-[#0B1E36] to-slate-950 text-white rounded-[2px] p-8 sm:p-12 border border-[#1E3E66] shadow-xl">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
               <div className="space-y-3 max-w-2xl">
                 <span className="font-mono text-xs uppercase tracking-widest text-amber-400 font-bold flex items-center gap-2">
                   <Warehouse className="w-4 h-4" />
-                  CENTRAL LOGISTICS &amp; WAREHOUSE ADVANTAGE
+                  CENTRAL LOGISTICS &amp; WAREHOUSE
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                  Stocked spare parts hub located in Pampanga.
+                  On-hand spare parts hub located in Pampanga.
                 </h2>
                 <p className="text-sm text-slate-300 leading-relaxed font-normal">
-                  Our central depot in Clark Freeport Zone and Angeles City maintains critical
-                  mechanical, electrical, and consumable components ready for same-day dispatch,
-                  eliminating months of overseas shipping delays.
+                  Our central depots in Clark Freeport Zone and Angeles City keep mechanical, electrical, and consumable parts on hand to support your farm. Contact our team to confirm availability and dispatch options.
                 </p>
               </div>
 
@@ -429,31 +285,13 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
                 >
                   Inquire Spare Parts Availability
                 </button>
-                <Link
-                  to={`/solutions/${data.slug}`}
-                  className="px-5 py-3.5 bg-transparent border border-slate-600 hover:border-amber-400/60 text-slate-200 hover:text-white font-semibold text-xs uppercase tracking-wider rounded-[2px] transition-colors text-center"
-                >
-                  View {data.categoryName} Equipment
-                </Link>
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-slate-700/60">
-              {data.sparePartsHub.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-slate-800/60 border border-slate-700/80 rounded-[2px] p-4 text-xs text-slate-300 space-y-2 leading-relaxed"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 block" />
-                  <p>{item}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 8. Category-Specific FAQs ── */}
+      {/* ── 7. Category-Specific FAQs ── */}
       <section className="py-16 sm:py-20 bg-[#E6F0F5] border-b border-slate-300/70">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="text-center space-y-2">
@@ -465,6 +303,7 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
             </h2>
           </div>
 
+          {/* TODO: Verify After-Sales FAQs with technical team */}
           <div className="space-y-3">
             {data.faqs.map((faq, idx) => {
               const isOpen = openFaqIndex === idx;

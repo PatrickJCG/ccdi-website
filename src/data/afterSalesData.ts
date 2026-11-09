@@ -60,66 +60,44 @@ export const AFTER_SALES_DATA: Record<string, CategoryAfterSalesInfo> = {
       'Dedicated engineering support, scheduled preventive maintenance, rapid-response repairs, and genuine OEM spare parts dispatch for Broiler, Broiler Breeder, and Commercial Layer operations across the Philippines.',
     accentColor: 'amber',
     kpis: [
-      { label: 'Emergency Hotline', value: '24/7', subtext: 'Continuous technical triage' },
-      { label: 'Critical Dispatch', value: '< 24h', subtext: 'Field technician mobilization' },
-      { label: 'OEM Parts Inventory', value: '100%', subtext: 'Central warehouse in Pampanga' },
-      { label: 'Structural Guarantee', value: '10 Yrs', subtext: 'Pre-fab steel integrity warranty' },
+      { label: 'CONTINUOUS TECHNICAL SUPPORT', value: '24/7', subtext: 'Assistance for urgent poultry farm concerns.' },
+      { label: 'LOCAL SUPPORT TEAM', value: '1', subtext: 'A coordinated team for parts and after-sales service.' },
     ],
     pillars: [
       {
         id: 'pmc',
         title: 'Regular Farm Checkups & Maintenance',
-        subtitle: 'Inspections Before Every Flock and Every Quarter',
+        subtitle: 'Routine Equipment Checkups',
         description:
-          'We inspect and tune your farm equipment before every batch of birds. Our technicians check your fans, test cooling pads, inspect feeding lines, and clean water pipes so your flock grows without equipment interruptions.',
-        deliverables: [
-          'Test fan speeds, air pressure, and emergency curtain drop safety',
-          'Clean and descale cooling pads and test water pumps',
-          'Inspect automatic feeding lines, drive motors, and auger belts',
-          'Flush and sanitize nipple drinking lines and check water pressure',
-        ],
+          'Routine inspections and maintenance help keep farm equipment working properly.',
+        deliverables: [],
         tag: 'PREVENTIVE',
       },
       {
         id: 'emergency',
-        title: 'Fast On-Site Emergency Repairs',
-        subtitle: 'Quick Response When Equipment Breaks Down',
+        title: 'Emergency Repairs',
+        subtitle: 'Urgent Breakdown Support',
         description:
-          'When fans, feeders, or electrical systems break down in hot weather, every hour matters. Our on-call technicians troubleshoot over the phone right away and dispatch to your farm with replacement parts.',
-        deliverables: [
-          'Immediate phone support and troubleshooting within 30 minutes',
-          'Same-day or next-day technician visits across Luzon',
-          'Emergency fan motor swaps and temporary backup setups',
-          'Climate controller repairs, resets, and backup settings',
-        ],
+          'For urgent equipment breakdowns, CCDI provides troubleshooting and repair support.',
+        deliverables: [],
         tag: 'EMERGENCY REPAIR',
       },
       {
         id: 'parts',
-        title: 'Original Spare Parts in Stock',
-        subtitle: 'Fast Pickup or Delivery from Pampanga',
+        title: 'Quality Spare Parts',
+        subtitle: 'OEM Replacement Parts',
         description:
-          'No waiting for slow overseas shipments. We keep complete replacement parts ready in our Clark and Angeles warehouses for fast delivery to your farm.',
-        deliverables: [
-          'Fan motors, blades, belts, and heavy-duty pulleys',
-          'Cooling pads, water filters, and PVC distribution pipes',
-          'Nipple drinkers, drip cups, pressure regulators, and medicators',
-          'Curtain winches, steel cables, pulleys, and drop curtain kits',
-        ],
+          'OEM replacement parts are available through CCDI for pickup or delivery.',
+        deliverables: [],
         tag: 'SPARE PARTS',
       },
       {
         id: 'retrofits',
         title: 'Farm Modernization & Retrofits',
-        subtitle: 'Upgrade Older Houses with Newer Technology',
+        subtitle: 'Facility & Equipment Upgrades',
         description:
-          'Improve older sheds with automated equipment. We help you install newer climate controllers, energy-saving fan motors, automated layer cages, and solar power systems.',
-        deliverables: [
-          'Install modern smart climate controllers for automated cooling',
-          'Upgrade layer cages with automated egg and manure belts',
-          'Replace old lights with dimmable poultry LED systems',
-          'Connect solar panels and backup generators to cut power bills',
-        ],
+          'Upgrade older poultry houses with modern equipment, including climate controls, ventilation systems, layer cages, and solar power.',
+        deliverables: [],
         tag: 'UPGRADES & RETROFITS',
       },
     ],
@@ -220,13 +198,13 @@ export const AFTER_SALES_DATA: Record<string, CategoryAfterSalesInfo> = {
     badge: 'INCUBATION LIFECYCLE ASSURANCE',
     title: 'Commercial Hatchery After-Sales & Incubation Support',
     subtitle:
-      'Certified mechanical servicing, NIST-traceable sensor calibration, cleanroom HVAC air balancer testing, and spare parts supply for single-stage and multi-stage commercial hatchery facilities.',
+      'Certified mechanical servicing, NIST-traceable sensor calibration, biosecure hatchery systems HVAC air balancer testing, and spare parts supply for single-stage and multi-stage commercial hatchery facilities.',
     accentColor: 'sky',
     kpis: [
       { label: 'Hatchery Hotline', value: '24/7', subtext: 'Incubation emergency triage' },
       { label: 'Sensor Calibration', value: '±0.05°C', subtext: 'NIST-traceable precision' },
       { label: 'OEM Parts Hub', value: '100%', subtext: 'Stocked in Pampanga depot' },
-      { label: 'HVAC Air Balancing', value: 'ISO 8', subtext: 'Cleanroom differential pressure' },
+      { label: 'HVAC Air Balancing', value: 'ISO 8', subtext: 'Biosecure hatchery systems differential pressure' },
     ],
     pillars: [
       {
@@ -245,13 +223,13 @@ export const AFTER_SALES_DATA: Record<string, CategoryAfterSalesInfo> = {
       },
       {
         id: 'cleanroom-hvac',
-        title: 'Cleanroom HVAC & Air Balancer Testing',
+        title: 'Biosecure Hatchery Systems HVAC & Air Balancer Testing',
         subtitle: 'Positive Pressure & Biosecurity Verification',
         description:
           'Hatcheries depend on strict positive air pressure hierarchies to prevent contaminated exhaust from entering clean incubation rooms. We balance air handling units, replace HEPA/EU filters, and certify differential pressure cascades.',
         deliverables: [
           'Differential pressure (Magnehelic gauge) testing across egg hall, setter, and dispatch',
-          'HEPA and EU4/EU7 pre-filter replacement and cleanroom plenum sanitization',
+          'HEPA and EU4/EU7 pre-filter replacement and biosecure plenum sanitization',
           'Chilled water coil and steam humidifier descaling and valve actuator inspection',
           'Fresh air intake volume balancing based on CFM requirements per 1,000 eggs',
         ],

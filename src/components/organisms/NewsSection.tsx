@@ -60,7 +60,7 @@ export const NewsSection: React.FC = () => {
         {/* News Articles Grid */}
         <div className={`border-t border-[#102A43] pt-12 grid gap-8 ${displayedArticles.length === 2 ? 'md:grid-cols-2 max-w-5xl' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
           {displayedArticles.slice(0, 3).map((article) => (
-            <NewsCard key={article.id} article={article} />
+            <NewsCard key={article.id} article={article} dark />
           ))}
         </div>
 

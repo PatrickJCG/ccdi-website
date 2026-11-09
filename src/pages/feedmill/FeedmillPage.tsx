@@ -1,13 +1,24 @@
-﻿import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight, PhoneCall, Factory } from 'lucide-react';
+import React, { useEffect } from 'react';
+import {
+  CheckCircle2,
+  ShieldCheck,
+  Wrench,
+  SlidersHorizontal,
+  Settings2,
+  Headphones,
+} from 'lucide-react';
 import type { Product } from '../../data/mockProducts';
+import { SolutionHeroBanner } from '../../components/molecules/SolutionHeroBanner';
+import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
+import { SolutionEquipmentCard } from '../../components/molecules/SolutionEquipmentCard';
+import { BenchmarkStatStrip, type BenchmarkStatItem } from '../../components/molecules/BenchmarkStatStrip';
+import { FeedProcessingWorkflow } from '../../components/organisms/FeedProcessingWorkflow';
+import { AfterSalesSection } from '../../components/organisms/AfterSalesSection';
 import { ContactSection } from '../../components/organisms/ContactSection';
-import { CoreProductionSystemsShowcase } from '../../components/organisms/CoreProductionSystemsShowcase';
-import { CategoryEndToEndApproach } from '../../components/organisms/CategoryEndToEndApproach';
+import { FEEDMILL_PRODUCTS_MAP } from '../../data/feedmillProducts';
+import { FEEDMILL_ACCESSORIES_AND_PARTS } from '../../data/feedmillAccessories';
 import { CategoryAccessoriesCatalog } from '../../components/organisms/CategoryAccessoriesCatalog';
-import { CategorySubNav } from '../../components/molecules/CategorySubNav';
-import { FEEDMILL_SYSTEMS } from '../../data/coreProductionSystems';
+import { AFTER_SALES_DATA } from '../../data/afterSalesData';
 
 export interface FeedmillPageProps {
   inquiryItems: Product[];
@@ -15,13 +26,51 @@ export interface FeedmillPageProps {
   onRemoveInquiryItem: (productId: string) => void;
 }
 
+interface FeedmillProductCardProps {
+  productId: string;
+  inquiryItems: Product[];
+  onToggleInquiry: (product: Product) => void;
+}
+
+const FeedmillProductCard: React.FC<FeedmillProductCardProps> = React.memo(({
+  productId,
+  inquiryItems,
+  onToggleInquiry,
+}) => {
+  const product = FEEDMILL_PRODUCTS_MAP[productId];
+  if (!product) return null;
+
+  return (
+    <SolutionEquipmentCard
+      product={product}
+      inquiryItems={inquiryItems}
+      onToggleInquiry={onToggleInquiry}
+    />
+  );
+});
+FeedmillProductCard.displayName = 'FeedmillProductCard';
+
+const FEEDMILL_BENCHMARK_ITEMS: BenchmarkStatItem[] = [
+  { value: '2–25 t/h', label: 'PELLET MILL SERIES' },
+  { value: '3.5–55 t/h', label: 'SELECTED HAMMER MILL RANGES' },
+  { value: '40–60 sec', label: 'REPRESENTATIVE MIXING CYCLE' },
+  { value: 'TURNKEY', label: 'INTEGRATION AVAILABLE', highlight: true },
+];
+
+const OperationalBenchmarks: React.FC = React.memo(() => (
+  <BenchmarkStatStrip variant="hero-card" items={FEEDMILL_BENCHMARK_ITEMS} />
+));
+OperationalBenchmarks.displayName = 'OperationalBenchmarks';
+
 export const FeedmillPage: React.FC<FeedmillPageProps> = ({
   inquiryItems,
   onToggleInquiry,
   onRemoveInquiryItem,
 }) => {
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (!window.location.hash) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
   }, []);
 
   const scrollToContact = () => {
@@ -36,184 +85,359 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
-      {/* â”€â”€ Sub-Nav â”€â”€ */}
-      <CategorySubNav
-        categoryName="Feedmill Systems"
-        basePath="/solutions/feedmill"
-        activeTab="systems"
-        systemLabel="Milling & Systems"
-        accentColor="amber"
-        systemIcon={Factory}
-      />
+      
+      {/* ── 1. HERO BANNER WITH OPERATIONAL BENCHMARKS (ID="overview") ── */}
+      <div id="overview">
+        <SolutionHeroBanner
+          breadcrumbs={[
+            { label: 'HOME', path: '/' },
+            { label: 'OUR SOLUTIONS', path: '/solutions' },
+            { label: 'FEEDMILL SOLUTIONS' },
+          ]}
+          title="Feedmill Machinery and Equipment"
+          subtitle="CCDI brings together raw material receiving and pre-cleaning, grinding, precision mixing, conditioning and pelleting, and automated packing in one coordinated operation."
+          backgroundImage="/images/capabilities/feedmill-facility.jpg"
+          imageAlt="Feedmill Machinery and Equipment"
+          ctaText="Connect with our team today."
+          onCtaClick={scrollToContact}
+          bottomContent={<OperationalBenchmarks />}
+        />
+      </div>
 
-      {/* â”€â”€ HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* ── 2. STICKY SUB-NAV BAR (IN-PAGE HYPERLINKS) ─────────────── */}
+      <SolutionSubNav category="feedmill" />
 
-        {/* Architectural Accent 2 - Top Left Anchored (Fades in downwards on view) */}
-        <motion.div
-          initial={{ opacity: 0, y: -45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
+      {/* ── 3. SECTION 2: PROCESS FLOW (ID="process-flow") ──────────── */}
+      <FeedProcessingWorkflow onCtaClick={scrollToContact} />
+
+      {/* ── 5. CATEGORY 1: CORE PROCESS EQUIPMENT (ID="core-process") ─ */}
+      <section id="core-process" className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
           aria-hidden="true"
-        >
-          <img
-            src="/images/accents/accent2.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
+        />
 
-        {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored (Fades in upwards on view) */}
-        <motion.div
-          initial={{ opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-2">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+              CORE PROCESS EQUIPMENT
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
+              Core Process Equipment
+            </h2>
+          </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-6">
-            <a href="/" className="hover:text-amber-400 transition-colors">HOME</a>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <a href="/solutions" className="hover:text-amber-400 transition-colors">OUR SOLUTIONS</a>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-amber-400 font-bold">FEEDMILL SYSTEMS</span>
-          </nav>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6">
-              <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-white leading-[1.2]">
-                Industrial Feedmill Plants & Precision Automation
-              </h1>
-
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-                Engineering high-capacity animal feed processing plants across the Philippines. From 5,000 MT corrugated grain storage silos to ring-die pelleting towers and automated micro-ingredient dosing systems.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <button
-                  type="button"
-                  onClick={scrollToContact}
-                  className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors shadow-lg shadow-amber-500/20 cursor-pointer flex items-center gap-2"
-                >
-                  <PhoneCall className="w-4 h-4" />
-                  Request Feedmill Consultation
-                </button>
-              </div>
-            </div>
-
-            <div className="lg:col-span-5">
-              <div className="bg-[#0B192C] border-2 border-amber-400/40 rounded-[2px] p-6 sm:p-8 shadow-2xl space-y-6">
-                <div className="border-b border-[#1E3E66] pb-4">
-                  <span className="font-mono text-xs text-amber-400 uppercase tracking-widest block mb-1 font-bold">
-                    PLANT CAPACITY BENCHMARK
-                  </span>
-                  <div className="text-3xl font-black text-white font-mono">
-                    Up to 40 TPH
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Continuous automated processing with PLC recipe batching & pneumatic routing.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      GRAIN SILO STORAGE
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      5,000 MT
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Per silo / Aerated base
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      BATCH ACCURACY
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      Â±0.05%
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Multi-cell load scales
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      PELLET DURABILITY (PDI)
-                    </span>
-                    <span className="text-xl font-black text-white font-mono mt-1 block">
-                      &gt;96%
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Steam conditioning
-                    </span>
-                  </div>
-
-                  <div className="bg-[#07162A] p-3.5 rounded-[2px] border border-[#1E3E66]">
-                    <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
-                      STEEL GRADE
-                    </span>
-                    <span className="text-sm font-black text-white mt-1 block">
-                      Q355B Hot-Rolled
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      Heavy tower framing
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+            <FeedmillProductCard productId="fm-hhfsp-hammer" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-hhshj-mixer" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-hhzlh-pellet" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
           </div>
         </div>
       </section>
 
-      {/* â”€â”€ 2. CORE FEEDMILL PRODUCTION SYSTEMS (PICTURES & CAROUSEL) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <CoreProductionSystemsShowcase
-        id="core-feedmill-systems"
-        systems={FEEDMILL_SYSTEMS}
-        eyebrow="AGRO-PROCESSING PLANT ENGINEERING"
-        sectionTitle="6 Core Industrial Feedmill Production Systems"
-        description="Engineering high-capacity animal feed processing plants across the Philippines with heavy Q355B structural steel, automated micro-ingredient dosing, high-torque hammer mills, and ring-die pelleting towers. Inspect equipment photography and specifications below."
-        totalCountBadge="06 FULLY INTEGRATED SYSTEMS"
-        defaultViewMode="carousel"
-        accentTheme="amber"
+      {/* ── 6. CATEGORY 2: PELLETING & POST-PELLET PROCESSING (ID="pelleting-processing") ── */}
+      <section id="pelleting-processing" className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+              PELLETING &amp; POST-PELLET PROCESSING
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
+              Pelleting &amp; Post-Pellet Processing
+            </h2>
+            <p className="text-slate-600 text-base leading-relaxed">
+              Conditioning, pelleting, cooling, crumbling and screening are engineered together to stabilize product quality and line capacity.
+            </p>
+          </div>
+
+          {/* Quality Objectives & Maintainability Callout Banner */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white border border-slate-200 rounded-[2px] p-6 sm:p-8 shadow-xs">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                <ShieldCheck className="w-5 h-5 text-amber-600" />
+                <h4 className="font-mono text-xs uppercase tracking-widest text-[#0B192C] font-bold">
+                  QUALITY OBJECTIVES
+                </h4>
+              </div>
+              <ul className="space-y-2 text-sm text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Stable pellet durability</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Controlled moisture and temperature</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Lower fines and consistent size</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                <Wrench className="w-5 h-5 text-amber-600" />
+                <h4 className="font-mono text-xs uppercase tracking-widest text-[#0B192C] font-bold">
+                  MAINTAINABILITY
+                </h4>
+              </div>
+              <ul className="space-y-2 text-sm text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Easy access to wear parts</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Easy inspection and maintenance</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Spare parts and consumables support</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            <FeedmillProductCard productId="fm-conditioner-series" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-poultry-pellet-mill" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-hhkly-cooler" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-hhslg-crumbler" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-hhfjh-sifter" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-hhdhj-mixers" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. CATEGORY 3: CLEANING, GRINDING & PACKING (ID="cleaning-grinding-packing") ── */}
+      <section id="cleaning-grinding-packing" className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+              CLEANING, GRINDING &amp; PACKING
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
+              Cleaning, Grinding &amp; Packing
+            </h2>
+            <p className="text-slate-600 text-base leading-relaxed">
+              Effective pre-cleaning removes unwanted material before grinding and stable packing systems support accurate dispatch and traceability.
+            </p>
+          </div>
+
+          {/* Cleaning Options & Packing Options Callout Banner */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 border border-slate-200 rounded-[2px] p-6 sm:p-8 shadow-xs">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
+                <SlidersHorizontal className="w-5 h-5 text-amber-600" />
+                <h4 className="font-mono text-xs uppercase tracking-widest text-[#0B192C] font-bold">
+                  CLEANING OPTIONS
+                </h4>
+              </div>
+              <ul className="space-y-2 text-sm text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Vibrating sifter</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Wheat cleaner</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Drum pre-cleaner</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Powder pre-cleaner</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Double-drum pre-cleaner</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
+                <SlidersHorizontal className="w-5 h-5 text-amber-600" />
+                <h4 className="font-mono text-xs uppercase tracking-widest text-[#0B192C] font-bold">
+                  PACKING OPTIONS
+                </h4>
+              </div>
+              <ul className="space-y-2 text-sm text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Valve or open-mouth bagging</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Belt-fed weighing</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Double-hopper high-speed weighing</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Bulk and ton-scale systems</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Conveying and pallet interface</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            <FeedmillProductCard productId="fm-hhfsp66-hammer" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-hhfsp138-hammer" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-cleaning-series" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-double-hopper-scale" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-belt-packing-scale" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-bulk-ton-packing" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. CATEGORY 4: AQUA FEED, PET FOOD & STORAGE (ID="aqua-pet-storage") ── */}
+      <section id="aqua-pet-storage" className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="max-w-3xl space-y-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
+              AQUA FEED, PET FOOD &amp; STORAGE
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
+              Aqua Feed, Pet Food &amp; Storage
+            </h2>
+            <p className="text-slate-600 text-base leading-relaxed">
+              Extrusion, fine grinding, drying and storage systems can be configured as a complete production platform for aquatic feed and pet food applications.
+            </p>
+          </div>
+
+          {/* Engineered for Feed Production & Technical Support Callout Banner */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white border border-slate-200 rounded-[2px] p-6 sm:p-8 shadow-xs">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                <Settings2 className="w-5 h-5 text-amber-600" />
+                <h4 className="font-mono text-xs uppercase tracking-widest text-[#0B192C] font-bold">
+                  ENGINEERED FOR FEED PRODUCTION
+                </h4>
+              </div>
+              <ul className="space-y-2 text-sm text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Species and feed formulation</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Pellet size and density</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Moisture and drying requirements</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Required line capacity</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                <Headphones className="w-5 h-5 text-amber-600" />
+                <h4 className="font-mono text-xs uppercase tracking-widest text-[#0B192C] font-bold">
+                  TECHNICAL SUPPORT
+                </h4>
+              </div>
+              <ul className="space-y-2 text-sm text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Installation and commissioning</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Operator and maintenance training</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Spare and wear parts</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Troubleshooting and system upgrades</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            <FeedmillProductCard productId="fm-pet-food-extruder" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-aqua-extruders" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-swfl-pulverizer" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-circulation-dryer" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+            <FeedmillProductCard productId="fm-silo-storage" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── 9. FEEDMILL AUXILIARIES & SPARE PARTS INQUIRY CATALOG ── */}
+      <div id="accessories-inquiry">
+        <CategoryAccessoriesCatalog
+          businessUnit="Feedmill"
+          customProducts={FEEDMILL_ACCESSORIES_AND_PARTS}
+          eyebrow="FEEDMILL MACHINERY, AUXILIARIES & SPARE PARTS INQUIRY"
+          title="Feedmill Auxiliaries & Spare Parts Catalog"
+          subtitle="Select precision ring dies, roller shells, hammer blades, sieve screens, elevator buckets, filter bags, and OEM wear components to configure your feedmill inquiry."
+          inquiryItems={inquiryItems}
+          onToggleInquiry={onToggleInquiry}
+          accentTheme="amber"
+        />
+      </div>
+
+      {/* ── 10. AFTER-SALES SERVICES & LIFECYCLE SUPPORT (ID="after-sales") ── */}
+      <AfterSalesSection
+        data={AFTER_SALES_DATA.feedmill}
+        onCtaClick={scrollToContact}
+        catalogLink={{
+          label: 'Browse Auxiliaries & Spares Catalog',
+          href: '#accessories-inquiry',
+        }}
       />
 
-      {/* â”€â”€ 3. FEEDMILL ACCESSORIES & EQUIPMENT INQUIRY CATALOG â”€â”€ */}
-      <CategoryAccessoriesCatalog
-        businessUnit="Feedmill"
-        eyebrow="FEEDMILL MACHINERY & ACCESSORIES INQUIRY"
-        title="Feedmill Equipment & Processing Catalog"
-        subtitle="Browse corrugated grain silos, pellet mills, micro-dosing batchers, and pneumatic conveying accessories to configure your mill inquiry."
-        inquiryItems={inquiryItems}
-        onToggleInquiry={onToggleInquiry}
-        accentTheme="amber"
-      />
+      {/* ── 11. CONTACT & INQUIRY SECTION (ID="contact") ────────────── */}
+      <div id="contact">
+        <ContactSection
+          inquiryItems={inquiryItems}
+          onRemoveInquiryItem={onRemoveInquiryItem}
+        />
+      </div>
 
-      {/* â”€â”€ 4. END-TO-END TURNKEY APPROACH â”€â”€ */}
-      <CategoryEndToEndApproach category="feedmill" />
-
-      {/* â”€â”€ CONTACT SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <ContactSection
-        inquiryItems={inquiryItems}
-        onRemoveInquiryItem={onRemoveInquiryItem}
-      />
     </div>
   );
 };

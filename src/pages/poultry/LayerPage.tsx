@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -25,7 +25,7 @@ import 'swiper/css/navigation';
 
 import type { Product } from '../../data/mockProducts';
 import { LAYER_CATALOG_PRODUCTS } from '../../data/layerCatalogProducts';
-import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
+import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 import { HousingDesignSlide } from '../../components/molecules/HousingDesignSlide';
 import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../../components/molecules';
 import { PrefabricatedMaterialsSection } from '../../components/organisms/PrefabricatedMaterialsSection';
@@ -71,44 +71,44 @@ export const LayerPage: React.FC<LayerPageProps> = ({
   const heroLayerOptions: HeroDesignOption[] = [
     {
       id: 'h-frame',
-      optionNumber: 'Option 01',
+      optionNumber: 'Layer House',
       badge: 'Vertical Multi-Tier',
-      title: 'H-Frame Layer Cage',
-      caption: 'High-density vertical battery cages with automated longitudinal egg collection and continuous PP manure drying belts.',
+      title: 'H-Frame Cage',
+      caption: '',
       imageUrl: '/images/layer/h-frame-layer.jpg',
       targetSectionId: 'cage-architecture',
       slideIndex: 0,
       metrics: [
-        { label: 'FLOCK CAPACITY', value: 'Customizable Multi-Tier' },
-        { label: 'DIMENSIONS', value: '97m Ã— 10m Ã— 4.3m' },
+        { label: 'BIRD CAPACITY', value: '36 birds per section with 450 sq cm bird density' },
+        { label: 'DIMENSIONS', value: '97m length x 16m width x 4.3m height @45,000 capacity' },
       ],
     },
     {
       id: 'a-frame',
-      optionNumber: 'Option 02',
+      optionNumber: 'Layer House',
       badge: 'Open-Sloped Structure',
-      title: 'A-Frame Layer Cage',
-      caption: 'Sloped A-frame cage configuration providing open visibility, effortless inspection, and natural cross-ventilation.',
+      title: 'A-Frame Cage',
+      caption: '',
       imageUrl: '/images/layer/a-frame-layer.jpg',
       targetSectionId: 'cage-architecture',
       slideIndex: 1,
       metrics: [
-        { label: 'FLOCK CAPACITY', value: 'Scalable by Length' },
-        { label: 'DIMENSIONS', value: '133m Ã— 13m Ã— 3.5m' },
+        { label: 'BIRD CAPACITY', value: '20 birds per section with 450sq cm bird density' },
+        { label: 'DIMENSIONS', value: '133m length x 13m width and 5.5m height @30,000 capacity' },
       ],
     },
     {
       id: 'pullet-rearing',
-      optionNumber: 'Option 03',
+      optionNumber: 'Layer House',
       badge: 'Pullet Growing Stage',
-      title: 'H-Frame Pullet Rearing Cage',
-      caption: 'High-density vertical battery cages customized for young growing chicks with tighter mesh spacing and streamlined zero-egg infrastructure.',
+      title: 'Pullet Rearing Cage',
+      caption: '',
       imageUrl: '/images/layer/pullet-rearing-cage.jpg',
       targetSectionId: 'cage-architecture',
       slideIndex: 2,
       metrics: [
         { label: 'FLOCK CAPACITY', value: 'Customizable Multi-Tier' },
-        { label: 'DIMENSIONS', value: '97m Ã— 10m Ã— 4.3m' },
+        { label: 'DIMENSIONS', value: '97m × 10m × 4.3m' },
       ],
     },
   ];
@@ -128,78 +128,67 @@ export const LayerPage: React.FC<LayerPageProps> = ({
   const layerDesignsList = [
     {
       id: 'h-frame',
-      optionNumber: 'Design Option 01',
+      optionNumber: 'Layer House',
       badge: 'Vertical Multi-Tier',
       tabLabel: '1. H-Frame System',
       shortLabel: '1. H-Frame',
-      title: 'H-Frame Layer Cage',
+      title: 'H-Frame Cage',
       description:
         'A high-density, multi-tier poultry housing system with cages vertically stacked on a rigid H-shaped structure. It typically integrates automated feeding, nipple drinking, egg collection, manure-belt removal, and ventilation systems for efficient, hygienic, and large-scale layer production.',
       buildingType: 'Pre-fabricated House',
-      dimensions: '97m length Ã— 10m width Ã— 4.3m height',
-      birdCapacity: 'Customizable',
-      cageDetails: 'Scalable by Tier & House Length',
-      stockingDensity: '450 sq cm / bird standard',
-      manureHandling: 'Manure-Belt Removal',
-      manureHandlingSub: 'Continuous automated PP belts under tiers for biosecure removal',
-      eggCollection: 'Belt-Type Egg Collection',
-      eggCollectionSub: 'Capacity up to 12,000 pcs/hr with egg buffer deceleration',
+      dimensions: '97m length x 16m width x 4.3m height @45,000 capacity',
+      birdCapacity: '36 birds per section with 450 sq cm bird density',
+      cageDetails: '36 birds per section',
+      stockingDensity: '450 sq cm bird density',
       imageUrl: '/images/layer/h-frame-layer.jpg',
       product: hFrameProduct,
       isAdded: isHFrameAdded,
       advantages: [
         'Vertically stacked cages on rigid H-shaped structure for high-density, large-scale commercial egg output',
-        'Turnkey pre-fabricated house dimensions: 97m length Ã— 10m width Ã— 4.3m height scalable to client footprint',
+        'Turnkey pre-fabricated house dimensions: 97m length x 16m width x 4.3m height @45,000 capacity',
         'High-efficiency multi-tier cage allocation engineered to 450 sq cm bird welfare density standards',
         'Full integration of automated feeding, nipple drinking, egg collection, manure-belt removal, and ventilation',
       ],
     },
     {
       id: 'a-frame',
-      optionNumber: 'Design Option 02',
+      optionNumber: 'Layer House',
       badge: 'Open-Sloped Structure',
       tabLabel: '2. A-Frame System',
       shortLabel: '2. A-Frame',
-      title: 'A-Frame Layer Cage',
+      title: 'A-Frame Cage',
       description:
         'A multi-tier poultry housing system with cages arranged in a sloped "A" configuration. It provides individual compartments for laying hens, with integrated feed troughs, nipple drinkers, egg-collection channels, and manual-disposal space beneath each tier. The open design supports ventilation, easy inspection, efficient egg collection, and straightforward operation and maintenance.',
       buildingType: 'Pre-fabricated House',
-      dimensions: '133m length Ã— 13m width Ã— 3.5m height',
-      birdCapacity: 'Customizable',
-      cageDetails: 'Scalable by Tier & House Length',
-      stockingDensity: '450 sq cm / bird standard',
-      manureHandling: 'Manual-Disposal Space',
-      manureHandlingSub: 'Dedicated open space beneath each tier for straightforward cleanout',
-      eggCollection: 'Egg-Collection Channels',
-      eggCollectionSub: 'Integrated frontal roll-out collection channels for easy inspection',
+      dimensions: '133m length x 13m width and 5.5m height @30,000 capacity',
+      birdCapacity: '20 birds per section with 450sq cm bird density',
+      cageDetails: '20 birds per section',
+      stockingDensity: '450sq cm bird density',
       imageUrl: '/images/layer/a-frame-layer.jpg',
       product: aFrameProduct,
       isAdded: isAFrameAdded,
       advantages: [
         'Sloped "A" configuration provides open visibility, superior airflow, and effortless flock inspection',
-        'Turnkey pre-fabricated house dimensions: 133m length Ã— 13m width Ã— 3.5m height scalable to client footprint',
+        'Turnkey pre-fabricated house dimensions: 133m length x 13m width and 5.5m height @30,000 capacity',
         'Open A-frame cage allocation engineered to 450 sq cm bird welfare density standards',
         'Integrated individual compartments with feed troughs, nipple drinkers, egg-collection channels, and sub-tier disposal',
       ],
     },
+    // <!-- TODO: Verify Pullet Rearing Cage technical specifications with technical team (pending layer brochure) -->
     {
       id: 'pullet-rearing',
-      optionNumber: 'Design Option 03',
+      optionNumber: 'Layer House',
       badge: 'Pullet Growing Stage',
       tabLabel: '3. Pullet Rearing System',
       shortLabel: '3. Pullet Rearing',
-      title: 'H-Frame Pullet Rearing Cage',
+      title: 'Pullet Rearing Cage',
       description:
         'A specialized multi-tier vertical cage housing system engineered specifically for the pullet growing phase (day-old chicks up to pre-laying maturity). Built on an H-frame structure featuring customized cage dimensions and tighter wire mesh for young chicks. Unlike egg-laying setups, the rearing system does not include egg collection machinery while integrating precision nipple drinking, automated feeding, and continuous manure-belt evacuation.',
       buildingType: 'Pre-fabricated House',
-      dimensions: '97m length Ã— 10m width Ã— 4.3m height',
-      birdCapacity: 'Customizable',
+      dimensions: '97m length × 10m width × 4.3m height',
+      birdCapacity: 'Customizable Multi-Tier',
       cageDetails: 'Scalable by Tier & House Length',
       stockingDensity: 'Specialized Chick-to-Pullet Density',
-      manureHandling: 'Manure-Belt Removal',
-      manureHandlingSub: 'Continuous automated PP belts under tiers for biosecure removal',
-      eggCollection: 'None (Growing Phase)',
-      eggCollectionSub: 'Dedicated growing stage for young chicks prior to egg-laying age',
       imageUrl: '/images/layer/pullet-rearing-cage.jpg',
       product: rearingProduct,
       isAdded: isRearingAdded,
@@ -222,7 +211,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       description:
         'Specialized gentle egg handling infrastructure featuring automated Egg Collection System, cross-facility Egg Conveyor lines, and Centralized Feeding - Feed Cart integration ensuring minimal breakage and streamlined packing.',
       components: ['Egg Collection System', 'Egg Conveyor', 'Centralized Feeding - Feed Cart'],
-      badge: '12,000 PCS/HR Â· BREAKAGE < 5â€°',
+      badge: '12,000 PCS/HR · BREAKAGE < 5‰',
     },
     {
       title: 'Controlled Climate System',
@@ -267,14 +256,14 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       description:
         'A system for delivering medications, vaccines, and supplements through water for accurate dosing and uniform flock treatment, powered by water-driven proportional dispensers and filtration manifolds.',
       components: ['Proportional Dosing Pumps', 'Accurate In-Line Delivery', 'Water-Borne Vaccine Dosing', 'Dual Manifold Filtration'],
-      badge: 'ACCURATE DOSING Â· UNIFORM TREATMENT',
+      badge: 'ACCURATE DOSING · UNIFORM TREATMENT',
     },
   ];
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
-      {/* â”€â”€ 1. HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 1. HERO BANNER ────────────────────────────────────────── */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -336,7 +325,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
               </h1>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-                Industrial commercial egg production and high-density layer housing engineering. From high-density vertical H-frame cages and open A-frame systems to dedicated pullet rearing houses, CCDI delivers turnkey prefabricated facilities built with automated egg collection, regulated feeding, controlled climate, and biosecure manure handling.
+                CCDI delivers turnkey layer farm facilities with A-frame and H-frame cage systems, pullet rearing houses, with automated egg collection, regulated feeding, controlled climate, and biosecure manure handling.
               </p>
 
               {/* Action Buttons */}
@@ -386,17 +375,17 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                   swiperInstance?.slideTo(idx);
                 }}
                 onSelectOption={handleSelectLayerDesign}
-                categoryLabel="LAYER DESIGN FORMATS"
+                categoryLabel="Layer House Specifications"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* â”€â”€ 2. CONTEXTUAL STICKY SUB-NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <PoultrySubNav activeTab="layer" />
+      {/* ── 2. CONTEXTUAL STICKY SUB-NAV ──────────────────────────── */}
+      <SolutionSubNav category="poultry" activeTab="layer" />
 
-      {/* â”€â”€ 3. CAGE SYSTEM ARCHITECTURE: H-FRAME VS A-FRAME â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 3. CAGE SYSTEM ARCHITECTURE: H-FRAME VS A-FRAME ──────── */}
       <section id="cage-architecture" className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
         <img
           src="/images/accents/card-corner-accent.png"
@@ -407,15 +396,11 @@ export const LayerPage: React.FC<LayerPageProps> = ({
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
-            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
-              LAYER HOUSING DESIGN OPTIONS
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
-              Three Proven Commercial Layer &amp; Pullet Housing Configurations
+              LAYER HOUSING SYSTEM
             </h2>
             <p className="text-slate-600 text-base leading-relaxed">
-              Select your preferred commercial production layout to review architectural blueprints, bird capacities,
-              specialized cage dimensions, and industrial turnkey materials.
+              Explore CCDI’s layer and pullet housing systems. Review each option’s bird capacity, building dimensions, cage layout, and key equipment features.
             </p>
           </div>
 
@@ -511,6 +496,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
 
               {layerDesignsList.map((design) => (
                 <SwiperSlide key={design.id} className="h-auto">
+                  {/* TODO: Verify Pullet Rearing Cage technical specifications with technical team (pending layer brochure) */}
                   <HousingDesignSlide
                     optionLabel={design.optionNumber}
                     badge={design.badge}
@@ -518,10 +504,9 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                     imageUrl={design.imageUrl}
                     overview={design.description}
                     metrics={[
-                      { label: 'Total Bird Capacity', value: design.birdCapacity, sub: `${design.cageDetails} (${design.stockingDensity})`, primary: true },
-                      { label: 'Building Dimensions', value: design.dimensions, sub: 'Length Ã— Width Ã— Height', primary: true },
-                      { label: 'Building Type', value: design.buildingType, sub: 'Industrial pre-engineered steel structure' },
-                      { label: 'Manure Removal System', value: design.manureHandling, sub: design.manureHandlingSub },
+                      { label: 'Total Bird Capacity', value: design.birdCapacity, primary: true },
+                      { label: 'Building Dimensions', value: design.dimensions, primary: true },
+                      { label: 'Building Type', value: design.buildingType },
                     ]}
                     advantages={design.advantages}
                     solutionType="layer"
@@ -530,6 +515,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                     onToggleInquiry={() => {
                       if (design.product) onToggleInquiry(design.product);
                     }}
+                    showLocalEngineers={false}
                   />
                 </SwiperSlide>
               ))}
@@ -574,13 +560,13 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         </div>
       </section>
 
-      {/* â”€â”€ 4. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 4. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE ───────────── */}
       <PrefabricatedMaterialsSection
         id="materials-specifications"
         sourceBrochure="CCDI Commercial Layer Operations engineering brochure"
       />
 
-      {/* â”€â”€ 4. INTEGRATED LAYER SUB-SYSTEMS (DARK THEME) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 4. INTEGRATED LAYER SUB-SYSTEMS (DARK THEME) ───────────── */}
       <section id="operational-systems" className="py-20 sm:py-24 bg-[#0B192C] border-b border-slate-800 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
         <img
@@ -593,13 +579,14 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
             <span className="font-mono text-xs uppercase tracking-widest text-amber-400 block font-normal">
-              LAYER AUTOMATION & CONTROL
+              POULTRY HOUSE SYSTEMS & EQUIPMENT
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-              Integrated Layer Sub-Systems
+              Equipment for Layer House Operations
             </h2>
+            {/* TODO: Verify layer equipment specifications with technical team */}
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
-              Our pre-fabricated layer housing integrates six critical sub-systems engineered for seamless automated operations, flock welfare, gentle egg handling, and bio-hygienic environment regulation:
+              Explore the key systems used in CCDI layer houses that support automated operations, bird comfort, careful egg handling, and well-controlled environment.
             </p>
           </div>
 
@@ -654,8 +641,8 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                     <div className="pt-3 border-t border-slate-700/60 flex items-start justify-between text-[11px] font-mono text-slate-400 gap-3">
                       <span className="shrink-0 pt-0.5">SPECIFICATION</span>
                       <div className="flex flex-col items-end text-right space-y-1">
-                        {sys.badge.includes(' Â· ') ? (
-                          sys.badge.split(' Â· ').map((part, pIdx) => (
+                        {sys.badge.includes(' · ') ? (
+                          sys.badge.split(' · ').map((part, pIdx) => (
                             <span key={pIdx} className="text-amber-400 font-normal">
                               {part}
                             </span>
@@ -673,10 +660,10 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         </div>
       </section>
 
-      {/* â”€â”€ 5.5. RETROFITTING & MODERNIZATION CALLOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 5.5. RETROFITTING & MODERNIZATION CALLOUT ────────────── */}
       <PoultryRetrofitCallout currentCategory="Layer Farm" />
 
-      {/* â”€â”€ 6. CONTACT & INQUIRY SECTION */}
+      {/* ── 6. CONTACT & INQUIRY SECTION */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}

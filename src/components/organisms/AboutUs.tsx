@@ -2,61 +2,54 @@ import React, { useState } from 'react';
 import { BenchmarkStatStrip } from '../molecules/BenchmarkStatStrip';
 
 const STATS = [
-  { value: '2019',    label: 'YEAR ESTABLISHED', sublabel: 'Philippine engineering origin' },
-  { value: '100%',    label: 'BIO-SECURITY',     sublabel: 'Pathogen defense compliance' },
-  { value: 'TURNKEY', label: 'FACILITY EPC',     sublabel: 'Integrated design & build' },
-  { value: 'TIER-1',  label: 'GLOBAL SOURCING',  sublabel: 'Direct factory warranties' },
+  { value: '2019',    label: 'YEAR ESTABLISHED' },
+  { value: '100%',    label: 'BIO-SECURITY' },
+  { value: 'TURNKEY', label: 'FACILITY EPC' },
+  { value: 'TIER-1',  label: 'GLOBAL SOURCING' },
 ];
 
 export interface CoreValueItem {
   index: string;
   id: string;
   title: string;
-  summary: string;
-  details: string;
+  description: string;
 }
 
 const CORE_VALUES: CoreValueItem[] = [
   {
     index: '01',
     id: 'integrity',
-    title: 'INTEGRITY',
-    summary: 'Unwavering transparency, pricing honesty, and strict accountability.',
-    details: 'We conduct every project with uncompromised ethics, transparent pricing, and dependable commitments. Trust is the cornerstone of every client partnership and vendor relationship.',
+    title: 'Integrity',
+    description: 'We place the highest standard of honesty at the center of our work, ensuring every project is grounded in ethical and transparent practices.',
   },
   {
     index: '02',
     id: 'excellence',
-    title: 'STRIVE FOR EXCELLENCE',
-    summary: 'Rigorous international quality benchmarks across all builds.',
-    details: 'We hold our design standards, construction craftsmanship, and equipment installations to strict international benchmarks. Settling for "good enough" is never an option.',
+    title: 'Strive for Excellence',
+    description: 'We relentlessly exceed expectations through our competitive, professional, and technically skilled team to deliver quality workmanship and agro-industrial success.',
   },
   {
     index: '03',
     id: 'innovation',
-    title: 'POWER FOR INNOVATION',
-    summary: 'Smart climate automation and clean solar microgrid integration.',
-    details: 'We actively introduce state-of-the-art agricultural technology, automation systems, and renewable energy models to elevate traditional farming into high-efficiency industrial assets.',
+    title: 'Power for Innovation',
+    description: 'We embrace bold thinking and innovation, turning concepts into efficient and scalable outputs.',
   },
   {
     index: '04',
     id: 'customer',
-    title: 'CUSTOMER FOCUS',
-    summary: 'Engineering solutions tailored to unique geographical and operational goals.',
-    details: 'Every agricultural facility presents unique environmental and operational challenges. We listen closely, tailor our engineering plans to client goals, and provide ongoing technical support.',
+    title: 'Customer Focus',
+    description: 'We are committed to forging long-term partnerships, standing beside our clients to meet their needs in all stages and initiatives.',
   },
   {
     index: '05',
     id: 'sustainability',
-    title: 'SUSTAINABILITY',
-    summary: 'Eco-efficient infrastructure protecting natural resources and lowering energy overhead.',
-    details: 'We are deeply committed to protecting natural resources. Through energy-efficient building envelopes, low-emissions feedmill designs, and solar energy integration, we help build a resilient future.',
+    title: 'Sustainability',
+    description: 'We build responsibly, providing sustainable systems and facilities that balance performance with environmental stewardship.',
   },
 ];
 
 export const AboutUs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'mission' | 'vision'>('mission');
-  const [expandedValue, setExpandedValue] = useState<string>('integrity');
 
   return (
     <section
@@ -77,15 +70,15 @@ export const AboutUs: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12">
           <div className="space-y-4 max-w-3xl">
             <p className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold">
-              CCDI / CORPORATE FOUNDATION
+              CCDI / OUR COMPANY
             </p>
 
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0B192C] leading-[1.08]">
-              Pioneering agro-industrial engineering standards since 2019.
+              Integrated Solutions for Agribusiness
             </h2>
 
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-              Clarkbase Construction Dev't Inc. (CCDI) transforms agricultural production through integrated structural engineering, bio-secure poultry housing, turnkey feedmilling plants, and industrial solar integration across the Philippines.
+              Founded in 2019, Clarkbase Construction Dev’t Inc. (CCDI) provides integrated agribusiness solutions in the Philippines. Services include facility design and construction, equipment installation, and solar energy integration for poultry, livestock, and related industries.
             </p>
           </div>
 
@@ -111,13 +104,13 @@ export const AboutUs: React.FC = () => {
         <div className="border-t border-slate-200 pt-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-4 space-y-4">
             <span className="font-mono text-[10px] uppercase tracking-widest text-amber-600 font-bold">
-              STRATEGIC DIRECTIVE
+              OUR PURPOSE
             </span>
             <h3 className="text-xl font-bold text-[#0B192C]">
-              Guiding Institutional Purpose
+              Supporting Agribusiness
             </h3>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Our engineering thesis aligns operational profitability with ecological longevity.
+              Practical, cost-efficient, and sustainable solutions for farming operations.
             </p>
 
             {/* Flat Tabs (Navy & Gold, 2px Corners) */}
@@ -131,7 +124,7 @@ export const AboutUs: React.FC = () => {
                     : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                 }`}
               >
-                [01 MISSION]
+                Mission
               </button>
               <button
                 type="button"
@@ -142,7 +135,7 @@ export const AboutUs: React.FC = () => {
                     : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                 }`}
               >
-                [02 VISION]
+                Vision
               </button>
             </div>
           </div>
@@ -158,7 +151,7 @@ export const AboutUs: React.FC = () => {
             {activeTab === 'mission' ? (
               <div className="space-y-3">
                 <span className="font-mono text-xs uppercase tracking-wider text-amber-600 font-bold">
-                  STATEMENT OF MISSION
+                  Mission
                 </span>
                 <p className="text-lg sm:text-xl font-medium text-slate-900 leading-relaxed font-sans">
                   "To strengthen the agribusiness sector while supporting progress in infrastructure and solar energy through integrated, innovative solutions that enable sustainable, cost-efficient, and high-performing farming operations."
@@ -167,7 +160,7 @@ export const AboutUs: React.FC = () => {
             ) : (
               <div className="space-y-3">
                 <span className="font-mono text-xs uppercase tracking-wider text-amber-600 font-bold">
-                  STATEMENT OF VISION
+                  Vision
                 </span>
                 <p className="text-lg sm:text-xl font-medium text-slate-900 leading-relaxed font-sans">
                   "To be a competitive global leader in agro-industrial development through bold innovation, sustainable impact, and enduring engineering excellence."
@@ -185,56 +178,36 @@ export const AboutUs: React.FC = () => {
                 OPERATING ETHOS
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-[#0B192C] mt-1">
-                Five Core Principles
+                OUR CORE VALUES
               </h3>
             </div>
-            <span className="font-mono text-xs text-slate-500 font-medium">
-              CLICK ITEM TO EXPAND DETAILS
-            </span>
           </div>
 
           {/* High-Density Horizontal Gridlines (Light Mode) */}
           <div className="divide-y divide-slate-200 border-t border-b border-slate-200">
-            {CORE_VALUES.map((val) => {
-              const isOpen = expandedValue === val.id;
-              return (
-                <div
-                  key={val.id}
-                  onClick={() => setExpandedValue(isOpen ? '' : val.id)}
-                  className="py-4 px-2 hover:bg-white transition-colors cursor-pointer"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
-                    <div className="flex items-baseline gap-4 sm:w-1/3">
-                      <span className="font-mono text-xs text-amber-600 font-bold">
-                        {val.index}
-                      </span>
-                      <h4 className="font-sans text-sm font-bold text-[#0B192C] tracking-tight">
-                        {val.title}
-                      </h4>
-                    </div>
-
-                    <div className="sm:w-1/2 text-left">
-                      <p className="text-xs sm:text-sm text-slate-600 font-normal">
-                        {val.summary}
-                      </p>
-                    </div>
-
-                    <div className="sm:w-16 text-right shrink-0">
-                      <span className="font-mono text-xs text-amber-600 hover:text-amber-700 font-bold">
-                        {isOpen ? '[-]' : '[+]'}
-                      </span>
-                    </div>
+            {CORE_VALUES.map((val) => (
+              <div
+                key={val.id}
+                className="py-4 px-2 hover:bg-white transition-colors"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
+                  <div className="flex items-baseline gap-4 sm:w-1/3">
+                    <span className="font-mono text-xs text-amber-600 font-bold">
+                      {val.index}
+                    </span>
+                    <h4 className="font-sans text-sm font-bold text-[#0B192C] tracking-tight">
+                      {val.title}
+                    </h4>
                   </div>
 
-                  {/* Progressive Disclosure Details */}
-                  {isOpen && (
-                    <div className="pt-3 pb-1 pl-8 sm:pl-12 text-xs text-slate-600 leading-relaxed max-w-3xl">
-                      {val.details}
-                    </div>
-                  )}
+                  <div className="sm:w-2/3 text-left">
+                    <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
+                      {val.description}
+                    </p>
+                  </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
 

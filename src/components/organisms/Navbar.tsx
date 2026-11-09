@@ -25,7 +25,7 @@ const SOLUTION_CATEGORIES: SolutionCategoryItem[] = [
     name: 'Poultry Solution',
     shortName: 'Poultry Solution',
     path: '/solutions/poultry',
-    desc: 'Broiler, Breeder & Layer climate housing, feeding automation & prefab kits',
+    desc: 'Broiler, Breeder & Layer climate housing, feeding automation & prefabricated building components',
     subCategories: [
       { name: 'Broiler', path: '/solutions/poultry/broiler' },
       { name: 'Broiler Breeder', path: '/solutions/poultry/broiler-breeder' },
@@ -41,24 +41,29 @@ const SOLUTION_CATEGORIES: SolutionCategoryItem[] = [
     path: '/solutions/hatchery',
     desc: 'CCDI brings together incubation, automation, HVAC, supporting systems, and digital management into one coordinated hatchery operation.',
     subCategories: [
-      { name: 'Overview', path: '/solutions/hatchery' },
-      { name: 'Incubation', path: '/solutions/hatchery/incubation' },
-      { name: 'Egg Handling & AI Candling', path: '/solutions/hatchery/egg-handling' },
-      { name: 'Chick Handling', path: '/solutions/hatchery/chick-handling' },
-      { name: 'Hatchery HVAC', path: '/solutions/hatchery/hvac' },
-      { name: 'Intelligent Management', path: '/solutions/hatchery/management' },
-      { name: 'Waste Disposal', path: '/solutions/hatchery/waste-disposal' },
-      { name: 'After-Sales Services', path: '/solutions/hatchery/after-sales' },
+      { name: 'Incubation', path: '/solutions/hatchery#incubation' },
+      { name: 'Egg Handling & AI Candling', path: '/solutions/hatchery#egg-handling' },
+      { name: 'Chick Handling', path: '/solutions/hatchery#chick-handling' },
+      { name: 'Hatchery HVAC', path: '/solutions/hatchery#hvac' },
+      { name: 'Intelligent Management', path: '/solutions/hatchery#management' },
+      { name: 'Waste Disposal', path: '/solutions/hatchery#waste-disposal' },
+      { name: 'Accessories & Catalog', path: '/solutions/hatchery#accessories-inquiry' },
+      { name: 'After-Sales Services', path: '/solutions/hatchery#after-sales' },
     ],
   },
   {
-    name: 'Feedmill Systems',
+    name: 'Feedmill Solutions',
     shortName: 'Feedmill',
     path: '/solutions/feedmill',
-    desc: 'Grain storage silos, pelleting towers & precision batching automation',
+    desc: 'CCDI brings together raw material receiving, grinding, precision mixing, conditioning, pelleting, and automated packing into one coordinated feed production operation.',
     subCategories: [
-      { name: 'Feedmill Systems', path: '/solutions/feedmill' },
-      { name: 'After-Sales Services', path: '/solutions/feedmill/after-sales' },
+      { name: 'Process Flow', path: '/solutions/feedmill#process-flow' },
+      { name: 'Core Process Equipment', path: '/solutions/feedmill#core-process' },
+      { name: 'Pelleting & Post-Pellet', path: '/solutions/feedmill#pelleting-processing' },
+      { name: 'Cleaning & Packing', path: '/solutions/feedmill#cleaning-grinding-packing' },
+      { name: 'Aqua Feed & Storage', path: '/solutions/feedmill#aqua-pet-storage' },
+      { name: 'Auxiliaries & Spare Parts', path: '/solutions/feedmill/accessories' },
+      { name: 'After-Sales Services', path: '/solutions/feedmill#after-sales' },
     ],
   },
   {
@@ -67,9 +72,12 @@ const SOLUTION_CATEGORIES: SolutionCategoryItem[] = [
     path: '/solutions/solar',
     desc: 'Commercial & residential rooftop PV, hybrid battery storage & microgrids',
     subCategories: [
-      { name: 'Solar Systems', path: '/solutions/solar' },
-      { name: 'Solar Price Calculator', path: '/solutions/solar/calculator' },
-      { name: 'After-Sales Services', path: '/solutions/solar/after-sales' },
+      { name: 'On-Grid Solar', path: '/solutions/solar#on-grid' },
+      { name: 'Hybrid Energy Storage', path: '/solutions/solar#hybrid-storage' },
+      { name: 'Commercial & Industrial BESS', path: '/solutions/solar#commercial-bess' },
+      { name: 'Solar PV & EV Charging', path: '/solutions/solar#pv-ev-charging' },
+      { name: 'Solar Price Estimator', path: '/solutions/solar/calculator' },
+      { name: 'After-Sales Services', path: '/solutions/solar#after-sales' },
     ],
   },
 ];
@@ -156,25 +164,52 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
     }, 150);
   };
 
+  const toggleSolutionsDropdown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setSolutionsDropdownOpen((prev) => !prev);
+  };
+
   const handleNavClick = (e: React.MouseEvent, path: string, hash: string = '') => {
     e.preventDefault();
     setIsOpen(false);
     setSolutionsDropdownOpen(false);
 
-    if (hash) {
-      const targetId = hash.replace('#', '');
-      const element = document.getElementById(targetId);
+    let targetPath = path;
+    let targetHash = hash;
 
-      if (element) {
-        const offset = 72;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const offsetPosition = elementRect - bodyRect - offset;
-        window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
-      } else {
-        const destPath = path || '/';
-        navigate(destPath + hash);
+    if (path.includes('#')) {
+      const parts = path.split('#');
+      targetPath = parts[0];
+      targetHash = '#' + parts[1];
+    }
+
+    if (targetHash) {
+      const targetId = targetHash.replace('#', '');
+      const isCurrentPage =
+        location.pathname === targetPath ||
+        (!targetPath && location.pathname === '/');
+
+      if (isCurrentPage) {
+        if (targetId === 'overview' || targetId === 'home') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.history.replaceState(null, '', targetPath);
+          return;
+        }
+
+        const element = document.getElementById(targetId);
+        if (element) {
+          const offset = 72;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const offsetPosition = elementRect - bodyRect - offset;
+          window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
+          window.history.replaceState(null, '', targetPath + targetHash);
+          return;
+        }
       }
+      navigate(targetPath + targetHash);
       return;
     }
 
@@ -202,7 +237,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
     <>
       {/* ── STICKY MAIN HEADER (LIGHT THEME, GOLD ACCENT, SHARP 2PX CORNERS) ── */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 xl:px-8">
           <div className="flex items-center justify-between h-16">
 
             {/* ── Logo ── */}
@@ -216,12 +251,12 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
                 src="/images/branding/ccdi-landscape-logo.svg"
                 alt="Clarkbase Construction Development Inc."
                 draggable={false}
-                className="h-8 sm:h-9 md:h-10 w-auto object-contain"
+                className="h-8 sm:h-8.5 lg:h-7.5 xl:h-9 2xl:h-10 w-auto object-contain shrink-0"
               />
             </a>
 
             {/* ── Desktop Nav: Plus Jakarta Sans, Sharp Corners, Gold Focus ── */}
-            <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5 shrink-0" aria-label="Main navigation">
               {NAV_LINKS.map((link) => {
                 const active = isLinkActive(link);
 
@@ -236,8 +271,8 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
                     >
                       <button
                         type="button"
-                        onClick={(e) => handleNavClick(e, '/solutions')}
-                        className={`px-3 py-1.5 rounded-[2px] font-sans text-xs tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
+                        onClick={toggleSolutionsDropdown}
+                        className={`px-2 xl:px-3 py-1.5 rounded-[2px] font-sans text-xs tracking-wider whitespace-nowrap transition-all duration-150 flex items-center gap-1 cursor-pointer shrink-0 ${
                           active
                             ? 'bg-amber-400 text-slate-950 font-bold shadow-xs'
                             : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 font-semibold'
@@ -309,21 +344,26 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
                                     {/* Sub-category links */}
                                     {cat.subCategories && (
                                       <div className="flex flex-col gap-0.5">
-                                        {cat.subCategories.map((sub) => (
-                                          <a
-                                            key={sub.path}
-                                            href={sub.path}
-                                            onClick={(e) => handleNavClick(e, sub.path)}
-                                            className={`flex items-center gap-2 py-1.5 px-2 rounded-[2px] text-[11px] font-medium font-sans transition-colors duration-100 ${
-                                              location.pathname === sub.path
-                                                ? 'bg-amber-50 text-amber-700 font-semibold'
-                                                : 'text-slate-600 hover:text-amber-700 hover:bg-slate-50'
-                                            }`}
-                                          >
-                                            <span className="w-1 h-1 rounded-full bg-slate-300 shrink-0 group-hover:bg-amber-400" />
-                                            {sub.name}
-                                          </a>
-                                        ))}
+                                        {cat.subCategories.map((sub) => {
+                                          const isSubActive = sub.path.includes('#')
+                                            ? location.pathname === sub.path.split('#')[0] && location.hash === '#' + sub.path.split('#')[1]
+                                            : location.pathname === sub.path && !location.hash;
+                                          return (
+                                            <a
+                                              key={sub.path}
+                                              href={sub.path}
+                                              onClick={(e) => handleNavClick(e, sub.path)}
+                                              className={`flex items-center gap-2 py-1.5 px-2 rounded-[2px] text-[11px] font-medium font-sans transition-colors duration-100 ${
+                                                isSubActive
+                                                  ? 'bg-amber-50 text-amber-700 font-semibold'
+                                                  : 'text-slate-600 hover:text-amber-700 hover:bg-slate-50'
+                                              }`}
+                                            >
+                                              <span className="w-1 h-1 rounded-full bg-slate-300 shrink-0 group-hover:bg-amber-400" />
+                                              {sub.name}
+                                            </a>
+                                          );
+                                        })}
                                       </div>
                                     )}
                                   </div>
@@ -342,7 +382,7 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
                     key={link.name}
                     href={link.path + link.hash}
                     onClick={(e) => handleNavClick(e, link.path, link.hash)}
-                    className={`px-3 py-1.5 rounded-[2px] font-sans text-xs tracking-wider transition-all duration-150 ${
+                    className={`px-2 xl:px-3 py-1.5 rounded-[2px] font-sans text-xs tracking-wider whitespace-nowrap transition-all duration-150 shrink-0 ${
                       active
                         ? 'bg-amber-400 text-slate-950 font-bold shadow-xs'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 font-semibold'
@@ -355,11 +395,11 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
             </nav>
 
             {/* ── Desktop Right CTAs: Navy Primary & Gold Accent ── */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
               <a
                 href="#contact"
                 onClick={(e) => handleNavClick(e, '', '#contact')}
-                className="px-4 py-2 rounded-[2px] font-sans text-xs uppercase tracking-wider font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors shadow-xs"
+                className="px-3 xl:px-4 py-1.5 xl:py-2 rounded-[2px] font-sans text-xs uppercase tracking-wider font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors shadow-xs whitespace-nowrap shrink-0 flex items-center justify-center leading-none"
               >
                 Request Consultation
               </a>
@@ -408,31 +448,23 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
                   if (link.isDropdown) {
                     return (
                       <div key={link.name} className="space-y-1">
-                        <div className="flex items-center justify-between">
-                          <button
-                            type="button"
-                            onClick={(e) => handleNavClick(e, '/solutions')}
-                            className={`flex-1 text-left px-3 py-2.5 rounded-[2px] font-sans text-xs tracking-wider transition-colors ${
-                              active
-                                ? 'bg-amber-400 text-slate-950 font-bold'
-                                : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950 font-semibold'
+                        <button
+                          type="button"
+                          onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
+                          className={`w-full flex items-center justify-between text-left px-3 py-2.5 rounded-[2px] font-sans text-xs tracking-wider transition-colors ${
+                            active
+                              ? 'bg-amber-400 text-slate-950 font-bold'
+                              : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950 font-semibold'
+                          }`}
+                          aria-expanded={mobileSolutionsOpen}
+                        >
+                          <span>{link.name}</span>
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform duration-200 ${
+                              mobileSolutionsOpen ? 'rotate-180' : ''
                             }`}
-                          >
-                            {link.name}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
-                            className="p-2 text-slate-500 hover:text-slate-800"
-                            aria-label="Toggle solutions list"
-                          >
-                            <ChevronDown
-                              className={`w-4 h-4 transition-transform ${
-                                mobileSolutionsOpen ? 'rotate-180' : ''
-                              }`}
-                            />
-                          </button>
-                        </div>
+                          />
+                        </button>
 
                         {mobileSolutionsOpen && (
                           <div className="pl-3 pr-1 py-1 space-y-1 border-l-2 border-amber-400/40 ml-3">
@@ -454,20 +486,25 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
 
                                   {cat.subCategories && (
                                     <div className="pl-3 space-y-1 border-l border-amber-300/40 ml-2">
-                                      {cat.subCategories.map((sub) => (
-                                        <a
-                                          key={sub.path}
-                                          href={sub.path}
-                                          onClick={(e) => handleNavClick(e, sub.path)}
-                                          className={`block px-2.5 py-1 rounded-[2px] text-[11px] font-sans transition-colors ${
-                                            location.pathname === sub.path
-                                              ? 'bg-amber-400 text-slate-950 font-bold'
-                                              : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100 font-medium'
-                                          }`}
-                                        >
-                                          ↳ {sub.name}
-                                        </a>
-                                      ))}
+                                      {cat.subCategories.map((sub) => {
+                                        const isSubActive = sub.path.includes('#')
+                                          ? location.pathname === sub.path.split('#')[0] && location.hash === '#' + sub.path.split('#')[1]
+                                          : location.pathname === sub.path && !location.hash;
+                                        return (
+                                          <a
+                                            key={sub.path}
+                                            href={sub.path}
+                                            onClick={(e) => handleNavClick(e, sub.path)}
+                                            className={`block px-2.5 py-1 rounded-[2px] text-[11px] font-sans transition-colors ${
+                                              isSubActive
+                                                ? 'bg-amber-400 text-slate-950 font-bold'
+                                                : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100 font-medium'
+                                            }`}
+                                          >
+                                            ↳ {sub.name}
+                                          </a>
+                                        );
+                                      })}
                                     </div>
                                   )}
                                 </div>

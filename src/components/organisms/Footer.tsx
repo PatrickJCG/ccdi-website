@@ -16,24 +16,35 @@ const POULTRY_LINKS = [
 
 const HATCHERY_LINKS = [
   { label: 'Integrated Hatchery Solution', href: '/solutions/hatchery' },
-  { label: 'Incubation System', href: '/solutions/hatchery/incubation' },
-  { label: 'Egg Handling & AI Candling', href: '/solutions/hatchery/egg-handling' },
-  { label: 'Chick Handling System', href: '/solutions/hatchery/chick-handling' },
-  { label: 'Hatchery HVAC System', href: '/solutions/hatchery/hvac' },
-  { label: 'Intelligent Management', href: '/solutions/hatchery/management' },
-  { label: 'Waste Disposal System', href: '/solutions/hatchery/waste-disposal' },
-  { label: 'Hatchery After-Sales', href: '/solutions/hatchery/after-sales' },
+  { label: 'Incubation System', href: '/solutions/hatchery#incubation' },
+  { label: 'Egg Handling & AI Candling', href: '/solutions/hatchery#egg-handling' },
+  { label: 'Chick Handling System', href: '/solutions/hatchery#chick-handling' },
+  { label: 'Hatchery HVAC System', href: '/solutions/hatchery#hvac' },
+  { label: 'Intelligent Management', href: '/solutions/hatchery#management' },
+  { label: 'Waste Disposal System', href: '/solutions/hatchery#waste-disposal' },
+  { label: 'Accessories & Catalog', href: '/solutions/hatchery#accessories-inquiry' },
+  { label: 'Hatchery After-Sales', href: '/solutions/hatchery#after-sales' },
 ];
 
 const FEEDMILL_LINKS = [
-  { label: 'Feedmill Systems', href: '/solutions/feedmill' },
-  { label: 'Feedmill After-Sales', href: '/solutions/feedmill/after-sales' },
+  { label: 'Integrated Feedmill Solution', href: '/solutions/feedmill' },
+  { label: 'Process Flow', href: '/solutions/feedmill#process-flow' },
+  { label: 'Core Process Equipment', href: '/solutions/feedmill#core-process' },
+  { label: 'Pelleting & Post-Pellet', href: '/solutions/feedmill#pelleting-processing' },
+  { label: 'Cleaning & Packing', href: '/solutions/feedmill#cleaning-grinding-packing' },
+  { label: 'Aqua Feed & Storage', href: '/solutions/feedmill#aqua-pet-storage' },
+  { label: 'Auxiliaries & Spare Parts', href: '/solutions/feedmill/accessories' },
+  { label: 'After-Sales Services', href: '/solutions/feedmill/after-sales' },
 ];
 
 const SOLAR_LINKS = [
   { label: 'Solar Systems', href: '/solutions/solar' },
-  { label: 'Solar Price Calculator', href: '/solutions/solar/calculator' },
-  { label: 'Solar After-Sales', href: '/solutions/solar/after-sales' },
+  { label: 'On-Grid Solar', href: '/solutions/solar#on-grid' },
+  { label: 'Hybrid Energy Storage', href: '/solutions/solar#hybrid-storage' },
+  { label: 'Commercial & Industrial BESS', href: '/solutions/solar#commercial-bess' },
+  { label: 'Solar PV & EV Charging', href: '/solutions/solar#pv-ev-charging' },
+  { label: 'Solar Price Estimator', href: '/solutions/solar/calculator' },
+  { label: 'After-Sales Services', href: '/solutions/solar#after-sales' },
 ];
 
 const COMPANY_LINKS = [
@@ -162,10 +173,10 @@ export const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Column 3: Feedmill Systems */}
+            {/* Column 3: Feedmill Solutions */}
             <div className="space-y-4">
               <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
-                Feedmill Systems
+                Feedmill Solutions
               </h3>
               <ul className="space-y-2 text-sm">
                 {FEEDMILL_LINKS.map((link) => (

@@ -1,14 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, PhoneCall } from 'lucide-react';
+import { ArrowRight, PhoneCall } from 'lucide-react';
 
 interface PoultryRetrofitCalloutProps {
   currentCategory?: string;
+  tagline?: string;
+  headline?: string;
+  description?: string;
 }
 
 export const PoultryRetrofitCallout: React.FC<PoultryRetrofitCalloutProps> = ({
   currentCategory = 'Poultry',
+  tagline = 'Poultry House Retrofit Solutions',
+  headline,
+  description = 'CCDI can assess existing farm structures and recommend suitable upgrades to housing, ventilation, feeding, and control systems based on the facility’s condition and project requirements.',
 }) => {
+  const displayHeadline = headline || (currentCategory.includes('Broiler') ? 'Upgrade Your Existing Broiler House' : `Upgrade Your Existing ${currentCategory} House`);
+
   return (
     <section className="py-12 sm:py-14 bg-[#07162A] border-b border-[#102A43] relative overflow-hidden text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -17,31 +25,16 @@ export const PoultryRetrofitCallout: React.FC<PoultryRetrofitCalloutProps> = ({
             
             <div className="lg:col-span-8 space-y-3">
               <span className="text-xs text-slate-400 font-medium block">
-                {currentCategory} Retrofitting & Modernization
+                {tagline}
               </span>
 
               <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                Have Existing Farm Houses? Retrofit at Half the Cost of Building New
+                {displayHeadline}
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
-                Keep your existing concrete floors and steel frames. CCDI retrofits your complete poultry facility—including cages, high-efficiency ventilation, automated feeding lines, and smart controls—in just 3 to 4 weeks during your normal flock break.
+                {description}
               </p>
-
-              <div className="flex flex-wrap gap-4 text-xs text-slate-300 pt-1">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span>Farm Retrofit Assessment Form</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span>Full-Scope Cages, Fans & Feeding</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span>Approved by top contract integrators</span>
-                </div>
-              </div>
             </div>
 
             <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-2.5 justify-center">

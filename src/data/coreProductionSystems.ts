@@ -355,9 +355,9 @@ export const HATCHERY_SYSTEMS: ProductionSystem[] = [
     id: 'ha-hvac',
     systemNumber: 'SYSTEM 02',
     num: '02',
-    name: 'Cleanroom Biosecure HVAC',
+    name: 'Biosecure Hatchery Systems HVAC',
     tagline: 'Positive-Pressure Cascades & Unidirectional Airflow',
-    description: 'Industrial cleanroom air handling engineered to prevent pathogen ingress. Maintains strict differential pressure gradients from cleanest zones (setter halls) to dirty zones (washrooms) with HEPA filtration.',
+    description: 'Industrial biosecure hatchery systems air handling engineered to prevent pathogen ingress. Maintains strict differential pressure gradients from cleanest zones (setter halls) to dirty zones (washrooms) with HEPA filtration.',
     primaryImage: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1200&q=80',
     galleryImages: [
       {

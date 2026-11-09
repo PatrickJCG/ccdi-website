@@ -1,9 +1,8 @@
-﻿import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sun,
   Battery,
-  Zap,
   CheckCircle2,
   X,
   ChevronRight,
@@ -14,7 +13,7 @@ import {
   Building2,
 } from 'lucide-react';
 import type { Product } from '../../data/mockProducts';
-import { CategorySubNav } from '../../components/molecules/CategorySubNav';
+import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 
 export interface SolarCalculatorPageProps {
   inquiryItems?: Product[];
@@ -26,17 +25,17 @@ type ClientType = 'commercial' | 'residential';
 type ConnectionType = 'on-grid' | 'hybrid' | 'off-grid';
 
 const RESIDENTIAL_PRESETS = [
-  { label: 'â‚±8,000', value: 8000, desc: 'Small Home / Townhouse' },
-  { label: 'â‚±18,000', value: 18000, desc: 'Family Home (2â€“3 Aircons)' },
-  { label: 'â‚±35,000', value: 35000, desc: 'Large House / Villa' },
-  { label: 'â‚±60,000', value: 60000, desc: 'Luxury Estate' },
+  { label: '₱8,000', value: 8000, desc: 'Small Home / Townhouse' },
+  { label: '₱18,000', value: 18000, desc: 'Family Home (2–3 Aircons)' },
+  { label: '₱35,000', value: 35000, desc: 'Large House / Villa' },
+  { label: '₱60,000', value: 60000, desc: 'Luxury Estate' },
 ];
 
 const COMMERCIAL_PRESETS = [
-  { label: 'â‚±35,000', value: 35000, desc: 'Single Poultry Barn' },
-  { label: 'â‚±75,000', value: 75000, desc: 'Multi-Barn Complex' },
-  { label: 'â‚±180,000', value: 180000, desc: 'Layer Farm / Hatchery' },
-  { label: 'â‚±450,000', value: 450000, desc: 'Feedmill / Cold Storage' },
+  { label: '₱35,000', value: 35000, desc: 'Single Poultry Barn' },
+  { label: '₱75,000', value: 75000, desc: 'Multi-Barn Complex' },
+  { label: '₱180,000', value: 180000, desc: 'Layer Farm / Hatchery' },
+  { label: '₱450,000', value: 450000, desc: 'Feedmill / Cold Storage' },
 ];
 
 export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
@@ -44,11 +43,11 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  // â”€â”€ USER INPUTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── USER INPUTS ─────────────────────────────────────────────────────────────
   const [clientType, setClientType] = useState<ClientType>('commercial');
   const [monthlyBill, setMonthlyBill] = useState<number>(75000);
   const [connectionType, setConnectionType] = useState<ConnectionType>('hybrid');
-  const [electricityRate, setElectricityRate] = useState<number>(12.0); // â‚±/kWh
+  const [electricityRate, setElectricityRate] = useState<number>(12.0); // ₱/kWh
 
   // Optional manual adjustments
   const [customPanelCount, setCustomPanelCount] = useState<number | null>(null);
@@ -67,7 +66,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
 
   const activePresets = clientType === 'residential' ? RESIDENTIAL_PRESETS : COMMERCIAL_PRESETS;
 
-  // â”€â”€ SIZING CALCULATIONS (SIMPLE & ACCURATE) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── SIZING CALCULATIONS (SIMPLE & ACCURATE) ──────────────────────────────────
   const results = useMemo(() => {
     // 1. Monthly consumption in kWh
     const monthlyKwh = Math.max(100, monthlyBill / electricityRate);
@@ -158,7 +157,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
     };
   }, [monthlyBill, connectionType, electricityRate, customPanelCount, customBatteryCount]);
 
-  const formatPeso = (val: number) => 'â‚±' + Math.round(val).toLocaleString('en-PH');
+  const formatPeso = (val: number) => '₱' + Math.round(val).toLocaleString('en-PH');
 
   const handleReset = () => {
     setCustomPanelCount(null);
@@ -173,25 +172,10 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
-      {/* â”€â”€ Sub-Nav â”€â”€ */}
-      <CategorySubNav
-        categoryName="Solar Systems"
-        basePath="/solutions/solar"
-        activeTab="calculator"
-        systemLabel="Solar Power Systems"
-        accentColor="amber"
-        systemIcon={Sun}
-        extraTabs={[
-          {
-            id: 'calculator',
-            label: 'Price Calculator',
-            path: '/solutions/solar/calculator',
-            icon: Zap,
-          },
-        ]}
-      />
+      {/* ── Sub-Nav ── */}
+      <SolutionSubNav category="solar" activeTab="calculator" />
 
-      {/* â”€â”€ HEADER (CLEAN & DIRECT) â”€â”€ */}
+      {/* ── HEADER (CLEAN & DIRECT) ── */}
       <section className="bg-[#07162A] text-white pt-10 pb-12 border-b border-[#102A43]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-4">
           <nav className="flex items-center gap-2 text-xs font-mono text-slate-400">
@@ -213,13 +197,13 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
         </div>
       </section>
 
-      {/* â”€â”€ MAIN CALCULATOR SECTION (CLEAN 2-COLUMN LAYOUT) â”€â”€ */}
+      {/* ── MAIN CALCULATOR SECTION (CLEAN 2-COLUMN LAYOUT) ── */}
       <section className="py-10 sm:py-14">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* â”€â”€ LEFT COLUMN: SIMPLE INPUTS (7 COLS) â”€â”€ */}
+            {/* ── LEFT COLUMN: SIMPLE INPUTS (7 COLS) ── */}
             <div className="lg:col-span-7 space-y-6">
               
               {/* CLIENT SECTOR SELECTOR (RESIDENTIAL VS COMMERCIAL) */}
@@ -288,7 +272,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                       onChange={(e) => setElectricityRate(Number(e.target.value) || 12)}
                       className="w-14 px-1.5 py-0.5 text-center font-mono text-xs border border-slate-300 rounded bg-slate-50 text-slate-800"
                     />
-                    <span>â‚±/kWh</span>
+                    <span>₱/kWh</span>
                   </div>
                 </div>
 
@@ -512,7 +496,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                         onClick={() => setCustomPanelCount(Math.max(4, results.panels - 2))}
                         className="w-8 h-8 rounded bg-slate-100 hover:bg-slate-200 font-bold font-mono text-slate-800 flex items-center justify-center cursor-pointer"
                       >
-                        â€“
+                        –
                       </button>
                       <span className="font-mono font-medium text-base text-slate-900">
                         {results.panels} <span className="text-xs font-normal text-slate-500">panels</span>
@@ -548,7 +532,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                         onClick={() => setCustomBatteryCount(Math.max(0, results.batteries - 1))}
                         className="w-8 h-8 rounded bg-slate-100 hover:bg-slate-200 font-bold font-mono text-slate-800 flex items-center justify-center disabled:opacity-30 cursor-pointer"
                       >
-                        â€“
+                        –
                       </button>
                       <span className="font-mono font-medium text-base text-slate-900">
                         {connectionType === 'on-grid' ? 0 : results.batteries} <span className="text-xs font-normal text-slate-500">units</span>
@@ -568,7 +552,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
 
             </div>
 
-            {/* â”€â”€ RIGHT COLUMN: CLEAN RESULTS & ESTIMATE (5 COLS) â”€â”€ */}
+            {/* ── RIGHT COLUMN: CLEAN RESULTS & ESTIMATE (5 COLS) ── */}
             <div className="lg:col-span-5 space-y-5 lg:sticky lg:top-28">
               
               <div className="bg-[#07162A] text-white border border-[#1E3E66] p-6 sm:p-7 rounded-[2px] shadow-lg space-y-6">
@@ -579,7 +563,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                     ESTIMATED COST & SAVINGS
                   </span>
                   <span className="text-xs font-mono uppercase bg-slate-800 px-2.5 py-0.5 rounded text-slate-300">
-                    {clientType === 'residential' ? 'Residential' : 'Commercial'} â€¢ {connectionType === 'on-grid' ? 'Grid-Tied' : connectionType === 'hybrid' ? 'Hybrid' : 'Off-Grid'}
+                    {clientType === 'residential' ? 'Residential' : 'Commercial'} • {connectionType === 'on-grid' ? 'Grid-Tied' : connectionType === 'hybrid' ? 'Hybrid' : 'Off-Grid'}
                   </span>
                 </div>
 
@@ -590,7 +574,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                   </span>
                   <div className="text-2xl sm:text-3xl font-medium text-white font-mono tracking-tight">
                     <span className="text-amber-400">{formatPeso(results.priceMin)}</span>
-                    <span className="text-slate-500 mx-2 text-xl font-normal">â€“</span>
+                    <span className="text-slate-500 mx-2 text-xl font-normal">–</span>
                     <span className="text-amber-400">{formatPeso(results.priceMax)}</span>
                   </div>
                   <p className="text-[11px] text-slate-400 pt-1 leading-snug">
@@ -683,7 +667,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
         </div>
       </section>
 
-      {/* â”€â”€ SIMPLE FAQ / HELP SECTION â”€â”€ */}
+      {/* ── SIMPLE FAQ / HELP SECTION ── */}
       <section className="py-12 bg-white border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
           <h3 className="text-xl font-bold text-slate-900 text-center">
@@ -715,7 +699,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
         </div>
       </section>
 
-      {/* â”€â”€ PROPOSAL REQUEST MODAL (CLEAN & SIMPLE) â”€â”€ */}
+      {/* ── PROPOSAL REQUEST MODAL (CLEAN & SIMPLE) ── */}
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -743,7 +727,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                     Request Solar Proposal
                   </h3>
                   <p className="font-mono text-xs text-slate-300 mt-0.5">
-                    {clientType === 'residential' ? 'Residential Home' : 'Commercial / Farm'} â€¢ {results.systemSizeKwp.toFixed(1)} kW System â€¢ {connectionType === 'on-grid' ? 'Grid-Tied' : connectionType === 'hybrid' ? 'Hybrid' : 'Off-Grid'}
+                    {clientType === 'residential' ? 'Residential Home' : 'Commercial / Farm'} • {results.systemSizeKwp.toFixed(1)} kW System • {connectionType === 'on-grid' ? 'Grid-Tied' : connectionType === 'hybrid' ? 'Hybrid' : 'Off-Grid'}
                   </p>
                 </div>
 
@@ -782,7 +766,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                   <div className="p-3 bg-[#0B192C] border border-[#1E3E66] rounded-[2px] space-y-1 font-mono text-[11px] text-slate-300">
                     <div className="flex justify-between text-amber-400 font-medium">
                       <span>Estimated Price:</span>
-                      <span>{formatPeso(results.priceMin)} â€“ {formatPeso(results.priceMax)}</span>
+                      <span>{formatPeso(results.priceMin)} – {formatPeso(results.priceMax)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Monthly Bill Savings:</span>
@@ -861,7 +845,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                       type="submit"
                       className="px-6 py-2.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-amber-400 hover:bg-amber-300 text-slate-950 transition-colors cursor-pointer"
                     >
-                      Submit Request â†’
+                      Submit Request →
                     </button>
                   </div>
                 </form>

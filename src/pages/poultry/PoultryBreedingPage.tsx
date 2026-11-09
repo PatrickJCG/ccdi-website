@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -30,8 +30,7 @@ import 'swiper/css/navigation';
 
 import type { Product } from '../../data/mockProducts';
 import { MOCK_PRODUCTS } from '../../data/mockProducts';
-import { PoultrySubNav } from '../../components/molecules/PoultrySubNav';
-import { PoultryLocalEngineers } from '../../components/molecules/PoultryLocalEngineers';
+import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../../components/molecules';
 import { ContactSection } from '../../components/organisms/ContactSection';
 import { PrefabricatedMaterialsSection } from '../../components/organisms/PrefabricatedMaterialsSection';
@@ -73,35 +72,35 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
   const currentBreederProduct = activeSlideIndex === 1 ? europeanProduct : americanProduct;
   const isCurrentBreederAdded = activeSlideIndex === 1 ? isEuropeanAdded : isAmericanAdded;
   const currentBreederTitle = activeSlideIndex === 1 ? 'European Type' : 'American Type';
-  const currentBreederCapacity = activeSlideIndex === 1 ? '12,500 Birds' : '10,890 Birds';
+  const currentBreederCapacity = '9,900 F / 990 M';
 
   const heroBreederOptions: HeroDesignOption[] = [
     {
       id: 'american',
-      optionNumber: 'Option 01',
+      optionNumber: 'Breeder House',
       badge: '1/3 Slat Layout',
-      title: 'American Type Breeder House',
-      caption: 'Turnkey parent stock facility engineered for natural mating, separate-sex feeding, and dual lateral sidewall community nests.',
+      title: 'American Type',
+      caption: '',
       imageUrl: '/images/breeder/american-type-interior.jpg',
       targetSectionId: 'breeder-designs',
       slideIndex: 0,
       metrics: [
-        { label: 'FLOCK CAPACITY', value: '10,890 Birds' },
-        { label: 'DIMENSIONS', value: '14m Ã— 134m Ã— 2.9m' },
+        { label: 'BIRD CAPACITY', value: '• 9,900 Female\n• 990 Male' },
+        { label: 'DIMENSIONS', value: '14m × 134m × 2.9m' },
       ],
     },
     {
       id: 'european',
-      optionNumber: 'Option 02',
+      optionNumber: 'Breeder House',
       badge: '2/3 Slat Layout',
-      title: 'European Type Breeder House',
-      caption: 'High-efficiency parent stock house featuring central community nest line, automated variable egg belts, and optimized litter foraging.',
+      title: 'European Type',
+      caption: '',
       imageUrl: '/images/breeder/euro-style-interior.png',
       targetSectionId: 'breeder-designs',
       slideIndex: 1,
       metrics: [
-        { label: 'FLOCK CAPACITY', value: '12,500 Birds' },
-        { label: 'DIMENSIONS', value: '16m Ã— 140m Ã— 3.0m' },
+        { label: 'BIRD CAPACITY', value: '• 9,900 Female\n• 990 Male' },
+        { label: 'DIMENSIONS', value: '16m × 140m × 3.0m' },
       ],
     },
   ];
@@ -136,16 +135,16 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
       description:
         'An egg-laying system for clean, efficient, and reliable hatching egg collection, with configurations from lateral double-row nest boxes to fully automated central community nests with variable-speed collection belts.',
       components: ['Group Community Nests', 'Lateral Double-Row Layout', 'Central Single-Row Conveyor', 'Variable-Speed Packing Tables'],
-      badge: 'COLLECTION EFFICIENCY >99.2% Â· FLOOR EGGS <0.8%',
+      badge: 'COLLECTION EFFICIENCY >99.2% · FLOOR EGGS <0.8%',
     },
     {
       title: 'Controlled Climate & Tunnel Ventilation System',
-      image: '/images/broiler/climate-system.jpg',
+      image: '/images/broiler/ventilation-fans.jpg',
       icon: Wind,
       description:
         'An integrated climate regulation system that ensures stable internal housing conditions with precise static pressure balance, variable-speed cone exhaust fans, and evaporative wet pad cooling walls.',
       components: ['EI-6000PLUS & EI-1000C Units', 'F50 Butterfly Cone Fans', 'EI-50 Louvered Fans', 'Direct-Drive Inverter EC Fans'],
-      badge: 'PRESSURE BALANCE Â±2 PA Â· AIR SPEED 2.5â€“3.2 M/S',
+      badge: 'PRESSURE BALANCE ±2 PA · AIR SPEED 2.5–3.2 M/S',
     },
     {
       title: 'Controlled Heating & Brooding System',
@@ -153,8 +152,8 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
       icon: Flame,
       description:
         'A controlled heat distribution system to maintain optimal temperatures for bird comfort, growth, and survival during brooding cycles with infrared radiant brooders and forced-air space heaters.',
-      components: ['DAMLY Infrared Radiant Brooders', 'Forced-Air Space Heaters', 'Electronic Spark Ignition', 'Emergency Auto Gas Cut-Off'],
-      badge: 'THERMAL EFFICIENCY 98.5% Â· 1,500 BIRDS/UNIT',
+      components: ['Infrared Radiant Brooders', 'Forced-Air Space Heaters', 'Electronic Spark Ignition', 'Emergency Auto Gas Cut-Off'],
+      badge: 'THERMAL EFFICIENCY 98.5% · 1,500 BIRDS/UNIT',
     },
     {
       title: 'Automated Separate-Sex Feeding System',
@@ -163,16 +162,16 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
       description:
         'Automated feeding system that stores, meters, and uniformly distributes feed using bulk outdoor galvanized silos, flex augers, and breeder pan/chain networks engineered with male exclusion grills.',
       components: ['Female Anti-Spill Pan Feeders', 'Adjustable Male Exclusion Grills', 'High-Speed Chain Loop (36 m/min)', 'Bulk Outdoor Zinc Silos'],
-      badge: 'TRAVEL SPEED 36 M/MIN Â· UNIFORMITY Â±1.2%',
+      badge: 'TRAVEL SPEED 36 M/MIN · UNIFORMITY ±1.2%',
     },
     {
       title: 'Closed-Loop Nipple Drinking System',
       image: '/images/layer/drinking-system.jpg',
       icon: Droplets,
       description:
-        'Automated water delivery system ensuring clean supply, uniform access, and regulated flow via 360Â° stainless steel nipple lines, anti-roost shock wires, drip cups, and pressure regulator stations.',
-      components: ['360Â° Stainless Nipple Drinkers', 'Single-Arm Drip Cups', 'Auto-Flush Biofilm Solenoids', 'Anti-Roost Shock Wire System'],
-      badge: 'FLOW RATE 45â€“90 ML/MIN Â· LITTER DRYNESS >95%',
+        'Automated water delivery system ensuring clean supply, uniform access, and regulated flow via 360° stainless steel nipple lines, anti-roost shock wires, drip cups, and pressure regulator stations.',
+      components: ['360° Stainless Nipple Drinkers', 'Single-Arm Drip Cups', 'Auto-Flush Biofilm Solenoids', 'Anti-Roost Shock Wire System'],
+      badge: 'FLOW RATE 45–90 ML/MIN · LITTER DRYNESS >95%',
     },
     {
       title: 'Precision Water Medication & Dosing System',
@@ -181,14 +180,14 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
       description:
         'A system for delivering medications, vaccines, and nutritional supplements through water for accurate dosing and uniform flock treatment using non-electric water-powered proportional pumps.',
       components: ['Dosatron Proportional Pumps', 'Three-Valve Bypass Assembly', 'Digital Flow Pulse Meters', 'Dual 130-Micron Mesh Filters'],
-      badge: 'DOSING ACCURACY Â±0.5% Â· RATIO 0.2%â€“2.0%',
+      badge: 'DOSING ACCURACY ±0.5% · RATIO 0.2%–2.0%',
     },
   ];
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
 
-      {/* â”€â”€ 1. BREADCRUMB & HERO BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 1. BREADCRUMB & HERO BANNER ────────────────────────────────────────── */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         {/* Glow & Industrial Grid Background */}
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
@@ -252,7 +251,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-                Clarkbase Construction Dev't Inc. delivers end-to-end turnkey broiler breeder parent stock facilities designed to maximize egg collection efficiency, biosecurity zoning, and stable microclimate control. Engineered with heavy-gauge Q355B H-steel rated for 200â€“280 kph typhoon winds.
+                CCDI delivers turnkey broiler breeder houses in American and European layouts, with different floor and nesting arrangements.
               </p>
 
               {/* Action Buttons */}
@@ -302,17 +301,17 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                   swiperInstance?.slideTo(idx);
                 }}
                 onSelectOption={handleSelectBreederDesign}
-                categoryLabel="BREEDER DESIGN FORMATS"
+                categoryLabel="Breeder House Specifications"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* â”€â”€ Contextual Sticky Sub-Nav â”€â”€ */}
-      <PoultrySubNav activeTab="broiler-breeder" />
+      {/* ── Contextual Sticky Sub-Nav ── */}
+      <SolutionSubNav category="poultry" activeTab="broiler-breeder" />
 
-      {/* â”€â”€ 2. HOUSING SYSTEM ARCHITECTURE (AMERICAN VS EUROPEAN TYPE) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 2. HOUSING SYSTEM ARCHITECTURE (AMERICAN VS EUROPEAN TYPE) ──────────── */}
       <section id="breeder-designs" className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
         {/* Architectural Top-Right Corner Accent */}
         <img
@@ -325,14 +324,11 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           {/* Section Header */}
           <div className="max-w-3xl space-y-3">
-            <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block">
-              BREEDER HOUSING DESIGN OPTIONS
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B192C] tracking-tight">
-              Two Proven Breeder Housing Systems
+              BREEDER HOUSING SYSTEM
             </h2>
             <p className="text-slate-600 text-base leading-relaxed">
-              CCDI fabricates two globally validated breeder housing layouts. Select your operational configuration to review architectural blueprints, slatted floor distribution, and bird flow dynamics.
+              Explore CCDI’s two broiler breeder housing systems. Review each option’s bird capacity, building dimensions, floor layout, and nesting features.
             </p>
           </div>
 
@@ -445,11 +441,8 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                         >
                           <div className="flex items-center gap-2 font-mono text-[11px] font-bold tracking-wider text-slate-400 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ring-4 ring-amber-400/20" />
-                            <span>Design Option 01</span>
+                            <span>Breeder House</span>
                           </div>
-                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-[#0B192C] border border-amber-300 font-sans">
-                            Dual Lateral Nesting
-                          </span>
                         </div>
 
                         {/* Product Title in Camel Casing */}
@@ -459,7 +452,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                             data-swiper-parallax-opacity="0"
                             className="text-2xl sm:text-[28px] font-extrabold tracking-tight text-white leading-tight"
                           >
-                            American Type Breeder House
+                            American Type
                           </h3>
                           <p className="text-[13px] text-slate-300 mt-1.5 font-normal leading-relaxed">
                             Turnkey broiler parent stock facility engineered for natural mating and sidewall group nesting.
@@ -558,7 +551,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                             </button>
                           </div>
 
-                          {/* Floor Plan Schematic Summary Panel */}
+                          {/* System Overview Panel */}
                           <div
                             data-swiper-parallax="-180"
                             data-swiper-parallax-opacity="0.2"
@@ -566,18 +559,11 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                           >
                             <div className="flex items-center gap-1.5 text-amber-400 font-bold uppercase tracking-wider text-[11px]">
                               <Layers className="w-3.5 h-3.5 text-amber-400" />
-                              <span>Floor Layout Dynamics</span>
+                              <span>System Overview</span>
                             </div>
-                            <div className="divide-y divide-white/10">
-                              <div className="flex items-baseline justify-between py-1.5 text-xs">
-                                <span className="font-semibold text-white">Roosting Slats</span>
-                                <span className="text-slate-300 text-right">Lateral rows along sidewalls (1/3)</span>
-                              </div>
-                              <div className="flex items-baseline justify-between py-1.5 text-xs">
-                                <span className="font-semibold text-white">Central Scratch Arena</span>
-                                <span className="text-slate-300 text-right">Free bird movement & mating (2/3)</span>
-                              </div>
-                            </div>
+                            <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                              A breeding housing system with nest boxes arranged in two rows along both sides of the building and a central mating area that allows free movement, natural mating, and improved bird distribution.
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -635,17 +621,15 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                           data-swiper-parallax-opacity="0.2"
                           className="grid grid-cols-1 sm:grid-cols-2 gap-3"
                         >
-                          {/* Card 1: Total Bird Capacity */}
+                          {/* Card 1: Bird Capacity */}
                           <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
                             <div className="flex items-center justify-between text-slate-400 mb-1">
-                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Total Bird Capacity</span>
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Bird Capacity</span>
                             </div>
-                            <div className="text-xl font-extrabold text-[#0B192C] tracking-tight">
-                              10,890 Birds
+                            <div className="text-base sm:text-lg font-extrabold text-[#0B192C] tracking-tight leading-snug">
+                              <div>• 9,900 Female</div>
+                              <div>• 990 Male</div>
                             </div>
-                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                              9,900 Female + 990 Male (10:1 Ratio)
-                            </span>
                           </div>
 
                           {/* Card 2: Building Dimensions */}
@@ -654,37 +638,18 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                               <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Building Dimensions</span>
                             </div>
                             <div className="text-xl font-extrabold text-[#0B192C] tracking-tight">
-                              14m Ã— 134m Ã— 2.9m
+                              14m × 134m × 2.9m
                             </div>
-                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                              Width Ã— Length Ã— Eave Height
-                            </span>
                           </div>
 
                           {/* Card 3: Building Type */}
-                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group sm:col-span-2">
                             <div className="flex items-center justify-between text-slate-400 mb-1">
                               <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Building Type</span>
                             </div>
                             <div className="text-lg font-bold text-slate-900 tracking-tight">
                               Pre-Fabricated House
                             </div>
-                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                              Thermal insulated PU sandwich panels
-                            </span>
-                          </div>
-
-                          {/* Card 4: Floor Architecture */}
-                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
-                            <div className="flex items-center justify-between text-slate-400 mb-1">
-                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Floor Architecture</span>
-                            </div>
-                            <div className="text-lg font-bold text-slate-900 tracking-tight">
-                              Raised Lateral Slats
-                            </div>
-                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                              Outer roost lines with central scratch arena
-                            </span>
                           </div>
                         </div>
                       </div>
@@ -759,25 +724,6 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                           </div>
                         </div>
                       </div>
-
-                      {/* Section 3: Compressed Local Professional Engineering Team */}
-                      <div
-                        data-swiper-parallax="-500"
-                        data-swiper-parallax-opacity="0.1"
-                        className="space-y-2.5 pt-1"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="w-1.5 h-3.5 bg-amber-500 rounded-full" />
-                          <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
-                            Local Professional Engineering Team
-                          </span>
-                        </div>
-                        <PoultryLocalEngineers
-                          solutionType="breeder"
-                          solutionName="American (1/3 Slat) Layout"
-                          compact
-                        />
-                      </div>
                     </div>
 
                     {/* Section 4: Brand Footer Strip */}
@@ -819,11 +765,8 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                         >
                           <div className="flex items-center gap-2 font-mono text-[11px] font-bold tracking-wider text-slate-400 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ring-4 ring-amber-400/20" />
-                            <span>Design Option 02</span>
+                            <span>Breeder House</span>
                           </div>
-                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-[#0B192C] border border-amber-300 font-sans">
-                            Central Community Nesting
-                          </span>
                         </div>
 
                         {/* Product Title in Camel Casing */}
@@ -833,7 +776,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                             data-swiper-parallax-opacity="0"
                             className="text-2xl sm:text-[28px] font-extrabold tracking-tight text-white leading-tight"
                           >
-                            European Type Breeder House
+                            European Type
                           </h3>
                           <p className="text-[13px] text-slate-300 mt-1.5 font-normal leading-relaxed">
                             Turnkey broiler parent stock facility engineered for central community nesting and high space efficiency.
@@ -943,7 +886,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                             </button>
                           </div>
 
-                          {/* Floor Plan Schematic Summary Panel */}
+                          {/* System Overview Panel */}
                           <div
                             data-swiper-parallax="-180"
                             data-swiper-parallax-opacity="0.2"
@@ -951,22 +894,11 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                           >
                             <div className="flex items-center gap-1.5 text-amber-400 font-bold uppercase tracking-wider text-[11px]">
                               <Layers className="w-3.5 h-3.5 text-amber-400" />
-                              <span>Floor Layout Dynamics</span>
+                              <span>System Overview</span>
                             </div>
-                            <div className="divide-y divide-white/10">
-                              <div className="flex items-baseline justify-between py-1.5 text-xs">
-                                <span className="font-semibold text-white">Slatted Deck Coverage</span>
-                                <span className="text-slate-300 text-right">Elevated plastic slats over 2/3 floor</span>
-                              </div>
-                              <div className="flex items-baseline justify-between py-1.5 text-xs">
-                                <span className="font-semibold text-white">Center Nest Line</span>
-                                <span className="text-slate-300 text-right">Automated community egg gathering</span>
-                              </div>
-                              <div className="flex items-baseline justify-between py-1.5 text-xs">
-                                <span className="font-semibold text-white">End Scratch Arenas</span>
-                                <span className="text-slate-300 text-right">Dedicated mating areas at both ends</span>
-                              </div>
-                            </div>
+                            <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                              A breeding housing system that uses group or community nests arranged in a single row at the center, with mating areas at both ends of the building to improve space efficiency, egg collection, and production consistency.
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -1024,17 +956,15 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                           data-swiper-parallax-opacity="0.2"
                           className="grid grid-cols-1 sm:grid-cols-2 gap-3"
                         >
-                          {/* Card 1: Total Bird Capacity */}
+                          {/* Card 1: Bird Capacity */}
                           <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
                             <div className="flex items-center justify-between text-slate-400 mb-1">
-                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Total Bird Capacity</span>
+                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Bird Capacity</span>
                             </div>
-                            <div className="text-xl font-extrabold text-[#0B192C] tracking-tight">
-                              10,890 Birds
+                            <div className="text-base sm:text-lg font-extrabold text-[#0B192C] tracking-tight leading-snug">
+                              <div>• 9,900 Female</div>
+                              <div>• 990 Male</div>
                             </div>
-                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                              9,900 Female + 990 Male (10:1 Ratio)
-                            </span>
                           </div>
 
                           {/* Card 2: Building Dimensions */}
@@ -1043,37 +973,18 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                               <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Building Dimensions</span>
                             </div>
                             <div className="text-xl font-extrabold text-[#0B192C] tracking-tight">
-                              14m Ã— 134m Ã— 2.9m
+                              16m × 140m × 3.0m
                             </div>
-                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                              Width Ã— Length Ã— Eave Height
-                            </span>
                           </div>
 
                           {/* Card 3: Building Type */}
-                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
+                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group sm:col-span-2">
                             <div className="flex items-center justify-between text-slate-400 mb-1">
                               <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Building Type</span>
                             </div>
                             <div className="text-lg font-bold text-slate-900 tracking-tight">
                               Pre-Fabricated House
                             </div>
-                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                              Thermal insulated PU sandwich panels
-                            </span>
-                          </div>
-
-                          {/* Card 4: Floor Architecture */}
-                          <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs hover:border-amber-400/60 hover:shadow-sm transition-all group">
-                            <div className="flex items-center justify-between text-slate-400 mb-1">
-                              <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">Floor Architecture</span>
-                            </div>
-                            <div className="text-lg font-bold text-slate-900 tracking-tight">
-                              Elevated Slatted Deck
-                            </div>
-                            <span className="text-[11px] text-slate-500 block mt-1 font-normal">
-                              High-density plastic slats with end mating zones
-                            </span>
                           </div>
                         </div>
                       </div>
@@ -1148,25 +1059,6 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                           </div>
                         </div>
                       </div>
-
-                      {/* Section 3: Compressed Local Professional Engineering Team */}
-                      <div
-                        data-swiper-parallax="-500"
-                        data-swiper-parallax-opacity="0.1"
-                        className="space-y-2.5 pt-1"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="w-1.5 h-3.5 bg-amber-500 rounded-full" />
-                          <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
-                            Local Professional Engineering Team
-                          </span>
-                        </div>
-                        <PoultryLocalEngineers
-                          solutionType="breeder"
-                          solutionName="European (2/3 Slat) Layout"
-                          compact
-                        />
-                      </div>
                     </div>
 
                     {/* Section 4: Brand Footer Strip */}
@@ -1226,13 +1118,13 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
         </div>
       </section>
 
-      {/* â”€â”€ 3. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 3. PRE-FABRICATED HOUSE MATERIALS & SPECIFICATIONS TABLE ───────────── */}
       <PrefabricatedMaterialsSection
         id="materials-specifications"
         sourceBrochure="CCDI Poultry Breeding Operations engineering brochure"
       />
 
-      {/* â”€â”€ 4. INTEGRATED BREEDER SUB-SYSTEMS (DARK THEME) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 4. INTEGRATED BREEDER SUB-SYSTEMS (DARK THEME) ───────────── */}
       <section id="operational-systems" className="py-20 sm:py-24 bg-[#0B192C] border-b border-slate-800 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
         <img
@@ -1245,13 +1137,13 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
             <span className="font-mono text-xs uppercase tracking-widest text-amber-400 block font-normal">
-              BREEDER AUTOMATION & CONTROL
+              POULTRY HOUSE SYSTEMS & EQUIPMENT
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-              Integrated Breeder Sub-Systems
+              Equipment for Breeder House Operations
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
-              Every CCDI poultry breeding house is equipped with factory-calibrated mechanical and electrical systems engineered to uphold parent stock welfare, feed conversion, and hatchability:
+              Each CCDI breeder house integrates mechanical and electrical systems to support flock health, feeding efficiency, and egg production and collection.
             </p>
           </div>
 
@@ -1306,8 +1198,8 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                     <div className="pt-3 border-t border-slate-700/60 flex items-start justify-between text-[11px] font-mono text-slate-400 gap-3">
                       <span className="shrink-0 pt-0.5">SPECIFICATION</span>
                       <div className="flex flex-col items-end text-right space-y-1">
-                        {sys.badge.includes(' Â· ') ? (
-                          sys.badge.split(' Â· ').map((part, pIdx) => (
+                        {sys.badge.includes(' · ') ? (
+                          sys.badge.split(' · ').map((part, pIdx) => (
                             <span key={pIdx} className="text-amber-400 font-normal">
                               {part}
                             </span>
@@ -1325,16 +1217,16 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
         </div>
       </section>
 
-      {/* â”€â”€ 5.5. RETROFITTING & MODERNIZATION CALLOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 5.5. RETROFITTING & MODERNIZATION CALLOUT ────────────── */}
       <PoultryRetrofitCallout currentCategory="Breeder Farm" />
 
-      {/* â”€â”€ 6. CONTACT & CONSULTATION SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 6. CONTACT & CONSULTATION SECTION ──────────────────────────────────── */}
       <ContactSection
         inquiryItems={inquiryItems}
         onRemoveInquiryItem={onRemoveInquiryItem}
       />
 
-      {/* â”€â”€ 7. FULL-RESOLUTION LIGHTBOX MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── 7. FULL-RESOLUTION LIGHTBOX MODAL ─────────────────────────────────── */}
       <AnimatePresence>
         {lightboxImage && (
           <div
@@ -1370,7 +1262,7 @@ export const PoultryBreedingPage: React.FC<PoultryBreedingPageProps> = ({
                   onClick={() => setLightboxImage(null)}
                   className="absolute top-4 right-4 px-3 py-1.5 bg-black/80 hover:bg-amber-400 hover:text-slate-950 text-white font-mono text-xs font-bold rounded-[2px] border border-white/20 cursor-pointer transition-colors"
                 >
-                  âœ• CLOSE [ESC]
+                  ✕ CLOSE [ESC]
                 </button>
               </div>
               <div className="p-4 bg-[#0B192C] border-t border-[#1E3E66] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
