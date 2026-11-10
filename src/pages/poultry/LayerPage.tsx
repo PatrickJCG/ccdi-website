@@ -455,6 +455,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
               spaceBetween={20}
               slidesPerView={1}
               initialSlide={0}
+              autoHeight={true}
               mousewheel={{
                 forceToAxis: true,
                 releaseOnEdges: true,
@@ -503,11 +504,112 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                     title={design.title}
                     imageUrl={design.imageUrl}
                     overview={design.description}
-                    metrics={[
-                      { label: 'Total Bird Capacity', value: design.birdCapacity, primary: true },
-                      { label: 'Building Dimensions', value: design.dimensions, primary: true },
-                      { label: 'Building Type', value: design.buildingType },
-                    ]}
+                    metrics={
+                      design.id === 'h-frame'
+                        ? [
+                          {
+                            label: 'House Dimensions',
+                            value: design.dimensions,
+                            sub: 'Clearance ceiling height · Pre-engineered',
+                            primary: true,
+                          },
+                          {
+                            label: 'Bird Type',
+                            value: 'Commercial Layer',
+                            sub: 'Ready-to-lay egg production flock',
+                          },
+                          {
+                            label: 'Cage Layout',
+                            value: '6 Rows × 4 Tiers',
+                            sub: `${design.cageDetails} (${design.stockingDensity})`,
+                          },
+                          {
+                            label: 'Nominal Capacity',
+                            value: '45,000 birds',
+                            sub: 'Engineered at 450 sq cm welfare density',
+                            primary: true,
+                          },
+                          {
+                            label: 'Power Supply',
+                            value: '3-Phase, 230 V, 60 Hz',
+                            sub: 'Industrial voltage for egg collection & climate',
+                          },
+                          {
+                            label: 'House Construction',
+                            value: 'Steel Structure with Prefabricated Insulated Panels',
+                            sub: 'Q355B H-steel + PPGI PU sandwich panels',
+                          },
+                        ]
+                        : design.id === 'a-frame'
+                        ? [
+                          {
+                            label: 'House Dimensions',
+                            value: design.dimensions,
+                            sub: 'Clearance ceiling height · Pre-engineered',
+                            primary: true,
+                          },
+                          {
+                            label: 'Bird Type',
+                            value: 'Commercial Layer',
+                            sub: 'Ready-to-lay open A-frame flock',
+                          },
+                          {
+                            label: 'Cage Layout',
+                            value: 'Sloped Multi-Tier A-Frame',
+                            sub: `${design.cageDetails} (${design.stockingDensity})`,
+                          },
+                          {
+                            label: 'Nominal Capacity',
+                            value: '30,000 birds',
+                            sub: 'Engineered at 450 sq cm welfare density',
+                            primary: true,
+                          },
+                          {
+                            label: 'Power Supply',
+                            value: '3-Phase, 230 V, 60 Hz',
+                            sub: 'Industrial voltage for ventilation & feeders',
+                          },
+                          {
+                            label: 'House Construction',
+                            value: 'Steel Structure with Prefabricated Insulated Panels',
+                            sub: 'Q355B H-steel + PPGI PU sandwich panels',
+                          },
+                        ]
+                        : [
+                          {
+                            label: 'House Dimensions',
+                            value: design.dimensions,
+                            sub: 'Clearance ceiling height · Pre-engineered',
+                            primary: true,
+                          },
+                          {
+                            label: 'Bird Type',
+                            value: 'Pullet / Growing Chicks',
+                            sub: 'Day-old up to pre-laying stage',
+                          },
+                          {
+                            label: 'Cage Layout',
+                            value: 'H-Frame Rearing Battery',
+                            sub: 'Tighter wire mesh sized for young chicks',
+                          },
+                          {
+                            label: 'Nominal Capacity',
+                            value: 'Customizable Multi-Tier',
+                            sub: 'High-density brooding & growing volume',
+                            primary: true,
+                          },
+                          {
+                            label: 'Power Supply',
+                            value: '3-Phase, 230 V, 60 Hz',
+                            sub: 'Industrial voltage for heating & ventilation',
+                          },
+                          {
+                            label: 'House Construction',
+                            value: 'Steel Structure with Prefabricated Insulated Panels',
+                            sub: 'Q355B H-steel + PPGI PU sandwich panels',
+                          },
+                        ]
+                    }
                     advantages={design.advantages}
                     solutionType="layer"
                     solutionName={design.title}

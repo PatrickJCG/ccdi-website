@@ -280,18 +280,13 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
                 {BLUEPRINT_ROOMS.map((room, idx) => (
                   <div
                     key={room.id}
-                    className="bg-[#0B192C] border border-[#1E3E66] p-4 rounded-[2px] flex items-center justify-between hover:border-amber-400/80 transition-colors group"
+                    className="bg-[#0B192C] border border-[#1E3E66] p-4 rounded-[2px] flex items-center gap-3 hover:border-amber-400/80 transition-colors group"
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="w-7 h-7 rounded-[2px] bg-[#07162A] border border-[#1E3E66] font-mono text-xs font-bold text-amber-400 flex items-center justify-center shrink-0 group-hover:bg-amber-400 group-hover:text-slate-950 transition-colors">
-                        {String(idx + 1).padStart(2, '0')}
-                      </span>
-                      <span className="text-sm font-medium text-white group-hover:text-amber-400 transition-colors">
-                        {room.name}
-                      </span>
-                    </div>
-                    <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider px-2 py-0.5 bg-[#07162A] border border-[#1E3E66] rounded-[2px] shrink-0">
-                      {room.zone}
+                    <span className="w-7 h-7 rounded-[2px] bg-[#07162A] border border-[#1E3E66] font-mono text-xs font-bold text-amber-400 flex items-center justify-center shrink-0 group-hover:bg-amber-400 group-hover:text-slate-950 transition-colors">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-sm font-medium text-white group-hover:text-amber-400 transition-colors">
+                      {room.name}
                     </span>
                   </div>
                 ))}

@@ -12,8 +12,10 @@ import {
   Utensils,
   Droplets,
   Activity,
-  Layers,
   Truck,
+  Users,
+  Cpu,
+  HandMetal,
 } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
@@ -46,6 +48,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
 }) => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [activeSlideIndex, setActiveSlideIndex] = useState(1);
+  const [selectedHarvestMethod, setSelectedHarvestMethod] = useState<'automated' | 'manual'>('automated');
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -81,7 +84,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
       slideIndex: 0,
       metrics: [
         { label: 'FLOCK CAPACITY', value: '80,000 @ 1.8kg' },
-        { label: 'DIMENSIONS', value: '16m × 110m × 4.2m' },
+        { label: 'DIMENSIONS', value: '16m × 110m × 4m–4.2m' },
       ],
     },
     {
@@ -136,7 +139,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
       description:
         'An intensive poultry housing solution that maximizes vertical space through multi-tier cages, featuring integrated feeding, drinking, ventilation, manure removal, and manual or automatic harvesting systems',
       buildingType: 'Prefabricated House',
-      dimensions: '16m x 110m x 4m–4.2m',
+      dimensions: '16m × 110m × 4m–4.2m',
       birdCapacity: '80,000 @ 1.8kg',
       floorArchitecture: 'Multi-Tier Vertical Battery',
       ventilationSystem: 'Integrated Negative Pressure Tunnel',
@@ -202,7 +205,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
 
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
-      
+
       {/* ── 1. HERO BANNER ────────────────────────────────────────── */}
       <section className="relative bg-[#07162A] text-white pt-10 pb-20 sm:pb-24 border-b border-[#102A43] overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
@@ -283,11 +286,10 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                   <button
                     type="button"
                     onClick={() => onToggleInquiry(currentDesign.product!)}
-                    className={`inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[2px] font-sans text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                      currentDesign.isAdded
-                        ? 'bg-amber-400 text-slate-950 hover:bg-amber-300'
-                        : 'bg-[#102A43] text-white hover:bg-[#1E3E66] border border-[#1E3E66]'
-                    }`}
+                    className={`inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[2px] font-sans text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${currentDesign.isAdded
+                      ? 'bg-amber-400 text-slate-950 hover:bg-amber-300'
+                      : 'bg-[#102A43] text-white hover:bg-[#1E3E66] border border-[#1E3E66]'
+                      }`}
                   >
                     {currentDesign.isAdded ? (
                       <>
@@ -354,11 +356,10 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                   swiperInstance?.slideTo(idx);
                   setActiveSlideIndex(idx);
                 }}
-                className={`px-4 sm:px-5 py-2.5 rounded-lg text-xs font-bold tracking-wide transition-all cursor-pointer ${
-                  activeSlideIndex === idx
-                    ? 'bg-[#0B192C] text-white shadow-sm'
-                    : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/50'
-                }`}
+                className={`px-4 sm:px-5 py-2.5 rounded-lg text-xs font-bold tracking-wide transition-all cursor-pointer ${activeSlideIndex === idx
+                  ? 'bg-[#0B192C] text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/50'
+                  }`}
               >
                 {design.tabLabel}
               </button>
@@ -395,6 +396,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
               spaceBetween={20}
               slidesPerView={1}
               initialSlide={1}
+              autoHeight={true}
               mousewheel={{
                 forceToAxis: true,
                 releaseOnEdges: true,
@@ -445,16 +447,173 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     metrics={
                       design.id === 'cage'
                         ? [
-                            { label: 'Total Bird Capacity', value: design.birdCapacity, primary: true },
-                            { label: 'Building Dimensions', value: design.dimensions, primary: true },
-                            { label: 'Building Type', value: design.buildingType },
-                          ]
+                          {
+                            label: 'Number of Houses',
+                            value: '1 House Unit',
+                            sub: 'Tunnel-ventilated prefabricated structure',
+                          },
+                          {
+                            label: 'Design Capacity',
+                            value: design.birdCapacity,
+                            sub: 'Calculated at 1.8 kg target harvest weight',
+                            primary: true,
+                          },
+                          {
+                            label: 'House Dimensions',
+                            value: design.dimensions,
+                            sub: 'Clearance ceiling height · Pre-engineered',
+                            primary: true,
+                          },
+                          {
+                            label: 'Power Supply',
+                            value: '3-Phase, 220V / 230V, 60Hz',
+                            sub: 'Industrial rating for climate controls & augers',
+                          },
+                          {
+                            label: 'Harvest Method',
+                            value:
+                              selectedHarvestMethod === 'automated'
+                                ? 'Automatic Transfer'
+                                : 'Manual Catch & Crate',
+                            sub:
+                              selectedHarvestMethod === 'automated'
+                                ? 'Cage-to-carousel mechanical conveyor transfer'
+                                : 'Aisle corridors & manual crating transfer',
+                          },
+                          {
+                            label: 'Delivery Basis',
+                            value: 'Delivered, Installed & Commissioned',
+                            sub: 'Full turnkey execution directly at the farm',
+                          },
+                        ]
                         : [
-                            { label: 'Total Bird Capacity', value: design.birdCapacity, primary: true },
-                            { label: 'Building Dimensions', value: design.dimensions, primary: true },
-                            { label: 'Building Type', value: design.buildingType },
-                            { label: 'Ventilation System', value: design.ventilationSystem },
-                          ]
+                          {
+                            label: 'Total Bird Capacity',
+                            value: design.birdCapacity,
+                            sub: 'Calculated at 1.8 kg target harvest weight',
+                          },
+                          {
+                            label: 'Building Dimensions',
+                            value: design.dimensions,
+                            sub: 'Clearance ceiling height · Pre-engineered',
+                          },
+                          {
+                            label: 'Building Type',
+                            value: design.buildingType,
+                            sub: 'Pre-fabricated steel house with insulated sandwich panels',
+                          },
+                          {
+                            label: 'Ventilation System',
+                            value: design.ventilationSystem,
+                            sub: 'Negative pressure tunnel ventilation with cooling pads',
+                          },
+                        ]
+                    }
+                    extraContent={
+                      design.id === 'cage' ? (
+                        <div className="space-y-2.5 pt-1">
+                          {/* Section Header */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="w-1.5 h-3.5 bg-amber-500 rounded-full shrink-0" />
+                              <span className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+                                Configurable Harvest Method
+                              </span>
+                            </div>
+                            <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider hidden sm:inline">
+                              Project Options
+                            </span>
+                          </div>
+
+                          {/* Interactive Toggle Buttons */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-1.5 bg-slate-100/80 rounded-xl border border-slate-200/80">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedHarvestMethod('automated')}
+                              className={`flex items-start gap-2 p-2.5 rounded-lg text-left transition-all cursor-pointer ${selectedHarvestMethod === 'automated'
+                                  ? 'bg-[#0B192C] text-white shadow-sm ring-1 ring-amber-400/50'
+                                  : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'
+                                }`}
+                            >
+                              <div
+                                className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${selectedHarvestMethod === 'automated'
+                                    ? 'bg-amber-400 text-slate-950 font-bold'
+                                    : 'bg-slate-100 text-slate-600'
+                                  }`}
+                              >
+                                <Cpu className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-xs font-bold leading-tight block">
+                                    Automated Carousel
+                                  </span>
+                                  {selectedHarvestMethod === 'automated' && (
+                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                                  )}
+                                </div>
+                                <span
+                                  className={`text-[11px] block leading-snug mt-0.5 ${selectedHarvestMethod === 'automated' ? 'text-slate-300' : 'text-slate-500'
+                                    }`}
+                                >
+                                  Cage-to-carousel system
+                                </span>
+                              </div>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setSelectedHarvestMethod('manual')}
+                              className={`flex items-start gap-2 p-2.5 rounded-lg text-left transition-all cursor-pointer ${selectedHarvestMethod === 'manual'
+                                  ? 'bg-[#0B192C] text-white shadow-sm ring-1 ring-amber-400/50'
+                                  : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'
+                                }`}
+                            >
+                              <div
+                                className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${selectedHarvestMethod === 'manual'
+                                    ? 'bg-amber-400 text-slate-950 font-bold'
+                                    : 'bg-slate-100 text-slate-600'
+                                  }`}
+                              >
+                                <HandMetal className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-xs font-bold leading-tight block">
+                                    Manual Catch &amp; Crate
+                                  </span>
+                                  {selectedHarvestMethod === 'manual' && (
+                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                                  )}
+                                </div>
+                                <span
+                                  className={`text-[11px] block leading-snug mt-0.5 ${selectedHarvestMethod === 'manual' ? 'text-slate-300' : 'text-slate-500'
+                                    }`}
+                                >
+                                  Aisle corridor crating
+                                </span>
+                              </div>
+                            </button>
+                          </div>
+
+                          {/* Dynamic Specification Detail Box based on Harvest Selection */}
+                          <div className="bg-amber-50/70 border border-amber-300/60 rounded-xl p-3 text-xs flex flex-col gap-1.5">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono text-[11px] text-amber-800 font-bold uppercase tracking-wider block">
+                                Active Harvest Spec ({selectedHarvestMethod === 'automated' ? 'Automated' : 'Manual'})
+                              </span>
+                              <span className="text-[10px] font-mono font-bold text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0">
+                                Delivered &amp; Installed
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-700 leading-relaxed font-normal">
+                              {selectedHarvestMethod === 'automated'
+                                ? 'Automatic cage-to-carousel mechanical transfer system delivering birds directly to crating stations with minimal bruising.'
+                                : 'Manual catching and crating with clear-span access aisles, dimmable LED catching lights, and transport trolley corridors.'}
+                            </p>
+                          </div>
+                        </div>
+                      ) : undefined
                     }
                     advantages={design.advantages}
                     solutionType="broiler"
@@ -533,102 +692,102 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
           </div>
 
           <div className="space-y-6">
-            {/* ── FEATURED HERO: CONTROLLED CLIMATE SYSTEM (Exact Brochure Flagship) ── */}
+            {/* ── FEATURED HERO: AUTOMATED FEEDING SYSTEM (Highlighted Flagship) ── */}
             <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden group hover:border-amber-500/50 transition-all duration-300 shadow-xl">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 {/* Left Media & Description */}
                 <div className="lg:col-span-5 relative min-h-[300px] lg:min-h-[400px] bg-slate-900 overflow-hidden flex flex-col justify-between p-6 sm:p-8">
                   <img
-                    src="/images/broiler/ventilation-fans.jpg"
-                    alt="Controlled Climate System - High-Efficiency Fans"
+                    src="/images/broiler/feeding-system.jpg"
+                    alt="Automated Feeding System - Broiler House Pan Lines"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-[#0F223D]/80 to-[#0F223D]/40" />
-                  
+
                   <div className="relative z-10 flex items-center justify-between gap-2">
                     <div className="w-9 h-9 rounded-[2px] bg-[#0B192C]/90 backdrop-blur-xs border border-amber-500/50 flex items-center justify-center text-amber-400 shadow-md">
-                      <Wind className="w-5 h-5" />
+                      <Utensils className="w-5 h-5" />
                     </div>
                   </div>
 
                   <div className="relative z-10 space-y-2 pt-10">
                     <h4 className="text-xl sm:text-2xl font-bold text-white group-hover:text-amber-300 transition-colors tracking-tight">
-                      Controlled Climate System
+                      Feeding System
                     </h4>
                     <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
-                      An integrated climate regulation system that ensures stable internal housing conditions.
+                      Automated or semi-automated system that stores, meters, and uniformly distributes feed using controlled and integrated systems.
                     </p>
                     <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono">
-                      <span className="text-slate-400">TUNNEL AIR VELOCITY</span>
-                      <span className="text-amber-400 font-bold">2.5–3.2 m/s</span>
+                      <span className="text-slate-400">FEED DISTRIBUTION</span>
+                      <span className="text-amber-400 font-bold">Anti-Spill Radial Pans</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Right Specification & Equipment Grid from Brochure */}
                 <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-6 bg-gradient-to-br from-[#0F223D] to-[#0B192C]">
-                  {/* Controllers */}
+                  {/* Bulk Storage & Conveyance Infrastructure */}
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2">
                       <span className="w-1 h-3 bg-amber-400 rounded-full" />
                       <span className="text-[11px] font-mono uppercase font-bold tracking-wider text-slate-400">
-                        EI Environmental Controllers
+                        Bulk Storage & Conveyance Infrastructure
                       </span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       <div className="bg-[#07162A]/80 border border-slate-700/80 p-3 rounded-[2px]">
-                        <span className="text-xs font-bold text-white block">EI-6000PLUS</span>
-                        <span className="text-[11px] text-slate-400 block mt-0.5 font-normal">Multi-zone climate, fan staging & static pressure controller</span>
+                        <span className="text-xs font-bold text-white block">Hot-Dip Galvanized Silos</span>
+                        <span className="text-[11px] text-slate-400 block mt-0.5 font-normal">1.5T to 32T capacity, 250g/m² zinc coating & 60° discharge cone</span>
                       </div>
                       <div className="bg-[#07162A]/80 border border-slate-700/80 p-3 rounded-[2px]">
-                        <span className="text-xs font-bold text-white block">EI-1000C</span>
-                        <span className="text-[11px] text-slate-400 block mt-0.5 font-normal">Dedicated micro-climate & tunnel ventilation control unit</span>
+                        <span className="text-xs font-bold text-white block">Flex-Auger Drive Units</span>
+                        <span className="text-[11px] text-slate-400 block mt-0.5 font-normal">High-tensile delivery auger with bottom electronic weighing module</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Fan Portfolio from Brochure */}
+                  {/* Feeding Line Components */}
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2">
                       <span className="w-1 h-3 bg-amber-400 rounded-full" />
                       <span className="text-[11px] font-mono uppercase font-bold tracking-wider text-slate-400">
-                        High-Efficiency Ventilation Fans
+                        Pan Feeding & Sensing Components
                       </span>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       {[
-                        'F50 Butterfly Cone Fan',
-                        'EI-50 Louvered Cone Fan',
-                        '50 Inverter Fan',
-                        '50 Shutter Direct-drive EC Fan',
-                        'FRP Industrial Fans',
-                        '55 Direct-drive EC fans',
-                      ].map((fan, fIdx) => (
+                        'EI-WL2/14 Feed Pan',
+                        '14 Radial Positions',
+                        'Anti-Spill Rim Design',
+                        'Pan Level Micro-Sensors',
+                        'Ceiling Winch Line Hoist',
+                        'Adjustable Feed Collar',
+                      ].map((item, fIdx) => (
                         <div
                           key={fIdx}
                           className="bg-[#07162A]/60 border border-slate-700/60 p-2.5 rounded-[2px] text-left hover:border-amber-400/40 transition-colors"
                         >
-                          <span className="text-xs font-medium text-slate-200 block">{fan}</span>
+                          <span className="text-xs font-medium text-slate-200 block">{item}</span>
                           <span className="text-[10px] text-amber-400/80 font-mono block mt-0.5">Commercial Grade</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Evaporative Cooling */}
+                  {/* Bottom Pipeline Spec */}
                   <div className="pt-2 border-t border-slate-700/60 flex flex-wrap items-center justify-between gap-3 text-xs">
                     <div className="text-slate-400">
-                      <span className="text-slate-200 font-medium">Cooling Media:</span> 150mm High-Efficiency Cellulose Wet Pads
+                      <span className="text-slate-200 font-medium">Conveyance Line:</span> 45mm Galvanized Auger Pipe (3–4 Pans/3m)
                     </div>
-                    <span className="text-[11px] font-mono text-emerald-400">CE Certified · AMCA Tested</span>
+                    <span className="text-[11px] font-mono text-emerald-400">Zero Overflow · Multi-Stage Brooding</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* ── 6 SUPPORTING SYSTEMS GRID (Exact Brochure Definitions + Operational Handling) ── */}
+            {/* ── 6 SUPPORTING SYSTEMS GRID (Brochure Definitions + Operational Handling) ── */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* System 2: Heating System */}
+              {/* System 1: Heating System */}
               <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
                 <div>
                   <div className="relative h-48 overflow-hidden bg-slate-900">
@@ -677,27 +836,27 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 </div>
               </div>
 
-              {/* System 3: Feeding System */}
+              {/* System 2: Controlled Climate System */}
               <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
                 <div>
                   <div className="relative h-48 overflow-hidden bg-slate-900">
                     <img
-                      src="/images/broiler/feeding-system.jpg"
-                      alt="Feeding System"
+                      src="/images/broiler/ventilation-fans.jpg"
+                      alt="Controlled Climate System"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
                     <div className="absolute top-3 left-3 w-8 h-8 rounded-[2px] bg-[#0B192C]/85 backdrop-blur-xs border border-amber-500/40 flex items-center justify-center text-amber-400 shadow-sm">
-                      <Utensils className="w-4 h-4" />
+                      <Wind className="w-4 h-4" />
                     </div>
                   </div>
 
                   <div className="p-5 space-y-3">
                     <h4 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors">
-                      Feeding System
+                      Controlled Climate System
                     </h4>
                     <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                      Automated or semi-automated system that stores, meters, and uniformly distributes feed using controlled and integrated systems.
+                      An integrated climate regulation system that ensures stable internal housing conditions.
                     </p>
 
                     <div className="pt-2">
@@ -705,7 +864,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                         Key Equipment
                       </span>
                       <div className="flex flex-wrap gap-1.5">
-                        {['Bulk Outdoor Silos', 'Flex-Auger Delivery', '330mm Anti-Spill Pans', 'Pan Level Sensors'].map((comp, cIdx) => (
+                        {['EI-6000PLUS Controller', 'EI-1000C Unit', 'F50 Butterfly Cone Fans', 'Cellulose Wet Pads'].map((comp, cIdx) => (
                           <span
                             key={cIdx}
                             className="text-[10px] bg-[#07162A] text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-[2px] font-normal"
@@ -720,13 +879,13 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
 
                 <div className="p-5 pt-0">
                   <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                    <span>FEED DISTRIBUTION</span>
-                    <span className="text-amber-400 font-semibold">Anti-Spill Pans</span>
+                    <span>TUNNEL AIR VELOCITY</span>
+                    <span className="text-amber-400 font-semibold">2.5–3.2 m/s</span>
                   </div>
                 </div>
               </div>
 
-              {/* System 4: Drinking System */}
+              {/* System 3: Drinking System */}
               <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
                 <div>
                   <div className="relative h-48 overflow-hidden bg-slate-900">
@@ -775,7 +934,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 </div>
               </div>
 
-              {/* System 5: Medication System */}
+              {/* System 4: Medication System */}
               <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
                 <div>
                   <div className="relative h-48 overflow-hidden bg-slate-900">
@@ -824,62 +983,13 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                 </div>
               </div>
 
-              {/* System 6: Manure Removal System */}
-              <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
-                <div>
-                  <div className="relative h-48 overflow-hidden bg-slate-900">
-                    <img
-                      src="/images/broiler/manure-removal-system.jpg"
-                      alt="Manure Removal System"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
-                    <div className="absolute top-3 left-3 w-8 h-8 rounded-[2px] bg-[#0B192C]/85 backdrop-blur-xs border border-amber-500/40 flex items-center justify-center text-amber-400 shadow-sm">
-                      <Layers className="w-4 h-4" />
-                    </div>
-                  </div>
-
-                  <div className="p-5 space-y-3">
-                    <h4 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors">
-                      Manure Removal System
-                    </h4>
-                    <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                      Automated continuous multi-tier polypropylene (PP) manure belts for cage systems or raised slatted floor clearing zones for elevated houses, eliminating ammonia accumulation and maintaining internal hygiene.
-                    </p>
-
-                    <div className="pt-2">
-                      <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block mb-1.5 font-normal">
-                        Key Equipment
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {['Multi-Tier PP Belts', 'Sub-Floor Air Clearing', 'Cross Conveyors', 'Daily Cleanout'].map((comp, cIdx) => (
-                          <span
-                            key={cIdx}
-                            className="text-[10px] bg-[#07162A] text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-[2px] font-normal"
-                          >
-                            {comp}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-5 pt-0">
-                  <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                    <span>BIOSECURITY & HYGIENE</span>
-                    <span className="text-amber-400 font-semibold">Daily Cleanout</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* System 7: Flock Harvesting System */}
+              {/* System 5: Automated Harvesting System */}
               <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
                 <div>
                   <div className="relative h-48 overflow-hidden bg-slate-900">
                     <img
                       src="/images/broiler/harvest-system.jpg"
-                      alt="Flock Harvesting System"
+                      alt="Automated Harvesting System"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
@@ -889,11 +999,16 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                   </div>
 
                   <div className="p-5 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 text-[9px] font-mono font-bold uppercase rounded-[2px] bg-amber-400/10 text-amber-400 border border-amber-400/30">
+                        Multi-Tier Cage / Mechanized
+                      </span>
+                    </div>
                     <h4 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors">
-                      Flock Harvesting System
+                      Automated Harvesting System
                     </h4>
                     <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                      Tailored harvesting setups with fully automated catching conveyor options or clear-span manual harvest corridors with winch-to-ceiling line clearance, ensuring rapid 10–14 day flock turnaround.
+                      High-throughput mechanized bird collection featuring integrated cage conveyors or motorized harvesting lines, reducing labor demand and minimizing bird bruising during crate loading.
                     </p>
 
                     <div className="pt-2">
@@ -901,7 +1016,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                         Key Equipment
                       </span>
                       <div className="flex flex-wrap gap-1.5">
-                        {['Catching Conveyors', 'Winch-to-Ceiling Line Hoists', 'Clear-Span Corridors', 'Gentle Handling'].map((comp, cIdx) => (
+                        {['Catching Conveyors', 'Cage Discharge Belts', 'Crate Loading Lifters', 'Variable Speed Drive'].map((comp, cIdx) => (
                           <span
                             key={cIdx}
                             className="text-[10px] bg-[#07162A] text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-[2px] font-normal"
@@ -916,8 +1031,62 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
 
                 <div className="p-5 pt-0">
                   <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                    <span>FLOCK HARVEST CYCLE</span>
-                    <span className="text-amber-400 font-semibold">10–14 Days</span>
+                    <span>HARVEST METHOD</span>
+                    <span className="text-amber-400 font-semibold">Continuous Conveyor</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* System 6: Manual Harvesting System */}
+              <div className="bg-[#0F223D] border border-slate-700/60 rounded-[2px] overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all duration-300 shadow-xl hover:shadow-amber-500/5">
+                <div>
+                  <div className="relative h-48 overflow-hidden bg-slate-900">
+                    <img
+                      src="/images/broiler/floor-type-broiler.jpg"
+                      alt="Manual Harvesting System"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
+                    <div className="absolute top-3 left-3 w-8 h-8 rounded-[2px] bg-[#0B192C]/85 backdrop-blur-xs border border-amber-500/40 flex items-center justify-center text-amber-400 shadow-sm">
+                      <Users className="w-4 h-4" />
+                    </div>
+                  </div>
+
+                  <div className="p-5 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 text-[9px] font-mono font-bold uppercase rounded-[2px] bg-sky-400/10 text-sky-400 border border-sky-400/30">
+                        Floor / Elevated-Floor Houses
+                      </span>
+                    </div>
+                    <h4 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors">
+                      Manual Harvesting System
+                    </h4>
+                    <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                      Optimized manual catch corridors engineered with winch-to-ceiling line hoists that elevate all feeder and drinker lines, clearing floor space for safe, stress-free bird handling and rapid crate transport.
+                    </p>
+
+                    <div className="pt-2">
+                      <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block mb-1.5 font-normal">
+                        Key Equipment
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {['Winch-to-Ceiling Hoists', 'Clear-Span Corridors', 'Transport Crate Carts', 'Dim-Light Catching Lamps'].map((comp, cIdx) => (
+                          <span
+                            key={cIdx}
+                            className="text-[10px] bg-[#07162A] text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-[2px] font-normal"
+                          >
+                            {comp}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 pt-0">
+                  <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                    <span>CLEARANCE TIME</span>
+                    <span className="text-amber-400 font-semibold">&lt; 15 Mins Hoisting</span>
                   </div>
                 </div>
               </div>
