@@ -264,114 +264,107 @@ export const SolutionsPreview: React.FC<SolutionsPreviewProps> = () => {
                   key={project.id}
                   className="group relative flex flex-col justify-between bg-[#07162A] border border-[#1E3E66] hover:border-[#F3A812] rounded-[2px] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/15"
                 >
-                    {/* ── CARD MEDIA HEADER (CAROUSEL) ── */}
-                    <div className="relative w-full overflow-hidden bg-[#040D18] shrink-0">
-                      <ProjectImageCarousel
-                        images={project.images.length > 0 ? project.images : [project.imageUrl]}
-                        alt={project.title}
-                        aspectClassName="h-52 sm:h-56"
-                        imageClassName="object-cover object-center brightness-[0.92] contrast-[1.08] transition-transform duration-700 group-hover:scale-105"
-                        hideDots
-                      >
-                        {/* Dual Contrast Scrim */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent pointer-events-none" />
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none" />
+                  {/* ── CARD MEDIA HEADER (CAROUSEL) ── */}
+                  <div className="relative w-full overflow-hidden bg-[#040D18] shrink-0">
+                    <ProjectImageCarousel
+                      images={project.images.length > 0 ? project.images : [project.imageUrl]}
+                      alt={project.title}
+                      aspectClassName="h-52 sm:h-56"
+                      imageClassName="object-cover object-center brightness-[0.92] contrast-[1.08] transition-transform duration-700 group-hover:scale-105"
+                      hideDots
+                    >
+                      {/* Dual Contrast Scrim */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none" />
 
-                        {/* Status Badge (Top-Left) */}
-                        <div className="absolute top-3 left-3 z-20 pointer-events-none">
+                      {/* Status Badge (Top-Left) */}
+                      <div className="absolute top-3 left-3 z-20 pointer-events-none">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[2px] bg-[#07162A]/80 border border-white/15 backdrop-blur-sm text-[10px] font-mono font-semibold text-slate-100 uppercase tracking-wider">
                           <span
-                            className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm ${
-                              project.status === 'completed'
-                                ? 'bg-emerald-500 text-slate-950'
-                                : 'bg-amber-400 text-slate-950'
-                            }`}
-                          >
-                            <span
-                              className={`w-1.5 h-1.5 rounded-full bg-slate-950 ${
-                                project.status === 'completed' ? '' : 'animate-pulse'
+                            className={`w-1.5 h-1.5 rounded-full ${project.status === 'completed' ? 'bg-slate-300' : 'bg-amber-400'
                               }`}
-                            />
-                            {project.status === 'completed' ? 'Finished Project' : 'Ongoing Project'}
-                          </span>
-                        </div>
+                          />
+                          {project.status === 'completed' ? 'Finished Project' : 'Ongoing Project'}
+                        </span>
+                      </div>
 
-                        {/* Discipline Badge (Top-Right) */}
-                        <div className="absolute top-3 right-3 z-20 pointer-events-none">
-                          <span className="px-2 py-0.5 rounded-[2px] bg-black/60 border border-white/20 text-[10px] font-mono font-bold text-slate-300 uppercase tracking-wider backdrop-blur-xs">
-                            {project.categoryLabel}
-                          </span>
-                        </div>
+                      {/* Discipline Badge (Top-Right) */}
+                      <div className="absolute top-3 right-3 z-20 pointer-events-none">
+                        <span className="px-2.5 py-0.5 rounded-[2px] bg-[#07162A]/75 border border-white/15 text-[10px] font-mono font-medium text-slate-300 uppercase tracking-wider backdrop-blur-sm">
+                          {project.categoryLabel}
+                        </span>
+                      </div>
 
-                        {/* Geographic Location Bar (Bottom of Media, leaving room for photo counter) */}
-                        <div className="absolute bottom-2.5 left-3 right-24 z-10 flex items-center gap-1.5 text-xs font-mono text-slate-200 drop-shadow-md pointer-events-none">
-                          <MapPin className="w-3.5 h-3.5 text-[#F3A812] shrink-0" />
-                          <span className="font-semibold tracking-wide truncate">
-                            {project.location}
-                          </span>
-                        </div>
-                      </ProjectImageCarousel>
+                      {/* Geographic Location Bar (Bottom of Media, leaving room for photo counter) */}
+                      <div className="absolute bottom-2.5 left-3 right-24 z-10 flex items-center gap-1.5 text-xs font-mono text-slate-200 drop-shadow-md pointer-events-none">
+                        <MapPin className="w-3.5 h-3.5 text-[#F3A812] shrink-0" />
+                        <span className="font-semibold tracking-wide truncate">
+                          {project.location}
+                        </span>
+                      </div>
+                    </ProjectImageCarousel>
+                  </div>
+
+                  {/* ── CARD BODY ── */}
+                  <div className="relative p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-4 bg-[#07162A] overflow-hidden">
+                    {/* Dark Accent Graphic placed where indicated */}
+                    <img
+                      src="/images/accents/dark-accent-graphic.png"
+                      alt=""
+                      className="absolute -right-3 top-2 w-32 h-auto object-contain object-right pointer-events-none select-none opacity-30 z-0"
+                      aria-hidden="true"
+                    />
+
+                    <div className="relative z-10 space-y-2.5">
+                      <h3 className="font-sans text-lg sm:text-xl font-extrabold text-white tracking-tight group-hover:text-[#F3A812] transition-colors leading-snug">
+                        {project.title}
+                      </h3>
+
+                      {/* Capacity / Output Benchmark Pill */}
+
                     </div>
 
-                    {/* ── CARD BODY ── */}
-                    <div className="relative p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-4 bg-[#07162A] overflow-hidden">
-                      {/* Dark Accent Graphic placed where indicated */}
-                      <img
-                        src="/images/accents/dark-accent-graphic.png"
-                        alt=""
-                        className="absolute -right-3 top-2 w-32 h-auto object-contain object-right pointer-events-none select-none opacity-30 z-0"
-                        aria-hidden="true"
-                      />
+                    {/* Key Engineering Scope Highlights */}
+                    <div className="relative z-10 space-y-2 border-t border-[#102A43] pt-3">
+                      <span className="font-mono text-[10px] text-slate-400 font-bold uppercase tracking-widest block">
+                        ENGINEERING DELIVERABLES
+                      </span>
+                      <ul className="space-y-1.5 text-xs text-slate-300">
+                        {project.highlights.map((item, i) => (
+                          <li key={i} className="flex items-start gap-2 leading-relaxed">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#F3A812] shrink-0 mt-0.5" />
+                            <span className="text-[11px] sm:text-xs">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                      <div className="relative z-10 space-y-2.5">
-                        <h3 className="font-sans text-lg sm:text-xl font-extrabold text-white tracking-tight group-hover:text-[#F3A812] transition-colors leading-snug">
-                          {project.title}
-                        </h3>
+                    {/* Footer Milestone & Action */}
+                    <div className="relative z-10 border-t border-[#102A43] pt-3.5 flex flex-col gap-3">
+                      <div className="flex flex-col gap-1 text-[11px] font-mono">
 
-                        {/* Capacity / Output Benchmark Pill */}
 
-                      </div>
-
-                      {/* Key Engineering Scope Highlights */}
-                      <div className="relative z-10 space-y-2 border-t border-[#102A43] pt-3">
-                        <span className="font-mono text-[10px] text-slate-400 font-bold uppercase tracking-widest block">
-                          ENGINEERING DELIVERABLES
+                        <span className="text-slate-400 flex items-center gap-1.5">
+                          <Clock className="w-3 h-3 text-[#F3A812]" />{project.statusLabel}
                         </span>
-                        <ul className="space-y-1.5 text-xs text-slate-300">
-                          {project.highlights.map((item, i) => (
-                            <li key={i} className="flex items-start gap-2 leading-relaxed">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-[#F3A812] shrink-0 mt-0.5" />
-                              <span className="text-[11px] sm:text-xs">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
                       </div>
 
-                      {/* Footer Milestone & Action */}
-                      <div className="relative z-10 border-t border-[#102A43] pt-3.5 flex flex-col gap-3">
-                        <div className="flex flex-col gap-1 text-[11px] font-mono">
-
-
-                          <span className="text-slate-400 flex items-center gap-1.5">
-                            <Clock className="w-3 h-3 text-[#F3A812]" />{project.statusLabel}
-                          </span>
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            navigate(project.caseStudyHref);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }}
-                          className="w-full py-2.5 px-3 rounded-[2px] bg-[#000] hover:bg-[#F3A812] text-white hover:text-slate-950 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 border border-[#1E3E66] hover:border-[#F3A812] flex items-center justify-between cursor-pointer group/btn"
-                        >
-                          <span>Explore Project Scope</span>
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
-                        </button>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigate(project.caseStudyHref);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className="w-full py-2.5 px-3 rounded-[2px] bg-[#000] hover:bg-[#F3A812] text-white hover:text-slate-950 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 border border-[#1E3E66] hover:border-[#F3A812] flex items-center justify-between cursor-pointer group/btn"
+                      >
+                        <span>Explore Project Scope</span>
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
+                      </button>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              );
+            })}
           </div>
 
           {/* ── ACTION BAR ── */}

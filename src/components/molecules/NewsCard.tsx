@@ -47,38 +47,25 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, dark = true }) => {
             </>
           )}
 
-          {/* Project Status Badge (Top-Left) */}
-          {article.projectStatus && (
-            <div className="absolute top-3 left-3 z-20 pointer-events-none">
-              <span
-                className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm ${
-                  isFinished
-                    ? 'bg-emerald-500 text-slate-950'
-                    : 'bg-amber-400 text-slate-950'
-                }`}
-              >
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    isFinished ? 'bg-slate-950' : 'bg-slate-950 animate-pulse'
-                  }`}
-                />
-                {article.projectStatus}
-              </span>
+          {/* Top-Left Status / Category Overlay */}
+          {(article.projectStatus || article.category !== 'Project Milestone') && (
+            <div className="absolute top-3 left-3 right-3 z-20 flex flex-wrap items-center gap-1.5 pointer-events-none">
+              {article.projectStatus && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[2px] bg-[#07162A]/80 border border-white/15 backdrop-blur-sm text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-100">
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full ${isFinished ? 'bg-slate-300' : 'bg-amber-400'
+                      }`}
+                  />
+                  {article.projectStatus}
+                </span>
+              )}
+              {article.category !== 'Project Milestone' && (
+                <span className="px-2.5 py-0.5 rounded-[2px] bg-[#07162A]/80 border border-white/15 backdrop-blur-sm text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-200">
+                  {article.category}
+                </span>
+              )}
             </div>
           )}
-
-          {/* Category Badge (Top-Right) */}
-          <div className="absolute top-3 right-3 z-20 pointer-events-none">
-            <span
-              className={`px-2 py-0.5 rounded-[2px] text-[10px] font-mono font-bold uppercase tracking-wider backdrop-blur-xs ${
-                dark
-                  ? 'bg-black/60 border border-white/20 text-slate-300'
-                  : 'bg-[#07162A]/90 text-amber-400 border border-amber-400/40'
-              }`}
-            >
-              {article.category}
-            </span>
-          </div>
 
           {/* Date & Read Time Strip (Bottom-Left of Media, leaving room for photo counter) */}
           <div className="absolute bottom-2.5 left-3 right-24 z-10 flex items-center gap-2 text-xs font-mono text-slate-200 drop-shadow-md pointer-events-none">
@@ -98,9 +85,8 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, dark = true }) => {
 
       {/* ── CARD BODY ── */}
       <div
-        className={`relative p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-4 overflow-hidden ${
-          dark ? 'bg-[#07162A]' : 'bg-white'
-        }`}
+        className={`relative p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-4 overflow-hidden ${dark ? 'bg-[#07162A]' : 'bg-white'
+          }`}
       >
         {dark && (
           /* Dark Accent Graphic */
@@ -122,19 +108,17 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, dark = true }) => {
 
           <Link to={`/news/${article.id}`}>
             <h3
-              className={`font-sans text-lg sm:text-xl font-extrabold tracking-tight transition-colors leading-snug line-clamp-2 ${
-                dark
+              className={`font-sans text-lg sm:text-xl font-extrabold tracking-tight transition-colors leading-snug line-clamp-2 ${dark
                   ? 'text-white group-hover:text-[#F3A812]'
                   : 'text-[#0B192C] group-hover:text-amber-600'
-              }`}
+                }`}
             >
               {article.title}
             </h3>
           </Link>
           <p
-            className={`text-xs sm:text-sm leading-relaxed font-normal line-clamp-3 ${
-              dark ? 'text-slate-300' : 'text-slate-600'
-            }`}
+            className={`text-xs sm:text-sm leading-relaxed font-normal line-clamp-3 ${dark ? 'text-slate-300' : 'text-slate-600'
+              }`}
           >
             {article.summary}
           </p>
@@ -142,9 +126,8 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, dark = true }) => {
 
         {/* ── FOOTER ACTION ── */}
         <div
-          className={`relative z-10 border-t pt-3.5 mt-auto ${
-            dark ? 'border-[#102A43]' : 'border-slate-100'
-          }`}
+          className={`relative z-10 border-t pt-3.5 mt-auto ${dark ? 'border-[#102A43]' : 'border-slate-100'
+            }`}
         >
           <Link
             to={`/news/${article.id}`}

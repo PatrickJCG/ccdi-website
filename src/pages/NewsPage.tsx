@@ -43,24 +43,35 @@ export interface NewsPageProps {
 
 const CategoryChip: React.FC<{ label: string; dark?: boolean }> = ({ label, dark = false }) => (
   <span
-    className={`inline-block font-mono text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] border ${dark
-        ? 'bg-[#07162A]/90 text-amber-400 border-amber-400/40 backdrop-blur-sm'
-        : 'bg-amber-50 text-amber-700 border-amber-200'
+    className={`inline-block font-mono text-[10px] uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded-[2px] border ${dark
+      ? 'bg-[#07162A]/80 text-slate-200 border-white/15 backdrop-blur-sm'
+      : 'bg-white text-slate-600 border-slate-200'
       }`}
   >
     {label}
   </span>
 );
 
-const ProjectStatusBadge: React.FC<{ status: ProjectStatus }> = ({ status }) => {
+const ProjectStatusBadge: React.FC<{ status: ProjectStatus; surface?: 'overlay' | 'light' }> = ({
+  status,
+  surface = 'overlay',
+}) => {
   const isFinished = status === 'Finished Project';
   return (
     <span
-      className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] shadow-sm ${isFinished ? 'bg-emerald-500 text-slate-950' : 'bg-amber-400 text-slate-950'
+      className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded-[2px] border ${surface === 'overlay'
+        ? 'bg-[#07162A]/80 text-slate-100 border-white/15 backdrop-blur-sm'
+        : 'bg-white text-slate-700 border-slate-200'
         }`}
     >
       <span
-        className={`w-1.5 h-1.5 rounded-full bg-slate-950 ${isFinished ? '' : 'animate-pulse'
+        className={`w-1.5 h-1.5 rounded-full ${surface === 'overlay'
+          ? isFinished
+            ? 'bg-slate-300'
+            : 'bg-amber-400'
+          : isFinished
+            ? 'bg-slate-400'
+            : 'bg-amber-500'
           }`}
       />
       {status}
@@ -93,14 +104,29 @@ const ArticleCard: React.FC<{ article: NewsArticle; index?: number }> = ({ artic
           aspectClassName="aspect-[16/10]"
           imageClassName="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
         >
-          <div className="absolute top-3 left-3 right-3 z-20 flex flex-wrap items-center gap-1.5 pointer-events-none">
-            {article.projectStatus && <ProjectStatusBadge status={article.projectStatus} />}
-            <CategoryChip label={article.category} dark />
-          </div>
+          <img
+            src="/images/accents/card-corner-accent.png"
+            alt=""
+            className="absolute top-0 right-0 w-24 sm:w-28 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-85"
+            aria-hidden="true"
+          />
+          {(article.projectStatus || article.category !== 'Project Milestone') && (
+            <div className="absolute top-3 left-3 right-3 z-20 flex flex-wrap items-center gap-1.5 pointer-events-none">
+              {article.projectStatus && <ProjectStatusBadge status={article.projectStatus} />}
+              {article.category !== 'Project Milestone' && <CategoryChip label={article.category} dark />}
+            </div>
+          )}
         </ProjectImageCarousel>
 
-        <div className="flex flex-col flex-1 p-6">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-slate-500 mb-3">
+        <div className="relative overflow-hidden flex flex-col flex-1 p-6">
+          <img
+            src="/images/accents/dark-accent-graphic.png"
+            alt=""
+            className="absolute -right-4 -bottom-4 w-32 h-auto object-contain object-right-bottom pointer-events-none select-none opacity-[0.09] z-0"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-slate-500 mb-3">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-amber-600" />
               {article.date}
@@ -113,13 +139,13 @@ const ArticleCard: React.FC<{ article: NewsArticle; index?: number }> = ({ artic
             )}
           </div>
 
-          <h3 className="text-lg font-bold text-[#0B192C] leading-snug tracking-tight line-clamp-2 group-hover:text-amber-600 transition-colors mb-2">
+          <h3 className="relative z-10 text-lg font-bold text-[#0B192C] leading-snug tracking-tight line-clamp-2 group-hover:text-amber-600 transition-colors mb-2">
             {article.title}
           </h3>
 
-          <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-6">{article.summary}</p>
+          <p className="relative z-10 text-sm text-slate-600 leading-relaxed line-clamp-3 mb-6">{article.summary}</p>
 
-          <span className="mt-auto pt-4 border-t border-slate-100 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-amber-600 group-hover:text-amber-700">
+          <span className="relative z-10 mt-auto pt-4 border-t border-slate-100 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-amber-600 group-hover:text-amber-700">
             Read Article
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </span>
@@ -135,6 +161,38 @@ const ContactBand: React.FC = () => {
   return (
     <section className="relative bg-[#07162A] text-white border-t border-[#102A43] overflow-hidden">
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+      {/* Architectural Accent 2 - Top Left Anchored */}
+      <motion.div
+        initial={{ opacity: 0, y: -35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.15 }}
+        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -top-10 -left-14 sm:-top-6 sm:left-0 w-64 sm:w-80 lg:w-[400px] pointer-events-none select-none z-0"
+        aria-hidden="true"
+      >
+        <img
+          src="/images/accents/accent2.png"
+          alt=""
+          className="w-full h-auto object-contain opacity-25"
+        />
+      </motion.div>
+
+      {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored */}
+      <motion.div
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.15 }}
+        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -bottom-14 -right-14 sm:-right-8 sm:bottom-0 w-64 sm:w-80 lg:w-[400px] pointer-events-none select-none z-0"
+        aria-hidden="true"
+      >
+        <img
+          src="/images/accents/dark-accent-graphic.png"
+          alt=""
+          className="w-full h-auto object-contain opacity-25"
+        />
+      </motion.div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid lg:grid-cols-12 gap-10 items-center">
         <div className="lg:col-span-7 space-y-3">
           <span className="font-mono text-xs uppercase tracking-widest text-[#F3A812] font-bold block">
@@ -226,51 +284,59 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
   return (
     <motion.div key={article.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
       {/* ── ARTICLE HEADER (BREADCRUMBS & TITLE) ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2 space-y-5">
-        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
-          <Link to="/" className="hover:text-amber-600 transition-colors uppercase">
-            HOME
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 shrink-0 text-slate-400" />
-          <Link to="/news" className="hover:text-amber-600 transition-colors uppercase">
-            NEWS &amp; UPDATES
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 shrink-0 text-slate-400" />
-          <span className="text-amber-600 font-bold uppercase">
-            {article.category}
-          </span>
-        </nav>
-
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          {article.projectStatus && <ProjectStatusBadge status={article.projectStatus} />}
-          <CategoryChip label={article.category} />
-          <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
-            <Calendar className="w-3.5 h-3.5 text-amber-600" />
-            {article.date}
-          </span>
-          {article.location && (
-            <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
-              <MapPin className="w-3.5 h-3.5 text-amber-600" />
-              {article.location}
+      <div className="relative overflow-hidden">
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-64 sm:w-80 lg:w-[440px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2 space-y-5">
+          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
+            <Link to="/" className="hover:text-amber-600 transition-colors uppercase">
+              HOME
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+            <Link to="/news" className="hover:text-amber-600 transition-colors uppercase">
+              NEWS &amp; UPDATES
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+            <span className="text-amber-600 font-bold uppercase">
+              {article.category}
             </span>
-          )}
-          <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
-            <Clock className="w-3.5 h-3.5 text-amber-600" />
-            {article.readTime}
-          </span>
-        </div>
+          </nav>
 
-        <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-[#0B192C] leading-[1.2] max-w-4xl">
-          {article.title}
-        </h1>
-
-        <div className="flex items-center gap-3 pt-1">
-          <div className="w-10 h-10 rounded-[2px] bg-[#0B192C] border border-[#1E3E66] flex items-center justify-center text-amber-400 font-mono font-bold shadow-xs">
-            {article.author.name.charAt(0)}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            {article.projectStatus && <ProjectStatusBadge status={article.projectStatus} surface="light" />}
+            {article.category !== 'Project Milestone' && <CategoryChip label={article.category} />}
+            <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
+              <Calendar className="w-3.5 h-3.5 text-amber-600" />
+              {article.date}
+            </span>
+            {article.location && (
+              <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
+                <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                {article.location}
+              </span>
+            )}
+            <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
+              <Clock className="w-3.5 h-3.5 text-amber-600" />
+              {article.readTime}
+            </span>
           </div>
-          <div>
-            <p className="text-sm font-bold text-[#0B192C]">{article.author.name}</p>
-            <p className="text-xs font-mono text-slate-500">{article.author.role}</p>
+
+          <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-[#0B192C] leading-[1.2] max-w-4xl">
+            {article.title}
+          </h1>
+
+          <div className="flex items-center gap-3 pt-1">
+            <div className="w-10 h-10 rounded-[2px] bg-[#0B192C] border border-[#1E3E66] flex items-center justify-center text-amber-400 font-mono font-bold shadow-xs">
+              {article.author.name.charAt(0)}
+            </div>
+            <div>
+              <p className="text-sm font-bold text-[#0B192C]">{article.author.name}</p>
+              <p className="text-xs font-mono text-slate-500">{article.author.role}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -304,23 +370,38 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
                 showThumbnails={(article.galleryImages?.length ?? 0) > 1}
                 showCaption={true}
                 autoPlayInterval={5500}
-              />
+              >
+                <img
+                  src="/images/accents/card-corner-accent.png"
+                  alt=""
+                  className="absolute top-0 right-0 w-28 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-80"
+                  aria-hidden="true"
+                />
+              </ProjectImageCarousel>
             </figure>
 
             {/* Key highlights */}
             {article.keyHighlights?.length > 0 && (
-              <div className="bg-white border border-slate-200 border-l-4 border-l-amber-500 rounded-[2px] p-6 sm:p-8 shadow-sm">
-                <h2 className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold mb-5">
-                  Key Highlights
-                </h2>
-                <ul className="space-y-4">
-                  {article.keyHighlights.map((h, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-slate-700 text-base leading-relaxed">
-                      <CheckCircle2 className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="relative overflow-hidden bg-white border border-slate-200 border-l-4 border-l-amber-500 rounded-[2px] p-6 sm:p-8 shadow-sm">
+                <img
+                  src="/images/accents/card-corner-accent.png"
+                  alt=""
+                  className="absolute top-0 right-0 w-36 sm:w-44 h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
+                  aria-hidden="true"
+                />
+                <div className="relative z-10">
+                  <h2 className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold mb-5">
+                    Key Highlights
+                  </h2>
+                  <ul className="space-y-4">
+                    {article.keyHighlights.map((h, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-slate-700 text-base leading-relaxed">
+                        <CheckCircle2 className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             )}
 
@@ -378,11 +459,17 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
           {/* Sidebar */}
           <aside className="lg:col-span-4">
             <div className="lg:sticky lg:top-24 space-y-6">
-              <div className="bg-white border border-slate-200 rounded-[2px] shadow-sm">
-                <h2 className="px-6 py-4 border-b border-slate-200 font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
+              <div className="relative overflow-hidden bg-white border border-slate-200 rounded-[2px] shadow-sm">
+                <img
+                  src="/images/accents/card-corner-accent.png"
+                  alt=""
+                  className="absolute top-0 right-0 w-32 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
+                  aria-hidden="true"
+                />
+                <h2 className="relative z-10 px-6 py-4 border-b border-slate-200 font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
                   Article Details
                 </h2>
-                <dl className="divide-y divide-slate-100 text-sm">
+                <dl className="relative z-10 divide-y divide-slate-100 text-sm">
                   <div className="flex items-start gap-3 px-6 py-4">
                     <Calendar className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                     <div>
@@ -426,22 +513,30 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
                 </dl>
               </div>
 
-              <div className="bg-[#07162A] text-white border border-[#102A43] rounded-[2px] p-6 space-y-4">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#F3A812] font-bold block">
-                  Talk to CCDI
-                </span>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  Have a question about this project or equipment? Our engineers can help.
-                </p>
-                <div className="space-y-2 text-sm">
-                  <a href={`tel:${CCDI_CONTACT_INFO.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-2 hover:text-amber-400 transition-colors">
-                    <Phone className="w-4 h-4 text-amber-400" />
-                    {CCDI_CONTACT_INFO.phones[0]}
-                  </a>
-                  <a href={`mailto:${CCDI_CONTACT_INFO.email}`} className="flex items-center gap-2 hover:text-amber-400 transition-colors">
-                    <Mail className="w-4 h-4 text-amber-400" />
-                    {CCDI_CONTACT_INFO.email}
-                  </a>
+              <div className="relative overflow-hidden bg-[#07162A] text-white border border-[#102A43] rounded-[2px] p-6">
+                <img
+                  src="/images/accents/dark-accent-graphic.png"
+                  alt=""
+                  className="absolute -right-4 -bottom-4 w-36 h-auto object-contain object-right-bottom pointer-events-none select-none opacity-25 z-0"
+                  aria-hidden="true"
+                />
+                <div className="relative z-10 space-y-4">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-[#F3A812] font-bold block">
+                    Talk to CCDI
+                  </span>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    Have a question about this project or equipment? Our engineers can help.
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <a href={`tel:${CCDI_CONTACT_INFO.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-2 hover:text-amber-400 transition-colors">
+                      <Phone className="w-4 h-4 text-amber-400" />
+                      {CCDI_CONTACT_INFO.phones[0]}
+                    </a>
+                    <a href={`mailto:${CCDI_CONTACT_INFO.email}`} className="flex items-center gap-2 hover:text-amber-400 transition-colors">
+                      <Mail className="w-4 h-4 text-amber-400" />
+                      {CCDI_CONTACT_INFO.email}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -451,8 +546,14 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
 
       {/* ── RELATED ── */}
       {related.length > 0 && (
-        <section className="bg-white border-t border-slate-200 py-16 sm:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <section className="relative overflow-hidden bg-white border-t border-slate-200 py-16 sm:py-20">
+          <img
+            src="/images/accents/card-corner-accent.png"
+            alt=""
+            className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-20"
+            aria-hidden="true"
+          />
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold block mb-2">
@@ -531,8 +632,14 @@ const NewsIndex: React.FC = () => {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
       {/* ── 1. PAGE HEADER (BREADCRUMBS & TEXT CONTENT) ── */}
-      <div className="bg-slate-50 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 space-y-5">
+      <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-64 sm:w-80 lg:w-[440px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 space-y-5">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
             <Link to="/" className="hover:text-amber-600 transition-colors uppercase">
               HOME
@@ -575,8 +682,8 @@ const NewsIndex: React.FC = () => {
                   aria-selected={active}
                   onClick={() => setSelectedCategory(cat)}
                   className={`shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-[2px] text-xs font-bold uppercase tracking-wider border transition-colors cursor-pointer ${active
-                      ? 'bg-[#0B192C] text-white border-[#0B192C]'
-                      : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:text-slate-900'
+                    ? 'bg-[#0B192C] text-white border-[#0B192C]'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:text-slate-900'
                     }`}
                 >
                   {cat === 'All' ? 'All' : cat}
@@ -611,8 +718,14 @@ const NewsIndex: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-slate-50 py-14 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <div className="relative overflow-hidden bg-slate-50 py-14 sm:py-20">
+        <img
+          src="/images/accents/card-corner-accent.png"
+          alt=""
+          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           {/* ── 3. FEATURED STORY ── */}
           {!isFiltering && featured && (
             <section aria-labelledby="featured-heading" className="space-y-6">
@@ -636,6 +749,12 @@ const NewsIndex: React.FC = () => {
                     className="h-full"
                     imageClassName="object-cover object-center group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                   >
+                    <img
+                      src="/images/accents/card-corner-accent.png"
+                      alt=""
+                      className="absolute top-0 right-0 w-28 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-85"
+                      aria-hidden="true"
+                    />
                     {featured.projectStatus && (
                       <div className="absolute top-4 left-4 z-20 pointer-events-none">
                         <ProjectStatusBadge status={featured.projectStatus} />
@@ -643,9 +762,15 @@ const NewsIndex: React.FC = () => {
                     )}
                   </ProjectImageCarousel>
                 </div>
-                <div className="lg:col-span-5 p-7 sm:p-10 flex flex-col">
-                  <div className="flex flex-wrap items-center gap-3 mb-5">
-                    <CategoryChip label={featured.category} />
+                <div className="relative overflow-hidden lg:col-span-5 p-7 sm:p-10 flex flex-col">
+                  <img
+                    src="/images/accents/card-corner-accent.png"
+                    alt=""
+                    className="absolute top-0 right-0 w-44 sm:w-52 h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
+                    aria-hidden="true"
+                  />
+                  <div className="relative z-10 flex flex-wrap items-center gap-3 mb-5">
+                    {featured.category !== 'Project Milestone' && <CategoryChip label={featured.category} />}
                     <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-500">
                       <Calendar className="w-3.5 h-3.5 text-amber-600" />
                       {featured.date}
@@ -657,11 +782,11 @@ const NewsIndex: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-black text-[#0B192C] tracking-tight leading-tight group-hover:text-amber-600 transition-colors mb-4">
+                  <h3 className="relative z-10 text-2xl sm:text-3xl font-black text-[#0B192C] tracking-tight leading-tight group-hover:text-amber-600 transition-colors mb-4">
                     {featured.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed line-clamp-4 mb-8">{featured.summary}</p>
-                  <span className="mt-auto inline-flex items-center gap-2 self-start px-5 py-3 rounded-[2px] bg-amber-400 group-hover:bg-amber-300 text-slate-950 font-sans text-xs uppercase tracking-wider font-extrabold transition-colors">
+                  <p className="relative z-10 text-slate-600 leading-relaxed line-clamp-4 mb-8">{featured.summary}</p>
+                  <span className="relative z-10 mt-auto inline-flex items-center gap-2 self-start px-5 py-3 rounded-[2px] bg-amber-400 group-hover:bg-amber-300 text-slate-950 font-sans text-xs uppercase tracking-wider font-extrabold transition-colors">
                     Read Full Story
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -705,21 +830,29 @@ const NewsIndex: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20 px-6 bg-white border border-slate-200 rounded-[2px] max-w-lg mx-auto space-y-4">
-                <BookOpen className="w-10 h-10 text-slate-300 mx-auto" />
-                <h3 className="text-lg font-bold text-[#0B192C]">No updates found</h3>
-                <p className="text-sm text-slate-500">Try a different keyword or category.</p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    resetFilters();
-                    navigate('/news');
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[2px] bg-[#0B192C] hover:bg-[#1E3E66] text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors cursor-pointer"
-                >
-                  <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
-                  Reset filters
-                </button>
+              <div className="relative overflow-hidden text-center py-20 px-6 bg-white border border-slate-200 rounded-[2px] max-w-lg mx-auto">
+                <img
+                  src="/images/accents/card-corner-accent.png"
+                  alt=""
+                  className="absolute top-0 right-0 w-32 h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
+                  aria-hidden="true"
+                />
+                <div className="relative z-10 space-y-4">
+                  <BookOpen className="w-10 h-10 text-slate-300 mx-auto" />
+                  <h3 className="text-lg font-bold text-[#0B192C]">No updates found</h3>
+                  <p className="text-sm text-slate-500">Try a different keyword or category.</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      resetFilters();
+                      navigate('/news');
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[2px] bg-[#0B192C] hover:bg-[#1E3E66] text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+                    Reset filters
+                  </button>
+                </div>
               </div>
             )}
           </section>

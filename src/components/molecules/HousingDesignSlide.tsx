@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Plus, Layers, ShieldCheck } from 'lucide-react';
+import { Check, Plus, Layers } from 'lucide-react';
 import { PoultryLocalEngineers, type PoultrySolutionType } from './PoultryLocalEngineers';
 
 export interface HousingMetric {
@@ -76,12 +76,12 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
     {/* Amber Top Accent Bar */}
     <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-300" />
 
-    {/* ── Slide Header: Option Badge + Product Title + Subtitle ── */}
+    {/* ── Slide Header: Option Badge + Product Title + Subtitle + Brand Logo ── */}
     <div
       data-swiper-parallax="-180"
-      className="p-5 sm:p-6 lg:p-7 pb-4 sm:pb-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-3"
+      className="p-5 sm:p-6 lg:p-7 pb-4 sm:pb-5 border-b border-slate-100 flex items-start sm:items-center justify-between gap-4"
     >
-      <div className="space-y-1">
+      <div className="space-y-1 min-w-0">
         <div className="flex items-center gap-2 font-mono text-xs font-bold tracking-wider text-amber-600 uppercase">
           <span className="w-2 h-2 rounded-full bg-amber-500 ring-4 ring-amber-400/20" />
           <span>{optionLabel}</span>
@@ -101,6 +101,12 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
           </p>
         )}
       </div>
+
+      <img
+        src="/images/branding/CCDI%20logo.svg"
+        alt="CCDI - Clark Base Construction & Dev't Inc."
+        className={`${subtitle ? 'h-14 sm:h-[74px]' : 'h-12 sm:h-14'} w-auto shrink-0 object-contain select-none pointer-events-none drop-shadow-xs opacity-90`}
+      />
     </div>
 
     {/* ── Main Body: Dynamic 2-Column Responsive Layout ── */}
@@ -174,7 +180,7 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
         </div>
       </div>
 
-      {/* ── Right Column: Specs Matrix + Extra Content + Advantages + Certified ── */}
+      {/* ── Right Column: Specs Matrix + Advantages + Local Engineers ── */}
       <div data-swiper-parallax="-340" className="lg:col-span-7 space-y-5">
         {/* Technical Specifications Grid */}
         <div className="space-y-2.5">
@@ -240,22 +246,6 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
             <PoultryLocalEngineers solutionType={solutionType} solutionName={solutionName} compact />
           </div>
         )}
-
-        {/* Brand Certification Footer */}
-        <div
-          data-swiper-parallax="-520"
-          className="flex items-center justify-between pt-3.5 border-t border-slate-200/70"
-        >
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-500 font-medium">
-            <ShieldCheck className="w-4 h-4 text-amber-500 shrink-0" />
-            <span>Turnkey CCDI Engineering &amp; Biosecurity Certified</span>
-          </div>
-          <img
-            src="/images/branding/CCDI%20logo.svg"
-            alt="CCDI - Clark Base Construction & Dev't Inc."
-            className="w-20 sm:w-22 h-auto object-contain select-none pointer-events-none drop-shadow-xs opacity-90"
-          />
-        </div>
       </div>
     </div>
   </div>

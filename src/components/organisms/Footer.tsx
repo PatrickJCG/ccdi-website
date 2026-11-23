@@ -135,7 +135,27 @@ export const Footer: React.FC = () => {
           {/* 6 Category Columns */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 pb-12 border-b border-slate-200">
 
-            {/* Column 1: Poultry Solution */}
+            {/* Column 1: Company */}
+            <div className="space-y-3.5">
+              <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
+                Company
+              </h3>
+              <ul className="space-y-1.5 text-xs">
+                {COMPANY_LINKS.map(({ label, href }) => (
+                  <li key={label} className="flex items-start gap-1.5 group">
+                    <span className="w-1 h-1 rounded-full bg-slate-300 group-hover:bg-amber-500 mt-1.5 shrink-0 transition-colors" />
+                    <Link
+                      to={href}
+                      className="text-slate-500 hover:text-amber-600 transition-colors duration-200 block text-xs leading-snug"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 2: Poultry Solution */}
             <div className="space-y-3.5">
               <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
                 The Poultry Solution
@@ -155,7 +175,7 @@ export const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Column 2: Hatchery Solutions */}
+            {/* Column 3: Hatchery Solutions */}
             <div className="space-y-3.5">
               <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
                 Hatchery Solutions
@@ -175,7 +195,7 @@ export const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Column 3: Feedmill Solutions */}
+            {/* Column 4: Feedmill Solutions */}
             <div className="space-y-3.5">
               <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
                 Feedmill Solutions
@@ -195,7 +215,7 @@ export const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Column 4: Solar Systems */}
+            {/* Column 5: Solar Systems */}
             <div className="space-y-3.5">
               <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
                 Solar Systems
@@ -209,26 +229,6 @@ export const Footer: React.FC = () => {
                       className="text-slate-500 hover:text-amber-600 transition-colors duration-200 block text-xs leading-snug"
                     >
                       {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 5: Company */}
-            <div className="space-y-3.5">
-              <h3 className="font-mono text-xs font-bold text-[#0B192C] uppercase tracking-widest">
-                Company
-              </h3>
-              <ul className="space-y-1.5 text-xs">
-                {COMPANY_LINKS.map(({ label, href }) => (
-                  <li key={label} className="flex items-start gap-1.5 group">
-                    <span className="w-1 h-1 rounded-full bg-slate-300 group-hover:bg-amber-500 mt-1.5 shrink-0 transition-colors" />
-                    <Link
-                      to={href}
-                      className="text-slate-500 hover:text-amber-600 transition-colors duration-200 block text-xs leading-snug"
-                    >
-                      {label}
                     </Link>
                   </li>
                 ))}
