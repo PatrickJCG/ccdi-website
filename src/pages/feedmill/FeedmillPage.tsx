@@ -58,7 +58,7 @@ const FEEDMILL_BENCHMARK_ITEMS: BenchmarkStatItem[] = [
 ];
 
 const OperationalBenchmarks: React.FC = React.memo(() => (
-  <BenchmarkStatStrip variant="hero-card" items={FEEDMILL_BENCHMARK_ITEMS} />
+  <BenchmarkStatStrip variant="hero-card" className="max-w-none w-full" items={FEEDMILL_BENCHMARK_ITEMS} />
 ));
 OperationalBenchmarks.displayName = 'OperationalBenchmarks';
 
@@ -86,7 +86,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
-      {/* ── 1. HERO BANNER WITH OPERATIONAL BENCHMARKS (ID="overview") ── */}
+      {/* ── 1. HERO BANNER (ID="overview") ───────────────────────────── */}
       <div id="overview">
         <SolutionHeroBanner
           breadcrumbs={[
@@ -100,7 +100,6 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
           imageAlt="Feedmill Machinery and Equipment"
           ctaText="Connect with our team today."
           onCtaClick={scrollToContact}
-          bottomContent={<OperationalBenchmarks />}
         />
       </div>
 
@@ -128,6 +127,8 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
               Core Process Equipment
             </h2>
           </div>
+
+          <OperationalBenchmarks />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
             <FeedmillProductCard productId="fm-hhfsp-hammer" inquiryItems={inquiryItems} onToggleInquiry={onToggleInquiry} />

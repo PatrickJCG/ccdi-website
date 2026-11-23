@@ -15,7 +15,7 @@ import type { Product } from '../../data/mockProducts';
 import { SolutionHeroBanner } from '../../components/molecules/SolutionHeroBanner';
 import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 import { SolutionEquipmentCard } from '../../components/molecules/SolutionEquipmentCard';
-import { ProcessWorkflowDiagram, type WorkflowStepItem, WORKFLOW_COLOR_PRIMARY, WORKFLOW_COLOR_SECONDARY } from '../../components/organisms/ProcessWorkflowDiagram';
+import { ProcessWorkflowDiagram, type WorkflowStepItem } from '../../components/organisms/ProcessWorkflowDiagram';
 import { AfterSalesSection } from '../../components/organisms/AfterSalesSection';
 import { ContactSection } from '../../components/organisms/ContactSection';
 import { AFTER_SALES_DATA } from '../../data/afterSalesData';
@@ -40,7 +40,6 @@ const SOLAR_DELIVERY_STEPS: WorkflowStepItem[] = [
     name: 'Energy Assessment',
     lines: ['Energy', 'Assessment'],
     icon: Activity,
-    accentColor: WORKFLOW_COLOR_SECONDARY,
   },
   {
     step: '02',
@@ -48,7 +47,6 @@ const SOLAR_DELIVERY_STEPS: WorkflowStepItem[] = [
     name: 'Site Survey & Planning',
     lines: ['Site Survey', '& Planning'],
     icon: MapPin,
-    accentColor: WORKFLOW_COLOR_PRIMARY,
   },
   {
     step: '03',
@@ -56,7 +54,6 @@ const SOLAR_DELIVERY_STEPS: WorkflowStepItem[] = [
     name: 'Engineering & Design',
     lines: ['Engineering', '& Design'],
     icon: Cpu,
-    accentColor: WORKFLOW_COLOR_SECONDARY,
   },
   {
     step: '04',
@@ -64,7 +61,6 @@ const SOLAR_DELIVERY_STEPS: WorkflowStepItem[] = [
     name: 'Permits & Coordination',
     lines: ['Permits &', 'Coordination'],
     icon: FileCheck,
-    accentColor: WORKFLOW_COLOR_PRIMARY,
   },
   {
     step: '05',
@@ -72,7 +68,6 @@ const SOLAR_DELIVERY_STEPS: WorkflowStepItem[] = [
     name: 'Installation & Testing',
     lines: ['Installation', '& Testing'],
     icon: Wrench,
-    accentColor: WORKFLOW_COLOR_SECONDARY,
   },
   {
     step: '06',
@@ -80,7 +75,6 @@ const SOLAR_DELIVERY_STEPS: WorkflowStepItem[] = [
     name: 'Monitoring & Support',
     lines: ['Monitoring', '& Support'],
     icon: Headphones,
-    accentColor: WORKFLOW_COLOR_PRIMARY,
   },
 ];
 
@@ -126,7 +120,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         ]}
         title="Solar Power and Storage"
         subtitle="Reliable power systems for homes, farms, commercial facilities and industrial operations."
-        backgroundImage="/images/capabilities/solar-facility.jpg"
+        backgroundImage="/images/news/finished-ycp-farm-solar-project/01-solar-array-front-poultry-houses.webp"
         imageAlt="Solar Power and Storage"
       >
         <a
@@ -264,15 +258,13 @@ export const SolarPage: React.FC<SolarPageProps> = ({
           </div>
 
           {/* 6-Step Workflow Timeline using Reusable ProcessWorkflowDiagram */}
-          <div className="space-y-6 pt-6">
-            <ProcessWorkflowDiagram
-              id="workflow-steps"
-              eyebrow="STEP-BY-STEP EXECUTION"
-              title="OUR DELIVERY WORKFLOW"
-              steps={SOLAR_DELIVERY_STEPS}
-              className="py-0 sm:py-0 bg-transparent border-none"
-            />
-          </div>
+          <ProcessWorkflowDiagram
+            id="workflow-steps"
+            eyebrow="STEP-BY-STEP EXECUTION"
+            title="OUR DELIVERY WORKFLOW"
+            steps={SOLAR_DELIVERY_STEPS}
+            embedded
+          />
         </div>
       </section>
 

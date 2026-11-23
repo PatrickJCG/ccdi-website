@@ -1,15 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   MapPin,
   CheckCircle2,
   ArrowRight,
   Clock,
-  Check,
-  Hammer,
-  Layers,
 } from 'lucide-react';
+import { ProjectImageCarousel } from '../molecules/ProjectImageCarousel';
 import type { Product } from '../../data/mockProducts';
 
 export interface ProjectShowcaseItem {
@@ -22,6 +20,7 @@ export interface ProjectShowcaseItem {
   category: 'Poultry Farm Equipment' | 'Hatchery' | 'Feedmill' | 'Solar Systems';
   categoryLabel: string;
   imageUrl: string;
+  images: string[];
   capacityMetric: {
     label: string;
     value: string;
@@ -33,136 +32,165 @@ export interface ProjectShowcaseItem {
 
 const FLAGSHIP_PROJECTS: ProjectShowcaseItem[] = [
   {
+    id: 'iloilo-multi-tier-broiler',
+    title: 'Multi-Tier Broiler Cage Project in Iloilo',
+    clientType: 'Commercial Broiler Integrator',
+    location: 'Iloilo, Philippines',
+    status: 'completed',
+    statusLabel: 'Finished Project • Turned Over',
+    category: 'Poultry Farm Equipment',
+    categoryLabel: 'Multi-Tier Broiler Cage',
+    imageUrl: '/images/news/finished-multi-tier-broiler-cage-iloilo/01-multi-tier-cage-system.webp',
+    images: [
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/01-multi-tier-cage-system.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/02-cage-aisle-feeders-drinkers.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/03-interior-slatted-floor-nipple-drinkers.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/04-tunnel-ventilation-exhaust-fans.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/05-climate-controller-control-room.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/06-heating-system-sidewall-inlets.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/07-insulated-cooling-pad-baffle-doors.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/08-air-intake-corridor-trolleys.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/09-manure-belt-discharge-system.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/10-vertical-manure-cleaning-controls.webp',
+      '/images/news/finished-multi-tier-broiler-cage-iloilo/11-cross-conveyor-manure-removal.webp',
+    ],
+    capacityMetric: {
+      label: 'Housing System',
+      value: 'Multi-Tier Automated Cage',
+    },
+    highlights: [
+      'Multi-tier galvanized broiler cages with automated feed troughs & nipple drinkers',
+      'Perforated manure belts with vertical cleaning controls & cross-conveyor discharge',
+      'Dual-tier tunnel exhaust fans, cooling baffles, heating units & EI-6000PLUS climate control',
+    ],
+    timeline: 'Completed & Turned Over',
+    caseStudyHref: '/news/multi-tier-broiler-cage-project-iloilo',
+  },
+  {
+    id: 'ycp-farm-solar',
+    title: 'YCP Farm Commercial Solar Power Project',
+    clientType: 'Commercial Poultry Operations',
+    location: 'YCP Farm, Philippines',
+    status: 'completed',
+    statusLabel: 'Finished Project • Operational',
+    category: 'Solar Systems',
+    categoryLabel: 'Farm Solar Integration',
+    imageUrl: '/images/news/finished-ycp-farm-solar-project/01-solar-array-front-poultry-houses.webp',
+    images: [
+      '/images/news/finished-ycp-farm-solar-project/01-solar-array-front-poultry-houses.webp',
+      '/images/news/finished-ycp-farm-solar-project/02-solar-pv-rows-exhaust-fans.webp',
+      '/images/news/finished-ycp-farm-solar-project/03-ground-mount-solar-installation.webp',
+      '/images/news/finished-ycp-farm-solar-project/04-wide-solar-field-overview.webp',
+      '/images/news/finished-ycp-farm-solar-project/05-solar-panels-and-farm-complex.webp',
+      '/images/news/finished-ycp-farm-solar-project/06-concrete-pedestal-mounting-system.webp',
+      '/images/news/finished-ycp-farm-solar-project/07-full-array-panoramic-view.webp',
+      '/images/news/finished-ycp-farm-solar-project/08-civil-foundation-and-racking-works.webp',
+    ],
+    capacityMetric: {
+      label: 'System Type',
+      value: 'Ground-Mount Agro PV Array',
+    },
+    highlights: [
+      'Ground-mounted solar PV rows aligned directly with tunnel-ventilated poultry houses',
+      'Reinforced concrete pier footings and typhoon-resilient galvanized steel racking',
+      'Direct daytime clean energy offset for peak exhaust fan and cooling pump loads',
+    ],
+    timeline: 'Completed & Operational',
+    caseStudyHref: '/news/ycp-farm-solar-project-finished',
+  },
+  {
     id: 'bulacan-hatchery',
-    title: 'Commercial Single-Stage Hatchery Complex',
+    title: 'Single-Stage Commercial Hatchery Complex',
     clientType: 'Commercial Poultry Integrator',
     location: 'San Ildefonso, Bulacan',
     status: 'completed',
-    statusLabel: 'Completed & Turned Over',
+    statusLabel: 'Finished Project • Turned Over',
     category: 'Hatchery',
     categoryLabel: 'Hatchery & Incubation',
     imageUrl: '/images/news/bulacan-single-stage-setter.png',
+    images: [
+      '/images/news/bulacan-single-stage-setter.png',
+      '/images/news/bulacan-hatcher.jpg',
+    ],
     capacityMetric: {
       label: 'Egg-Setting Output',
       value: '322,560 Eggs / Week',
     },
     highlights: [
-      'Single-Stage Setters & Hatchers (Model EIFTPC-40320)',
+      'Single-Stage Setters & Hatchers (Model EIFTPC-40320 / EICTPC-40320)',
       'Unidirectional positive pressure biosecure hatchery systems AHU airflow',
       'All-in all-out biosecurity sanitation corridor design',
     ],
     timeline: 'Commissioned August 2026',
-    caseStudyHref: '/solutions/hatchery',
+    caseStudyHref: '/news/single-stage-hatchery-bulacan-project',
   },
   {
-    id: 'pampanga-broiler',
-    title: '120k High-Density Climate-Controlled Broiler Farm',
-    clientType: 'Contract Meat Bird Producer',
-    location: 'Magalang, Pampanga',
-    status: 'completed',
-    statusLabel: 'Completed & Operational',
-    category: 'Poultry Farm Equipment',
-    categoryLabel: 'Broiler Housing',
-    imageUrl: '/images/broiler/feeding-drinking-system.jpg',
-    capacityMetric: {
-      label: 'Flock Capacity',
-      value: '120,000 Birds (3 Houses)',
-    },
-    highlights: [
-      'Elevated slatted floor layout with high-volume sub-floor clearance',
-      'High-velocity 2.5–3.2 m/s tunnel ventilation & 150mm evaporative pads',
-      'Automated flex-auger bulk silo feed lines & 360° closed nipple waterers',
-    ],
-    timeline: 'Turned Over 2026',
-    caseStudyHref: '/solutions/poultry/broiler',
-  },
-  {
-    id: 'tarlac-breeder',
-    title: 'Parent Stock Poultry Breeding & Nesting Facility',
-    clientType: 'Parent Stock Multiplier',
-    location: 'Concepcion, Tarlac',
+    id: 'jala-jala-broiler-auto-harvest',
+    title: 'Broiler Auto-Harvest Facility',
+    clientType: 'Commercial Meat Bird Producer',
+    location: 'Jala-Jala, Rizal',
     status: 'ongoing',
-    statusLabel: 'Ongoing Build (85% Complete)',
+    statusLabel: 'Ongoing Project • Active Construction',
     category: 'Poultry Farm Equipment',
-    categoryLabel: 'Poultry Breeding',
-    imageUrl: '/images/breeder/american-type-interior.jpg',
+    categoryLabel: 'Broiler Auto-Harvest',
+    imageUrl: '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/01-interior-steel-structure-slab.webp',
+    images: [
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/01-interior-steel-structure-slab.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/02-auto-harvest-base-rail-installation.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/03-full-span-poultry-house-interior.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/04-exterior-insulated-wall-cladding.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/05-portal-frame-front-elevation.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/06-interior-floor-preparation.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/07-insulated-wall-panels-roofing.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/08-sidewall-ventilation-openings.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/09-insulated-service-door-installation.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/10-sidewall-cross-bracing-drainage.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/11-side-access-door-foundation.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/12-column-pedestal-civil-works.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/13-roof-purlin-extension-excavation.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/14-rebar-slab-and-trenching.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/15-end-bay-earthworks-grading.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/16-wall-panel-staging-interior.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/17-site-materials-and-equipment.webp',
+      '/images/news/ongoing-broiler-auto-harvest-jala-jala-rizal/18-exterior-site-progress.webp',
+    ],
     capacityMetric: {
-      label: 'Breeder Stock',
-      value: '40,000 Parent Hens',
+      label: 'System Scope',
+      value: 'Auto-Harvest Broiler Houses',
     },
     highlights: [
-      'American (1/3 slat) design with sidewall automated community nests',
-      'Sex-separate male & female feeding delivery tracks with exclusion grills',
-      'Continuous variable-speed gentle egg collection & staging conveyor',
+      'Wide-span structural steel portal framing with diagonal wind cross-bracing',
+      'Insulated PU sandwich wall panels, service doors & concrete floor slabs',
+      'Longitudinal floor base rail installation for automated broiler harvesting',
     ],
-    timeline: 'Target Commissioning Q4 2026',
-    caseStudyHref: '/solutions/poultry/broiler-breeder',
+    timeline: 'Active On-Site Construction',
+    caseStudyHref: '/news/ongoing-broiler-auto-harvest-jala-jala-rizal',
   },
   {
-    id: 'batangas-layer',
-    title: '150k Commercial Multi-Tier Layer Battery Complex',
+    id: 'gerona-tarlac-layer-solar',
+    title: 'Commercial Layer Facility with Integrated Solar',
     clientType: 'Commercial Table Egg Producer',
-    location: 'San Jose, Batangas',
+    location: 'Gerona, Tarlac',
     status: 'ongoing',
-    statusLabel: 'Phase 2 Equipment Installation',
+    statusLabel: 'Ongoing Project • Structural Phase',
     category: 'Poultry Farm Equipment',
-    categoryLabel: 'Commercial Layer',
-    imageUrl: '/images/layer/h-frame-layer.jpg',
+    categoryLabel: 'Layer with Solar',
+    imageUrl: '/images/news/ongoing-layer-with-solar-gerona-tarlac/01-steel-columns-foundation-gerona-tarlac.webp',
+    images: [
+      '/images/news/ongoing-layer-with-solar-gerona-tarlac/01-steel-columns-foundation-gerona-tarlac.webp',
+      '/images/news/ongoing-layer-with-solar-gerona-tarlac/02-perimeter-footing-column-erection.webp',
+    ],
     capacityMetric: {
-      label: 'Layer Capacity',
-      value: '150,000 Table Egg Birds',
+      label: 'Facility Type',
+      value: 'Layer Complex + Solar PV',
     },
     highlights: [
-      'Hot-dip galvanized vertical H-frame cages (SA2.5 industrial standard)',
-      'Multi-tier soft-touch egg elevator lifts & specialized cross-conveyors',
-      'In-barn PP manure belts with perforated air-drying ventilation ducts',
+      'Perimeter masonry retaining walls, reinforced pedestals & gravel sub-base',
+      'Primary structural steel I-beam column erection across full building span',
+      'Integrated design combining commercial layer housing with solar power',
     ],
-    timeline: 'Phase 2 Active On-Site',
-    caseStudyHref: '/solutions/poultry/layer',
-  },
-  {
-    id: 'nueva-ecija-feedmill',
-    title: '30 TPH Automated Feedmill Plant & Bulk Silo Farm',
-    clientType: 'Regional Feed & Grain Conglomerate',
-    location: 'Cabanatuan, Nueva Ecija',
-    status: 'completed',
-    statusLabel: 'Completed & Commissioned',
-    category: 'Feedmill',
-    categoryLabel: 'Feedmill Systems',
-    imageUrl: '/images/capabilities/feedmill-facility.jpg',
-    capacityMetric: {
-      label: 'Milling Output',
-      value: '30 Metric Tons / Hour',
-    },
-    highlights: [
-      'Z600 corrugated galvanized bulk grain storage silos (5,000 MT total)',
-      'Multi-cell gravimetric micro-batching with SCADA recipe automation',
-      'Twin-shaft fluidized zero-gravity mixer & heavy ring-die pellet mill',
-    ],
-    timeline: 'Commissioned 2026',
-    caseStudyHref: '/solutions/feedmill',
-  },
-  {
-    id: 'clark-solar',
-    title: '1.2 MWp Commercial Agro-Rooftop Solar Microgrid',
-    clientType: 'Agro-Industrial Food Processing Complex',
-    location: 'Clark Freeport Agro-Hub, Pampanga',
-    status: 'ongoing',
-    statusLabel: 'Interconnect & Grid Sync',
-    category: 'Solar Systems',
-    categoryLabel: 'Solar Integration',
-    imageUrl: '/images/hero/solar-hero.jpg',
-    capacityMetric: {
-      label: 'Installed PV Power',
-      value: '1,200 kWp (1.2 MWp)',
-    },
-    highlights: [
-      '280 kph typhoon-certified standing seam roof clamps & AL6005 rails',
-      'Utility-grade 3-phase commercial string inverters with ERC Net Metering',
-      'Zero-export fast fuel saver sync with standby diesel generator sets',
-    ],
-    timeline: 'Energization Q4 2026',
-    caseStudyHref: '/solutions/solar',
+    timeline: 'Civil & Steel Erection Active',
+    caseStudyHref: '/news/ongoing-layer-with-solar-gerona-tarlac',
   },
 ];
 
@@ -173,15 +201,6 @@ export interface SolutionsPreviewProps {
 
 export const SolutionsPreview: React.FC<SolutionsPreviewProps> = () => {
   const navigate = useNavigate();
-  const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'ongoing'>('all');
-
-  const filteredProjects = useMemo(() => {
-    if (statusFilter === 'all') return FLAGSHIP_PROJECTS;
-    return FLAGSHIP_PROJECTS.filter((item) => item.status === statusFilter);
-  }, [statusFilter]);
-
-  const completedCount = FLAGSHIP_PROJECTS.filter((p) => p.status === 'completed').length;
-  const ongoingCount = FLAGSHIP_PROJECTS.filter((p) => p.status === 'ongoing').length;
 
   return (
     <div id="solutions-preview" className="text-left font-sans">
@@ -225,8 +244,8 @@ export const SolutionsPreview: React.FC<SolutionsPreviewProps> = () => {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
 
-          {/* Header & Filter Controls Bar */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#102A43] pb-7">
+          {/* Section Header */}
+          <div className="border-b border-[#102A43] pb-7">
             <div className="max-w-2xl space-y-2">
               <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
                 CCDI Successful & Ongoing Projects
@@ -235,94 +254,62 @@ export const SolutionsPreview: React.FC<SolutionsPreviewProps> = () => {
                 High-performance turnkey solutions — inspect completed facility handovers and active on-site construction below.
               </p>
             </div>
-
-            {/* Status Filter Toggle Pills */}
-            <div className="flex items-center gap-1.5 bg-[#07162A] p-1.5 rounded-[2px] border border-[#1E3E66] shrink-0 self-start md:self-auto shadow-inner">
-              <button
-                type="button"
-                onClick={() => setStatusFilter('all')}
-                className={`px-3.5 py-1.5 rounded-[2px] font-mono text-xs font-bold transition-all uppercase cursor-pointer flex items-center gap-1.5 ${statusFilter === 'all'
-                  ? 'bg-[#F3A812] text-slate-950 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-                  }`}
-              >
-                <Layers className="w-3.5 h-3.5" />
-                <span>All Projects ({FLAGSHIP_PROJECTS.length})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setStatusFilter('completed')}
-                className={`px-3.5 py-1.5 rounded-[2px] font-mono text-xs font-bold transition-all uppercase cursor-pointer flex items-center gap-1.5 ${statusFilter === 'completed'
-                  ? 'bg-emerald-500 text-slate-950 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-                  }`}
-              >
-                <Check className="w-3.5 h-3.5 text-emerald-300" />
-                <span>Completed ({completedCount})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setStatusFilter('ongoing')}
-                className={`px-3.5 py-1.5 rounded-[2px] font-mono text-xs font-bold transition-all uppercase cursor-pointer flex items-center gap-1.5 ${statusFilter === 'ongoing'
-                  ? 'bg-amber-400 text-slate-950 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-                  }`}
-              >
-                <Hammer className="w-3.5 h-3.5 text-amber-900" />
-                <span>Ongoing ({ongoingCount})</span>
-              </button>
-            </div>
           </div>
 
-          {/* 6-Item High-Contrast Project Card Grid */}
-          <motion.div
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 items-stretch"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project) => {
-                return (
-                  <motion.div
-                    key={project.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.96 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.96 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className="group relative flex flex-col justify-between bg-[#07162A] border border-[#1E3E66] hover:border-[#F3A812] rounded-[2px] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/15"
-                  >
-                    {/* ── CARD MEDIA HEADER ── */}
-                    <div className="relative w-full h-52 sm:h-56 overflow-hidden bg-[#040D18] shrink-0">
-                      <img
-                        src={project.imageUrl}
+          {/* High-Contrast Project Card Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 items-stretch">
+            {FLAGSHIP_PROJECTS.map((project) => {
+              return (
+                <div
+                  key={project.id}
+                  className="group relative flex flex-col justify-between bg-[#07162A] border border-[#1E3E66] hover:border-[#F3A812] rounded-[2px] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/15"
+                >
+                    {/* ── CARD MEDIA HEADER (CAROUSEL) ── */}
+                    <div className="relative w-full overflow-hidden bg-[#040D18] shrink-0">
+                      <ProjectImageCarousel
+                        images={project.images.length > 0 ? project.images : [project.imageUrl]}
                         alt={project.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover object-center brightness-[0.92] contrast-[1.08] transition-transform duration-700 group-hover:scale-105"
-                      />
+                        aspectClassName="h-52 sm:h-56"
+                        imageClassName="object-cover object-center brightness-[0.92] contrast-[1.08] transition-transform duration-700 group-hover:scale-105"
+                        hideDots
+                      >
+                        {/* Dual Contrast Scrim */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none" />
 
-                      {/* Dual Contrast Scrim */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent" />
-                      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none" />
+                        {/* Status Badge (Top-Left) */}
+                        <div className="absolute top-3 left-3 z-20 pointer-events-none">
+                          <span
+                            className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm ${
+                              project.status === 'completed'
+                                ? 'bg-emerald-500 text-slate-950'
+                                : 'bg-amber-400 text-slate-950'
+                            }`}
+                          >
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full bg-slate-950 ${
+                                project.status === 'completed' ? '' : 'animate-pulse'
+                              }`}
+                            />
+                            {project.status === 'completed' ? 'Finished Project' : 'Ongoing Project'}
+                          </span>
+                        </div>
 
-                      {/* Status Badge (Top-Left) */}
+                        {/* Discipline Badge (Top-Right) */}
+                        <div className="absolute top-3 right-3 z-20 pointer-events-none">
+                          <span className="px-2 py-0.5 rounded-[2px] bg-black/60 border border-white/20 text-[10px] font-mono font-bold text-slate-300 uppercase tracking-wider backdrop-blur-xs">
+                            {project.categoryLabel}
+                          </span>
+                        </div>
 
-
-                      {/* Discipline Badge (Top-Right) */}
-                      <div className="absolute top-3 right-3 z-10">
-                        <span className="px-2 py-0.5 rounded-[2px] bg-black/60 border border-white/20 text-[10px] font-mono font-bold text-slate-300 uppercase tracking-wider backdrop-blur-xs">
-                          {project.categoryLabel}
-                        </span>
-                      </div>
-
-                      {/* Geographic Location Bar (Bottom of Media) */}
-                      <div className="absolute bottom-2.5 left-3 right-3 z-10 flex items-center gap-1.5 text-xs font-mono text-slate-200 drop-shadow-md">
-                        <MapPin className="w-3.5 h-3.5 text-[#F3A812] shrink-0" />
-                        <span className="font-semibold tracking-wide truncate">
-                          {project.location}
-                        </span>
-                      </div>
+                        {/* Geographic Location Bar (Bottom of Media, leaving room for photo counter) */}
+                        <div className="absolute bottom-2.5 left-3 right-24 z-10 flex items-center gap-1.5 text-xs font-mono text-slate-200 drop-shadow-md pointer-events-none">
+                          <MapPin className="w-3.5 h-3.5 text-[#F3A812] shrink-0" />
+                          <span className="font-semibold tracking-wide truncate">
+                            {project.location}
+                          </span>
+                        </div>
+                      </ProjectImageCarousel>
                     </div>
 
                     {/* ── CARD BODY ── */}
@@ -382,16 +369,15 @@ export const SolutionsPreview: React.FC<SolutionsPreviewProps> = () => {
                         </button>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
-            </AnimatePresence>
-          </motion.div>
+          </div>
 
           {/* ── ACTION BAR ── */}
           <div className="border-t border-[#102A43] pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <p className="text-xs font-mono text-slate-400">
-              BULACAN • PAMPANGA • TARLAC • BATANGAS • NUEVA ECIJA • CENTRAL LUZON
+              ILOILO • JALA-JALA, RIZAL • GERONA, TARLAC • BULACAN • NATIONWIDE
             </p>
 
             <div className="flex flex-wrap items-center gap-3">

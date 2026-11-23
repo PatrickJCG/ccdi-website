@@ -113,7 +113,7 @@ const CAROUSEL_SLIDES: HeroCarouselSlide[] = [
       label: 'Request Consultation',
       href: '#contact',
     },
-    imageUrl: '/images/hero/solar-hero.jpg',
+    imageUrl: '/images/news/finished-ycp-farm-solar-project/01-solar-array-front-poultry-houses.webp',
   },
   {
     id: 'slide-updates',

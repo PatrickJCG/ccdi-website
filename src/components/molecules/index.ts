@@ -16,4 +16,5 @@ export * from './DesignOptionsHeroCarousel';
 export * from './SolutionHeroBanner';
 export * from './SolutionPillarCard';
 export * from './SolutionEquipmentCard';
+export * from './ProjectImageCarousel';
 

@@ -187,14 +187,12 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
 
     if (targetHash) {
       const targetId = targetHash.replace('#', '');
-      const isCurrentPage =
-        location.pathname === targetPath ||
-        (!targetPath && location.pathname === '/');
+      const isSamePageTarget = !targetPath || location.pathname === targetPath;
 
-      if (isCurrentPage) {
+      if (isSamePageTarget) {
         if (targetId === 'overview' || targetId === 'home') {
           window.scrollTo({ top: 0, behavior: 'smooth' });
-          window.history.replaceState(null, '', targetPath);
+          window.history.replaceState(null, '', targetPath || location.pathname);
           return;
         }
 
@@ -205,11 +203,13 @@ export const Navbar: React.FC<NavbarProps> = ({ inquiryCount: _inquiryCount }) =
           const elementRect = element.getBoundingClientRect().top;
           const offsetPosition = elementRect - bodyRect - offset;
           window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
-          window.history.replaceState(null, '', targetPath + targetHash);
+          window.history.replaceState(null, '', (targetPath || location.pathname) + targetHash);
           return;
         }
       }
-      navigate(targetPath + targetHash);
+
+      const destPath = targetPath || '/';
+      navigate(destPath + targetHash);
       return;
     }
 

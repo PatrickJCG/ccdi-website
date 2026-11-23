@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Search,
   Calendar,
@@ -11,7 +11,6 @@ import {
   Check,
   CheckCircle2,
   ChevronRight,
-  ChevronLeft,
   ExternalLink,
   Phone,
   Mail,
@@ -20,16 +19,16 @@ import {
   BookOpen,
   RotateCcw,
   X,
+  MapPin,
 } from 'lucide-react';
 import {
   NEWS_ARTICLES,
   NEWS_CATEGORIES,
   CCDI_CONTACT_INFO,
-  NEWS_PAGE_HEADER_IMAGES,
-  NEWS_HEADER_FALLBACK_IMAGE,
-  type HeaderBackgroundImage,
   type NewsArticle,
+  type ProjectStatus,
 } from '../data/newsData';
+import { ProjectImageCarousel } from '../components/molecules/ProjectImageCarousel';
 import type { Product } from '../data/mockProducts';
 
 export interface NewsPageProps {
@@ -42,249 +41,93 @@ export interface NewsPageProps {
  * Shared helpers
  * ────────────────────────────────────────────────────────────────────────── */
 
-/** Swaps a broken image for the fallback so the layout never shows an empty box. */
-const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-  const img = e.currentTarget;
-  if (!img.src.endsWith(NEWS_HEADER_FALLBACK_IMAGE)) {
-    img.src = NEWS_HEADER_FALLBACK_IMAGE;
-  }
-};
-
 const CategoryChip: React.FC<{ label: string; dark?: boolean }> = ({ label, dark = false }) => (
   <span
-    className={`inline-block font-mono text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] border ${
-      dark
+    className={`inline-block font-mono text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] border ${dark
         ? 'bg-[#07162A]/90 text-amber-400 border-amber-400/40 backdrop-blur-sm'
         : 'bg-amber-50 text-amber-700 border-amber-200'
-    }`}
+      }`}
   >
     {label}
   </span>
 );
 
-/**
- * Image-backed hero with multi-layer high-contrast protective gradient and
- * optional rotating background carousel for multiple images.
- */
-interface ImageHeroProps {
-  images: (string | HeaderBackgroundImage)[] | string;
-  children: React.ReactNode;
-}
-
-const ImageHero: React.FC<ImageHeroProps> = ({ images, children }) => {
-  const imageList = useMemo<HeaderBackgroundImage[]>(() => {
-    if (typeof images === 'string') {
-      return [{ url: images }];
-    }
-    return images.map((item) => (typeof item === 'string' ? { url: item } : item));
-  }, [images]);
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // Auto-advance if there are multiple images
-  useEffect(() => {
-    if (imageList.length <= 1 || isPaused) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % imageList.length);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, [imageList.length, isPaused]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? imageList.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % imageList.length);
-  };
-
-  const currentImage = imageList[currentIndex] || imageList[0];
-
+const ProjectStatusBadge: React.FC<{ status: ProjectStatus }> = ({ status }) => {
+  const isFinished = status === 'Finished Project';
   return (
-    <section
-      className="relative bg-[#07162A] text-white border-b border-[#102A43] overflow-hidden min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex flex-col justify-center"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+    <span
+      className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-[2px] shadow-sm ${isFinished ? 'bg-emerald-500 text-slate-950' : 'bg-amber-400 text-slate-950'
+        }`}
     >
-      {/* ── Background Photo Layer: anchored on the right side for crystal-clear visibility ── */}
-      <div className="absolute top-0 bottom-0 right-0 w-full md:w-[62%] lg:w-[58%] xl:w-[54%] z-0 overflow-hidden pointer-events-none">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={currentImage.url}
-            src={currentImage.url}
-            onError={handleImgError}
-            alt={currentImage.caption || ''}
-            initial={{ opacity: 0, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            style={{ objectPosition: currentImage.objectPosition || 'center 25%' }}
-            className="w-full h-full object-cover brightness-100 contrast-[1.02]"
-          />
-        </AnimatePresence>
-
-        {/* Smooth horizontal gradient on the image: dissolves the left boundary of the image into #07162A */}
-        <div className="hidden md:block absolute inset-y-0 left-0 w-36 sm:w-56 md:w-72 lg:w-96 bg-gradient-to-r from-[#07162A] via-[#07162A]/75 to-transparent z-10 pointer-events-none" />
-      </div>
-
-      {/* ── Directional gradient transitions across hero ── */}
-      {/* Mobile: vertical fade from solid top to photo bottom */}
-      <div className="md:hidden absolute inset-0 bg-gradient-to-b from-[#07162A] via-[#07162A]/85 via-55% to-[#07162A]/30 pointer-events-none z-[1]" />
-      
-      {/* Desktop/Tablet: smooth left-to-right fade from solid #07162A background into the right-side picture */}
-      <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-[#07162A] via-[#07162A] via-35% md:via-42% lg:via-46% to-transparent pointer-events-none z-[1]" />
-
-      {/* Subtle top & bottom edge blend */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#07162A]/50 via-transparent to-[#07162A]/70 pointer-events-none z-[2]" />
-
-      {/* ── Architectural Accent 2 - Top Left Corner (visible above background) ── */}
-      <motion.div
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -top-6 -left-10 sm:-top-4 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-[3]"
-        aria-hidden="true"
-      >
-        <img
-          src="/images/accents/accent2.png"
-          alt=""
-          className="w-full h-auto object-contain opacity-35 drop-shadow-sm"
-        />
-      </motion.div>
-
-      {/* ── Architectural Dynamic Accent Graphic - Bottom Left Anchored ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -bottom-16 -left-16 sm:-left-8 sm:bottom-0 w-72 sm:w-96 lg:w-[440px] pointer-events-none select-none z-[3]"
-        aria-hidden="true"
-      >
-        <img
-          src="/images/accents/dark-accent-graphic.png"
-          alt=""
-          className="w-full h-auto object-contain opacity-25"
-        />
-      </motion.div>
-
-      {/* ── Content Container ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-16 sm:pb-20 w-full">
-        {children}
-
-        {/* ── Slide Navigation Controls (shown when there are 2+ background images) ── */}
-        {imageList.length > 1 && (
-          <div className="pt-6 sm:pt-8 flex flex-wrap items-center justify-end gap-4">
-            <div className="flex items-center gap-3 ml-auto">
-              <div className="flex items-center gap-1.5">
-                {imageList.map((img, idx) => (
-                  <button
-                    key={img.url}
-                    type="button"
-                    onClick={() => setCurrentIndex(idx)}
-                    title={img.caption || `Slide ${idx + 1}`}
-                    className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                      idx === currentIndex
-                        ? 'w-6 bg-amber-400'
-                        : 'w-2 bg-white/40 hover:bg-white/70'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <div className="flex items-center gap-1 pl-2">
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  aria-label="Previous background image"
-                  className="w-7 h-7 rounded-[2px] bg-[#07162A]/90 hover:bg-amber-400 hover:text-slate-950 text-white border border-[#1E3E66] flex items-center justify-center transition-colors cursor-pointer shadow-sm"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  aria-label="Next background image"
-                  className="w-7 h-7 rounded-[2px] bg-[#07162A]/90 hover:bg-amber-400 hover:text-slate-950 text-white border border-[#1E3E66] flex items-center justify-center transition-colors cursor-pointer shadow-sm"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
+      <span
+        className={`w-1.5 h-1.5 rounded-full bg-slate-950 ${isFinished ? '' : 'animate-pulse'
+          }`}
+      />
+      {status}
+    </span>
   );
 };
 
-const Breadcrumb: React.FC<{ items: { label: string; to?: string }[] }> = ({ items }) => (
-  <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-200 mb-8">
-    {items.map((item, idx) => (
-      <React.Fragment key={item.label}>
-        {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-slate-400" />}
-        {item.to ? (
-          <Link to={item.to} className="text-slate-200 hover:text-amber-400 transition-colors uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-            {item.label}
-          </Link>
-        ) : (
-          <span className="text-amber-400 font-bold uppercase truncate max-w-[220px] sm:max-w-xs drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-            {item.label}
-          </span>
-        )}
-      </React.Fragment>
-    ))}
-  </nav>
-);
-
 /** Uniform article card used in the grid and the related section. */
-const ArticleCard: React.FC<{ article: NewsArticle; index?: number }> = ({ article, index = 0 }) => (
-  <motion.article
-    initial={{ opacity: 0, y: 12 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3, delay: Math.min(index, 8) * 0.04 }}
-    className="group h-full"
-  >
-    <Link
-      to={`/news/${article.id}`}
-      id={`news-card-${article.id}`}
-      className="flex flex-col h-full bg-white rounded-[2px] border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-[#0B192C] transition-all duration-300"
+const ArticleCard: React.FC<{ article: NewsArticle; index?: number }> = ({ article, index = 0 }) => {
+  const carouselImages =
+    article.galleryImages && article.galleryImages.length > 0
+      ? article.galleryImages
+      : [article.imageUrl];
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: Math.min(index, 8) * 0.04 }}
+      className="group h-full"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
-        <img
-          src={article.imageUrl}
-          onError={handleImgError}
+      <Link
+        to={`/news/${article.id}`}
+        id={`news-card-${article.id}`}
+        className="flex flex-col h-full bg-white rounded-[2px] border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-[#0B192C] transition-all duration-300"
+      >
+        <ProjectImageCarousel
+          images={carouselImages}
           alt={article.title}
-          loading="lazy"
-          className="w-full h-full object-cover object-[center_top] group-hover:scale-105 transition-transform duration-500 ease-out"
-        />
-        <div className="absolute top-3 left-3">
-          <CategoryChip label={article.category} dark />
+          aspectClassName="aspect-[16/10]"
+          imageClassName="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+        >
+          <div className="absolute top-3 left-3 right-3 z-20 flex flex-wrap items-center gap-1.5 pointer-events-none">
+            {article.projectStatus && <ProjectStatusBadge status={article.projectStatus} />}
+            <CategoryChip label={article.category} dark />
+          </div>
+        </ProjectImageCarousel>
+
+        <div className="flex flex-col flex-1 p-6">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-slate-500 mb-3">
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-amber-600" />
+              {article.date}
+            </span>
+            {article.location && (
+              <span className="flex items-center gap-1 text-slate-600 font-semibold">
+                <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                {article.location}
+              </span>
+            )}
+          </div>
+
+          <h3 className="text-lg font-bold text-[#0B192C] leading-snug tracking-tight line-clamp-2 group-hover:text-amber-600 transition-colors mb-2">
+            {article.title}
+          </h3>
+
+          <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-6">{article.summary}</p>
+
+          <span className="mt-auto pt-4 border-t border-slate-100 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-amber-600 group-hover:text-amber-700">
+            Read Article
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+          </span>
         </div>
-      </div>
-
-      <div className="flex flex-col flex-1 p-6">
-        <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-500 mb-3">
-          <Calendar className="w-3.5 h-3.5 text-amber-600" />
-          {article.date}
-        </span>
-
-        <h3 className="text-lg font-bold text-[#0B192C] leading-snug tracking-tight line-clamp-2 group-hover:text-amber-600 transition-colors mb-2">
-          {article.title}
-        </h3>
-
-        <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-6">{article.summary}</p>
-
-        <span className="mt-auto pt-4 border-t border-slate-100 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-amber-600 group-hover:text-amber-700">
-          Read Article
-          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-        </span>
-      </div>
-    </Link>
-  </motion.article>
-);
+      </Link>
+    </motion.article>
+  );
+};
 
 /** Dark CTA band reused at the bottom of both views. */
 const ContactBand: React.FC = () => {
@@ -382,39 +225,55 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
 
   return (
     <motion.div key={article.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-      {/* ── HERO: article image as background with rich contrast scrim ── */}
-      <ImageHero images={article.imageUrl}>
-        <Breadcrumb items={[{ label: 'Home', to: '/' }, { label: 'News & Updates', to: '/news' }, { label: article.category }]} />
+      {/* ── ARTICLE HEADER (BREADCRUMBS & TITLE) ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2 space-y-5">
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
+          <Link to="/" className="hover:text-amber-600 transition-colors uppercase">
+            HOME
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+          <Link to="/news" className="hover:text-amber-600 transition-colors uppercase">
+            NEWS &amp; UPDATES
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+          <span className="text-amber-600 font-bold uppercase">
+            {article.category}
+          </span>
+        </nav>
 
-        <div className="max-w-3xl space-y-5">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <CategoryChip label={article.category} dark />
-            <span className="flex items-center gap-1.5 text-xs font-mono text-slate-200 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-              <Calendar className="w-3.5 h-3.5 text-amber-400" />
-              {article.date}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          {article.projectStatus && <ProjectStatusBadge status={article.projectStatus} />}
+          <CategoryChip label={article.category} />
+          <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
+            <Calendar className="w-3.5 h-3.5 text-amber-600" />
+            {article.date}
+          </span>
+          {article.location && (
+            <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
+              <MapPin className="w-3.5 h-3.5 text-amber-600" />
+              {article.location}
             </span>
-            <span className="flex items-center gap-1.5 text-xs font-mono text-slate-200 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-              <Clock className="w-3.5 h-3.5 text-amber-400" />
-              {article.readTime}
-            </span>
+          )}
+          <span className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
+            <Clock className="w-3.5 h-3.5 text-amber-600" />
+            {article.readTime}
+          </span>
+        </div>
+
+        <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-[#0B192C] leading-[1.2] max-w-4xl">
+          {article.title}
+        </h1>
+
+        <div className="flex items-center gap-3 pt-1">
+          <div className="w-10 h-10 rounded-[2px] bg-[#0B192C] border border-[#1E3E66] flex items-center justify-center text-amber-400 font-mono font-bold shadow-xs">
+            {article.author.name.charAt(0)}
           </div>
-
-          {/* Guaranteed pure white, high-contrast headline */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black !text-white text-white tracking-tight leading-[1.15] drop-shadow-[0_3px_14px_rgba(0,0,0,0.95)]">
-            {article.title}
-          </h1>
-
-          <div className="flex items-center gap-3 pt-2">
-            <div className="w-10 h-10 rounded-[2px] bg-[#0B192C] border border-[#1E3E66] flex items-center justify-center text-amber-400 font-mono font-bold shadow-md">
-              {article.author.name.charAt(0)}
-            </div>
-            <div>
-              <p className="text-sm font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">{article.author.name}</p>
-              <p className="text-xs font-mono text-slate-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">{article.author.role}</p>
-            </div>
+          <div>
+            <p className="text-sm font-bold text-[#0B192C]">{article.author.name}</p>
+            <p className="text-xs font-mono text-slate-500">{article.author.role}</p>
           </div>
         </div>
-      </ImageHero>
+      </div>
 
       {/* ── BODY ── */}
       <section className="bg-slate-50 py-14 sm:py-20">
@@ -435,13 +294,16 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
               {article.summary}
             </p>
 
-            {/* Feature image (full, un-darkened) */}
-            <figure className="rounded-[2px] overflow-hidden border border-slate-200 shadow-sm bg-slate-200">
-              <img
-                src={article.imageUrl}
-                onError={handleImgError}
+            {/* Feature image / Project Gallery Carousel */}
+            <figure className="rounded-[2px] overflow-hidden border border-slate-200 shadow-sm bg-slate-100 p-2 sm:p-3">
+              <ProjectImageCarousel
+                images={article.galleryImages?.length ? article.galleryImages : [article.imageUrl]}
                 alt={article.title}
-                className="w-full aspect-[16/9] object-cover"
+                aspectClassName="aspect-[16/9]"
+                imageClassName="object-cover object-center"
+                showThumbnails={(article.galleryImages?.length ?? 0) > 1}
+                showCaption={true}
+                autoPlayInterval={5500}
               />
             </figure>
 
@@ -470,39 +332,6 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
                 </p>
               ))}
             </div>
-
-            {/* Project Photo Gallery (if available) */}
-            {article.galleryImages && article.galleryImages.length > 0 && (
-              <div className="space-y-4 pt-2">
-                <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
-                  <h3 className="font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
-                    Project Installation Gallery ({article.galleryImages.length} Photos)
-                  </h3>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {article.galleryImages.map((img, i) => (
-                    <figure
-                      key={i}
-                      className="rounded-[2px] overflow-hidden border border-slate-200 bg-white shadow-xs group"
-                    >
-                      <div className="overflow-hidden bg-slate-900 aspect-[4/3]">
-                        <img
-                          src={img.url}
-                          alt={img.caption || article.title}
-                          onError={handleImgError}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      {img.caption && (
-                        <figcaption className="p-3 text-xs text-slate-700 bg-slate-50 border-t border-slate-100 font-medium">
-                          {img.caption}
-                        </figcaption>
-                      )}
-                    </figure>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* Tags & actions */}
             <div className="pt-8 border-t border-slate-200 space-y-6">
@@ -568,6 +397,24 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
                       <dd className="font-semibold text-[#0B192C]">{article.category}</dd>
                     </div>
                   </div>
+                  {article.projectStatus && (
+                    <div className="flex items-start gap-3 px-6 py-4">
+                      <CheckCircle2 className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                      <div>
+                        <dt className="text-xs text-slate-500">Project Status</dt>
+                        <dd className="font-semibold text-[#0B192C]">{article.projectStatus}</dd>
+                      </div>
+                    </div>
+                  )}
+                  {article.location && (
+                    <div className="flex items-start gap-3 px-6 py-4">
+                      <MapPin className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                      <div>
+                        <dt className="text-xs text-slate-500">Location</dt>
+                        <dd className="font-semibold text-[#0B192C]">{article.location}</dd>
+                      </div>
+                    </div>
+                  )}
                   <div className="flex items-start gap-3 px-6 py-4">
                     <User className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                     <div>
@@ -683,39 +530,29 @@ const NewsIndex: React.FC = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-      {/* ── 1. HERO with rotating background carousel and maximum text contrast ── */}
-      <ImageHero images={NEWS_PAGE_HEADER_IMAGES}>
-        <Breadcrumb items={[{ label: 'Home', to: '/' }, { label: 'News & Updates' }]} />
+      {/* ── 1. PAGE HEADER (BREADCRUMBS & TEXT CONTENT) ── */}
+      <div className="bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 space-y-5">
+          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
+            <Link to="/" className="hover:text-amber-600 transition-colors uppercase">
+              HOME
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+            <span className="text-amber-600 font-bold uppercase">
+              NEWS &amp; UPDATES
+            </span>
+          </nav>
 
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12">
-          <div className="max-w-2xl xl:max-w-3xl space-y-4">
-            <p className="font-mono text-xs uppercase tracking-widest text-amber-400 font-bold">
-              CCDI / PRESS & PROJECT INSIGHTS
-            </p>
-
-            {/* Guaranteed pure white, high-contrast headline */}
-            <h1 className="text-4xl sm:text-6xl font-black !text-white text-white tracking-tight leading-[1.06] drop-shadow-[0_4px_16px_rgba(0,0,0,0.98)]">
-              Company News &{' '}
-              <span className="text-[#F3A812] block mt-1 drop-shadow-[0_4px_16px_rgba(0,0,0,0.98)]">
-                Project Updates.
-              </span>
+          <div className="max-w-4xl space-y-3">
+            <h1 className="text-2xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-[#0B192C] leading-[1.2]">
+              Company News &amp; Project Updates
             </h1>
-
-            <p className="text-base sm:text-lg text-slate-100 font-medium leading-relaxed max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed max-w-3xl">
               Stay updated on our latest farm developments, turnkey engineering projects, and company milestones across the Philippines.
             </p>
           </div>
-
-          {/* Balanced CCDI Crest Logo on Right */}
-          <div className="shrink-0 self-start lg:self-center hidden sm:flex items-center justify-center lg:pr-8 xl:pr-14">
-            <img
-              src="/images/branding/CCDI logo.svg"
-              alt="Clarkbase Construction Development Inc."
-              className="h-28 sm:h-36 md:h-44 lg:h-52 w-auto object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.85)] filter transition-transform duration-300 hover:scale-[1.02]"
-            />
-          </div>
         </div>
-      </ImageHero>
+      </div>
 
       {/* ── 2. FILTER TOOLBAR (with hidden desktop scrollbars) ── */}
       <div className="bg-white border-b border-slate-200">
@@ -737,11 +574,10 @@ const NewsIndex: React.FC = () => {
                   role="tab"
                   aria-selected={active}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-[2px] text-xs font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
-                    active
+                  className={`shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-[2px] text-xs font-bold uppercase tracking-wider border transition-colors cursor-pointer ${active
                       ? 'bg-[#0B192C] text-white border-[#0B192C]'
                       : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:text-slate-900'
-                  }`}
+                    }`}
                 >
                   {cat === 'All' ? 'All' : cat}
                   <span className={`font-mono text-[10px] ${active ? 'text-amber-400' : 'text-slate-400'}`}>{count}</span>
@@ -792,13 +628,20 @@ const NewsIndex: React.FC = () => {
                 id="news-featured-card"
                 className="group grid lg:grid-cols-12 bg-white border border-slate-200 rounded-[2px] overflow-hidden shadow-sm hover:shadow-xl hover:border-[#0B192C] transition-all duration-300"
               >
-                <div className="lg:col-span-7 relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px] overflow-hidden bg-slate-200">
-                  <img
-                    src={featured.imageUrl}
-                    onError={handleImgError}
+                <div className="lg:col-span-7 relative overflow-hidden bg-slate-200">
+                  <ProjectImageCarousel
+                    images={featured.galleryImages?.length ? featured.galleryImages : [featured.imageUrl]}
                     alt={featured.title}
-                    className="absolute inset-0 w-full h-full object-cover object-[center_top] sm:object-[center_12%] group-hover:scale-[1.03] transition-transform duration-700 ease-out"
-                  />
+                    aspectClassName="aspect-[16/10] lg:aspect-auto lg:min-h-[420px] lg:h-full"
+                    className="h-full"
+                    imageClassName="object-cover object-center group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  >
+                    {featured.projectStatus && (
+                      <div className="absolute top-4 left-4 z-20 pointer-events-none">
+                        <ProjectStatusBadge status={featured.projectStatus} />
+                      </div>
+                    )}
+                  </ProjectImageCarousel>
                 </div>
                 <div className="lg:col-span-5 p-7 sm:p-10 flex flex-col">
                   <div className="flex flex-wrap items-center gap-3 mb-5">
@@ -807,6 +650,12 @@ const NewsIndex: React.FC = () => {
                       <Calendar className="w-3.5 h-3.5 text-amber-600" />
                       {featured.date}
                     </span>
+                    {featured.location && (
+                      <span className="flex items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-slate-600 font-semibold">
+                        <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                        {featured.location}
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-black text-[#0B192C] tracking-tight leading-tight group-hover:text-amber-600 transition-colors mb-4">
                     {featured.title}

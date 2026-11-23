@@ -68,7 +68,7 @@ export const FULL_HERO_SLIDES: FullHeroSlide[] = [
     ctaPrimaryHref: '/solutions?bu=Solar%20Systems',
     ctaSecondary: 'Contact Us',
     ctaSecondaryHref: '#contact',
-    imageUrl: '/images/hero/solar-hero.jpg',
+    imageUrl: '/images/news/finished-ycp-farm-solar-project/01-solar-array-front-poultry-houses.webp',
     badgeText: 'Clean Solar Microgrids'
   }
 ];

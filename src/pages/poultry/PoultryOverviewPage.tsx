@@ -140,6 +140,16 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
+  const scrollToContact = () => {
+    const el = document.getElementById('contact');
+    if (el) {
+      const offset = 72;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = el.getBoundingClientRect().top;
+      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
@@ -151,9 +161,11 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
           { label: 'THE POULTRY SOLUTION' },
         ]}
         title="The Poultry Solution"
-        subtitle="Clarkbase Construction Development Inc. delivers high-performance, turnkey solutions for modern poultry production. From broiler facilities and broiler breeder housing to layer cage systems, CCDI serves as a single-source partner, managing each project from engineering and equipment supply through construction, installation, and commissioning."
+        subtitle="CCDI delivers turnkey poultry housing, climate control, automated feeding and drinking systems, and lifecycle support from engineering through commissioning."
         backgroundImage="/images/broiler/feeding-drinking-system.jpg"
         imageAlt="CCDI Poultry Infrastructure"
+        ctaText="Connect with our team today."
+        onCtaClick={scrollToContact}
       />
 
       {/* ── 2. POULTRY SUB-NAV BAR ─────────────────────────────────── */}
