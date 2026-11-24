@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { Play, Image as ImageIcon } from 'lucide-react';
 import type { Product, BusinessUnit } from '../../data/mockProducts';
 import { ProductSpecsModal } from './ProductSpecsModal';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 
 export interface ProductCardProps {
   product: Product;
@@ -111,12 +112,7 @@ const ProductCardInner: React.FC<ProductCardProps> = ({
 
           {/* Architectural Top-Right Corner Accent */}
           {mediaMode === 'image' && product.imageUrl && (
-            <img
-              src="/images/accents/card-corner-accent.png"
-              alt=""
-              className="absolute top-0 right-0 w-24 sm:w-32 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm"
-              aria-hidden="true"
-            />
+            <CornerAccent className="absolute top-0 right-0 w-24 sm:w-32 h-auto z-10 drop-shadow-sm" />
           )}
 
           {/* Clean Unified Capability & Status Badges */}

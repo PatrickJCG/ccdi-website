@@ -1,16 +1,6 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import type { Product } from "../data/mockProducts";
-
-interface InquiryContextValue {
-  inquiryItems: Product[];
-  inquiryCount: number;
-  toggleInquiry: (product: Product) => void;
-  removeInquiryItem: (productId: string) => void;
-  clearInquiry: () => void;
-  isInInquiry: (productId: string) => boolean;
-}
-
-const InquiryContext = createContext<InquiryContextValue | null>(null);
+import { InquiryContext, type InquiryContextValue } from "./useInquiry";
 
 export const InquiryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [inquiryItems, setInquiryItems] = useState<Product[]>([]);
@@ -53,10 +43,4 @@ export const InquiryProvider: React.FC<{ children: React.ReactNode }> = ({ child
       {children}
     </InquiryContext.Provider>
   );
-};
-
-export const useInquiry = (): InquiryContextValue => {
-  const ctx = useContext(InquiryContext);
-  if (!ctx) throw new Error("useInquiry must be used inside <InquiryProvider>");
-  return ctx;
 };

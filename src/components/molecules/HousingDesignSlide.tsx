@@ -1,6 +1,7 @@
 import React from 'react';
 import { Check, Plus, Layers } from 'lucide-react';
 import { PoultryLocalEngineers, type PoultrySolutionType } from './PoultryLocalEngineers';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 
 export interface HousingMetric {
   label: string;
@@ -105,6 +106,8 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
       <img
         src="/images/branding/CCDI%20logo.svg"
         alt="CCDI - Clark Base Construction & Dev't Inc."
+        loading="lazy"
+        decoding="async"
         className={`${subtitle ? 'h-14 sm:h-[74px]' : 'h-12 sm:h-14'} w-auto shrink-0 object-contain select-none pointer-events-none drop-shadow-xs opacity-90`}
       />
     </div>
@@ -121,14 +124,11 @@ export const HousingDesignSlide: React.FC<HousingDesignSlideProps> = ({
             <img
               src={imageUrl}
               alt={imageAlt ?? title}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
             />
-            <img
-              src="/images/accents/card-corner-accent.png"
-              alt=""
-              className="absolute top-0 right-0 w-24 h-auto object-contain object-right-top pointer-events-none select-none z-10 opacity-70"
-              aria-hidden="true"
-            />
+            <CornerAccent className="absolute top-0 right-0 w-24 h-auto z-10 opacity-70" />
           </div>
         ) : null}
 

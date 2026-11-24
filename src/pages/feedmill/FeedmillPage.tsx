@@ -19,6 +19,8 @@ import { FEEDMILL_PRODUCTS_MAP } from '../../data/feedmillProducts';
 import { FEEDMILL_ACCESSORIES_AND_PARTS } from '../../data/feedmillAccessories';
 import { CategoryAccessoriesCatalog } from '../../components/organisms/CategoryAccessoriesCatalog';
 import { AFTER_SALES_DATA } from '../../data/afterSalesData';
+import { CornerAccent } from '../../components/atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface FeedmillPageProps {
   inquiryItems: Product[];
@@ -73,16 +75,6 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
     }
   }, []);
 
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
@@ -99,7 +91,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
           backgroundImage="/images/capabilities/feedmill-facility.jpg"
           imageAlt="Feedmill Machinery and Equipment"
           ctaText="Connect with our team today."
-          onCtaClick={scrollToContact}
+          onCtaClick={() => scrollToContact()}
         />
       </div>
 
@@ -107,16 +99,11 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
       <SolutionSubNav category="feedmill" />
 
       {/* ── 3. SECTION 2: PROCESS FLOW (ID="process-flow") ──────────── */}
-      <FeedProcessingWorkflow onCtaClick={scrollToContact} />
+      <FeedProcessingWorkflow onCtaClick={() => scrollToContact()} />
 
       {/* ── 5. CATEGORY 1: CORE PROCESS EQUIPMENT (ID="core-process") ─ */}
       <section id="core-process" className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-2">
@@ -140,12 +127,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
 
       {/* ── 6. CATEGORY 2: PELLETING & POST-PELLET PROCESSING (ID="pelleting-processing") ── */}
       <section id="pelleting-processing" className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -222,12 +204,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
 
       {/* ── 7. CATEGORY 3: CLEANING, GRINDING & PACKING (ID="cleaning-grinding-packing") ── */}
       <section id="cleaning-grinding-packing" className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -320,12 +297,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
 
       {/* ── 8. CATEGORY 4: AQUA FEED, PET FOOD & STORAGE (ID="aqua-pet-storage") ── */}
       <section id="aqua-pet-storage" className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -424,7 +396,7 @@ export const FeedmillPage: React.FC<FeedmillPageProps> = ({
       {/* ── 10. AFTER-SALES SERVICES & LIFECYCLE SUPPORT (ID="after-sales") ── */}
       <AfterSalesSection
         data={AFTER_SALES_DATA.feedmill}
-        onCtaClick={scrollToContact}
+        onCtaClick={() => scrollToContact()}
         catalogLink={{
           label: 'Browse Auxiliaries & Spares Catalog',
           href: '#accessories-inquiry',

@@ -7,6 +7,8 @@ import { CategoryEndToEndApproach } from '../../components/organisms/CategoryEnd
 import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 import { SolutionHeroBanner } from '../../components/molecules/SolutionHeroBanner';
 import { SolutionPillarCard } from '../../components/molecules/SolutionPillarCard';
+import { CornerAccent } from '../../components/atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface PoultryOverviewPageProps {
   inquiryItems: Product[];
@@ -140,16 +142,6 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
@@ -165,7 +157,7 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
         backgroundImage="/images/broiler/feeding-drinking-system.jpg"
         imageAlt="CCDI Poultry Infrastructure"
         ctaText="Connect with our team today."
-        onCtaClick={scrollToContact}
+        onCtaClick={() => scrollToContact()}
       />
 
       {/* ── 2. POULTRY SUB-NAV BAR ─────────────────────────────────── */}
@@ -173,13 +165,7 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
 
       {/* ── 3. SIX PILLARS COMPARISON SHOWCASE ───────────────────── */}
       <section id="pillars" className="relative py-20 sm:py-28 bg-white border-b border-slate-200 overflow-hidden">
-        {/* Architectural Top-Right Corner Accent */}
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           <div className="max-w-3xl space-y-3">
@@ -238,6 +224,8 @@ export const PoultryOverviewPage: React.FC<PoultryOverviewPageProps> = ({
                     <img
                       src="/images/broiler/climate-system.jpg"
                       alt="CCDI Retrofitting & Modernization"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover brightness-95"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#07162A] via-transparent to-transparent opacity-90" />

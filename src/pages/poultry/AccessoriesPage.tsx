@@ -17,6 +17,8 @@ import { ProductCard } from '../../components/molecules/ProductCard';
 import { BROILER_CATALOG_PRODUCTS } from '../../data/broilerCatalogProducts';
 import { LAYER_CATALOG_PRODUCTS } from '../../data/layerCatalogProducts';
 import { POULTRY_BREEDER_ACCESSORIES } from '../../data/poultryBreederAccessories';
+import { CornerAccent } from '../../components/atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface AccessoriesPageProps {
   inquiryItems: Product[];
@@ -87,16 +89,6 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
     setSearchQuery('');
   }, [activeSegment]);
 
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
-
   // Products for the active segment
   const segmentProducts = useMemo(() => {
     if (activeSegment === 'all') return ALL_ACCESSORIES;
@@ -157,12 +149,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
       {/* ── Hero Section */}
       <section className="relative bg-white border-b border-slate-200 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-80 sm:w-[420px] h-auto object-contain object-right-top pointer-events-none select-none opacity-20"
-          aria-hidden="true"
-        />
+        <CornerAccent className="absolute top-0 right-0 w-80 sm:w-[420px] h-auto opacity-20" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
           <motion.div
@@ -192,7 +179,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
             <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
-                onClick={scrollToContact}
+                onClick={() => scrollToContact()}
                 className="flex items-center gap-2 px-5 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm rounded-[2px] transition-colors shadow-sm cursor-pointer"
               >
                 Send Inquiry
@@ -314,7 +301,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
             {addedCount > 0 && (
               <button
                 type="button"
-                onClick={scrollToContact}
+                onClick={() => scrollToContact()}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 border border-amber-300 text-amber-800 font-mono text-[11px] rounded-[2px] hover:bg-amber-100 transition-colors cursor-pointer shadow-xs"
               >
                 <CheckCircle2 className="w-3 h-3" />
@@ -383,7 +370,7 @@ export const AccessoriesPage: React.FC<AccessoriesPageProps> = ({
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
             <button
               type="button"
-              onClick={scrollToContact}
+              onClick={() => scrollToContact()}
               className="flex items-center gap-2 px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm rounded-[2px] transition-colors shadow-sm cursor-pointer"
             >
               Send Inquiry

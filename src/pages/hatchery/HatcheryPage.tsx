@@ -19,6 +19,8 @@ import { ImagePlaceholder } from '../../components/atoms/ImagePlaceholder';
 import { HATCHERY_IMAGES } from '../../data/hatcheryImages';
 import { HATCHERY_PRODUCTS_MAP } from '../../data/hatcheryProducts';
 import { AFTER_SALES_DATA } from '../../data/afterSalesData';
+import { CornerAccent } from '../../components/atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface HatcheryPageProps {
   inquiryItems: Product[];
@@ -101,16 +103,6 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
     }
   }, []);
 
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
 
@@ -126,7 +118,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
         backgroundImage="/images/hatchery/hatchery-hero.jpg"
         imageAlt="CCDI Hatchery Solution"
         ctaText="Request Hatchery Consultation"
-        onCtaClick={scrollToContact}
+        onCtaClick={() => scrollToContact()}
       />
 
       {/* ── 2. STICKY SUB-NAV BAR (IN-PAGE HYPERLINKS) ─────────────── */}
@@ -233,12 +225,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
 
         {/* 15-Zone Integrated Hatchery Model Blueprint */}
         <section className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
-          <img
-            src="/images/accents/card-corner-accent.png"
-            alt=""
-            className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-            aria-hidden="true"
-          />
+          <CornerAccent />
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             <div className="max-w-3xl space-y-3">
@@ -298,12 +285,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
 
       {/* ── 4. CONSOLIDATED PRODUCTS: INCUBATION (ID="incubation") ──── */}
       <section id="incubation" className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="max-w-3xl space-y-3">
@@ -453,12 +435,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
 
       {/* ── 5. CONSOLIDATED PRODUCTS: EGG HANDLING (ID="egg-handling") ── */}
       <section id="egg-handling" className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="max-w-3xl space-y-3">
@@ -558,12 +535,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
 
       {/* ── 6. CONSOLIDATED PRODUCTS: CHICK HANDLING (ID="chick-handling") */}
       <section id="chick-handling" className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="max-w-3xl space-y-3">
@@ -627,12 +599,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
 
       {/* ── 7. CONSOLIDATED PRODUCTS: HVAC (ID="hvac") ──────────────── */}
       <section id="hvac" className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="max-w-3xl space-y-3">
@@ -762,12 +729,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
 
       {/* ── 8. CONSOLIDATED PRODUCTS: MANAGEMENT (ID="management") ──── */}
       <section id="management" className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="max-w-3xl space-y-3">
@@ -903,12 +865,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
 
       {/* ── 9. CONSOLIDATED PRODUCTS: WASTE DISPOSAL (ID="waste-disposal") */}
       <section id="waste-disposal" className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -984,7 +941,7 @@ export const HatcheryPage: React.FC<HatcheryPageProps> = ({
       {/* ── 11. AFTER-SALES SERVICES & PARTS SUPPORT (ID="after-sales") ── */}
       <AfterSalesSection
         data={AFTER_SALES_DATA.hatchery}
-        onCtaClick={scrollToContact}
+        onCtaClick={() => scrollToContact()}
         catalogLink={{
           label: 'Browse Spare Parts Catalog',
           href: '#accessories-inquiry',

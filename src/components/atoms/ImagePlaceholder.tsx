@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image as ImageIcon, Maximize2, X } from 'lucide-react';
+import { CornerAccent } from './ArchitecturalAccents';
 
 export interface ImagePlaceholderProps {
   src?: string;
@@ -51,13 +52,7 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
             } transition-transform duration-500 group-hover/img:scale-105`}
           />
 
-          {/* Architectural Top-Right Corner Accent */}
-          <img
-            src="/images/accents/card-corner-accent.png"
-            alt=""
-            className="absolute top-0 right-0 w-20 sm:w-28 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-xs opacity-75"
-            aria-hidden="true"
-          />
+          <CornerAccent className="absolute top-0 right-0 w-20 sm:w-28 h-auto z-10 drop-shadow-xs opacity-75" />
 
           {/* Optional Top-Left Capability Badge */}
           {badge && (

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import {
-  ChevronLeft,
   ChevronRight,
   Plus,
   Check,
@@ -14,23 +12,20 @@ import {
   Droplets,
   Activity,
 } from 'lucide-react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
-import { Parallax, Scrollbar, Mousewheel, Navigation } from 'swiper/modules';
-
-import 'swiper/css';
-import 'swiper/css/parallax';
-import 'swiper/css/scrollbar';
-import 'swiper/css/navigation';
 
 import type { Product } from '../../data/mockProducts';
 import { LAYER_CATALOG_PRODUCTS } from '../../data/layerCatalogProducts';
 import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 import { HousingDesignSlide } from '../../components/molecules/HousingDesignSlide';
+import { HousingDesignCarousel } from '../../components/molecules/HousingDesignCarousel';
 import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../../components/molecules';
 import { PrefabricatedMaterialsSection } from '../../components/organisms/PrefabricatedMaterialsSection';
 import { PoultryRetrofitCallout } from '../../components/molecules/PoultryRetrofitCallout';
 import { ContactSection } from '../../components/organisms/ContactSection';
+import { CornerAccent, SectionAccents } from '../../components/atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface LayerPageProps {
   inquiryItems: Product[];
@@ -57,16 +52,6 @@ export const LayerPage: React.FC<LayerPageProps> = ({
   const isHFrameAdded = hFrameProduct ? inquiryItems.some((item) => item.id === hFrameProduct.id) : false;
   const isAFrameAdded = aFrameProduct ? inquiryItems.some((item) => item.id === aFrameProduct.id) : false;
   const isRearingAdded = rearingProduct ? inquiryItems.some((item) => item.id === rearingProduct.id) : false;
-
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
 
   const heroLayerOptions: HeroDesignOption[] = [
     {
@@ -268,37 +253,10 @@ export const LayerPage: React.FC<LayerPageProps> = ({
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Architectural Accent 2 - Top Left Anchored */}
-        <motion.div
-          initial={{ opacity: 0, y: -45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/accent2.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
-
-        {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored */}
-        <motion.div
-          initial={{ opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -right-20 -bottom-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[500px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
+        <SectionAccents
+          topLeftClassName="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
+          bottomRightClassName="absolute -right-20 -bottom-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[500px] pointer-events-none select-none z-0"
+        />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb Navigation */}
@@ -332,7 +290,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={scrollToContact}
+                  onClick={() => scrollToContact()}
                   className="inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 px-6 py-3.5 rounded-[2px] font-sans text-xs font-bold uppercase tracking-wider transition-colors shadow-lg cursor-pointer"
                 >
                   <PhoneCall className="w-4 h-4 text-slate-950" />
@@ -387,12 +345,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
 
       {/* ── 3. CAGE SYSTEM ARCHITECTURE: H-FRAME VS A-FRAME ──────── */}
       <section id="cage-architecture" className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -426,75 +379,14 @@ export const LayerPage: React.FC<LayerPageProps> = ({
           </div>
 
           {/* Swiper Slider with Parallax, Scrollbar, Mousewheel & Side Navigation Arrows */}
-          <div className="relative">
-            {/* Side Navigation Arrow - Previous */}
-            <button
-              type="button"
-              className="layer-side-prev absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 border border-slate-300 text-[#0B192C] hover:bg-[#0B192C] hover:text-white hover:border-[#0B192C] transition-all shadow-xl hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer group disabled:opacity-30 disabled:pointer-events-none"
-              aria-label="Previous housing option"
-            >
-              <ChevronLeft className="w-6 h-6 stroke-[2.5] transition-transform group-hover:-translate-x-0.5" />
-            </button>
-
-            {/* Side Navigation Arrow - Next */}
-            <button
-              type="button"
-              className="layer-side-next absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 border border-slate-300 text-[#0B192C] hover:bg-[#0B192C] hover:text-white hover:border-[#0B192C] transition-all shadow-xl hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer group disabled:opacity-30 disabled:pointer-events-none"
-              aria-label="Next housing option"
-            >
-              <ChevronRight className="w-6 h-6 stroke-[2.5] transition-transform group-hover:translate-x-0.5" />
-            </button>
-
-            <Swiper
-              modules={[Parallax, Scrollbar, Mousewheel, Navigation]}
-              speed={600}
-              parallax={true}
-              watchSlidesProgress={true}
-              rewind={true}
-              centeredSlides={true}
-              spaceBetween={20}
-              slidesPerView={1}
-              initialSlide={0}
-              autoHeight={true}
-              mousewheel={{
-                forceToAxis: true,
-                releaseOnEdges: true,
-              }}
-              scrollbar={{
-                draggable: true,
-                el: '.layer-swiper-scrollbar',
-              }}
-              navigation={{
-                prevEl: '.layer-side-prev, .layer-swiper-prev',
-                nextEl: '.layer-side-next, .layer-swiper-next',
-              }}
-              onSwiper={(swiper) => {
-                setSwiperInstance(swiper);
-              }}
-              onSlideChange={(swiper) => {
-                setActiveSlideIndex(swiper.activeIndex);
-              }}
-              className="w-full !pb-2 overflow-hidden rounded-2xl relative"
-            >
-              {/* Continuous Container Parallax Background Layer - Highly Visible */}
-              <div
-                slot="container-start"
-                className="parallax-bg pointer-events-none select-none z-0 overflow-hidden"
-                data-swiper-parallax="-35%"
-                data-swiper-parallax-duration="600"
-              >
-                {/* Visible architectural grid */}
-                <div
-                  className="absolute inset-0 opacity-25"
-                  style={{
-                    backgroundImage: 'linear-gradient(#94a3b8 1.5px, transparent 1.5px), linear-gradient(90deg, #94a3b8 1.5px, transparent 1.5px)',
-                    backgroundSize: '40px 40px',
-                  }}
-                />
-                {/* Soft ambient glow */}
-                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-400/15 rounded-full blur-3xl pointer-events-none" />
-              </div>
-
+          <HousingDesignCarousel
+            idPrefix="layer"
+            initialSlide={0}
+            activeSlideIndex={activeSlideIndex}
+            slideLabels={['1. H-Frame', '2. A-Frame', '3. Pullet Rearing']}
+            onSwiper={setSwiperInstance}
+            onSlideChange={setActiveSlideIndex}
+          >
               {layerDesignsList.map((design) => (
                 <SwiperSlide key={design.id} className="h-auto">
                   {/* TODO: Verify Pullet Rearing Cage technical specifications with technical team (pending layer brochure) */}
@@ -621,43 +513,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                   />
                 </SwiperSlide>
               ))}
-            </Swiper>
-
-            {/* Bottom Controls Bar: Centered Page Indicator & Scrollbar */}
-            <div className="mt-4 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-slate-200/80 p-3 sm:px-5 rounded-xl shadow-xs">
-              {/* Draggable Scrollbar Track - Centered */}
-              <div className="w-full max-w-md flex flex-col gap-1.5">
-                <div className="layer-swiper-scrollbar !relative !h-2 !bg-slate-200/70 rounded-full overflow-hidden cursor-pointer" />
-                <div className="flex justify-between text-[10px] font-mono text-slate-500 uppercase tracking-wider">
-                  <span className={activeSlideIndex === 0 ? 'text-[#0B192C] font-bold' : ''}>1. H-Frame</span>
-                  <span className={activeSlideIndex === 1 ? 'text-[#0B192C] font-bold' : ''}>2. A-Frame</span>
-                  <span className={activeSlideIndex === 2 ? 'text-[#0B192C] font-bold' : ''}>3. Pullet Rearing</span>
-                </div>
-              </div>
-            </div>
-
-
-            <style>{`
-              .parallax-bg {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 140%;
-                height: 100%;
-              }
-              .layer-swiper-scrollbar .swiper-scrollbar-drag {
-                background: #0B192C !important;
-                border-radius: 9999px !important;
-                cursor: grab;
-                transition: background-color 0.2s ease;
-              }
-              .layer-swiper-scrollbar .swiper-scrollbar-drag:hover,
-              .layer-swiper-scrollbar .swiper-scrollbar-drag:active {
-                background: #d97706 !important;
-                cursor: grabbing;
-              }
-            `}</style>
-          </div>
+          </HousingDesignCarousel>
 
         </div>
       </section>
@@ -671,12 +527,7 @@ export const LayerPage: React.FC<LayerPageProps> = ({
       {/* ── 4. INTEGRATED LAYER SUB-SYSTEMS (DARK THEME) ───────────── */}
       <section id="operational-systems" className="py-20 sm:py-24 bg-[#0B192C] border-b border-slate-800 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-80 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-15"
-          aria-hidden="true"
-        />
+        <CornerAccent className="absolute top-0 right-0 w-80 sm:w-96 lg:w-[480px] h-auto z-0 opacity-15" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -705,6 +556,8 @@ export const LayerPage: React.FC<LayerPageProps> = ({
                       <img
                         src={sys.image}
                         alt={sys.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />

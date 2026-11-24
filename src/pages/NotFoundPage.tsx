@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { SectionAccents } from '../components/atoms/ArchitecturalAccents';
 import {
   Home,
   ArrowRight,
@@ -75,37 +75,10 @@ export const NotFoundPage: React.FC = () => {
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Architectural Accent 2 - Top Left Anchored */}
-        <motion.div
-          initial={{ opacity: 0, y: -45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/accent2.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
-
-        {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored */}
-        <motion.div
-          initial={{ opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
+        <SectionAccents
+          topLeftClassName="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
+          bottomRightClassName="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
+        />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           {/* Breadcrumb Navigation */}

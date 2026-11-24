@@ -19,6 +19,8 @@ import { ProcessWorkflowDiagram, type WorkflowStepItem } from '../../components/
 import { AfterSalesSection } from '../../components/organisms/AfterSalesSection';
 import { ContactSection } from '../../components/organisms/ContactSection';
 import { AFTER_SALES_DATA } from '../../data/afterSalesData';
+import { CornerAccent } from '../../components/atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 import {
   SOLAR_TAB_1_ON_GRID,
   SOLAR_TAB_2_HYBRID,
@@ -98,16 +100,6 @@ export const SolarPage: React.FC<SolarPageProps> = ({
     }
   }, []);
 
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className="bg-slate-50 text-slate-900 font-sans text-left min-h-screen">
       
@@ -132,7 +124,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         </a>
         <button
           type="button"
-          onClick={scrollToContact}
+          onClick={() => scrollToContact()}
           className="px-6 py-3.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-[#0B192C]/80 hover:bg-[#0B192C] text-white border border-[#1E3E66] hover:border-amber-400/80 transition-colors shadow-lg cursor-pointer flex items-center gap-2"
         >
           <PhoneCall className="w-4 h-4 text-amber-400" />
@@ -149,12 +141,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         className="relative py-16 sm:py-24 bg-[#07162A] text-white border-b border-[#102A43] overflow-hidden"
       >
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-20"
-          aria-hidden="true"
-        />
+        <CornerAccent className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto z-0 opacity-20" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           {/* Section Header */}
@@ -273,12 +260,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         id="on-grid"
         className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden"
       >
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -319,12 +301,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         id="hybrid-storage"
         className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden"
       >
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="max-w-3xl space-y-3">
@@ -405,12 +382,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         id="commercial-bess"
         className="relative py-16 sm:py-24 bg-white border-b border-slate-200 overflow-hidden"
       >
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="max-w-3xl space-y-3">
@@ -490,12 +462,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         id="pv-ev-charging"
         className="relative py-16 sm:py-24 bg-slate-50 border-b border-slate-200 overflow-hidden"
       >
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -530,12 +497,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
         className="relative py-16 sm:py-24 bg-[#07162A] text-white border-b border-[#102A43] overflow-hidden"
       >
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-20"
-          aria-hidden="true"
-        />
+        <CornerAccent className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto z-0 opacity-20" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           <div className="max-w-3xl space-y-2">
@@ -575,7 +537,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
             <div className="pt-2 flex justify-center">
               <button
                 type="button"
-                onClick={scrollToContact}
+                onClick={() => scrollToContact()}
                 className="px-8 py-4 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs uppercase tracking-wider rounded-[2px] transition-all shadow-lg shadow-amber-500/20 cursor-pointer"
               >
                 Connect with our team today.
@@ -589,7 +551,7 @@ export const SolarPage: React.FC<SolarPageProps> = ({
       <AfterSalesSection
         id="after-sales"
         data={AFTER_SALES_DATA.solar}
-        onCtaClick={scrollToContact}
+        onCtaClick={() => scrollToContact()}
         catalogLink={{
           label: 'Browse Solar Equipment',
           href: '#on-grid',

@@ -12,6 +12,7 @@ export default defineConfig({
           if (id.includes('node_modules')) {
             if (id.includes('framer-motion'))   return 'vendor-motion';
             if (id.includes('lucide-react'))    return 'vendor-icons';
+            if (id.includes('swiper'))          return 'vendor-swiper';
             if (
               id.includes('react-dom') ||
               id.includes('react-router') ||

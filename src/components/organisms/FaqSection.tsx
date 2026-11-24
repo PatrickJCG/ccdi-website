@@ -13,6 +13,8 @@ import {
   Factory,
   Layers,
 } from 'lucide-react';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface FaqItem {
   id: string;
@@ -250,28 +252,12 @@ export const FaqSection: React.FC = () => {
     });
   }, [selectedCategory, searchQuery]);
 
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
-
   return (
     <section
       id="faq"
       className="relative py-24 sm:py-32 bg-[#E6F0F5] text-slate-900 border-b border-slate-300/70 text-left font-sans overflow-hidden"
     >
-      {/* Architectural Top-Right Corner Accent */}
-      <img
-        src="/images/accents/card-corner-accent.png"
-        alt=""
-        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-        aria-hidden="true"
-      />
+      <CornerAccent />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* ── 1. SECTION HEADER ── */}
@@ -502,7 +488,7 @@ export const FaqSection: React.FC = () => {
             <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-stretch sm:items-center gap-3 shrink-0">
               <button
                 type="button"
-                onClick={scrollToContact}
+                onClick={() => scrollToContact()}
                 className="flex items-center justify-center gap-2 px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-[2px] transition-all shadow-md hover:shadow-amber-400/20 cursor-pointer"
               >
                 Request Consultation

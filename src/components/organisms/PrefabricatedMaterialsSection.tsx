@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 
 export interface PrefabricatedMaterialsSectionProps {
   id?: string;
@@ -15,7 +16,7 @@ export interface MaterialSpecItem {
   application: string;
 }
 
-export const POULTRY_MATERIALS_SPECS: MaterialSpecItem[] = [
+const POULTRY_MATERIALS_SPECS: MaterialSpecItem[] = [
   {
     id: 'main-structure',
     badge: 'MAIN STRUCTURE',
@@ -116,13 +117,6 @@ export const POULTRY_MATERIALS_SPECS: MaterialSpecItem[] = [
   },
 ];
 
-// Backward-compatible export for any consumers
-export const POULTRY_MATERIALS_SCHEDULE = POULTRY_MATERIALS_SPECS.map(item => ({
-  component: item.badge,
-  specification: item.bullets[0],
-  standard: item.bullets.slice(1).join(' • ') || item.application,
-}));
-
 export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSectionProps> = ({
   id = 'materials-specifications',
   sourceBrochure = 'CCDI Poultry Operations engineering brochure',
@@ -134,13 +128,7 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
 
   return (
     <section id={id} className="relative py-20 sm:py-24 bg-[#E6F0F5] border-b border-slate-300/70 overflow-hidden text-left font-sans">
-      {/* Architectural Top-Right Corner Accent */}
-      <img
-        src="/images/accents/card-corner-accent.png"
-        alt=""
-        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-        aria-hidden="true"
-      />
+      <CornerAccent />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Section Header with View Mode Toggles */}
@@ -193,6 +181,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
             <img
               src="/images/branding/CCDI logo.svg"
               alt="CCDI"
+              loading="lazy"
+              decoding="async"
               className="h-14 sm:h-16 md:h-20 w-auto object-contain shrink-0"
             />
           </div>
@@ -239,6 +229,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                       <img
                         src="/images/materials/warehouse-backdrop.jpg"
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         className="absolute inset-0 w-full h-full object-cover brightness-[0.88] contrast-[1.05]"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
@@ -288,12 +280,16 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                           <img
                             src="/images/materials/fiberglass-insulation.png"
                             alt="Fiberglass Insulation Roll"
+                            loading="lazy"
+                            decoding="async"
                             className="absolute bottom-2.5 right-1 w-[68%] max-h-[70%] object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.7)] group-hover:scale-105 transition-transform duration-500"
                           />
                           {/* Ceiling Insulation 2: Polyethylene Sheet (resting in front on floor) */}
                           <img
                             src="/images/materials/polyethylene-sheet.png"
                             alt="Polyethylene Sheet Vapor Barrier"
+                            loading="lazy"
+                            decoding="async"
                             className="absolute bottom-1.5 left-1 w-[55%] max-h-[56%] object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.7)] group-hover:scale-105 transition-transform duration-500"
                           />
                           {/* Architectural Polyethylene Label Badge */}
@@ -308,6 +304,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                           <img
                             src="/images/materials/fiberglass-insulation.png"
                             alt="Fiberglass Roll"
+                            loading="lazy"
+                            decoding="async"
                             className="w-[85%] max-h-[78%] object-contain drop-shadow-[0_16px_22px_rgba(0,0,0,0.75)] group-hover:scale-105 transition-transform duration-500"
                           />
                           <span className="absolute bottom-2 left-2.5 z-10 font-mono text-[9px] uppercase tracking-wider text-amber-950 bg-amber-200/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-amber-400">
@@ -321,6 +319,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                           <img
                             src="/images/materials/polyethylene-sheet.png"
                             alt="Polyethylene Sheet"
+                            loading="lazy"
+                            decoding="async"
                             className="w-[82%] max-h-[78%] object-contain drop-shadow-[0_16px_22px_rgba(0,0,0,0.75)] group-hover:scale-105 transition-transform duration-500"
                           />
                           <span className="absolute bottom-2 left-2.5 z-10 font-mono text-[9px] uppercase tracking-wider text-slate-800 bg-white/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-slate-300">
@@ -336,6 +336,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                       <img
                         src="/images/materials/warehouse-backdrop.jpg"
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         className="absolute inset-0 w-full h-full object-cover brightness-[0.88] contrast-[1.05]"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
@@ -348,6 +350,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                         <img
                           src="/images/materials/pu-wall-panel.png"
                           alt={item.badge}
+                          loading="lazy"
+                          decoding="async"
                           className="h-[88%] w-auto max-w-[80%] object-contain drop-shadow-[0_16px_24px_rgba(0,0,0,0.8)] group-hover:scale-105 transition-transform duration-500"
                         />
                         <span className="absolute bottom-2 right-2.5 z-10 font-mono text-[9px] uppercase tracking-wider text-slate-800 bg-white/95 px-1.5 py-0.5 rounded-[2px] shadow-xs font-semibold border border-slate-300">
@@ -362,6 +366,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                       <img
                         src="/images/materials/sheets-backdrop.jpg"
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         className="absolute inset-0 w-full h-full object-cover brightness-[0.88] contrast-[1.05]"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-black/10 to-black/30 pointer-events-none" />
@@ -374,6 +380,8 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                         <img
                           src="/images/materials/color-steel-sheets.png"
                           alt={item.badge}
+                          loading="lazy"
+                          decoding="async"
                           className="w-[94%] h-auto max-h-[85%] object-contain drop-shadow-[0_12px_22px_rgba(0,0,0,0.75)] group-hover:scale-105 transition-transform duration-500"
                         />
                         {item.id === 'roof-sheet' ? (
@@ -395,6 +403,7 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                         alt={item.badge}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                         loading="lazy"
+                        decoding="async"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none" />
                     </div>
@@ -474,16 +483,22 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                               <img
                                 src="/images/materials/warehouse-backdrop.jpg"
                                 alt=""
+                                loading="lazy"
+                                decoding="async"
                                 className="absolute inset-0 w-full h-full object-cover brightness-[0.85]"
                               />
                               <img
                                 src="/images/materials/fiberglass-insulation.png"
                                 alt="Fiberglass"
+                                loading="lazy"
+                                decoding="async"
                                 className="absolute bottom-1 right-1 w-[65%] max-h-[70%] object-contain"
                               />
                               <img
                                 src="/images/materials/polyethylene-sheet.png"
                                 alt="Polyethylene"
+                                loading="lazy"
+                                decoding="async"
                                 className="absolute bottom-0.5 left-1 w-[55%] max-h-[60%] object-contain"
                               />
                             </div>
@@ -492,11 +507,15 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                               <img
                                 src="/images/materials/warehouse-backdrop.jpg"
                                 alt=""
+                                loading="lazy"
+                                decoding="async"
                                 className="absolute inset-0 w-full h-full object-cover brightness-[0.85]"
                               />
                               <img
                                 src="/images/materials/pu-wall-panel.png"
                                 alt="Wall Panel"
+                                loading="lazy"
+                                decoding="async"
                                 className="absolute bottom-0 inset-x-0 mx-auto h-[88%] w-auto object-contain"
                               />
                             </div>
@@ -505,11 +524,15 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                               <img
                                 src="/images/materials/sheets-backdrop.jpg"
                                 alt=""
+                                loading="lazy"
+                                decoding="async"
                                 className="absolute inset-0 w-full h-full object-cover brightness-[0.85]"
                               />
                               <img
                                 src="/images/materials/color-steel-sheets.png"
                                 alt="Color Steel Sheets"
+                                loading="lazy"
+                                decoding="async"
                                 className="absolute inset-0 m-auto w-[90%] h-auto object-contain"
                               />
                             </div>
@@ -519,6 +542,7 @@ export const PrefabricatedMaterialsSection: React.FC<PrefabricatedMaterialsSecti
                               alt={item.badge}
                               className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                               loading="lazy"
+                              decoding="async"
                             />
                           )}
                         </div>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import {
-  ChevronLeft,
   ChevronRight,
   Plus,
   Check,
@@ -17,23 +15,20 @@ import {
   Cpu,
   HandMetal,
 } from 'lucide-react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
-import { Parallax, Scrollbar, Mousewheel, Navigation } from 'swiper/modules';
-
-import 'swiper/css';
-import 'swiper/css/parallax';
-import 'swiper/css/scrollbar';
-import 'swiper/css/navigation';
 
 import type { Product } from '../../data/mockProducts';
 import { MOCK_PRODUCTS } from '../../data/mockProducts';
 import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
 import { HousingDesignSlide } from '../../components/molecules/HousingDesignSlide';
+import { HousingDesignCarousel } from '../../components/molecules/HousingDesignCarousel';
 import { DesignOptionsHeroCarousel, type HeroDesignOption } from '../../components/molecules';
 import { PrefabricatedMaterialsSection } from '../../components/organisms/PrefabricatedMaterialsSection';
 import { PoultryRetrofitCallout } from '../../components/molecules/PoultryRetrofitCallout';
 import { ContactSection } from '../../components/organisms/ContactSection';
+import { CornerAccent, SectionAccents } from '../../components/atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface BroilerPageProps {
   inquiryItems: Product[];
@@ -61,16 +56,6 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
   const isCageAdded = cageProduct ? inquiryItems.some((item) => item.id === cageProduct.id) : false;
   const isElevatedAdded = elevatedProduct ? inquiryItems.some((item) => item.id === elevatedProduct.id) : false;
   const isFloorAdded = floorProduct ? inquiryItems.some((item) => item.id === floorProduct.id) : false;
-
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
 
   const heroBroilerOptions: HeroDesignOption[] = [
     {
@@ -212,36 +197,10 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Architectural Accent 2 - Top Left Anchored */}
-        <motion.div
-          initial={{ opacity: 0, y: -45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/accent2.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
-
-        {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored */}
-        <motion.div
-          initial={{ opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -right-20 -bottom-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[500px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
+        <SectionAccents
+          topLeftClassName="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
+          bottomRightClassName="absolute -right-20 -bottom-16 sm:-right-8 sm:bottom-0 w-80 sm:w-96 lg:w-[500px] pointer-events-none select-none z-0"
+        />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb Navigation */}
@@ -275,7 +234,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={scrollToContact}
+                  onClick={() => scrollToContact()}
                   className="inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 px-6 py-3.5 rounded-[2px] font-sans text-xs font-bold uppercase tracking-wider transition-colors shadow-lg cursor-pointer"
                 >
                   <PhoneCall className="w-4 h-4 text-slate-950" />
@@ -329,12 +288,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
 
       {/* ── 3. HOUSING ARCHITECTURE: THREE PROVEN CONFIGURATIONS ──── */}
       <section id="housing-designs" className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -367,75 +321,14 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
           </div>
 
           {/* Swiper Slider with Parallax, Scrollbar, Mousewheel & Side Navigation Arrows */}
-          <div className="relative">
-            {/* Side Navigation Arrow - Previous */}
-            <button
-              type="button"
-              className="broiler-side-prev absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 border border-slate-300 text-[#0B192C] hover:bg-[#0B192C] hover:text-white hover:border-[#0B192C] transition-all shadow-xl hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer group disabled:opacity-30 disabled:pointer-events-none"
-              aria-label="Previous housing option"
-            >
-              <ChevronLeft className="w-6 h-6 stroke-[2.5] transition-transform group-hover:-translate-x-0.5" />
-            </button>
-
-            {/* Side Navigation Arrow - Next */}
-            <button
-              type="button"
-              className="broiler-side-next absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 border border-slate-300 text-[#0B192C] hover:bg-[#0B192C] hover:text-white hover:border-[#0B192C] transition-all shadow-xl hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer group disabled:opacity-30 disabled:pointer-events-none"
-              aria-label="Next housing option"
-            >
-              <ChevronRight className="w-6 h-6 stroke-[2.5] transition-transform group-hover:translate-x-0.5" />
-            </button>
-
-            <Swiper
-              modules={[Parallax, Scrollbar, Mousewheel, Navigation]}
-              speed={600}
-              parallax={true}
-              watchSlidesProgress={true}
-              rewind={true}
-              centeredSlides={true}
-              spaceBetween={20}
-              slidesPerView={1}
-              initialSlide={1}
-              autoHeight={true}
-              mousewheel={{
-                forceToAxis: true,
-                releaseOnEdges: true,
-              }}
-              scrollbar={{
-                draggable: true,
-                el: '.broiler-swiper-scrollbar',
-              }}
-              navigation={{
-                prevEl: '.broiler-side-prev, .broiler-swiper-prev',
-                nextEl: '.broiler-side-next, .broiler-swiper-next',
-              }}
-              onSwiper={(swiper) => {
-                setSwiperInstance(swiper);
-              }}
-              onSlideChange={(swiper) => {
-                setActiveSlideIndex(swiper.activeIndex);
-              }}
-              className="w-full !pb-2 overflow-hidden rounded-2xl relative"
-            >
-              {/* Continuous Container Parallax Background Layer - Highly Visible */}
-              <div
-                slot="container-start"
-                className="parallax-bg pointer-events-none select-none z-0 overflow-hidden"
-                data-swiper-parallax="-35%"
-                data-swiper-parallax-duration="600"
-              >
-                {/* Visible architectural grid */}
-                <div
-                  className="absolute inset-0 opacity-25"
-                  style={{
-                    backgroundImage: 'linear-gradient(#94a3b8 1.5px, transparent 1.5px), linear-gradient(90deg, #94a3b8 1.5px, transparent 1.5px)',
-                    backgroundSize: '40px 40px',
-                  }}
-                />
-                {/* Soft ambient glow */}
-                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-400/15 rounded-full blur-3xl pointer-events-none" />
-              </div>
-
+          <HousingDesignCarousel
+            idPrefix="broiler"
+            initialSlide={1}
+            activeSlideIndex={activeSlideIndex}
+            slideLabels={['1. Multi-Tier', '2. Elevated-Floor', '3. Floor-Type']}
+            onSwiper={setSwiperInstance}
+            onSlideChange={setActiveSlideIndex}
+          >
               {housingDesignList.map((design) => (
                 <SwiperSlide key={design.id} className="h-auto">
                   <HousingDesignSlide
@@ -626,42 +519,7 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                   />
                 </SwiperSlide>
               ))}
-            </Swiper>
-
-            {/* Bottom Controls Bar: Centered Page Indicator & Scrollbar */}
-            <div className="mt-4 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-slate-200/80 p-3 sm:px-5 rounded-xl shadow-xs">
-              {/* Draggable Scrollbar Track - Centered */}
-              <div className="w-full max-w-md flex flex-col gap-1.5">
-                <div className="broiler-swiper-scrollbar !relative !h-2 !bg-slate-200/70 rounded-full overflow-hidden cursor-pointer" />
-                <div className="flex justify-between text-[10px] font-mono text-slate-500 uppercase tracking-wider">
-                  <span className={activeSlideIndex === 0 ? 'text-[#0B192C] font-bold' : ''}>1. Multi-Tier</span>
-                  <span className={activeSlideIndex === 1 ? 'text-[#0B192C] font-bold' : ''}>2. Elevated-Floor</span>
-                  <span className={activeSlideIndex === 2 ? 'text-[#0B192C] font-bold' : ''}>3. Floor-Type</span>
-                </div>
-              </div>
-            </div>
-
-            <style>{`
-              .parallax-bg {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 140%;
-                height: 100%;
-              }
-              .broiler-swiper-scrollbar .swiper-scrollbar-drag {
-                background: #0B192C !important;
-                border-radius: 9999px !important;
-                cursor: grab;
-                transition: background-color 0.2s ease;
-              }
-              .broiler-swiper-scrollbar .swiper-scrollbar-drag:hover,
-              .broiler-swiper-scrollbar .swiper-scrollbar-drag:active {
-                background: #d97706 !important;
-                cursor: grabbing;
-              }
-            `}</style>
-          </div>
+          </HousingDesignCarousel>
 
         </div>
       </section>
@@ -700,6 +558,8 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                   <img
                     src="/images/broiler/feeding-system.jpg"
                     alt="Automated Feeding System - Broiler House Pan Lines"
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-[#0F223D]/80 to-[#0F223D]/40" />
@@ -794,6 +654,8 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     <img
                       src="/images/broiler/heating-system.jpg"
                       alt="Heating System"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
@@ -843,6 +705,8 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     <img
                       src="/images/broiler/ventilation-fans.jpg"
                       alt="Controlled Climate System"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
@@ -892,6 +756,8 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     <img
                       src="/images/broiler/drinking-system.jpg"
                       alt="Drinking System"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
@@ -941,6 +807,8 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     <img
                       src="/images/broiler/medication-system.jpg"
                       alt="Medication System"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
@@ -990,6 +858,8 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     <img
                       src="/images/broiler/harvest-system.jpg"
                       alt="Automated Harvesting System"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />
@@ -1044,6 +914,8 @@ export const BroilerPage: React.FC<BroilerPageProps> = ({
                     <img
                       src="/images/broiler/floor-type-broiler.jpg"
                       alt="Manual Harvesting System"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F223D] via-transparent to-transparent opacity-90" />

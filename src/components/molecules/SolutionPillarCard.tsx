@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 
 export interface SolutionPillarCardProps {
   title: string;
@@ -35,17 +36,13 @@ export const SolutionPillarCard: React.FC<SolutionPillarCardProps> = ({
           <img
             src={image}
             alt={title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 brightness-95"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#07162A] via-[#07162A]/40 to-transparent" />
 
-          {/* Top Right Corner Accent */}
-          <img
-            src="/images/accents/card-corner-accent.png"
-            alt=""
-            className="absolute top-0 right-0 w-24 sm:w-28 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-80"
-            aria-hidden="true"
-          />
+          <CornerAccent className="absolute top-0 right-0 w-24 sm:w-28 h-auto z-10 drop-shadow-sm opacity-80" />
 
           {/* Title in Media Overlay */}
           <div className="absolute bottom-3 left-4 right-4 z-10">
@@ -73,16 +70,12 @@ export const SolutionPillarCard: React.FC<SolutionPillarCardProps> = ({
             <img
               src={image}
               alt={title}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
             />
 
-            {/* Top Right Corner Accent */}
-            <img
-              src="/images/accents/card-corner-accent.png"
-              alt=""
-              className="absolute top-0 right-0 w-24 sm:w-28 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-80"
-              aria-hidden="true"
-            />
+            <CornerAccent className="absolute top-0 right-0 w-24 sm:w-28 h-auto z-10 drop-shadow-sm opacity-80" />
           </div>
 
           {/* Title & Icon Banner (Matches Poultry Dark Navy Header) */}

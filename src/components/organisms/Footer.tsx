@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, ExternalLink, ArrowUpRight } from 'lucide-react';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -87,13 +88,7 @@ export const Footer: React.FC = () => {
 
       {/* ── Main Footer Body (Light Theme) ── */}
       <div className="relative w-full overflow-hidden">
-        {/* Architectural Top-Right Corner Accent */}
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
           
@@ -104,6 +99,8 @@ export const Footer: React.FC = () => {
                 <img
                   src="/images/branding/ccdi-landscape-logo.svg"
                   alt="Clarkbase Construction Development Inc."
+                  loading="lazy"
+                  decoding="async"
                   className="h-12 sm:h-14 md:h-16 w-auto max-w-[300px] sm:max-w-[340px] object-contain block transition-transform duration-200 group-hover:scale-[1.01]"
                   draggable={false}
                 />
@@ -299,6 +296,8 @@ export const Footer: React.FC = () => {
             <img
               src="/images/branding/ccdi-logo.svg"
               alt="CCDI"
+              loading="lazy"
+              decoding="async"
               className="h-6 w-auto object-contain opacity-75 hover:opacity-100 transition-opacity"
             />
             <p>

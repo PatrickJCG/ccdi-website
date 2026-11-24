@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { BusinessUnit } from '../../data/mockProducts';
+import { DarkAccentGraphic, SectionAccents } from '../atoms/ArchitecturalAccents';
 
 interface HeroCarouselSlide {
   id: string;
@@ -399,13 +400,7 @@ const CapabilityCard: React.FC<{ cap: CapabilityCardData }> = ({ cap }) => {
 
       {/* Card Body */}
       <div className="relative p-4 flex flex-col flex-grow justify-between gap-3 bg-[#07162A] overflow-hidden">
-        {/* Dark Accent Graphic */}
-        <img
-          src="/images/accents/dark-accent-graphic.png"
-          alt=""
-          className="absolute -right-2 top-3 w-28 sm:w-32 h-auto object-contain object-right pointer-events-none select-none opacity-40 z-0"
-          aria-hidden="true"
-        />
+        <DarkAccentGraphic className="absolute -right-2 top-3 w-28 sm:w-32 h-auto object-contain object-right opacity-40 z-0" />
 
         <div className="relative z-10 space-y-2.5">
           <div className="flex items-center justify-between gap-2">
@@ -561,37 +556,10 @@ export const HeroSection: React.FC = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Architectural Accent 2 - Top Left Anchored (Fades in downwards on view) */}
-        <motion.div
-          initial={{ opacity: 0, y: -45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="hidden sm:block absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[500px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/accent2.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
-
-        {/* ── Architectural Louver / Chevron Accent Graphic (Fades in upwards on view) ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="hidden sm:block absolute -right-12 -bottom-16 md:right-0 md:bottom-0 w-80 sm:w-96 lg:w-[520px] xl:w-[620px] pointer-events-none select-none z-0"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="w-full h-auto object-contain opacity-30"
-          />
-        </motion.div>
+        <SectionAccents
+          topLeftClassName="hidden sm:block absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-80 sm:w-96 lg:w-[500px] pointer-events-none select-none z-0"
+          bottomRightClassName="hidden sm:block absolute -right-12 -bottom-16 md:right-0 md:bottom-0 w-80 sm:w-96 lg:w-[520px] xl:w-[620px] pointer-events-none select-none z-0"
+        />
       </div>
 
       {/* ── 3. MAIN CAROUSEL CONTENT ── */}

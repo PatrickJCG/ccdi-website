@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { NEWS_ARTICLES } from '../../data/newsData';
 import { NewsCard } from '../molecules';
+import { SectionAccents } from '../atoms/ArchitecturalAccents';
 
 export const NewsSection: React.FC = () => {
   const navigate = useNavigate();
@@ -10,37 +10,7 @@ export const NewsSection: React.FC = () => {
 
   return (
     <section id="news" className="relative py-24 sm:py-32 bg-[#07162A] text-white border-b border-[#102A43] text-left font-sans overflow-hidden">
-      {/* Architectural Accent 2 - Top Left Anchored (Fades in downwards on view) */}
-      <motion.div
-        initial={{ opacity: 0, y: -45 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.15 }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-72 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-        aria-hidden="true"
-      >
-        <img
-          src="/images/accents/accent2.png"
-          alt=""
-          className="w-full h-auto object-contain opacity-30"
-        />
-      </motion.div>
-
-      {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored (Fades in upwards on view) */}
-      <motion.div
-        initial={{ opacity: 0, y: 45 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.15 }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-72 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-        aria-hidden="true"
-      >
-        <img
-          src="/images/accents/dark-accent-graphic.png"
-          alt=""
-          className="w-full h-auto object-contain opacity-30"
-        />
-      </motion.div>
+      <SectionAccents />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
 

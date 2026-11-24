@@ -15,6 +15,7 @@ import {
 import { BenchmarkStatStrip } from '../components/molecules/BenchmarkStatStrip';
 import { SolutionHeroBanner } from '../components/molecules/SolutionHeroBanner';
 import { TeamShowcaseSection } from '../components/organisms/TeamShowcaseSection';
+import { CornerAccent } from '../components/atoms/ArchitecturalAccents';
 
 interface JobPosition {
   id: string;
@@ -223,13 +224,7 @@ export const CareersPage: React.FC = () => {
 
       {/* ── 3. OPEN POSITIONS DIRECTORY (LITE THEME) ── */}
       <section id="positions" className="relative py-24 bg-slate-50 text-slate-900 border-t border-slate-200 overflow-hidden">
-        {/* Architectural Top-Right Corner Accent */}
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           

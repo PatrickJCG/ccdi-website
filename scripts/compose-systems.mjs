@@ -11,7 +11,6 @@ async function composeHeaters() {
   const litHeaterPath = path.join(userUploadedDir, 'media_1792035791052.png');
 
   // Background dimensions: target 1600 x 900 (16:9)
-  const bgMeta = await sharp(bgPath).metadata();
   const targetW = 1600;
   const targetH = 900;
 

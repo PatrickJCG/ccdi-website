@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, ShieldCheck, ArrowDown } from 'lucide-react';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 import {
   TEAM_MEMBERS,
   TEAM_GROUPS,
@@ -63,6 +64,8 @@ const ExecutiveAnchorCard: React.FC<{ member: TeamMember }> = ({ member }) => (
         src="/images/branding/ccdi-logo.svg"
         alt=""
         aria-hidden="true"
+        loading="lazy"
+        decoding="async"
         className="absolute -right-6 -bottom-6 h-36 w-auto object-contain opacity-[0.06] pointer-events-none select-none"
       />
       <div className="relative z-10 flex flex-col items-center">
@@ -220,13 +223,7 @@ export const TeamShowcaseSection: React.FC = () => {
       id="team"
       className="relative py-24 sm:py-32 bg-white text-slate-900 border-b border-slate-200 overflow-hidden"
     >
-      {/* Subtle Architectural Top-Right Corner Accent */}
-      <img
-        src="/images/accents/card-corner-accent.png"
-        alt=""
-        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.16]"
-        aria-hidden="true"
-      />
+      <CornerAccent className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto z-0 opacity-[0.16]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Editorial Section Header */}

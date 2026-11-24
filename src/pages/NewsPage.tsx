@@ -29,6 +29,7 @@ import {
   type ProjectStatus,
 } from '../data/newsData';
 import { ProjectImageCarousel } from '../components/molecules/ProjectImageCarousel';
+import { CornerAccent, DarkAccentGraphic, SectionAccents } from '../components/atoms/ArchitecturalAccents';
 import type { Product } from '../data/mockProducts';
 
 export interface NewsPageProps {
@@ -104,12 +105,7 @@ const ArticleCard: React.FC<{ article: NewsArticle; index?: number }> = ({ artic
           aspectClassName="aspect-[16/10]"
           imageClassName="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
         >
-          <img
-            src="/images/accents/card-corner-accent.png"
-            alt=""
-            className="absolute top-0 right-0 w-24 sm:w-28 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-85"
-            aria-hidden="true"
-          />
+          <CornerAccent className="absolute top-0 right-0 w-24 sm:w-28 h-auto z-10 drop-shadow-sm opacity-85" />
           {(article.projectStatus || article.category !== 'Project Milestone') && (
             <div className="absolute top-3 left-3 right-3 z-20 flex flex-wrap items-center gap-1.5 pointer-events-none">
               {article.projectStatus && <ProjectStatusBadge status={article.projectStatus} />}
@@ -119,12 +115,7 @@ const ArticleCard: React.FC<{ article: NewsArticle; index?: number }> = ({ artic
         </ProjectImageCarousel>
 
         <div className="relative overflow-hidden flex flex-col flex-1 p-6">
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="absolute -right-4 -bottom-4 w-32 h-auto object-contain object-right-bottom pointer-events-none select-none opacity-[0.09] z-0"
-            aria-hidden="true"
-          />
+          <DarkAccentGraphic className="absolute -right-4 -bottom-4 w-32 h-auto object-contain object-right-bottom opacity-[0.09] z-0" />
 
           <div className="relative z-10 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-slate-500 mb-3">
             <span className="flex items-center gap-1.5">
@@ -161,37 +152,12 @@ const ContactBand: React.FC = () => {
   return (
     <section className="relative bg-[#07162A] text-white border-t border-[#102A43] overflow-hidden">
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-      {/* Architectural Accent 2 - Top Left Anchored */}
-      <motion.div
-        initial={{ opacity: 0, y: -35 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.15 }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -top-10 -left-14 sm:-top-6 sm:left-0 w-64 sm:w-80 lg:w-[400px] pointer-events-none select-none z-0"
-        aria-hidden="true"
-      >
-        <img
-          src="/images/accents/accent2.png"
-          alt=""
-          className="w-full h-auto object-contain opacity-25"
-        />
-      </motion.div>
-
-      {/* Architectural Dynamic Accent Graphic - Bottom Right Anchored */}
-      <motion.div
-        initial={{ opacity: 0, y: 35 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.15 }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -bottom-14 -right-14 sm:-right-8 sm:bottom-0 w-64 sm:w-80 lg:w-[400px] pointer-events-none select-none z-0"
-        aria-hidden="true"
-      >
-        <img
-          src="/images/accents/dark-accent-graphic.png"
-          alt=""
-          className="w-full h-auto object-contain opacity-25"
-        />
-      </motion.div>
+      <SectionAccents
+        topLeftClassName="absolute -top-10 -left-14 sm:-top-6 sm:left-0 w-64 sm:w-80 lg:w-[400px] pointer-events-none select-none z-0"
+        bottomRightClassName="absolute -bottom-14 -right-14 sm:-right-8 sm:bottom-0 w-64 sm:w-80 lg:w-[400px] pointer-events-none select-none z-0"
+        imageOpacityClassName="opacity-25"
+        offsetY={35}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid lg:grid-cols-12 gap-10 items-center">
         <div className="lg:col-span-7 space-y-3">
@@ -285,12 +251,7 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
     <motion.div key={article.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
       {/* ── ARTICLE HEADER (BREADCRUMBS & TITLE) ── */}
       <div className="relative overflow-hidden">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-64 sm:w-80 lg:w-[440px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent className="absolute top-0 right-0 w-64 sm:w-80 lg:w-[440px] h-auto z-0 opacity-25" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2 space-y-5">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
             <Link to="/" className="hover:text-amber-600 transition-colors uppercase">
@@ -371,24 +332,14 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
                 showCaption={true}
                 autoPlayInterval={5500}
               >
-                <img
-                  src="/images/accents/card-corner-accent.png"
-                  alt=""
-                  className="absolute top-0 right-0 w-28 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-80"
-                  aria-hidden="true"
-                />
+                <CornerAccent className="absolute top-0 right-0 w-28 sm:w-36 h-auto z-10 drop-shadow-sm opacity-80" />
               </ProjectImageCarousel>
             </figure>
 
             {/* Key highlights */}
             {article.keyHighlights?.length > 0 && (
               <div className="relative overflow-hidden bg-white border border-slate-200 border-l-4 border-l-amber-500 rounded-[2px] p-6 sm:p-8 shadow-sm">
-                <img
-                  src="/images/accents/card-corner-accent.png"
-                  alt=""
-                  className="absolute top-0 right-0 w-36 sm:w-44 h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
-                  aria-hidden="true"
-                />
+                <CornerAccent className="absolute top-0 right-0 w-36 sm:w-44 h-auto z-0 opacity-[0.18]" />
                 <div className="relative z-10">
                   <h2 className="font-mono text-xs uppercase tracking-widest text-amber-600 font-bold mb-5">
                     Key Highlights
@@ -460,12 +411,7 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
           <aside className="lg:col-span-4">
             <div className="lg:sticky lg:top-24 space-y-6">
               <div className="relative overflow-hidden bg-white border border-slate-200 rounded-[2px] shadow-sm">
-                <img
-                  src="/images/accents/card-corner-accent.png"
-                  alt=""
-                  className="absolute top-0 right-0 w-32 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
-                  aria-hidden="true"
-                />
+                <CornerAccent className="absolute top-0 right-0 w-32 sm:w-36 h-auto z-0 opacity-[0.18]" />
                 <h2 className="relative z-10 px-6 py-4 border-b border-slate-200 font-mono text-xs uppercase tracking-widest text-slate-500 font-bold">
                   Article Details
                 </h2>
@@ -514,12 +460,7 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
               </div>
 
               <div className="relative overflow-hidden bg-[#07162A] text-white border border-[#102A43] rounded-[2px] p-6">
-                <img
-                  src="/images/accents/dark-accent-graphic.png"
-                  alt=""
-                  className="absolute -right-4 -bottom-4 w-36 h-auto object-contain object-right-bottom pointer-events-none select-none opacity-25 z-0"
-                  aria-hidden="true"
-                />
+                <DarkAccentGraphic className="absolute -right-4 -bottom-4 w-36 h-auto object-contain object-right-bottom opacity-25 z-0" />
                 <div className="relative z-10 space-y-4">
                   <span className="font-mono text-[10px] uppercase tracking-widest text-[#F3A812] font-bold block">
                     Talk to CCDI
@@ -547,12 +488,7 @@ const ArticleView: React.FC<{ article: NewsArticle }> = ({ article }) => {
       {/* ── RELATED ── */}
       {related.length > 0 && (
         <section className="relative overflow-hidden bg-white border-t border-slate-200 py-16 sm:py-20">
-          <img
-            src="/images/accents/card-corner-accent.png"
-            alt=""
-            className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-20"
-            aria-hidden="true"
-          />
+          <CornerAccent className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto z-0 opacity-20" />
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
@@ -633,12 +569,7 @@ const NewsIndex: React.FC = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
       {/* ── 1. PAGE HEADER (BREADCRUMBS & TEXT CONTENT) ── */}
       <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-64 sm:w-80 lg:w-[440px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-          aria-hidden="true"
-        />
+        <CornerAccent className="absolute top-0 right-0 w-64 sm:w-80 lg:w-[440px] h-auto z-0 opacity-25" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 space-y-5">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
             <Link to="/" className="hover:text-amber-600 transition-colors uppercase">
@@ -719,12 +650,7 @@ const NewsIndex: React.FC = () => {
       </div>
 
       <div className="relative overflow-hidden bg-slate-50 py-14 sm:py-20">
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
-          aria-hidden="true"
-        />
+        <CornerAccent className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto z-0 opacity-[0.18]" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           {/* ── 3. FEATURED STORY ── */}
           {!isFiltering && featured && (
@@ -749,12 +675,7 @@ const NewsIndex: React.FC = () => {
                     className="h-full"
                     imageClassName="object-cover object-center group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                   >
-                    <img
-                      src="/images/accents/card-corner-accent.png"
-                      alt=""
-                      className="absolute top-0 right-0 w-28 sm:w-36 h-auto object-contain object-right-top pointer-events-none select-none z-10 drop-shadow-sm opacity-85"
-                      aria-hidden="true"
-                    />
+                    <CornerAccent className="absolute top-0 right-0 w-28 sm:w-36 h-auto z-10 drop-shadow-sm opacity-85" />
                     {featured.projectStatus && (
                       <div className="absolute top-4 left-4 z-20 pointer-events-none">
                         <ProjectStatusBadge status={featured.projectStatus} />
@@ -763,12 +684,7 @@ const NewsIndex: React.FC = () => {
                   </ProjectImageCarousel>
                 </div>
                 <div className="relative overflow-hidden lg:col-span-5 p-7 sm:p-10 flex flex-col">
-                  <img
-                    src="/images/accents/card-corner-accent.png"
-                    alt=""
-                    className="absolute top-0 right-0 w-44 sm:w-52 h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
-                    aria-hidden="true"
-                  />
+                  <CornerAccent className="absolute top-0 right-0 w-44 sm:w-52 h-auto z-0 opacity-[0.18]" />
                   <div className="relative z-10 flex flex-wrap items-center gap-3 mb-5">
                     {featured.category !== 'Project Milestone' && <CategoryChip label={featured.category} />}
                     <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-500">
@@ -831,12 +747,7 @@ const NewsIndex: React.FC = () => {
               </div>
             ) : (
               <div className="relative overflow-hidden text-center py-20 px-6 bg-white border border-slate-200 rounded-[2px] max-w-lg mx-auto">
-                <img
-                  src="/images/accents/card-corner-accent.png"
-                  alt=""
-                  className="absolute top-0 right-0 w-32 h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-[0.18]"
-                  aria-hidden="true"
-                />
+                <CornerAccent className="absolute top-0 right-0 w-32 h-auto z-0 opacity-[0.18]" />
                 <div className="relative z-10 space-y-4">
                   <BookOpen className="w-10 h-10 text-slate-300 mx-auto" />
                   <h3 className="text-lg font-bold text-[#0B192C]">No updates found</h3>

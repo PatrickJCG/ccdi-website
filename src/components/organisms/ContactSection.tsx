@@ -7,6 +7,7 @@ import {
   ChevronDown, ChevronUp, Sparkles,
 } from "lucide-react";
 import type { Product } from "../../data/mockProducts";
+import { SectionAccents } from "../atoms/ArchitecturalAccents";
 
 export interface ContactSectionProps {
   inquiryItems: Product[];
@@ -52,6 +53,8 @@ const OfficeInfoPanel: React.FC = React.memo(() => {
         <img
           src="/images/branding/ccdi-logo.svg"
           alt="CCDI"
+          loading="lazy"
+          decoding="async"
           className="h-7 w-auto object-contain shrink-0"
         />
       </div>
@@ -158,26 +161,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, on
 
   return (
     <section id="contact" className="relative py-24 sm:py-32 bg-[#07162A] border-b border-[#102A43] text-white text-left font-sans overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0, y: -45 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.15 }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -top-12 -left-16 sm:-top-8 sm:left-0 w-72 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-        aria-hidden="true"
-      >
-        <img src="/images/accents/accent2.png" alt="" className="w-full h-auto object-contain opacity-30" />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 45 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.15 }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -bottom-16 -right-16 sm:-right-8 sm:bottom-0 w-72 sm:w-96 lg:w-[480px] pointer-events-none select-none z-0"
-        aria-hidden="true"
-      >
-        <img src="/images/accents/dark-accent-graphic.png" alt="" className="w-full h-auto object-contain opacity-30" />
-      </motion.div>
+      <SectionAccents />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
@@ -196,6 +180,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ inquiryItems, on
             <img
               src="/images/branding/ccdi-logo.svg"
               alt="CCDI Logo"
+              loading="lazy"
+              decoding="async"
               className="h-32 sm:h-40 lg:h-48 w-auto object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.6)]"
             />
           </div>

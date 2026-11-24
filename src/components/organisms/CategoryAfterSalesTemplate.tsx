@@ -14,6 +14,8 @@ import { ContactSection } from './ContactSection';
 import { SolutionSubNav, type SubNavCategory } from '../molecules/SolutionSubNav';
 import { BenchmarkStatStrip } from '../molecules/BenchmarkStatStrip';
 import type { CategoryAfterSalesInfo } from '../../data/afterSalesData';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface CategoryAfterSalesTemplateProps {
   data: CategoryAfterSalesInfo;
@@ -28,16 +30,6 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
   onRemoveInquiryItem,
 }) => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
 
   const accentText = data.accentColor === 'sky' ? 'text-sky-600' : 'text-amber-600';
 
@@ -70,13 +62,7 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
         
-        {/* Corner architectural graphic */}
-        <img
-          src="/images/accents/card-corner-accent.png"
-          alt=""
-          className="absolute top-0 right-0 w-80 sm:w-[460px] h-auto object-contain object-right-top pointer-events-none select-none opacity-20"
-          aria-hidden="true"
-        />
+        <CornerAccent className="absolute top-0 right-0 w-80 sm:w-[460px] h-auto opacity-20" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 space-y-8">
           <motion.div
@@ -106,7 +92,7 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <button
                 type="button"
-                onClick={scrollToContact}
+                onClick={() => scrollToContact()}
                 className="flex items-center gap-2 px-5 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-[2px] transition-all shadow-sm cursor-pointer"
               >
                 Schedule Service / Inspection
@@ -280,7 +266,7 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
               <div className="flex flex-col sm:flex-row gap-3 shrink-0">
                 <button
                   type="button"
-                  onClick={scrollToContact}
+                  onClick={() => scrollToContact()}
                   className="px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-[2px] transition-all shadow-md cursor-pointer text-center"
                 >
                   Inquire Spare Parts Availability

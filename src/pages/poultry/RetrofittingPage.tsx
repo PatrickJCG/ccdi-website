@@ -266,6 +266,8 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
                 <img
                   src="/images/broiler/climate-system.jpg"
                   alt="Open to Closed Tunnel Conversion"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -289,6 +291,8 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
                 <img
                   src="/images/broiler/ventilation-fans.jpg"
                   alt="Upgrade Older Tunnel Houses"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -312,6 +316,8 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
                 <img
                   src="/images/layer/feeding-system.jpg"
                   alt="Automatic Cages for Egg Layer Farms"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -335,6 +341,8 @@ export const RetrofittingPage: React.FC<RetrofittingPageProps> = ({
                 <img
                   src="/images/broiler/broiler-hero.jpg"
                   alt="Rooftop Solar Power"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>

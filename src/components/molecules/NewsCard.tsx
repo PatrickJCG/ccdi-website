@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, ArrowRight, MapPin } from 'lucide-react';
 import type { NewsArticle } from '../../data/newsData';
 import { ProjectImageCarousel } from './ProjectImageCarousel';
+import { DarkAccentGraphic } from '../atoms/ArchitecturalAccents';
 
 export interface NewsCardProps {
   article: NewsArticle;
@@ -89,13 +90,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, dark = true }) => {
           }`}
       >
         {dark && (
-          /* Dark Accent Graphic */
-          <img
-            src="/images/accents/dark-accent-graphic.png"
-            alt=""
-            className="absolute -right-3 top-2 w-32 h-auto object-contain object-right pointer-events-none select-none opacity-20 z-0"
-            aria-hidden="true"
-          />
+          <DarkAccentGraphic className="absolute -right-3 top-2 w-32 h-auto object-contain object-right opacity-20 z-0" />
         )}
 
         <div className="relative z-10 space-y-2.5">

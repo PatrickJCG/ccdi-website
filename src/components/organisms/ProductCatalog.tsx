@@ -16,6 +16,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { useExternalFilter, BU_MAP } from '../../hooks/useExternalFilter';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 
 // ─── Main Component ────────────────────────────────────────────────────────
 export interface ProductCatalogProps {
@@ -149,13 +150,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       id="products"
       className="relative bg-slate-50 text-slate-900 border-b border-slate-200/80 bg-grid-pattern overflow-hidden"
     >
-      {/* Architectural Top-Right Corner Accent */}
-      <img
-        src="/images/accents/card-corner-accent.png"
-        alt=""
-        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-        aria-hidden="true"
-      />
+      <CornerAccent />
       {/* ── Ambient Background Depth ────────────────────── */}
       <motion.div
         style={{ y: orb1Y }}

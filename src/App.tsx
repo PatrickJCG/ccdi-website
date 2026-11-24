@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import './App.css';
-import { InquiryProvider, useInquiry } from './context/InquiryContext';
+import { InquiryProvider } from './context/InquiryContext';
+import { useInquiry } from './context/useInquiry';
 import { PageLayout } from './components/organisms/PageLayout';
 import { ScrollToTop } from './components/utils/ScrollToTop';
 

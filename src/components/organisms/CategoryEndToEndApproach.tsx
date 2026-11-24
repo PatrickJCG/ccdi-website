@@ -1,4 +1,5 @@
 import React from 'react';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 
 export type SolutionCategory =
   | 'poultry-breeding'
@@ -563,13 +564,7 @@ export const CategoryEndToEndApproach: React.FC<CategoryEndToEndApproachProps> =
   // Fallback / Grid Layout for other categories
   return (
     <section className="relative py-24 sm:py-32 bg-slate-50 text-slate-900 border-b border-slate-200 overflow-hidden font-sans">
-      {/* Architectural Top-Right Corner Accent */}
-      <img
-        src="/images/accents/card-corner-accent.png"
-        alt=""
-        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-        aria-hidden="true"
-      />
+      <CornerAccent />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}

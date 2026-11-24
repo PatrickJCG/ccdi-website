@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BenchmarkStatStrip } from '../molecules/BenchmarkStatStrip';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
 
 const STATS = [
   { value: '2019',    label: 'YEAR ESTABLISHED' },
@@ -56,13 +57,7 @@ export const AboutUs: React.FC = () => {
       id="about"
       className="relative py-24 sm:py-32 bg-slate-50 text-slate-900 border-b border-slate-200 font-sans overflow-hidden"
     >
-      {/* Architectural Top-Right Corner Accent */}
-      <img
-        src="/images/accents/card-corner-accent.png"
-        alt=""
-        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-        aria-hidden="true"
-      />
+      <CornerAccent />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 text-left">
 
@@ -86,6 +81,8 @@ export const AboutUs: React.FC = () => {
             <img
               src="/images/branding/ccdi-logo.svg"
               alt="CCDI"
+              loading="lazy"
+              decoding="async"
               className="h-28 sm:h-36 lg:h-44 w-auto object-contain"
             />
           </div>
@@ -146,6 +143,8 @@ export const AboutUs: React.FC = () => {
               src="/images/branding/ccdi-logo.svg"
               alt=""
               aria-hidden="true"
+              loading="lazy"
+              decoding="async"
               className="absolute -right-4 -bottom-6 h-40 sm:h-48 w-auto object-contain opacity-[0.05] pointer-events-none select-none"
             />
             {activeTab === 'mission' ? (

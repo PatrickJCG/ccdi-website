@@ -3,6 +3,8 @@ import { Search, X, RotateCcw, SlidersHorizontal, CheckCircle2 } from 'lucide-re
 import type { Product, BusinessUnit } from '../../data/mockProducts';
 import { MOCK_PRODUCTS } from '../../data/mockProducts';
 import { ProductCard } from '../molecules/ProductCard';
+import { CornerAccent } from '../atoms/ArchitecturalAccents';
+import { scrollToContact } from '../../utils/navigation';
 
 export interface CategoryAccessoriesCatalogProps {
   businessUnit: BusinessUnit;
@@ -74,16 +76,6 @@ export const CategoryAccessoriesCatalog: React.FC<CategoryAccessoriesCatalogProp
     return inquiryItems.filter((item) => ids.has(item.id)).length;
   }, [inquiryItems, categoryProducts]);
 
-  const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = 72;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-    }
-  };
-
   const eyebrowColor =
     accentTheme === 'sky'
       ? 'text-sky-600'
@@ -93,13 +85,7 @@ export const CategoryAccessoriesCatalog: React.FC<CategoryAccessoriesCatalogProp
 
   return (
     <section className="relative py-20 sm:py-24 bg-white border-b border-slate-200 overflow-hidden font-sans text-left">
-      {/* Architectural Top-Right Corner Accent */}
-      <img
-        src="/images/accents/card-corner-accent.png"
-        alt=""
-        className="absolute top-0 right-0 w-72 sm:w-96 lg:w-[480px] h-auto object-contain object-right-top pointer-events-none select-none z-0 opacity-25"
-        aria-hidden="true"
-      />
+      <CornerAccent />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
@@ -122,7 +108,7 @@ export const CategoryAccessoriesCatalog: React.FC<CategoryAccessoriesCatalogProp
             {addedCountForThisCategory > 0 ? (
               <button
                 type="button"
-                onClick={scrollToContact}
+                onClick={() => scrollToContact()}
                 className="inline-flex items-center gap-2 px-3.5 py-2 rounded-[2px] bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold hover:bg-emerald-100 transition-colors cursor-pointer"
               >
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -262,7 +248,7 @@ export const CategoryAccessoriesCatalog: React.FC<CategoryAccessoriesCatalogProp
           </p>
           <button
             type="button"
-            onClick={scrollToContact}
+            onClick={() => scrollToContact()}
             className="text-amber-700 hover:text-amber-900 font-bold underline whitespace-nowrap cursor-pointer"
           >
             Submit Inquiry for Custom Specs →

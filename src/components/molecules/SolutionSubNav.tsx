@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export type SubNavCategory = 'poultry' | 'hatchery' | 'feedmill' | 'solar';
@@ -18,7 +18,7 @@ export interface SolutionCategoryConfig {
   tabs: SolutionSubNavTab[];
 }
 
-export const splitTabLabel = (label: string): [string, string] | [string] => {
+const splitTabLabel = (label: string): [string, string] | [string] => {
   const words = label.trim().split(/\s+/);
   if (words.length <= 1) return [label];
   if (words.length === 2) return [words[0], words[1]];
@@ -45,7 +45,7 @@ export const splitTabLabel = (label: string): [string, string] | [string] => {
   return [words.slice(0, bestSplit).join(' '), words.slice(bestSplit).join(' ')];
 };
 
-export const SOLUTION_CONFIGS: Record<SubNavCategory, SolutionCategoryConfig> = {
+const SOLUTION_CONFIGS: Record<SubNavCategory, SolutionCategoryConfig> = {
   poultry: {
     name: 'Poultry Solution',
     shortName: 'Poultry',
@@ -118,7 +118,7 @@ export const SolutionSubNav: React.FC<SolutionSubNavProps> = ({
     location.pathname === config.basePath ||
     location.pathname === `${config.basePath}/`;
 
-  const hashTabs = config.tabs.filter((t) => t.hash);
+  const hashTabs = useMemo(() => config.tabs.filter((t) => t.hash), [config.tabs]);
   const [currentSection, setCurrentSection] = useState<string>(activeTab || '');
   const tabsContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -161,7 +161,7 @@ export const SolutionSubNav: React.FC<SolutionSubNavProps> = ({
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isMainPage, hashTabs.length]);
+  }, [isMainPage, hashTabs]);
 
   // Handle hash on page load if navigated from elsewhere
   useEffect(() => {
