@@ -178,7 +178,7 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
               SERVICE LEVEL AGREEMENTS (SLA)
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-              Guaranteed response tiers when you need support.
+              Target response tiers for contracted support.
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed font-normal">
               We classify every service ticket into clearly defined severity tiers to prioritize
@@ -242,6 +242,10 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
               );
             })}
           </div>
+
+          <p className="text-xs text-slate-600 bg-white border border-slate-200 rounded-[2px] p-4 leading-relaxed">
+            <strong>Disclaimer:</strong> Listed response times and SLA tiers are indicative targets and apply only under an executed Annual Maintenance Agreement (AMA) or written service contract, subject to site location, access conditions, and spare parts availability.
+          </p>
         </div>
       </section>
 
@@ -337,6 +341,10 @@ export const CategoryAfterSalesTemplate: React.FC<CategoryAfterSalesTemplateProp
               );
             })}
           </div>
+
+          <p className="text-xs text-slate-600 bg-white border border-slate-200 rounded-[2px] p-4 leading-relaxed">
+            <strong>Disclaimer:</strong> Listed response times and SLA tiers are indicative targets and apply only under an executed Annual Maintenance Agreement (AMA) or written service contract, subject to site location, access conditions, and spare parts availability.
+          </p>
         </div>
       </section>
 

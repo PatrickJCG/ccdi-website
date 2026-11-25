@@ -95,10 +95,10 @@ export const Footer: React.FC = () => {
           {/* Brand Header & Hotline Row */}
           <div className="pb-10 mb-10 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-xl space-y-3">
-              <Link to="/" className="inline-block group" aria-label="Clarkbase Construction Development Inc. Home">
+              <Link to="/" className="inline-block group" aria-label="Clarkbase Construction Dev't Inc. (CCDI) Home">
                 <img
                   src="/images/branding/ccdi-landscape-logo.svg"
-                  alt="Clarkbase Construction Development Inc."
+                  alt="Clarkbase Construction Dev't Inc. (CCDI)"
                   loading="lazy"
                   decoding="async"
                   className="h-12 sm:h-14 md:h-16 w-auto max-w-[300px] sm:max-w-[340px] object-contain block transition-transform duration-200 group-hover:scale-[1.01]"
@@ -309,8 +309,8 @@ export const Footer: React.FC = () => {
             </p>
           </div>
           <div className="flex items-center gap-5">
-            <a href="#" className="hover:text-slate-900 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">Terms of Use</a>
+            <Link to="/privacy-policy" className="hover:text-slate-900 transition-colors">Privacy Policy</Link>
+            <Link to="/terms-of-use" className="hover:text-slate-900 transition-colors">Terms of Use</Link>
           </div>
         </div>
       </div>

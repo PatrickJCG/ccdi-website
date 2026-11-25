@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sun,
@@ -11,9 +12,14 @@ import {
   ArrowRight,
   Home,
   Building2,
+  Mail,
+  Copy,
+  Check,
 } from 'lucide-react';
 import type { Product } from '../../data/mockProducts';
 import { SolutionSubNav } from '../../components/molecules/SolutionSubNav';
+import { buildMailtoUrl } from '../../utils/inquiryMailto';
+import { PRIVACY_CONTACT_EMAIL } from '../../config/legal';
 
 export interface SolarCalculatorPageProps {
   inquiryItems?: Product[];
@@ -56,6 +62,11 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
   // Proposal modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [mailtoUrl, setMailtoUrl] = useState('');
+  const [draftText, setDraftText] = useState('');
+  const [copiedDraft, setCopiedDraft] = useState(false);
   const [contactForm, setContactForm] = useState({
     fullName: '',
     companyOrHome: '',
@@ -63,6 +74,15 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
     email: '',
     location: '',
   });
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsModalOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen]);
 
   const activePresets = clientType === 'residential' ? RESIDENTIAL_PRESETS : COMMERCIAL_PRESETS;
 
@@ -166,7 +186,52 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError('');
+    if (!privacyAccepted) {
+      setFormError('Please confirm that you agree to our Privacy Policy and Terms of Use.');
+      return;
+    }
+
+    const sectorLabel = clientType === 'residential' ? 'Residential Home' : 'Commercial / Farm';
+    const systemLabel =
+      connectionType === 'on-grid'
+        ? 'Grid-Tied'
+        : connectionType === 'hybrid'
+          ? 'Hybrid'
+          : 'Off-Grid';
+
+    const lines = [
+      `Name: ${contactForm.fullName.trim()}`,
+      contactForm.companyOrHome.trim() ? `Property / Farm: ${contactForm.companyOrHome.trim()}` : '',
+      `Phone: ${contactForm.phone.trim()}`,
+      `Email: ${contactForm.email.trim()}`,
+      `Location: ${contactForm.location.trim()}`,
+      '',
+      '--- Calculator Estimate Summary (Indicative Only) ---',
+      `Sector: ${sectorLabel}`,
+      `System Type: ${systemLabel}`,
+      `Monthly Electric Bill: ${formatPeso(monthlyBill)} (Rate: ${electricityRate.toFixed(2)} PHP/kWh)`,
+      `Estimated Capacity: ${results.systemSizeKwp.toFixed(1)} kW (${results.panels} x 550W panels)`,
+      `Backup Storage: ${connectionType === 'on-grid' ? 'None' : `${results.batteries} units (${results.batteryCapacityKwh.toFixed(0)} kWh)`}`,
+      `Estimated Price Range: ${formatPeso(results.priceMin)} - ${formatPeso(results.priceMax)}`,
+      `Estimated Monthly Savings: ${formatPeso(results.monthlySavings)} / mo`,
+    ]
+      .filter((line) => line !== undefined)
+      .join('\r\n');
+
+    const subject = `Solar Proposal Request (${results.systemSizeKwp.toFixed(1)} kW ${systemLabel}) - ${contactForm.fullName.trim()}`;
+    const url = buildMailtoUrl(PRIVACY_CONTACT_EMAIL, subject, lines);
+    setMailtoUrl(url);
+    setDraftText(`To: ${PRIVACY_CONTACT_EMAIL}\r\nSubject: ${subject}\r\n\r\n${lines}`);
+    setCopiedDraft(false);
     setSubmitted(true);
+    window.location.href = url;
+  };
+
+  const handleCopyDraft = () => {
+    navigator.clipboard.writeText(draftText);
+    setCopiedDraft(true);
+    setTimeout(() => setCopiedDraft(false), 2500);
   };
 
   return (
@@ -633,6 +698,8 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                   type="button"
                   onClick={() => {
                     setSubmitted(false);
+                    setFormError('');
+                    setPrivacyAccepted(false);
                     setIsModalOpen(true);
                   }}
                   className="w-full py-3.5 px-4 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black font-sans text-xs uppercase tracking-wider rounded-[2px] transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
@@ -645,18 +712,22 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                   Need advice? Call our solar team: <a href="tel:09190669352" className="text-amber-400 font-bold hover:underline">0919-0669352</a>
                 </div>
 
+                <p className="text-[10px] text-slate-400 leading-relaxed pt-3 border-t border-[#1E3E66]">
+                  <strong>Indicative Estimate Only:</strong> Calculated prices, savings, and payback periods are non-binding approximations. Final quotation depends on on-site engineering inspection, roof structure, utility tariffs, and permitting.
+                </p>
+
               </div>
 
-              {/* Simple Guarantees */}
+              {/* Quality & Warranty Info */}
               <div className="bg-white border border-slate-200 p-4 rounded-[2px] text-xs space-y-2 text-slate-600">
                 <div className="flex items-center gap-2 font-bold text-slate-800">
                   <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" />
-                  <span>CCDI Solar Quality Guarantee</span>
+                  <span>CCDI Solar Quality Standards &amp; Warranty Info</span>
                 </div>
                 <ul className="space-y-1.5 pl-6 list-disc text-slate-600 text-[11px]">
-                  <li>25-year solar panel performance warranty</li>
-                  <li>Typhoon-tested aluminum roof mounting (up to 280 kph)</li>
-                  <li>Full Net-Metering assistance with Meralco or regional electric cooperatives</li>
+                  <li>Up to 25-year manufacturer linear performance warranty on solar panels (subject to OEM terms)</li>
+                  <li>Typhoon-rated aluminum roof mounting (engineered up to 280 kph, subject to roof structural assessment)</li>
+                  <li>Net-Metering application assistance with Meralco or regional electric cooperatives (subject to utility &amp; ERC approval)</li>
                 </ul>
               </div>
 
@@ -702,7 +773,12 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
       {/* ── PROPOSAL REQUEST MODAL (CLEAN & SIMPLE) ── */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="solar-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -723,7 +799,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                   <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400 font-bold block">
                     FREE QUOTATION & SITE VISIT
                   </span>
-                  <h3 className="text-xl font-bold text-white mt-0.5">
+                  <h3 id="solar-modal-title" className="text-xl font-bold text-white mt-0.5">
                     Request Solar Proposal
                   </h3>
                   <p className="font-mono text-xs text-slate-300 mt-0.5">
@@ -734,6 +810,7 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
+                  aria-label="Close solar proposal modal"
                   className="w-8 h-8 rounded bg-[#102A43] hover:bg-[#1E3E66] text-slate-300 hover:text-white flex items-center justify-center cursor-pointer"
                 >
                   <X className="w-4 h-4" />
@@ -746,18 +823,35 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                     <CheckCircle2 className="w-7 h-7" />
                   </div>
                   <h4 className="text-lg font-bold text-white">
-                    Request Received!
+                    Email Draft Ready
                   </h4>
                   <p className="text-xs text-slate-200 max-w-sm mx-auto leading-relaxed">
-                    Thank you, <strong className="text-white">{contactForm.fullName}</strong>. Our solar engineering team from Clark Freeport Zone will contact you within 24 hours to arrange your site assessment.
+                    Thank you, <strong className="text-white">{contactForm.fullName}</strong>. Your email client has been opened with your solar sizing summary addressed to <span className="font-mono text-amber-400">{PRIVACY_CONTACT_EMAIL}</span>. Please click Send in your email app, or copy the details below.
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="px-6 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-[2px] cursor-pointer"
-                  >
-                    Done
-                  </button>
+                  <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+                    <a
+                      href={mailtoUrl}
+                      className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-[2px] inline-flex items-center gap-1.5"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      Open Email Client
+                    </a>
+                    <button
+                      type="button"
+                      onClick={handleCopyDraft}
+                      className="px-4 py-2 bg-[#0B192C] border border-[#1E3E66] hover:border-amber-400 text-white font-bold text-xs uppercase tracking-wider rounded-[2px] inline-flex items-center gap-1.5 cursor-pointer"
+                    >
+                      {copiedDraft ? <Check className="w-3.5 h-3.5 text-amber-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copiedDraft ? 'Copied' : 'Copy Request Details'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsModalOpen(false)}
+                      className="px-4 py-2 bg-transparent border border-[#1E3E66] text-slate-300 hover:text-white font-bold text-xs uppercase tracking-wider rounded-[2px] cursor-pointer"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4 text-xs">
@@ -775,8 +869,9 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-slate-300 font-semibold block">Full Name *</label>
+                    <label htmlFor="solar-full-name" className="text-slate-300 font-semibold block">Full Name *</label>
                     <input
+                      id="solar-full-name"
                       type="text"
                       required
                       value={contactForm.fullName}
@@ -787,10 +882,11 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-slate-300 font-semibold block">
+                    <label htmlFor="solar-company-home" className="text-slate-300 font-semibold block">
                       {clientType === 'residential' ? 'Property / Subdivision Name' : 'Farm / Company Name'}
                     </label>
                     <input
+                      id="solar-company-home"
                       type="text"
                       value={contactForm.companyOrHome}
                       onChange={(e) => setContactForm({ ...contactForm, companyOrHome: e.target.value })}
@@ -801,8 +897,9 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-slate-300 font-semibold block">Phone Number *</label>
+                      <label htmlFor="solar-phone" className="text-slate-300 font-semibold block">Phone Number *</label>
                       <input
+                        id="solar-phone"
                         type="tel"
                         required
                         value={contactForm.phone}
@@ -813,8 +910,9 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-slate-300 font-semibold block">Email Address *</label>
+                      <label htmlFor="solar-email" className="text-slate-300 font-semibold block">Email Address *</label>
                       <input
+                        id="solar-email"
                         type="email"
                         required
                         value={contactForm.email}
@@ -826,8 +924,9 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-slate-300 font-semibold block">Location / Province *</label>
+                    <label htmlFor="solar-location" className="text-slate-300 font-semibold block">Location / Province *</label>
                     <input
+                      id="solar-location"
                       type="text"
                       required
                       value={contactForm.location}
@@ -837,15 +936,44 @@ export const SolarCalculatorPage: React.FC<SolarCalculatorPageProps> = () => {
                     />
                   </div>
 
+                  <div className="space-y-2 pt-1">
+                    <label htmlFor="solar-privacy-consent" className="flex items-start gap-2 text-[11px] text-slate-300 leading-relaxed cursor-pointer">
+                      <input
+                        id="solar-privacy-consent"
+                        type="checkbox"
+                        required
+                        checked={privacyAccepted}
+                        onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                        className="mt-0.5 rounded text-amber-400 focus:ring-amber-400 shrink-0"
+                      />
+                      <span>
+                        I agree to CCDI processing these contact and site details to prepare a non-binding proposal in accordance with the{' '}
+                        <Link to="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline font-semibold">
+                          Privacy Policy
+                        </Link>{' '}
+                        and{' '}
+                        <Link to="/terms-of-use" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline font-semibold">
+                          Terms of Use
+                        </Link>
+                        . *
+                      </span>
+                    </label>
+                    {formError && (
+                      <p className="text-[11px] text-red-300 bg-red-950/50 border border-red-800/60 rounded-[2px] px-2.5 py-1.5">
+                        {formError}
+                      </p>
+                    )}
+                  </div>
+
                   <div className="pt-2 flex items-center justify-between border-t border-[#1E3E66]">
                     <span className="text-[10px] text-slate-400">
-                      * Free assessment with zero obligation.
+                      * Free non-binding assessment.
                     </span>
                     <button
                       type="submit"
                       className="px-6 py-2.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-amber-400 hover:bg-amber-300 text-slate-950 transition-colors cursor-pointer"
                     >
-                      Submit Request →
+                      Prepare Request Email →
                     </button>
                   </div>
                 </form>

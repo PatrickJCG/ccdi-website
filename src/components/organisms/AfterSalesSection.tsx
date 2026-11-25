@@ -182,7 +182,7 @@ export const AfterSalesSection: React.FC<AfterSalesSectionProps> = ({
                   Service Level Agreement (SLA) Matrix
                 </span>
                 <h3 className="text-xl font-bold text-white">
-                  Guaranteed Dispatch &amp; Technical Triage
+                  Target Dispatch &amp; Technical Triage
                 </h3>
               </div>
               <div className="space-y-3 pt-2">
@@ -212,6 +212,9 @@ export const AfterSalesSection: React.FC<AfterSalesSectionProps> = ({
                   </div>
                 ))}
               </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed pt-2 border-t border-[#1E3E66]">
+                Disclaimer: Listed response times and SLA tiers are indicative targets and apply only under an executed Annual Maintenance Agreement (AMA) or written service contract, subject to site location, access conditions, and spare parts availability.
+              </p>
             </div>
           )}
 

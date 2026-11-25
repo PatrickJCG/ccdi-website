@@ -13,6 +13,8 @@ const ProductsPage              = lazy(() => import('./pages/ProductsPage').then
 const ProjectsPage              = lazy(() => import('./pages/ProjectsPage').then(m => ({ default: m.ProjectsPage })));
 const NewsPage                  = lazy(() => import('./pages/NewsPage').then(m => ({ default: m.NewsPage })));
 const CareersPage               = lazy(() => import('./pages/CareersPage').then(m => ({ default: m.CareersPage })));
+const PrivacyPolicyPage         = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
+const TermsOfUsePage            = lazy(() => import('./pages/TermsOfUsePage').then(m => ({ default: m.TermsOfUsePage })));
 const NotFoundPage              = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 // 1. Poultry Solutions (src/pages/poultry/)
@@ -309,6 +311,22 @@ function AppRoutes() {
               onToggleInquiry={toggleInquiry}
               onRemoveInquiryItem={removeInquiryItem}
             />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/privacy-policy" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <PrivacyPolicyPage />
+          </Suspense>
+        </PageLayout>
+      } />
+
+      <Route path="/terms-of-use" element={
+        <PageLayout inquiryCount={inquiryCount}>
+          <Suspense fallback={<PageSkeleton />}>
+            <TermsOfUsePage />
           </Suspense>
         </PageLayout>
       } />

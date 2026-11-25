@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Wind,
@@ -15,8 +16,11 @@ import {
   Check,
   Send,
   Info,
+  Copy,
 } from 'lucide-react';
 import type { Product } from '../../data/mockProducts';
+import { buildMailtoUrl } from '../../utils/inquiryMailto';
+import { PRIVACY_CONTACT_EMAIL } from '../../config/legal';
 
 export interface FarmRetrofitConfiguratorProps {
   inquiryItems?: Product[];
@@ -156,9 +160,12 @@ export const FarmRetrofitConfigurator: React.FC<FarmRetrofitConfiguratorProps> =
   const [timeline, setTimeline] = useState<string>('Within 1 to 2 Months');
 
   // ── SUBMISSION STATE ───────────────────────────────────────────────────────
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [mailtoUrl, setMailtoUrl] = useState<string>('');
+  const [draftText, setDraftText] = useState<string>('');
+  const [copiedDraft, setCopiedDraft] = useState<boolean>(false);
 
   // Quick Preset handler
   const handleApplyPreset = (p: DimensionPreset) => {
@@ -218,12 +225,51 @@ export const FarmRetrofitConfigurator: React.FC<FarmRetrofitConfiguratorProps> =
       return;
     }
 
-    setIsSubmitting(true);
+    if (!privacyAccepted) {
+      setErrorMessage('Please confirm that you agree to our Privacy Policy and Terms of Use.');
+      return;
+    }
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 700);
+    const categoryTitles = selectedCategories
+      .map((catId) => UPGRADE_CATEGORIES.find((c) => c.id === catId)?.title)
+      .filter(Boolean)
+      .join(', ');
+
+    const lines = [
+      `Contact Name: ${contactName.trim()}`,
+      farmName.trim() ? `Farm / Company: ${farmName.trim()}` : '',
+      `Phone: ${phone.trim()}`,
+      email.trim() ? `Email: ${email.trim()}` : '',
+      location.trim() ? `Location: ${location.trim()}` : '',
+      `Preferred Contact: ${preferredContact}`,
+      `Target Timeline: ${timeline}`,
+      '',
+      '--- Existing Farm Specs ---',
+      `Operation: ${operationType}`,
+      `Current Housing: ${currentHousing}`,
+      `Houses: ${houseCount} (${length}m x ${width}m, Eave ${eaveHeight}m, Total ${totalFarmArea.toLocaleString()} sqm)`,
+      `Current Capacity: ${currentCapacity}`,
+      `Power Source: ${powerSource}`,
+      `Upgrade Categories: ${categoryTitles}`,
+      selectedItems.length > 0 ? `Selected Equipment: ${selectedItems.join(', ')}` : '',
+      description.trim() ? `\r\nNotes:\r\n${description.trim()}` : '',
+    ]
+      .filter(Boolean)
+      .join('\r\n');
+
+    const subject = `Farm Retrofit Assessment (${operationType}) - ${contactName.trim()}`;
+    const url = buildMailtoUrl(PRIVACY_CONTACT_EMAIL, subject, lines);
+    setMailtoUrl(url);
+    setDraftText(`To: ${PRIVACY_CONTACT_EMAIL}\r\nSubject: ${subject}\r\n\r\n${lines}`);
+    setCopiedDraft(false);
+    setIsSubmitted(true);
+    window.location.href = url;
+  };
+
+  const handleCopyDraft = () => {
+    navigator.clipboard.writeText(draftText);
+    setCopiedDraft(true);
+    setTimeout(() => setCopiedDraft(false), 2500);
   };
 
   const handleReset = () => {
@@ -234,6 +280,10 @@ export const FarmRetrofitConfigurator: React.FC<FarmRetrofitConfiguratorProps> =
     setPhone('');
     setEmail('');
     setLocation('');
+    setPrivacyAccepted(false);
+    setErrorMessage('');
+    setMailtoUrl('');
+    setDraftText('');
   };
 
   return (
@@ -254,13 +304,13 @@ export const FarmRetrofitConfigurator: React.FC<FarmRetrofitConfiguratorProps> =
               </div>
               <div className="space-y-1">
                 <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">
-                  Assessment Request Received
+                  Assessment Email Draft Ready
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
                   Thank you, {contactName}!
                 </h3>
                 <p className="text-sm text-slate-600 max-w-2xl leading-relaxed">
-                  Our poultry retrofit engineering team has received your existing farm specifications and upgrade requirements. We will review your house dimensions and prepare a preliminary proposal within 24 business hours.
+                  Your email client has been opened with your farm retrofit specifications addressed to <span className="font-mono font-semibold text-slate-800">{PRIVACY_CONTACT_EMAIL}</span>. Please click Send in your email app, or use the buttons below.
                 </p>
               </div>
             </div>
@@ -350,6 +400,21 @@ export const FarmRetrofitConfigurator: React.FC<FarmRetrofitConfiguratorProps> =
             </div>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
+              <a
+                href={mailtoUrl}
+                className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 px-5 py-2.5 rounded-[2px] text-xs font-bold uppercase tracking-wider transition-colors"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                <span>Open Email Client</span>
+              </a>
+              <button
+                type="button"
+                onClick={handleCopyDraft}
+                className="inline-flex items-center gap-2 bg-white border border-slate-300 hover:border-slate-900 text-slate-800 px-5 py-2.5 rounded-[2px] text-xs font-semibold cursor-pointer transition-colors"
+              >
+                {copiedDraft ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedDraft ? 'Copied Details' : 'Copy Assessment Details'}</span>
+              </button>
               <button
                 type="button"
                 onClick={handleReset}
@@ -855,6 +920,31 @@ export const FarmRetrofitConfigurator: React.FC<FarmRetrofitConfiguratorProps> =
               </div>
             </div>
 
+            {/* DATA PRIVACY CONSENT */}
+            <div className="bg-white border border-slate-200 rounded-[2px] p-4">
+              <label htmlFor="retrofit-privacy-consent" className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed cursor-pointer">
+                <input
+                  id="retrofit-privacy-consent"
+                  type="checkbox"
+                  required
+                  checked={privacyAccepted}
+                  onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                  className="mt-0.5 rounded text-amber-500 focus:ring-amber-500 shrink-0"
+                />
+                <span>
+                  I consent to CCDI processing these farm specifications and contact details to prepare a non-binding retrofit assessment in accordance with the{' '}
+                  <Link to="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-amber-700 font-semibold hover:underline">
+                    Privacy Policy
+                  </Link>{' '}
+                  and{' '}
+                  <Link to="/terms-of-use" target="_blank" rel="noopener noreferrer" className="text-amber-700 font-semibold hover:underline">
+                    Terms of Use
+                  </Link>
+                  . *
+                </span>
+              </label>
+            </div>
+
             {/* ERROR MESSAGE IF ANY */}
             {errorMessage && (
               <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-[2px]">
@@ -869,26 +959,16 @@ export const FarmRetrofitConfigurator: React.FC<FarmRetrofitConfiguratorProps> =
                   Ready to upgrade your poultry farm?
                 </span>
                 <span className="block text-[11px] text-slate-400 mt-0.5">
-                  Our poultry engineers will review your building specs and get in touch within 24 hours.
+                  Prepare your retrofit specifications email for our poultry engineering team.
                 </span>
               </div>
 
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-6 py-3 rounded-[2px] text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm shrink-0 disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-6 py-3 rounded-[2px] text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm shrink-0"
               >
-                {isSubmitting ? (
-                  <>
-                    <span className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                    <span>Submitting Specs...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-3.5 h-3.5" />
-                    <span>Submit Upgrade Assessment</span>
-                  </>
-                )}
+                <Send className="w-3.5 h-3.5" />
+                <span>Prepare Assessment Email</span>
               </button>
             </div>
           </form>

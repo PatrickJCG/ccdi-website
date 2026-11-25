@@ -12,7 +12,7 @@
  * - Option A (Recommended): Place your photo or project folder in `public/images/news/`
  *   and set `imageUrl: '/images/news/your-image-filename.jpg'`.
  * - Option B: Use an existing site image (e.g. `'/images/broiler/climate-system.jpg'`).
- * - Option C: Use any online web URL (e.g. `'https://images.unsplash.com/...'`).
+ * - Always use owned or properly licensed local assets stored in `public/images/` (avoid external hotlinks).
  * 
  * TO EDIT AN ENTRY:
  * - Simply update the text, bullet points, or imageUrl in any article below.

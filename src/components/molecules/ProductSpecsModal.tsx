@@ -29,13 +29,28 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
     }
   }, [isOpen, product]);
 
+  // Close on Escape key when open
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen || !product || typeof document === "undefined") return null;
 
   const { buildingSpecs, materials } = product;
 
   return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="product-specs-modal-title"
+        className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans"
+      >
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -79,7 +94,7 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                 </span>
               </div>
 
-              <h2 className="text-2xl sm:text-3xl font-extrabold leading-tight text-white">
+              <h2 id="product-specs-modal-title" className="text-2xl sm:text-3xl font-extrabold leading-tight text-white">
                 {product.title}
               </h2>
 
@@ -167,7 +182,7 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                     {product.subCategory} • {modalMediaTab === 'video' ? 'FACILITY VIDEO TOUR' : 'TECHNICAL SPECIFICATION'}
                   </span>
                   <span className="text-slate-400">
-                    CCDI CERTIFIED ARCHITECTURE
+                    CCDI ENGINEERING SPECIFICATION
                   </span>
                 </div>
               </div>
@@ -286,7 +301,7 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
                     <span>Structural Material Specifications</span>
                   </div>
                   <span className="font-mono text-[10px] font-bold text-slate-400 bg-[#07162A] px-2 py-0.5 rounded-[2px] uppercase border border-[#102A43]">
-                    ISO & PCAB Grade
+                    Industrial Structural Grade
                   </span>
                 </div>
 
@@ -322,7 +337,7 @@ export const ProductSpecsModal: React.FC<ProductSpecsModalProps> = ({
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#102A43]">
               <p className="text-xs text-slate-400 flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-amber-400" />
-                CCDI Turnkey Engineering Standard · ISO 9001 & PCAB Compliant
+                CCDI Turnkey Engineering Standard · Illustrative specs subject to final engineering design
               </p>
 
               <div className="flex items-center gap-3 w-full sm:w-auto">

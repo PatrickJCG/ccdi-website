@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin,
@@ -11,11 +12,15 @@ import {
   FileText,
   Briefcase,
   GraduationCap,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { BenchmarkStatStrip } from '../components/molecules/BenchmarkStatStrip';
 import { SolutionHeroBanner } from '../components/molecules/SolutionHeroBanner';
 import { TeamShowcaseSection } from '../components/organisms/TeamShowcaseSection';
 import { CornerAccent } from '../components/atoms/ArchitecturalAccents';
+import { buildMailtoUrl } from '../utils/inquiryMailto';
+import { RECRUITMENT_EMAIL } from '../config/legal';
 
 interface JobPosition {
   id: string;
@@ -170,6 +175,11 @@ export const CareersPage: React.FC = () => {
   const [selectedJob, setSelectedJob] = useState<JobPosition | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [mailtoUrl, setMailtoUrl] = useState('');
+  const [draftText, setDraftText] = useState('');
+  const [copiedDraft, setCopiedDraft] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -179,15 +189,62 @@ export const CareersPage: React.FC = () => {
     hasPhotoAndCV: false,
   });
 
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsModalOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen]);
+
   const handleApplyClick = (job: JobPosition) => {
     setSelectedJob(job);
     setSubmitted(false);
+    setPrivacyAccepted(false);
+    setFormError('');
+    setCopiedDraft(false);
     setIsModalOpen(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError('');
+    if (!selectedJob) return;
+    if (!privacyAccepted) {
+      setFormError('Please confirm that you consent to our Applicant Privacy Notice.');
+      return;
+    }
+
+    const lines = [
+      `Hello CCDI Recruitment Team,`,
+      '',
+      `I would like to apply for the position of ${selectedJob.title} (${selectedJob.location}).`,
+      '',
+      `Full Name: ${formData.fullName.trim()}`,
+      `Email: ${formData.email.trim()}`,
+      `Phone: ${formData.phone.trim()}`,
+      formData.experienceSummary.trim()
+        ? `\r\nRelevant Background:\r\n${formData.experienceSummary.trim()}`
+        : '',
+      '',
+      'Please find attached my updated CV (recent photo optional).',
+    ]
+      .filter((line) => line !== undefined)
+      .join('\r\n');
+
+    const subject = `Job Application - ${selectedJob.title} - ${formData.fullName.trim()}`;
+    const url = buildMailtoUrl(RECRUITMENT_EMAIL, subject, lines);
+    setMailtoUrl(url);
+    setDraftText(`To: ${RECRUITMENT_EMAIL}\r\nSubject: ${subject}\r\n\r\n${lines}`);
     setSubmitted(true);
+    window.location.href = url;
+  };
+
+  const handleCopyDraft = () => {
+    navigator.clipboard.writeText(draftText);
+    setCopiedDraft(true);
+    setTimeout(() => setCopiedDraft(false), 2500);
   };
 
   return (
@@ -242,14 +299,14 @@ export const CareersPage: React.FC = () => {
             </p>
           </div>
 
-          {/* Quick Notice Banner on CV & Photo */}
+          {/* Quick Notice Banner on CV Submission */}
           <div className="bg-amber-50/80 border border-amber-300/80 rounded-[2px] p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs">
             <div>
               <p className="font-bold text-slate-900 text-sm">
                 Official Application Requirements
               </p>
               <p className="text-slate-700 mt-0.5">
-                Interested candidates must submit an <strong className="text-slate-900">updated CV</strong> and <strong className="text-amber-700">latest photo</strong> to <a href="mailto:recruitment@ccdi-asia.com" className="font-mono font-bold text-amber-700 underline hover:text-amber-800">recruitment@ccdi-asia.com</a>.
+                Interested candidates should submit an <strong className="text-slate-900">updated CV</strong> (recent photo optional) to <a href="mailto:recruitment@ccdi-asia.com" className="font-mono font-bold text-amber-700 underline hover:text-amber-800">recruitment@ccdi-asia.com</a>.
               </p>
             </div>
             <div className="font-mono text-[11px] text-slate-600 shrink-0 bg-white px-3 py-1.5 border border-amber-200 rounded-[2px]">
@@ -377,7 +434,7 @@ export const CareersPage: React.FC = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100 text-xs text-slate-500 font-mono">
                     <div className="flex items-center gap-2">
                       <Mail className="w-3.5 h-3.5 text-amber-600" />
-                      <span>Send updated CV and latest photo to: <strong className="text-slate-800">recruitment@ccdi-asia.com</strong></span>
+                      <span>Send your updated CV (photo optional) to: <strong className="text-slate-800">recruitment@ccdi-asia.com</strong></span>
                     </div>
                     <a
                       href={`mailto:recruitment@ccdi-asia.com?subject=Job Application - ${encodeURIComponent(job.title)} (${encodeURIComponent(job.location)})`}
@@ -403,12 +460,12 @@ export const CareersPage: React.FC = () => {
                 Ready to take the next step in your career?
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Send your updated CV and latest photo to our recruitment office, or reach out directly to our HR team for application inquiries.
+                Send your updated CV (recent photo optional) to our recruitment office, or reach out directly to our HR team for application inquiries.
               </p>
               <div className="pt-2 text-xs text-slate-500 space-y-1 font-mono">
                 <p className="flex items-center gap-2">
                   <MapPin className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  Office Center 05K Berthaphil Clark Center, Clark Freeport Zone, Pampanga, Philippines
+                  Office Center 05J Berthaphil Clark Center, Clark Freeport Zone, Pampanga, Philippines
                 </p>
                 <p className="flex items-center gap-2">
                   <Phone className="w-3.5 h-3.5 text-amber-600 shrink-0" />
@@ -434,7 +491,12 @@ export const CareersPage: React.FC = () => {
       {/* ── 5. APPLICATION MODAL ── */}
       <AnimatePresence>
         {isModalOpen && selectedJob && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="career-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -455,7 +517,7 @@ export const CareersPage: React.FC = () => {
                   <span className="font-mono text-[10px] uppercase tracking-wider text-[#F3A812] font-bold">
                     JOB APPLICATION / {selectedJob.department}
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-black text-white mt-1">
+                  <h3 id="career-modal-title" className="text-xl sm:text-2xl font-black text-white mt-1">
                     {selectedJob.title}
                   </h3>
                   <p className="font-mono text-xs text-slate-300 mt-0.5">
@@ -474,30 +536,45 @@ export const CareersPage: React.FC = () => {
               </div>
 
               {submitted ? (
-                <div className="py-12 text-center space-y-4 font-sans">
+                <div className="py-10 text-center space-y-4 font-sans">
                   <span className="font-mono text-2xl text-[#F3A812] font-bold block">
-                    ✓ APPLICATION TRANSMITTED
+                    ✓ APPLICATION EMAIL DRAFT READY
                   </span>
                   <p className="text-sm text-slate-200 max-w-md mx-auto leading-relaxed">
-                    Thank you, <span className="text-white font-bold">{formData.fullName}</span>. Your application for <strong className="text-[#F3A812]">{selectedJob.title}</strong> has been logged.
+                    Thank you, <span className="text-white font-bold">{formData.fullName}</span>. Your email client has been opened with a pre-filled application for <strong className="text-[#F3A812]">{selectedJob.title}</strong>. Please attach your updated CV and click Send.
                   </p>
                   <div className="p-4 bg-[#0B192C] border border-[#1E3E66] rounded-[2px] max-w-md mx-auto text-xs text-slate-300 space-y-2">
-                    <p className="font-semibold text-white">Next Step for Faster Processing:</p>
+                    <p className="font-semibold text-white">Next Step to Complete Your Application:</p>
                     <p>
-                      Please send your <strong>updated CV</strong> and <strong>latest photo</strong> directly to:
+                      Attach your <strong>updated CV</strong> (recent photo optional) and send directly to:
                     </p>
                     <p className="font-mono text-[#F3A812] font-bold text-sm">
-                      recruitment@ccdi-asia.com
+                      {RECRUITMENT_EMAIL}
                     </p>
                     <p className="text-[11px] text-slate-400">
-                      Include "{selectedJob.title} - {formData.fullName}" in your email subject line.
+                      Include &ldquo;{selectedJob.title} - {formData.fullName}&rdquo; in your email subject line.
                     </p>
                   </div>
-                  <div className="pt-2">
+                  <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
+                    <a
+                      href={mailtoUrl}
+                      className="px-5 py-2.5 rounded-[2px] bg-[#F3A812] text-slate-950 font-bold text-xs uppercase tracking-wider hover:bg-amber-300 transition-colors inline-flex items-center gap-1.5"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      Open Email Client
+                    </a>
+                    <button
+                      type="button"
+                      onClick={handleCopyDraft}
+                      className="px-5 py-2.5 rounded-[2px] bg-[#0B192C] border border-[#1E3E66] hover:border-[#F3A812] text-white font-bold text-xs uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                    >
+                      {copiedDraft ? <Check className="w-3.5 h-3.5 text-[#F3A812]" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copiedDraft ? 'Copied Details' : 'Copy Application Details'}
+                    </button>
                     <button
                       type="button"
                       onClick={() => setIsModalOpen(false)}
-                      className="px-6 py-2.5 rounded-[2px] bg-[#F3A812] text-slate-950 font-bold text-xs uppercase tracking-wider hover:bg-amber-300 transition-colors"
+                      className="px-5 py-2.5 rounded-[2px] bg-transparent border border-[#1E3E66] text-slate-300 hover:text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
                     >
                       Done
                     </button>
@@ -506,23 +583,24 @@ export const CareersPage: React.FC = () => {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs font-sans">
                   
-                  {/* Poster requirement callout */}
+                  {/* Application requirement callout */}
                   <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-[2px] text-slate-300 text-[11px] space-y-1">
                     <p className="font-bold text-[#F3A812] flex items-center gap-1.5">
                       <FileText className="w-3.5 h-3.5" />
-                      Required by CCDI Recruitment:
+                      CCDI Recruitment Submission Guide:
                     </p>
                     <p className="text-slate-300">
-                      Applicants are required to provide an <strong>updated CV</strong> and <strong>latest photo</strong>. You can fill out this form and email your files directly to <span className="text-white font-mono font-semibold">recruitment@ccdi-asia.com</span>.
+                      Please prepare an <strong>updated CV</strong> (recent photo optional). Submitting this form opens a pre-filled email draft addressed to <span className="text-white font-mono font-semibold">{RECRUITMENT_EMAIL}</span> so you can attach your CV and send directly.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="font-mono text-[10px] uppercase tracking-wider text-slate-300 font-semibold block">
+                      <label htmlFor="career-full-name" className="font-mono text-[10px] uppercase tracking-wider text-slate-300 font-semibold block">
                         Full Name *
                       </label>
                       <input
+                        id="career-full-name"
                         type="text"
                         required
                         value={formData.fullName}
@@ -533,10 +611,11 @@ export const CareersPage: React.FC = () => {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="font-mono text-[10px] uppercase tracking-wider text-slate-300 font-semibold block">
+                      <label htmlFor="career-email" className="font-mono text-[10px] uppercase tracking-wider text-slate-300 font-semibold block">
                         Email Address *
                       </label>
                       <input
+                        id="career-email"
                         type="email"
                         required
                         value={formData.email}
@@ -548,10 +627,11 @@ export const CareersPage: React.FC = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-mono text-[10px] uppercase tracking-wider text-slate-300 font-semibold block">
+                    <label htmlFor="career-phone" className="font-mono text-[10px] uppercase tracking-wider text-slate-300 font-semibold block">
                       Phone Number *
                     </label>
                     <input
+                      id="career-phone"
                       type="tel"
                       required
                       value={formData.phone}
@@ -562,10 +642,11 @@ export const CareersPage: React.FC = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-mono text-[10px] uppercase tracking-wider text-slate-300 font-semibold block">
+                    <label htmlFor="career-experience" className="font-mono text-[10px] uppercase tracking-wider text-slate-300 font-semibold block">
                       Background / Relevant Experience Summary
                     </label>
                     <textarea
+                      id="career-experience"
                       rows={3}
                       value={formData.experienceSummary}
                       onChange={(e) => setFormData({ ...formData, experienceSummary: e.target.value })}
@@ -583,13 +664,38 @@ export const CareersPage: React.FC = () => {
                       className="mt-0.5 rounded text-amber-500 focus:ring-amber-500"
                     />
                     <label htmlFor="photoCvReady" className="text-[11px] text-slate-300">
-                      I have my updated CV and latest photo ready to email to <span className="text-[#F3A812] font-mono">recruitment@ccdi-asia.com</span>.
+                      I have my updated CV ready to attach and email to <span className="text-[#F3A812] font-mono">{RECRUITMENT_EMAIL}</span> (photo optional).
                     </label>
+                  </div>
+
+                  <div className="p-3 bg-[#0B192C] border border-[#102A43] rounded-[2px] space-y-2">
+                    <label htmlFor="career-privacy-consent" className="flex items-start gap-2 text-[11px] text-slate-300 leading-relaxed cursor-pointer">
+                      <input
+                        id="career-privacy-consent"
+                        type="checkbox"
+                        required
+                        checked={privacyAccepted}
+                        onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                        className="mt-0.5 rounded text-amber-500 focus:ring-amber-500 shrink-0"
+                      />
+                      <span>
+                        <strong>Applicant Privacy Notice:</strong> I consent to CCDI processing my application details solely for recruitment evaluation under Philippine RA 10173 and the{' '}
+                        <Link to="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#F3A812] hover:underline font-semibold">
+                          Privacy Policy
+                        </Link>
+                        . *
+                      </span>
+                    </label>
+                    {formError && (
+                      <p className="text-[11px] text-red-300 bg-red-950/50 border border-red-800/60 rounded-[2px] px-2.5 py-1.5">
+                        {formError}
+                      </p>
+                    )}
                   </div>
 
                   <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-[#102A43]">
                     <a
-                      href={`mailto:recruitment@ccdi-asia.com?subject=Job Application - ${encodeURIComponent(selectedJob.title)}&body=Hello CCDI Recruitment Team,%0D%0A%0D%0AI would like to apply for the position of ${encodeURIComponent(selectedJob.title)} (${encodeURIComponent(selectedJob.location)}).%0D%0A%0D%0APlease find attached my updated CV and latest photo.%0D%0A%0D%0AName: ${encodeURIComponent(formData.fullName)}%0D%0APhone: ${encodeURIComponent(formData.phone)}`}
+                      href={`mailto:${RECRUITMENT_EMAIL}?subject=${encodeURIComponent(`Job Application - ${selectedJob.title}`)}&body=${encodeURIComponent(`Hello CCDI Recruitment Team,\n\nI would like to apply for the position of ${selectedJob.title} (${selectedJob.location}).\n\nPlease find attached my updated CV (recent photo optional).\n\nName: ${formData.fullName}\nPhone: ${formData.phone}`)}`}
                       className="text-[#F3A812] hover:underline font-mono text-[11px] flex items-center gap-1"
                     >
                       <Mail className="w-3.5 h-3.5" />
@@ -597,9 +703,9 @@ export const CareersPage: React.FC = () => {
                     </a>
                     <button
                       type="submit"
-                      className="px-6 py-2.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-[#F3A812] hover:bg-amber-300 text-slate-950 transition-colors shadow-sm"
+                      className="px-6 py-2.5 rounded-[2px] font-sans text-xs uppercase tracking-wider font-extrabold bg-[#F3A812] hover:bg-amber-300 text-slate-950 transition-colors shadow-sm cursor-pointer"
                     >
-                      Submit Application →
+                      Prepare Application Email →
                     </button>
                   </div>
                 </form>

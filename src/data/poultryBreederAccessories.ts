@@ -44,7 +44,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['Loop Chain', '18–36 m/min', '45mm Limit Grills', '90° Cast-Iron Corners'],
     description: 'A high-capacity loop feeding system delivering controlled feed rations rapidly throughout the breeder house.',
-    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/broiler/feeding-system.jpg',
     metrics: {
       spec1Label: 'Conveying Speed',
       spec1Value: '18–36 m/min',
@@ -75,7 +75,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Civil & Structural Construction',
     speciesTags: ['Z250 Galvanized', '1.5–32 Ton Capacity', '60° Discharge Cone', 'EI-BQ/L Transmitter'],
     description: 'External bulk feed storage and automated auger cross-fill accessories connecting bulk silos to the internal house hoppers.',
-    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/feedmill/silo-storage-systems.png',
     metrics: {
       spec1Label: 'Silo Capacity',
       spec1Value: '1.5 to 32 Metric Tons',
@@ -109,7 +109,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['360° Stainless Nipple', 'Copolymer Formaldehyde', 'Triple-Sealed', 'Anti-Roost Shock'],
     description: 'Closed hygienic drinking lines that provide fresh, leak-free water on demand to breeding stock.',
-    imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/broiler/drinking-system.jpg',
     metrics: {
       spec1Label: 'Trigger Type',
       spec1Value: '360° Stainless Steel Action',
@@ -140,7 +140,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['Backwash Pre-Filter', 'Pulse Water Meter', 'Proportional Dosing', 'Line Regulators'],
     description: 'A centralized manifold installed at the house entrance to filter, meter, and medicate incoming flock water.',
-    imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/broiler/medication-system.jpg',
     metrics: {
       spec1Label: 'Sediment Filter',
       spec1Value: 'High-Flow Reverse Backwash',
@@ -268,7 +268,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['10-inch Color Touch', '41 Relays', '0-10V Analog', 'EI Cloud Remote'],
     description: 'Microprocessor-based central controllers regulating climate parameters, ventilation stages, lighting, and feeding curves.',
-    imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/broiler/climate-system.jpg',
     metrics: {
       spec1Label: 'Screen Display',
       spec1Value: '10-inch Color LCD Touchscreen',
@@ -299,7 +299,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['High-Density ABS/PP', 'Curved Flap Door', 'Rubber Airtight Seal', 'Bird Mesh Net'],
     description: 'Wall and ceiling ventilation dampers regulating incoming fresh air velocity and negative static pressure.',
-    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/news/finished-multi-tier-broiler-cage-iloilo/07-insulated-cooling-pad-baffle-doors.webp',
     metrics: {
       spec1Label: 'Housing Material',
       spec1Value: 'High-Density ABS/PP (UV Stabilized)',
@@ -330,7 +330,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['50" Butterfly Cone', '50" Galvanized Shutter', 'Evaporative Cellulose', '10-40µm Mist'],
     description: 'Negative-pressure ventilation and adiabatic cooling accessories maintaining optimal thermal comfort.',
-    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/broiler/ventilation-fans.jpg',
     metrics: {
       spec1Label: 'Exhaust Fans',
       spec1Value: '50-inch Butterfly Cone & Shutter',
@@ -362,7 +362,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['E27 Breeding Bulbs', 'T5/T8 Linear IP67', 'Flicker-Free >300Hz', '0-10V Sunrise Dimming'],
     description: 'Specialized poultry lighting accessories designed to promote bird welfare, sexual maturity, and peak laying persistence.',
-    imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/layer/climate-control.jpg',
     metrics: {
       spec1Label: 'Fixture Types',
       spec1Value: 'E27 Multi-Spectrum & T5/T8 Linear',
@@ -391,7 +391,7 @@ export const POULTRY_BREEDER_ACCESSORIES: Product[] = [
     functionCategory: 'Equipment & Automation',
     speciesTags: ['Forced-Air Gas 17.6-73kW', 'Infrared 23.4-44kW', 'LPG / Natural Gas', 'Flame Sensors'],
     description: 'Automated heating units maintaining targeted brooding temperatures during early flock rearing.',
-    imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/images/broiler/heating-system.jpg',
     metrics: {
       spec1Label: 'Forced-Air Output',
       spec1Value: '17.6 kW to 73 kW (LPG / Gas)',
